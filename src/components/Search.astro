@@ -37,6 +37,8 @@ const { posts } = Astro.props
   {JSON.stringify(posts)}
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js" is:inline></script>
+
 <script is:inline>
   document.addEventListener('DOMContentLoaded', () => {
     const postsData = JSON.parse(document.getElementById('search-data')?.textContent ?? '[]')
