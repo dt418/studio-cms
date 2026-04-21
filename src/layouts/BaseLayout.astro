@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import { ClientRouter } from 'astro:transitions'
 
 interface Props {
   title: string
@@ -32,15 +33,18 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
 ---
 
 <!doctype html>
-<html lang="en" class="theme-dark" style="view-transition-name: page;">
+<html lang="en" class="theme-dark" transition:name="root" transition:animate="none">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     
+    <!-- View Transitions (SPA mode) -->
+    <ClientRouter fallback="swap" />
+    
     <!-- Primary Meta Tags -->
-    <title>{title}</title>
+    <title transition:animate="fade">{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     
@@ -75,7 +79,7 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   </head>
   <body class="min-h-screen flex flex-col bg-background text-foreground antialiased">
-    <header class="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
+    <header class="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md" transition:name="header">
       <div class="container flex h-14 items-center">
         <a href="/" class="flex items-center gap-2 font-semibold tracking-tight">
           <span class="text-lg">DT</span>
@@ -90,10 +94,10 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
         </nav>
       </div>
     </header>
-    <main class="flex-1">
+    <main class="flex-1" transition:animate="slide">
       <slot />
     </main>
-    <footer class="border-t border-border">
+    <footer class="border-t border-border" transition:name="footer">
       <div class="container py-16">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
@@ -138,23 +142,8 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
   </body>
 </html>
 
-<script define:vars={{}}>
+<script is:inline>
   document.addEventListener('astro:page-load', () => {
-    if (!document.startViewTransition) return
-
-    document.querySelectorAll('a[href^="/"]').forEach((link) => {
-      link.addEventListener('click', (e) => {
-        const url = new URL(link.href)
-        if (url.origin !== window.location.origin) return
-        if (link.target === '_blank') return
-        if (link.hasAttribute('download')) return
-        e.preventDefault()
-        document.startViewTransition(() => {
-          window.location.href = link.href
-        })
-      })
-    })
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
