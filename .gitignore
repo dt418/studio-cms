@@ -19,6 +19,10 @@ pnpm-debug.log*
 .env
 .env.production
 
+# libsql credentials
+libsql.pem
+libsql.pub
+
 # macOS-specific files
 .DS_Store
 
