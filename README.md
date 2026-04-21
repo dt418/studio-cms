@@ -1,390 +1,178 @@
-<h1 align="center">ONE</h1>
+<h1 align="center">StudioCMS Blog</h1>
 
 <p align="center">
-  <strong>AI agents that learn. Build in markdown. Deploy everywhere.</strong>
+  <strong>A personal blog built with Astro 5 and StudioCMS — SSR, libSQL, multi-language.</strong>
 </p>
 
 <p align="center">
-  <a href="https://npmjs.com/package/oneie"><img src="https://img.shields.io/npm/v/oneie.svg" alt="npm version"></a>
-  <a href="https://github.com/one-ie/one/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
-  <a href="https://one.ie"><img src="https://img.shields.io/badge/docs-one.ie-green.svg" alt="Documentation"></a>
+  <a href="https://github.com/dt418/studio-cms/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
 </p>
 
 ---
 
-Write a markdown file. Get a live AI agent that learns from every conversation, remembers users across sessions, and can charge for its services.
+A fast, database-backed blog with a full CMS dashboard, OAuth login, and support for Markdown, MDX, HTML, Markdoc, and WYSIWYG editing.
 
 ```bash
-npx oneie
+pnpm install && pnpm dev
 ```
-
----
-
-## See it work
-
-**1. Write an agent in markdown:**
-
-```markdown
----
-name: tutor
-model: claude-haiku-4-5
-channels: [telegram, discord, web]
-skills:
-  - name: explain
-    price: 0.01
-    tags: [education, math, science]
----
-
-You are a patient tutor who explains concepts clearly.
-Break down complex topics into simple steps.
-Ask questions to check understanding.
-```
-
-**2. Deploy it:**
-
-```bash
-npx oneie
-```
-
-**3. Talk to it:**
-
-Your agent is now live on Telegram, Discord, and web. Users can message it. It remembers them. It learns what works.
-
----
-
-## Why ONE?
-
-### Your agents get smarter over time
-
-Every conversation teaches your agents. Success strengthens pathways. Failure weakens them. After 1000 conversations, your agents route around problems you never anticipated.
-
-```
-Day 1:    Agent tries everything, some fails
-Day 30:   Agent avoids approaches that failed
-Day 90:   Agent finds optimal paths automatically
-```
-
-### Memory that actually works
-
-Not just chat history. Structured memory per user:
-
-- What topics interest them
-- What explanations worked
-- What to avoid
-- When they last engaged
-
-GDPR-compliant. One-click forget.
-
-### Commerce built in
-
-Set a price. Users pay. You earn.
-
-```markdown
-skills:
-  - name: tax-advice
-    price: 5.00      # $5 per question
-    tags: [tax, legal]
-```
-
-Escrow, settlement, revenue tracking — handled. You focus on the agent, not billing infrastructure.
-
-### Deploy once, run everywhere
-
-One markdown file → live on:
-
-| Channel | What you get |
-|---------|--------------|
-| **Telegram** | Instant bot, group support |
-| **Discord** | Server integration, slash commands |
-| **Web** | Embeddable chat widget |
-| **API** | Call from any application |
-
-### Works with your AI tools
-
-Native MCP integration:
-
-```json
-{
-  "mcpServers": {
-    "one": { "command": "npx", "args": ["@oneie/mcp"] }
-  }
-}
-```
-
-Claude Code, Cursor, Windsurf — 40 tools for signaling agents, checking memory, viewing analytics, managing commerce.
 
 ---
 
 ## Quick start
 
-### Full project (recommended)
+```bash
+# Clone the repository
+git clone https://github.com/dt418/studio-cms.git
+cd studio-cms
+
+# Install dependencies
+pnpm install
+
+# Set up environment variables
+cp .env.demo .env
+
+# Run database migrations
+pnpm migrate
+
+# Start the development server
+pnpm dev
+```
+
+Open `http://localhost:4321` in your browser. Visit `/studiocms` to create your admin account.
+
+---
+
+## Tech Stack
+
+| Layer       | Technology                              |
+|-------------|-----------------------------------------|
+| **Framework** | Astro 5 (SSR, Node adapter)           |
+| **CMS**       | StudioCMS 0.4                         |
+| **Database**  | libSQL (local file or Turso remote)   |
+| **Styling**   | Tailwind CSS 4 + @studiocms/ui        |
+| **Auth**      | OAuth (GitHub + Google)               |
+| **Markdown**  | remark-gfm → rehype-slug → rehype-autolink-headings → rehype-pretty-code |
+| **Code Blocks** | Expressive Code + TwoSlash           |
+
+---
+
+## Available Routes
+
+| Route            | Description                          |
+|------------------|--------------------------------------|
+| `/`              | Home page                            |
+| `/blog`          | Blog listing                         |
+| `/blog/:slug`    | Individual blog post                 |
+| `/blog/rss.xml`  | RSS feed                             |
+| `/studiocms`     | CMS dashboard (admin)                |
+| `/studiocms-blog`| CMS-managed blog content             |
+
+---
+
+## Project Structure
+
+```
+├── astro.config.mjs          # Astro + integrations config
+├── studiocms.config.mjs      # StudioCMS plugins config
+├── eslint.config.js          # ESLint configuration
+├── lefthook.yml              # Pre-commit hooks
+├── .prettierrc               # Prettier formatting rules
+├── src/
+│   ├── lang-flags-icons.js   # Custom icon collection for languages
+│   └── styles/               # Global CSS
+├── docs/                     # Documentation
+├── tender-series/            # Blog content files
+├── agents/                   # Agent definitions (markdown)
+├── one/                      # Internal documentation
+└── .claude/                  # Claude Code commands and skills
+```
+
+---
+
+## Development Commands
+
+| Command          | Description                              |
+|------------------|------------------------------------------|
+| `pnpm dev`       | Start development server with hot reload |
+| `pnpm build`     | Build for production                     |
+| `pnpm preview`   | Preview production build locally         |
+| `pnpm migrate`   | Run database migrations                  |
+| `pnpm studiocms` | StudioCMS CLI tools                      |
+| `pnpm lint`      | Check for lint errors                    |
+| `pnpm lint:fix`  | Auto-fix lint issues                     |
+| `pnpm format`    | Format code with Prettier                |
+| `pnpm format:check` | Check formatting without modifying    |
+| `pnpm typecheck` | Run TypeScript type checking             |
+
+---
+
+## Content Management
+
+StudioCMS supports multiple content formats out of the box:
+
+| Format   | Use Case               |
+|----------|------------------------|
+| Markdown | Standard blog posts    |
+| HTML     | Rich formatted content |
+| MDX      | Interactive posts with React components |
+| Markdoc  | Structured content     |
+| WYSIWYG  | Visual editor for non-technical users |
+
+Content is created and managed via the CMS dashboard at `/studiocms`.
+
+---
+
+## Deployment
+
+### Production Build
 
 ```bash
-npx oneie
+pnpm install
+pnpm migrate
+pnpm build
+node dist/server/entry.mjs
 ```
 
-Interactive setup: clones the platform, creates your org, wires Claude Code.
+### Environment Variables
 
-### Just the SDK
+See `.env.demo` for a template. Required variables:
 
-```bash
-npm install @oneie/sdk
-```
+| Variable             | Description                          |
+|----------------------|--------------------------------------|
+| `CMS_LIBSQL_URL`     | `file:./libsql.db` or Turso URL      |
+| `CMS_ENCRYPTION_KEY` | Generate: `openssl rand --base64 16` |
 
-```typescript
-import { ONE } from "@oneie/sdk";
+For production, configure OAuth credentials and set `SITE_URL` to your domain.
 
-const one = new ONE();
-
-// Signal an agent
-await one.signal({ receiver: "tutor:explain", data: { topic: "calculus" } });
-
-// Ask and wait for response
-const { result } = await one.ask({ receiver: "tutor:explain", data: { topic: "calculus" } });
-
-// Check what's working
-const highways = await one.highways(10);  // top 10 proven paths
-```
-
-### MCP for Claude/Cursor
-
-```bash
-npm install -g @oneie/mcp
-```
-
-Then ask Claude: *"Signal the tutor agent to explain calculus"* — it just works.
+See the [Deployment Guide](docs/guides/deployment.md) for full instructions.
 
 ---
 
-## How it works
+## Troubleshooting
 
-ONE is a **substrate** — infrastructure that sits under your agents:
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                     YOUR AGENTS                          │
-│   (markdown files with personality + skills + pricing)   │
-├─────────────────────────────────────────────────────────┤
-│                        ONE                               │
-│                                                          │
-│   Routing      →  signals flow to the right agent        │
-│   Memory       →  structured recall per user             │
-│   Learning     →  every outcome updates the graph        │
-│   Commerce     →  pricing, escrow, settlement            │
-│   Evolution    →  struggling agents auto-improve         │
-│                                                          │
-├─────────────────────────────────────────────────────────┤
-│                       LLM                                │
-│            (Claude, GPT, Llama — your choice)            │
-└─────────────────────────────────────────────────────────┘
-```
-
-The LLM handles conversation. ONE handles everything else.
-
-### The learning loop
-
-```
-User sends message
-        ↓
-ONE routes to best agent (learned from history)
-        ↓
-Agent responds (LLM generates)
-        ↓
-ONE records outcome
-        ↓
-    ┌───┴───┐
-    ↓       ↓
-Success   Failure
-mark()    warn()
-    ↓       ↓
-Path      Path
-stronger  weaker
-        ↓
-Next time: smarter routing
-```
-
-This compounds. Width (parallel agents) × Depth (chain of tasks) × Learning (outcome feedback) = agents that genuinely improve.
-
----
-
-## Example agents
-
-### The Orchestrator (CEO)
-
-Routes work to specialists, makes final calls:
-
-```markdown
----
-name: ceo
-model: claude-sonnet-4
-skills:
-  - name: delegate
-    tags: [management, routing]
-  - name: decide  
-    tags: [strategy, decisions]
----
-
-You are the CEO. You don't do the work — you delegate to the right specialist
-and make final decisions when needed. Be decisive. Trust your team.
-```
-
-### The Helper (Support)
-
-Handles tickets, escalates when stuck:
-
-```markdown
----
-name: support
-model: claude-haiku-4-5
-channels: [telegram, discord]
-skills:
-  - name: troubleshoot
-    price: 0
-    tags: [support, debug]
-  - name: escalate
-    tags: [support, escalation]
----
-
-You handle customer support. Be helpful, be fast.
-If you can't solve it in 3 messages, escalate.
-```
-
-### The Expert (Paid Consultant)
-
-Charges per query:
-
-```markdown
----
-name: tax-advisor
-model: claude-sonnet-4
-skills:
-  - name: tax-question
-    price: 5.00
-    tags: [tax, legal, advice]
----
-
-You are a tax advisor. Be accurate. Cite sources.
-If you're uncertain, say so — don't guess on tax matters.
-```
-
-### The Team (Multi-Agent)
-
-CEO delegates to specialists:
-
-```
-agents/
-├── ceo.md           # Routes and decides
-├── researcher.md    # Deep research
-├── writer.md        # Content creation
-├── reviewer.md      # Quality check
-└── publisher.md     # Final delivery
-```
-
-Signal the CEO. Work flows through the team. Each step learns.
-
----
-
-## The six verbs
-
-Everything in ONE uses six verbs. Learn these, you understand the whole system:
-
-| Verb | What it does | When to use |
-|------|--------------|-------------|
-| **signal** | Send a message to an agent | Starting any interaction |
-| **mark** | Record success, strengthen pathway | Task completed well |
-| **warn** | Record failure, weaken pathway | Task failed or was poor |
-| **fade** | Decay old pathways over time | Automatic — forgetting is healthy |
-| **follow** | Route to the strongest pathway | Automatic — routing decisions |
-| **harden** | Promote patterns to permanent knowledge | Automatic — confirmed learnings |
-
-```typescript
-// The closed loop pattern — every interaction ends with mark or warn
-const { result, timeout, dissolved } = await one.ask({ receiver: "tutor:explain" });
-
-if (result)         one.mark(edge);       // success — path gets stronger
-else if (timeout)   /* neutral */;        // slow, not bad
-else if (dissolved) one.warn(edge, 0.5);  // missing — mild penalty
-else                one.warn(edge, 1);    // failed — full penalty
-```
-
----
-
-## Packages
-
-| Package | Purpose | Install |
-|---------|---------|---------|
-| [`oneie`](https://npmjs.com/package/oneie) | CLI — scaffold, deploy, manage | `npx oneie` |
-| [`@oneie/sdk`](https://npmjs.com/package/@oneie/sdk) | TypeScript SDK — full API access | `npm i @oneie/sdk` |
-| [`@oneie/mcp`](https://npmjs.com/package/@oneie/mcp) | MCP server — AI IDE integration | `npm i -g @oneie/mcp` |
-
----
-
-## What's in this repo
-
-```
-one-ie/one/
-│
-├── agents/          # Agent templates — copy and customize
-│   └── templates/   # CEO, support, researcher, writer...
-│
-├── one/             # Documentation
-│   ├── dictionary.md    # The vocabulary
-│   ├── lifecycle.md     # Agent journey
-│   ├── patterns.md      # Core patterns
-│   └── ...
-│
-├── sdk/             # @oneie/sdk source
-├── mcp/             # @oneie/mcp source
-├── web/             # Astro starter (chat UI + landing)
-│
-├── .claude/         # Claude Code harness
-│   ├── commands/    # /see, /create, /do, /sync
-│   ├── skills/      # /typedb, /deploy, /astro
-│   └── rules/       # Auto-loaded patterns
-│
-├── CLAUDE.md        # Context for Claude Code
-├── AGENTS.md        # Agent manifest
-└── LICENSE          # MIT
-```
-
-Every folder has its own README. Cd in, get scoped context.
+| Issue                  | Solution                                           |
+|------------------------|----------------------------------------------------|
+| Database not found     | Run `pnpm migrate` to initialize                   |
+| OAuth login fails      | Verify callback URLs match your domain             |
+| Port already in use    | Set `PORT=xxxx` env var or kill the existing process |
+| Build fails            | Run `pnpm typecheck` and `pnpm lint` to diagnose   |
 
 ---
 
 ## Documentation
 
-| Start here | What you'll learn |
-|------------|-------------------|
-| **[one/dictionary.md](one/dictionary.md)** | The vocabulary — this is the foundation |
-| **[agents/README.md](agents/README.md)** | Agent format — frontmatter, skills, channels |
-| **[sdk/README.md](sdk/README.md)** | SDK reference — methods, hooks, errors |
-| **[mcp/README.md](mcp/README.md)** | MCP tools — what's available in Claude/Cursor |
-| **[one/lifecycle.md](one/lifecycle.md)** | Agent journey — register → signal → highway → harden |
-| **[one/patterns.md](one/patterns.md)** | Core patterns — closed loop, zero returns |
-
----
-
-## Community
-
-**Questions?** Open an issue or talk to [@onedotbot](https://t.me/onedotbot) on Telegram.
-
-**Contributing?** Read `one/dictionary.md` first — the vocabulary is load-bearing.
+| Document                              | What you'll learn                  |
+|---------------------------------------|------------------------------------|
+| [Getting Started](#quick-start)       | Set up and run locally             |
+| [Architecture](docs/reference/architecture.md) | System architecture overview  |
+| [Environment Variables](docs/reference/environment-variables.md) | All config options |
+| [Development Workflow](docs/guides/development-workflow.md) | Commands and conventions |
+| [Content Management](docs/guides/content-management.md) | Using the CMS dashboard |
+| [Deployment](docs/guides/deployment.md) | Production deployment steps       |
+| [Coding Conventions](docs/contributing/conventions.md) | Code style and standards |
 
 ---
 
 ## License
 
 MIT — see [LICENSE](LICENSE).
-
----
-
-<p align="center">
-  <strong>ONE</strong> — AI agents that learn.<br>
-  Build in markdown. Deploy everywhere.
-</p>
-
-<p align="center">
-  <a href="https://one.ie">one.ie</a> · 
-  <a href="https://npmjs.com/package/oneie">npm</a> · 
-  <a href="https://github.com/one-ie/one">github</a>
-</p>
