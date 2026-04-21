@@ -14,10 +14,10 @@ const formattedDate = publishedAt.toLocaleDateString('en-US', {
 })
 ---
 
-<article class="card group flex flex-col overflow-hidden animate-on-scroll" transition:name={`card-${post.data.slug}`}>
+<article class="card group flex flex-col overflow-hidden animate-on-scroll">
   <a href={`/blog/${post.data.slug}`} class="flex flex-col flex-1">
     {coverImage && (
-      <div class="aspect-video overflow-hidden bg-muted" transition:name={`card-img-${post.data.slug}`}>
+      <div class="aspect-video overflow-hidden bg-muted">
         <img
           src={coverImage}
           alt={title}
@@ -31,7 +31,7 @@ const formattedDate = publishedAt.toLocaleDateString('en-US', {
         <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-secondary text-secondary-foreground">{category}</span>
         <time class="text-xs text-muted-foreground">{formattedDate}</time>
       </div>
-      <h2 class="card-title group-hover:text-muted-foreground transition-colors line-clamp-2" transition:name={`card-title-${post.data.slug}`}>
+      <h2 class="card-title group-hover:text-muted-foreground transition-colors line-clamp-2">
         {title}
       </h2>
       <p class="text-sm text-muted-foreground mt-2 line-clamp-3">
