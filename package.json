@@ -1,0 +1,60 @@
+{
+  "name": "danhthanh-dev",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "astro": "astro",
+    "studiocms": "studiocms",
+    "migrate": "studiocms migrate",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "devDependencies": {
+    "@iconify-json/flag": "^1.2.12",
+    "@tailwindcss/typography": "^0.5.19",
+    "@types/node": "^22.19.17",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@astrojs/node": "^9.5.5",
+    "@effect/platform": "^0.94.5",
+    "@effect/platform-node": "^0.104.1",
+    "@libsql/client": "^0.15.15",
+    "@studiocms/blog": "^0.3.0",
+    "@studiocms/cfetch": "^0.5.1",
+    "@studiocms/html": "^0.3.0",
+    "@studiocms/markdoc": "^0.3.0",
+    "@studiocms/md": "^0.3.0",
+    "@studiocms/mdx": "^0.3.0",
+    "@studiocms/ui": "^1.2.0",
+    "@studiocms/upgrade": "^0.2.1",
+    "@studiocms/wysiwyg": "^0.3.0",
+    "@tailwindcss/vite": "^4.2.4",
+    "@withstudiocms/template-lang": "^0.1.0",
+    "astro": "^5.18.1",
+    "astro-expressive-code": "^0.41.7",
+    "create-studiocms": "^0.6.0",
+    "effect": "^3.21.1",
+    "expressive-code-twoslash": "^0.6.1",
+    "kysely-turso": "^0.1.1",
+    "rehype-autolink-headings": "^7.1.0",
+    "rehype-pretty-code": "^0.14.3",
+    "rehype-slug": "^6.0.0",
+    "remark-gfm": "^4.0.1",
+    "sharp": "^0.34.5",
+    "studiocms": "^0.4.4",
+    "tailwindcss": "^4.2.4",
+    "vite": "7.3.2"
+  },
+  "trustedDependencies": [
+    "@parcel/watcher"
+  ],
+  "pnpm": {
+    "overrides": {
+      "@effect/platform": "0.94.5",
+      "@effect/platform-node": "0.104.1",
+      "vite": "6.3.5"
+    }
+  }
+}
