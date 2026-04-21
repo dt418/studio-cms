@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import BlogCard from '../../components/BlogCard.astro'
+import PostHeader from '../../components/Blog/PostHeader.astro'
+import PostMetaCard from '../../components/Blog/PostMetaCard.astro'
 import TableOfContents from '../../components/Blog/TableOfContents.astro'
 import { getPostBySlug, getAllPosts } from '../../lib/cms'
 import { render } from 'astro:content'
@@ -14,6 +16,7 @@ if (!post) {
 
 const { Content, headings } = await render(post)
 const { title, excerpt, coverImage, publishedAt, updatedAt, tags, category, author = 'Danh Thanh' } = post.data
+
 const formattedDate = publishedAt.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
@@ -29,6 +32,9 @@ const wordCount = post.body.split(/\s+/).length
 const readingTime = Math.ceil(wordCount / 200)
 
 const allPosts = await getAllPosts()
+const currentIndex = allPosts.findIndex((p) => p.data.slug === slug)
+const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1].data : undefined
+const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1].data : undefined
 const relatedPosts = allPosts
   .filter((p) => p.data.slug !== slug && p.data.category === category)
   .slice(0, 3)
@@ -75,95 +81,100 @@ const articleJsonLd = {
   jsonLd={articleJsonLd}
 >
   <article class="min-h-screen" style="view-transition-name: post-detail;">
-    <header class="border-b border-border">
-      <div class="container py-12 lg:py-20">
-        <div class="max-w-3xl mx-auto">
-          <div class="flex items-center gap-2 mb-6">
-            <a href="/blog" class="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 transition-transform group-hover:-translate-x-0.5">
-                <path d="m15 18-6-6 6-6" />
-              </svg>
-              Back to Blog
-            </a>
-          </div>
-
-          <div class="flex items-center gap-2 mb-6">
-            <a href={`/categories/${category}`} class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold transition-colors border-transparent bg-primary text-primary-foreground hover:bg-primary/90">
-              {category}
-            </a>
-            <span class="text-sm text-muted-foreground">&middot;</span>
-            <time class="text-sm text-muted-foreground">{formattedDate}</time>
-            <span class="text-sm text-muted-foreground">&middot;</span>
-            <span class="text-sm text-muted-foreground">{readingTime} min read</span>
-          </div>
-
-          <h1 class="text-4xl font-bold tracking-tight lg:text-5xl mb-6 leading-tight">{title}</h1>
-
-          <p class="text-xl text-muted-foreground leading-relaxed mb-8">{excerpt}</p>
-
-          <div class="flex items-center gap-4">
-            <div class="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-sm font-semibold text-primary">
-              {author.split(' ').map((n) => n[0]).join('')}
-            </div>
-            <div>
-              <p class="text-sm font-medium">{author}</p>
-              <p class="text-xs text-muted-foreground">
-                {formattedDate}{updatedDate ? ` &middot; Updated ${updatedDate}` : ''}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    {coverImage && (
-      <div class="container py-8">
+    <!-- Hero Section -->
+    <section class="border-b border-border">
+      <div class="container py-12 lg:py-16">
         <div class="max-w-4xl mx-auto">
-          <div class="rounded-xl overflow-hidden border border-border bg-muted">
-            <img src={coverImage} alt={title} class="w-full h-auto object-cover" />
-          </div>
+          <PostHeader 
+            category={category}
+            title={title}
+            excerpt={excerpt}
+            tags={tags}
+            publishedAt={formattedDate}
+            readingTime={readingTime}
+            coverImage={coverImage}
+          />
         </div>
       </div>
-    )}
+    </section>
 
-    <div class="container py-8">
-      <div class="max-w-6xl mx-auto flex gap-12">
-        <div class="flex-1 min-w-0">
+    <!-- 3-Column Layout -->
+    <div class="container py-8 lg:py-12">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[200px_1fr_240px] gap-8 lg:gap-12">
+        
+        <!-- Left Sidebar: Table of Contents -->
+        <aside class="order-2 lg:order-1">
+          <TableOfContents headings={headings} />
+        </aside>
+
+        <!-- Center: Article Content -->
+        <div class="order-1 lg:order-2 min-w-0">
           <div class="prose prose-lg">
             <Content />
           </div>
 
-          <footer class="mt-16 pt-8 border-t border-border">
+          <!-- Tags -->
+          <footer class="mt-12 pt-8 border-t border-border">
             <div class="flex flex-wrap gap-2 mb-8">
               {tags.map((tag) => (
-                <a href={`/tags/${tag}`} class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold transition-colors hover:bg-accent hover:text-accent-foreground">
+                <a href={`/tags/${tag}`} class="inline-flex items-center rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
                   #{tag}
                 </a>
               ))}
             </div>
 
-            <div class="flex items-center gap-4 p-6 rounded-xl border border-border bg-muted/30">
+            <!-- Author Card -->
+            <div class="flex items-center gap-4 p-6 rounded-xl border border-border bg-card/50">
               <div class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-base font-semibold text-primary">
                 {author.split(' ').map((n) => n[0]).join('')}
               </div>
               <div>
-                <p class="font-medium">{author}</p>
+                <p class="font-medium text-foreground">{author}</p>
                 <p class="text-sm text-muted-foreground">Writer & Developer</p>
               </div>
             </div>
+
+            <!-- Prev/Next Navigation -->
+            <nav class="mt-8 grid gap-4 md:grid-cols-2">
+              {prevPost ? (
+                <a href={`/blog/${prevPost.slug}`} class="group rounded-xl border border-border p-5 transition-colors hover:bg-accent/50">
+                  <p class="text-xs text-muted-foreground mb-1">Previous Post</p>
+                  <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                    &larr; {prevPost.title}
+                  </p>
+                </a>
+              ) : <div />}
+              
+              {nextPost ? (
+                <a href={`/blog/${nextPost.slug}`} class="group rounded-xl border border-border p-5 text-right transition-colors hover:bg-accent/50">
+                  <p class="text-xs text-muted-foreground mb-1">Next Post</p>
+                  <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                    {nextPost.title} &rarr;
+                  </p>
+                </a>
+              ) : <div />}
+            </nav>
           </footer>
         </div>
 
-        <aside class="hidden lg:block w-64 shrink-0">
-          <TableOfContents headings={headings} />
+        <!-- Right Sidebar: Post Meta Card -->
+        <aside class="order-3 hidden lg:block">
+          <PostMetaCard 
+            author={author}
+            publishedAt={formattedDate}
+            updatedAt={updatedDate}
+            readingTime={readingTime}
+            wordCount={wordCount}
+          />
         </aside>
       </div>
     </div>
 
+    <!-- Related Posts -->
     {relatedPosts.length > 0 && (
       <section class="border-t border-border">
         <div class="container py-16">
-          <div class="max-w-3xl mx-auto">
+          <div class="max-w-4xl mx-auto">
             <h2 class="text-2xl font-bold tracking-tight mb-8">Related Posts</h2>
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {relatedPosts.map((p) => (

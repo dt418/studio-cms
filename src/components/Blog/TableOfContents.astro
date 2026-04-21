@@ -9,13 +9,13 @@ const filteredHeadings = headings.filter((h) => h.depth <= 3)
 
 {filteredHeadings.length > 0 && (
   <nav id="toc" class="sticky top-24 hidden lg:block" aria-label="Table of contents">
-    <p class="text-sm font-semibold mb-3 text-muted-foreground uppercase tracking-wide">On this page</p>
-    <ul class="space-y-2 border-l border-border">
+    <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-4">On this page</p>
+    <ul class="space-y-1 border-l border-border">
       {filteredHeadings.map((heading) => (
         <li>
           <a
             href={`#${heading.slug}`}
-            class="toc-link block py-1 text-sm text-muted-foreground hover:text-foreground transition-colors border-l-2 border-transparent -ml-px"
+            class="toc-link block py-1.5 text-sm text-muted-foreground hover:text-foreground transition-all duration-200 border-l-2 border-transparent -ml-px"
             data-depth={heading.depth}
           >
             {heading.text}
@@ -32,10 +32,12 @@ const filteredHeadings = headings.filter((h) => h.depth <= 3)
   }
   .toc-link[data-depth="3"] {
     padding-left: 1.75rem;
+    font-size: 0.8rem;
   }
   .toc-link.active {
     color: hsl(var(--foreground));
     border-color: hsl(var(--primary));
+    font-weight: 500;
   }
 </style>
 

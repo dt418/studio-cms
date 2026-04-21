@@ -1,0 +1,63 @@
+---
+interface Props {
+  author: string
+  publishedAt: string
+  updatedAt?: string
+  readingTime: number
+  wordCount: number
+}
+
+const { author, publishedAt, updatedAt, readingTime, wordCount } = Astro.props
+---
+
+<div class="sticky top-24 hidden xl:block">
+  <div class="rounded-xl border border-border bg-card/50 backdrop-blur-sm p-5 space-y-5">
+    <h3 class="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Reading Details</h3>
+
+    <div class="space-y-4">
+      <div>
+        <p class="text-xs text-muted-foreground/60 uppercase tracking-wide mb-1">Author</p>
+        <p class="text-sm font-medium text-foreground">{author}</p>
+      </div>
+
+      <div>
+        <p class="text-xs text-muted-foreground/60 uppercase tracking-wide mb-1">Published</p>
+        <time class="text-sm text-foreground" datetime={publishedAt}>{publishedAt}</time>
+      </div>
+
+      {updatedAt && (
+        <div>
+          <p class="text-xs text-muted-foreground/60 uppercase tracking-wide mb-1">Updated</p>
+          <time class="text-sm text-foreground" datetime={updatedAt}>{updatedAt}</time>
+        </div>
+      )}
+
+      <div class="h-px bg-border" />
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="text-2xl font-bold tabular-nums text-foreground">{readingTime}</p>
+          <p class="text-xs text-muted-foreground/60 mt-0.5">Min read</p>
+        </div>
+        <div>
+          <p class="text-2xl font-bold tabular-nums text-foreground">{wordCount.toLocaleString()}</p>
+          <p class="text-xs text-muted-foreground/60 mt-0.5">Words</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Share -->
+    <div class="h-px bg-border" />
+    <div>
+      <p class="text-xs text-muted-foreground/60 uppercase tracking-wide mb-3">Share</p>
+      <div class="flex gap-2">
+        <button class="inline-flex items-center justify-center h-8 w-8 rounded-md border border-border text-muted-foreground hover:text-foreground hover:bg-accent transition-colors" aria-label="Share on X">
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </button>
+        <button class="inline-flex items-center justify-center h-8 w-8 rounded-md border border-border text-muted-foreground hover:text-foreground hover:bg-accent transition-colors" aria-label="Copy link">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
