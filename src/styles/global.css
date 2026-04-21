@@ -377,19 +377,11 @@
   }
 }
 
-/* View Transitions - Astro ClientRouter animations */
+/* View Transitions - simple fade only */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 500ms;
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-::view-transition-old(root) {
-  animation-name: vt-fade-out;
-}
-
-::view-transition-new(root) {
-  animation-name: vt-fade-in;
+  animation-duration: 400ms;
+  animation-timing-function: ease-out;
 }
 
 @keyframes vt-fade-out {
@@ -402,55 +394,23 @@
   to { opacity: 1; }
 }
 
-/* Slide animation for main content - forward navigation */
-[data-astro-transition="forward"] main {
-  animation: vt-slide-in-right 500ms cubic-bezier(0.4, 0, 0.2, 1) both;
+::view-transition-old(root) {
+  animation-name: vt-fade-out;
 }
 
-[data-astro-transition="forward"] header,
-[data-astro-transition="forward"] footer {
-  animation: none;
-}
-
-/* Slide animation for main content - back navigation */
-[data-astro-transition="back"] main {
-  animation: vt-slide-in-left 500ms cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-[data-astro-transition="back"] header,
-[data-astro-transition="back"] footer {
-  animation: none;
-}
-
-@keyframes vt-slide-in-right {
-  from { opacity: 0; transform: translateX(40px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes vt-slide-in-left {
-  from { opacity: 0; transform: translateX(-40px); }
-  to { opacity: 1; transform: translateX(0); }
+::view-transition-new(root) {
+  animation-name: vt-fade-in;
 }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slide-in-left {
-  from { opacity: 0; transform: translateX(-16px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes scale-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
 }
 
 .animate-on-scroll {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 500ms ease-out, transform 500ms ease-out;
+  transform: translateY(16px);
+  transition: opacity 400ms ease-out, transform 400ms ease-out;
 }
 
 .animate-on-scroll.visible {
@@ -461,19 +421,3 @@
 .animate-on-scroll:nth-child(2) { transition-delay: 60ms; }
 .animate-on-scroll:nth-child(3) { transition-delay: 120ms; }
 .animate-on-scroll:nth-child(4) { transition-delay: 180ms; }
-.animate-on-scroll:nth-child(5) { transition-delay: 240ms; }
-.animate-on-scroll:nth-child(6) { transition-delay: 300ms; }
-
-@layer utilities {
-  .animate-slide-up {
-    animation: slide-up 500ms ease-out both;
-  }
-
-  .animate-scale-in {
-    animation: scale-in 400ms ease-out both;
-  }
-
-  .animate-slide-in-left {
-    animation: slide-in-left 400ms ease-out both;
-  }
-}
