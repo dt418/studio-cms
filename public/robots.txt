@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Allow: /blog/
+
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_astro/
+
+Sitemap: https://danhthanh.dev/sitemap-index.xml

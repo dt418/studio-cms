@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config'
 import node from '@astrojs/node' // SSR adapter for Node.js
 import studioCMS from 'studiocms'
+import sitemap from '@astrojs/sitemap'
 
 import studiocmsUi from '@studiocms/ui'
 import { langFlags } from './src/lang-flags-icons.js' // custom icon collection
@@ -20,7 +21,7 @@ import ecTwoSlash from 'expressive-code-twoslash' // TypeScript hover types in c
 // https://astro.build/config
 export default defineConfig({
   // Site URL for sitemap and canonical links
-  site: process.env['SITE_URL'] ?? 'http://localhost:4321',
+  site: process.env['SITE_URL'] ?? 'https://danhthanh.dev',
   output: 'server', // SSR mode
 
   adapter: node({
@@ -49,7 +50,9 @@ export default defineConfig({
         },
       },
       plugins: [ecTwoSlash()], // TS type hover info in code blocks
-    })
+    }),
+    // Sitemap generation
+    sitemap(),
   ],
 
   vite: {

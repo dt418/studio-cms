@@ -19,7 +19,26 @@ const featuredPost = posts[0]
 const remainingPosts = posts.slice(1)
 ---
 
-<BaseLayout title="DanhThanh.dev" description="Thoughts, tutorials, and guides on web development, TypeScript, and modern tooling.">
+<BaseLayout 
+  title="Danh Thanh - Software Engineer & Developer Blog" 
+  description="Thoughts, tutorials, and guides on web development, TypeScript, and modern tooling."
+  jsonLd={{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "DanhThanh.dev",
+    "url": "https://danhthanh.dev",
+    "description": "Thoughts, tutorials, and guides on web development, TypeScript, and modern tooling.",
+    "author": {
+      "@type": "Person",
+      "name": "Danh Thanh",
+      "url": "https://danhthanh.dev",
+      "sameAs": [
+        "https://github.com/thanh",
+        "https://linkedin.com/in/thanh"
+      ]
+    }
+  }}
+>
   <!-- Hero Section -->
   <section class="border-b border-border">
     <div class="container py-16 lg:py-24">

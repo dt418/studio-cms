@@ -10,7 +10,22 @@ const byYear = groupByYear(posts)
 const years = sortedYears(byYear)
 ---
 
-<BaseLayout title="Blog" description="Build logs, hackathon writeups, and technical notes.">
+<BaseLayout 
+  title="Blog - Danh Thanh" 
+  description="Build logs, hackathon writeups, and technical notes."
+  jsonLd={{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Blog Archive",
+    "description": "Build logs, hackathon writeups, and technical notes.",
+    "url": "https://danhthanh.dev/blog",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "DanhThanh.dev",
+      "url": "https://danhthanh.dev"
+    }
+  }}
+>
   <section class="border-b border-white/5" style="view-transition-name: blog-header;">
     <div class="container py-14">
       <div class="max-w-2xl">

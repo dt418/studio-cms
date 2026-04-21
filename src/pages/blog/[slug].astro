@@ -32,9 +32,48 @@ const allPosts = await getAllPosts()
 const relatedPosts = allPosts
   .filter((p) => p.data.slug !== slug && p.data.category === category)
   .slice(0, 3)
+
+const canonicalUrl = `https://danhthanh.dev/blog/${slug}`
+const publishedTime = publishedAt.toISOString()
+const modifiedTime = updatedAt?.toISOString() ?? publishedTime
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": excerpt,
+  "image": coverImage ? `${coverImage}` : undefined,
+  "datePublished": publishedTime,
+  "dateModified": modifiedTime,
+  "author": {
+    "@type": "Person",
+    "name": author,
+    "url": "https://danhthanh.dev"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DanhThanh.dev",
+    "url": "https://danhthanh.dev"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": canonicalUrl
+  },
+  "keywords": [...tags, category]
+}
 ---
 
-<BaseLayout title={`${title} | DanhThanh.dev`} description={excerpt}>
+<BaseLayout 
+  title={`${title} | DanhThanh.dev`} 
+  description={excerpt}
+  image={coverImage}
+  canonicalUrl={canonicalUrl}
+  publishedTime={publishedTime}
+  modifiedTime={modifiedTime}
+  author={author}
+  type="article"
+  jsonLd={articleJsonLd}
+>
   <article class="min-h-screen" style="view-transition-name: post-detail;">
     <header class="border-b border-border">
       <div class="container py-12 lg:py-20">
