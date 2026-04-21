@@ -40,7 +40,7 @@ const { posts } = Astro.props
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js" is:inline></script>
 
 <script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
+  function initSearch() {
     const postsData = JSON.parse(document.getElementById('search-data')?.textContent ?? '[]')
     const fuse = new Fuse(postsData, {
       keys: [
@@ -54,7 +54,12 @@ const { posts } = Astro.props
     const input = document.getElementById('search-input')
     const resultsContainer = document.getElementById('search-results')
 
-    input?.addEventListener('input', (e) => {
+    if (!input || !resultsContainer) return
+
+    input.removeEventListener('input', handleSearch)
+    input.addEventListener('input', handleSearch)
+
+    function handleSearch(e) {
       const query = e.target.value
       if (!query.trim()) {
         resultsContainer.innerHTML = ''
@@ -84,6 +89,9 @@ const { posts } = Astro.props
         `
         )
         .join('')
-    })
-  })
+    }
+  }
+
+  document.addEventListener('astro:page-load', initSearch)
+  if (document.readyState === 'complete') initSearch()
 </script>
