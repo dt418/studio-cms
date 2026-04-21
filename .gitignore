@@ -20,6 +20,7 @@ pnpm-debug.log*
 .env.production
 
 # libsql credentials
+libsql.db
 libsql.pem
 libsql.pub
 
