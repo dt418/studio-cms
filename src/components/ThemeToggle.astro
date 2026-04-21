@@ -1,0 +1,88 @@
+<button
+  id="theme-toggle"
+  type="button"
+  class="inline-flex items-center justify-center rounded-md h-9 w-9 hover:bg-accent hover:text-accent-foreground transition-colors"
+  aria-label="Toggle theme"
+>
+  <svg
+    class="theme-light-icon h-4 w-4"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2" /><path d="M12 20v2" />
+    <path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" />
+    <path d="M2 12h2" /><path d="M20 12h2" />
+    <path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" />
+  </svg>
+  <svg
+    class="theme-dark-icon h-4 w-4 hidden"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+  </svg>
+</button>
+
+<script is:inline>
+  const STORAGE_KEY = 'theme'
+  const DARK_CLASS = 'theme-dark'
+  const DARK = 'dark'
+  const LIGHT = 'light'
+  const root = document.documentElement
+
+  function getUserPreference() {
+    if (localStorage?.getItem(STORAGE_KEY)) {
+      return localStorage.getItem(STORAGE_KEY)
+    }
+    if (window.matchMedia('(prefers-color-scheme: light)').matches) return LIGHT
+    return DARK
+  }
+
+  function applyTheme(isDark) {
+    root.classList.toggle(DARK_CLASS, isDark)
+    const sunIcon = document.querySelector('.theme-light-icon')
+    const moonIcon = document.querySelector('.theme-dark-icon')
+    if (isDark) {
+      sunIcon?.classList.remove('hidden')
+      moonIcon?.classList.add('hidden')
+    } else {
+      sunIcon?.classList.add('hidden')
+      moonIcon?.classList.remove('hidden')
+    }
+  }
+
+  function initTheme() {
+    const theme = getUserPreference()
+    applyTheme(theme === DARK)
+  }
+
+  function handleClick() {
+    const isDark = !root.classList.contains(DARK_CLASS)
+    applyTheme(isDark)
+    localStorage.setItem(STORAGE_KEY, isDark ? DARK : LIGHT)
+  }
+
+  function setButtonHandler() {
+    const button = document.getElementById('theme-toggle')
+    button?.addEventListener('click', handleClick)
+  }
+
+  initTheme()
+  setButtonHandler()
+
+  document.addEventListener('astro:after-swap', () => {
+    initTheme()
+    setButtonHandler()
+  })
+</script>

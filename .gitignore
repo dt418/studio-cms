@@ -1,0 +1,45 @@
+# build output
+dist/
+.output/
+.vercel/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# environment variables
+.env
+.env.local
+.env.*
+.env.production
+
+# one-repo submodule
+.one-repo
+
+# claude config (private)
+.claude/
+
+# libsql credentials
+libsql.db
+libsql.pem
+libsql.pub
+
+# session files
+session-ses_*
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
+
+# Installation folder (private docs)
+/danhthanh418/

@@ -1,0 +1,22 @@
+---
+import type { Post } from '../../types/post'
+import PostItem from './PostItem.astro'
+
+export interface Props {
+  posts: Post[]
+}
+
+const { posts } = Astro.props
+---
+
+{posts.length === 0 ? (
+  <div class="text-center py-16 border border-dashed border-white/5 rounded-sm">
+    <p class="text-muted-foreground/50 font-mono text-sm">No posts yet. Check back soon!</p>
+  </div>
+) : (
+  <div>
+    {posts.map((post) => (
+      <PostItem post={post} />
+    ))}
+  </div>
+)}

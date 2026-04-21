@@ -1,0 +1,24 @@
+---
+import type { Post } from '../../types/post'
+import PostItem from './PostItem.astro'
+
+export interface Props {
+  year: number
+  posts: Post[]
+}
+
+const { year, posts } = Astro.props
+---
+
+<section class="mb-12 last:mb-0">
+  <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground/40 mb-6 pb-3 border-b border-white/5">
+    {year}
+    <span class="ml-2 text-muted-foreground/30">({posts.length})</span>
+  </h2>
+
+  <div>
+    {posts.map((post) => (
+      <PostItem post={post} />
+    ))}
+  </div>
+</section>

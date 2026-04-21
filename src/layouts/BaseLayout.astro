@@ -1,0 +1,93 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  description?: string
+}
+
+const { title, description = 'Thoughts, tutorials, and guides on web development, TypeScript, and modern tooling.' } = Astro.props
+---
+
+<!doctype html>
+<html lang="en" class="theme-dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body class="min-h-screen flex flex-col bg-background text-foreground antialiased">
+    <header class="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
+      <div class="container flex h-14 items-center">
+        <a href="/" class="flex items-center gap-2 font-semibold tracking-tight">
+          <span class="text-lg">DT</span>
+        </a>
+        <nav class="flex items-center gap-4 ml-auto">
+          <a href="/blog" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            Blog
+          </a>
+          <a href="/rss.xml" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            RSS
+          </a>
+        </nav>
+      </div>
+    </header>
+    <main class="flex-1">
+      <slot />
+    </main>
+    <footer class="border-t border-border">
+      <div class="container py-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight mb-4">
+              Building onboarding, internal tooling, and operational systems with clear proof.
+            </h2>
+            <p class="text-sm text-muted-foreground leading-relaxed max-w-lg">
+              Software engineer building systems that make complex products easier to adopt and trust.
+            </p>
+          </div>
+          <div class="lg:text-right lg:flex lg:flex-col lg:items-end">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-4">Links</h3>
+            <ul class="space-y-3 text-sm">
+              <li>
+                <a href="mailto:thanh@danhthanh.dev" class="text-muted-foreground hover:text-foreground transition-colors">
+                  Email →
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/thanh" class="text-muted-foreground hover:text-foreground transition-colors">
+                  GitHub →
+                </a>
+              </li>
+              <li>
+                <a href="/rss.xml" class="text-muted-foreground hover:text-foreground transition-colors">
+                  RSS →
+                </a>
+              </li>
+              <li>
+                <a href="https://linkedin.com/in/thanh" class="text-muted-foreground hover:text-foreground transition-colors">
+                  LinkedIn →
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-16 pt-6 border-t border-border text-xs text-muted-foreground/50">
+          <p>DanhThanh.dev / {new Date().getFullYear()}</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

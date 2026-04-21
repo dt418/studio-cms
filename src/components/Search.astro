@@ -1,0 +1,87 @@
+---
+import type { SearchablePost } from '../lib/search'
+
+interface Props {
+  posts: SearchablePost[]
+}
+
+const { posts } = Astro.props
+---
+
+<div class="w-full max-w-xl mx-auto">
+  <div class="relative">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+    <input
+      type="search"
+      id="search-input"
+      placeholder="Search posts..."
+      class="input pl-10"
+    />
+  </div>
+  <div id="search-results" class="mt-4 space-y-3"></div>
+</div>
+
+<script type="application/json" id="search-data">
+  {JSON.stringify(posts)}
+</script>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const postsData = JSON.parse(document.getElementById('search-data')?.textContent ?? '[]')
+    const fuse = new Fuse(postsData, {
+      keys: [
+        { name: 'title', weight: 0.5 },
+        { name: 'excerpt', weight: 0.3 },
+        { name: 'tags', weight: 0.2 },
+      ],
+      threshold: 0.3,
+    })
+
+    const input = document.getElementById('search-input')
+    const resultsContainer = document.getElementById('search-results')
+
+    input?.addEventListener('input', (e) => {
+      const query = e.target.value
+      if (!query.trim()) {
+        resultsContainer.innerHTML = ''
+        return
+      }
+
+      const results = fuse.search(query, { limit: 8 })
+      if (results.length === 0) {
+        resultsContainer.innerHTML = `
+          <div class="text-center py-8 text-muted-foreground">
+            <p class="text-sm">No results found for "${query}"</p>
+          </div>
+        `
+        return
+      }
+
+      resultsContainer.innerHTML = results
+        .map(
+          (result) => `
+          <a href="/blog/${result.item.slug}" class="block p-4 rounded-lg border border-border bg-card hover:bg-accent transition-colors">
+            <h3 class="font-semibold text-sm">${result.item.title}</h3>
+            <p class="text-xs text-muted-foreground mt-1 line-clamp-2">${result.item.excerpt}</p>
+            <div class="flex gap-1.5 mt-2 flex-wrap">
+              ${result.item.tags.map((tag) => `<span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold border-transparent bg-secondary text-secondary-foreground">${tag}</span>`).join('')}
+            </div>
+          </a>
+        `
+        )
+        .join('')
+    })
+  })
+</script>

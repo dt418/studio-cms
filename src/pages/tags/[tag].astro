@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import BlogCard from '../../components/BlogCard.astro'
+import { getPostsByTag, getAllTags } from '../../lib/cms'
+
+const tag = Astro.params.tag ?? ''
+const posts = await getPostsByTag(tag)
+const allTags = await getAllTags()
+---
+
+<BaseLayout title={`Posts tagged: ${tag}`} description={`All posts tagged with ${tag}`}>
+  <section class="container py-16">
+    <div class="mb-12">
+      <a href="/blog" class="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+        Back to Blog
+      </a>
+      <h1 class="text-4xl font-bold tracking-tight mb-2">Tag: {tag}</h1>
+      <p class="text-lg text-muted-foreground">
+        {posts.length} {posts.length === 1 ? 'post' : 'posts'} tagged with "{tag}"
+      </p>
+    </div>
+
+    <div class="mb-8">
+      <h2 class="text-sm font-medium text-muted-foreground mb-3">All Tags</h2>
+      <div class="flex flex-wrap gap-2">
+        {allTags.map((t) => (
+          <a
+            href={`/tags/${t}`}
+            class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors"
+            class:list={[t === tag ? 'bg-primary text-primary-foreground border-transparent' : 'hover:bg-accent hover:text-accent-foreground']}
+          >
+            {t}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    {posts.length > 0 ? (
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => (
+          <BlogCard post={post} />
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-16 border border-dashed border-border rounded-lg">
+        <p class="text-muted-foreground">No posts found with this tag.</p>
+      </div>
+    )}
+  </section>
+</BaseLayout>
