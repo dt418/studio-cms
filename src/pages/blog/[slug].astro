@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import BlogCard from '../../components/BlogCard.astro'
+import TableOfContents from '../../components/Blog/TableOfContents.astro'
 import { getPostBySlug, getAllPosts } from '../../lib/cms'
 import { render } from 'astro:content'
 
@@ -11,7 +12,7 @@ if (!post) {
   return Astro.redirect('/blog')
 }
 
-const { Content } = await render(post)
+const { Content, headings } = await render(post)
 const { title, excerpt, coverImage, publishedAt, updatedAt, tags, category, author = 'Danh Thanh' } = post.data
 const formattedDate = publishedAt.toLocaleDateString('en-US', {
   year: 'numeric',
@@ -87,30 +88,36 @@ const relatedPosts = allPosts
     )}
 
     <div class="container py-8">
-      <div class="max-w-3xl mx-auto">
-        <div class="prose prose-lg">
-          <Content />
+      <div class="max-w-6xl mx-auto flex gap-12">
+        <div class="flex-1 min-w-0">
+          <div class="prose prose-lg">
+            <Content />
+          </div>
+
+          <footer class="mt-16 pt-8 border-t border-border">
+            <div class="flex flex-wrap gap-2 mb-8">
+              {tags.map((tag) => (
+                <a href={`/tags/${tag}`} class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold transition-colors hover:bg-accent hover:text-accent-foreground">
+                  #{tag}
+                </a>
+              ))}
+            </div>
+
+            <div class="flex items-center gap-4 p-6 rounded-xl border border-border bg-muted/30">
+              <div class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-base font-semibold text-primary">
+                {author.split(' ').map((n) => n[0]).join('')}
+              </div>
+              <div>
+                <p class="font-medium">{author}</p>
+                <p class="text-sm text-muted-foreground">Writer & Developer</p>
+              </div>
+            </div>
+          </footer>
         </div>
 
-        <footer class="mt-16 pt-8 border-t border-border">
-          <div class="flex flex-wrap gap-2 mb-8">
-            {tags.map((tag) => (
-              <a href={`/tags/${tag}`} class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold transition-colors hover:bg-accent hover:text-accent-foreground">
-                #{tag}
-              </a>
-            ))}
-          </div>
-
-          <div class="flex items-center gap-4 p-6 rounded-xl border border-border bg-muted/30">
-            <div class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-base font-semibold text-primary">
-              {author.split(' ').map((n) => n[0]).join('')}
-            </div>
-            <div>
-              <p class="font-medium">{author}</p>
-              <p class="text-sm text-muted-foreground">Writer & Developer</p>
-            </div>
-          </div>
-        </footer>
+        <aside class="hidden lg:block w-64 shrink-0">
+          <TableOfContents headings={headings} />
+        </aside>
       </div>
     </div>
 

@@ -1,0 +1,74 @@
+---
+export interface Props {
+  headings: { depth: number; slug: string; text: string }[]
+}
+
+const { headings } = Astro.props
+const filteredHeadings = headings.filter((h) => h.depth <= 3)
+---
+
+{filteredHeadings.length > 0 && (
+  <nav id="toc" class="sticky top-24 hidden lg:block" aria-label="Table of contents">
+    <p class="text-sm font-semibold mb-3 text-muted-foreground uppercase tracking-wide">On this page</p>
+    <ul class="space-y-2 border-l border-border">
+      {filteredHeadings.map((heading) => (
+        <li>
+          <a
+            href={`#${heading.slug}`}
+            class="toc-link block py-1 text-sm text-muted-foreground hover:text-foreground transition-colors border-l-2 border-transparent -ml-px"
+            data-depth={heading.depth}
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<style>
+  .toc-link[data-depth="2"] {
+    padding-left: 1rem;
+  }
+  .toc-link[data-depth="3"] {
+    padding-left: 1.75rem;
+  }
+  .toc-link.active {
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--primary));
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const toc = document.getElementById('toc')
+    if (!toc) return
+    toc.classList.remove('hidden')
+
+    const links = toc.querySelectorAll<HTMLAnchorElement>('.toc-link')
+    const headings: HTMLHeadingElement[] = []
+
+    links.forEach((link) => {
+      const slug = link.getAttribute('href')?.slice(1)
+      if (slug) {
+        const heading = document.getElementById(slug)
+        if (heading) headings.push(heading as HTMLHeadingElement)
+      }
+    })
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            links.forEach((l) => l.classList.remove('active'))
+            const activeLink = toc.querySelector(`a[href="#${entry.target.id}"]`)
+            activeLink?.classList.add('active')
+          }
+        })
+      },
+      { rootMargin: '-80px 0px -60% 0px', threshold: 1 }
+    )
+
+    headings.forEach((h) => observer.observe(h))
+  })
+</script>
