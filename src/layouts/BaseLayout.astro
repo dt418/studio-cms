@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css'
-import { ClientRouter } from 'astro:transitions'
 
 interface Props {
   title: string
@@ -33,18 +32,15 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
 ---
 
 <!doctype html>
-<html lang="en" class="theme-dark" transition:name="root" transition:animate="none">
+<html lang="en" class="theme-dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     
-    <!-- View Transitions (SPA mode) -->
-    <ClientRouter fallback="swap" />
-    
     <!-- Primary Meta Tags -->
-    <title transition:animate="fade">{title}</title>
+    <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     
@@ -79,10 +75,7 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   </head>
   <body class="min-h-screen flex flex-col bg-background text-foreground antialiased">
-    <!-- Loading indicator -->
-    <div id="nav-loader" class="fixed top-0 left-0 right-0 h-0.5 bg-primary z-[100] origin-left scale-x-0 transition-transform duration-300" style="pointer-events: none;"></div>
-    
-    <header class="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md" transition:name="header" transition:persist>
+    <header class="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div class="container flex h-14 items-center">
         <a href="/" class="flex items-center gap-2 font-semibold tracking-tight">
           <span class="text-lg">DT</span>
@@ -100,7 +93,7 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
     <main class="flex-1">
       <slot />
     </main>
-    <footer class="border-t border-border" transition:name="footer" transition:persist>
+    <footer class="border-t border-border">
       <div class="container py-16">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
@@ -146,48 +139,7 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
 </html>
 
 <script is:inline>
-  // Loading indicator
-  document.addEventListener('astro:before-preparation', () => {
-    const loader = document.getElementById('nav-loader')
-    if (loader) {
-      loader.style.transform = 'scaleX(0.6)'
-      loader.style.transition = 'transform 0.4s ease-out'
-    }
-  })
-
-  document.addEventListener('astro:after-swap', () => {
-    const loader = document.getElementById('nav-loader')
-    if (loader) {
-      loader.style.transform = 'scaleX(1)'
-    }
-  })
-
   document.addEventListener('astro:page-load', () => {
-    // Hide loader after page is fully loaded
-    const loader = document.getElementById('nav-loader')
-    if (loader) {
-      setTimeout(() => {
-        loader.style.transform = 'scaleX(0)'
-        loader.style.transition = 'transform 0.2s ease-in'
-      }, 100)
-    }
-
-    // Scroll restoration for back/forward navigation
-    const scrollPositions = {}
-    
-    document.addEventListener('astro:before-preparation', (event) => {
-      scrollPositions[location.pathname] = window.scrollY
-    })
-
-    document.addEventListener('astro:page-load', () => {
-      const savedScroll = scrollPositions[location.pathname]
-      if (savedScroll !== undefined) {
-        window.scrollTo(0, savedScroll)
-        delete scrollPositions[location.pathname]
-      }
-    })
-
-    // IntersectionObserver for scroll animations
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
