@@ -10,7 +10,7 @@ const { title, description = 'Thoughts, tutorials, and guides on web development
 ---
 
 <!doctype html>
-<html lang="en" class="theme-dark">
+<html lang="en" class="theme-dark" style="view-transition-name: page;">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -91,3 +91,38 @@ const { title, description = 'Thoughts, tutorials, and guides on web development
     </footer>
   </body>
 </html>
+
+<script define:vars={{}}>
+  document.addEventListener('astro:page-load', () => {
+    if (!document.startViewTransition) return
+
+    document.querySelectorAll('a[href^="/"]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const url = new URL(link.href)
+        if (url.origin !== window.location.origin) return
+        if (link.target === '_blank') return
+        if (link.hasAttribute('download')) return
+        e.preventDefault()
+        document.startViewTransition(() => {
+          window.location.href = link.href
+        })
+      })
+    })
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    )
+
+    document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+      observer.observe(el)
+    })
+  })
+</script>

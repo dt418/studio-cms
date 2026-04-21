@@ -14,7 +14,7 @@ const formattedDate = publishedAt.toLocaleDateString('en-US', {
 })
 ---
 
-<article class="card group flex flex-col overflow-hidden">
+<article class="card group flex flex-col overflow-hidden animate-on-scroll">
   <a href={`/blog/${post.data.slug}`} class="flex flex-col flex-1">
     {coverImage && (
       <div class="aspect-video overflow-hidden bg-muted">

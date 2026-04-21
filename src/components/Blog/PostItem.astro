@@ -13,7 +13,7 @@ const date = formatDate(publishedAt)
 const minutes = readingTime(post.body ?? '')
 ---
 
-<article class="group grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-7 border-b border-white/5 items-start last:border-b-0">
+<article class="group grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-7 border-b border-white/5 items-start last:border-b-0 hover:bg-white/[0.01] transition-colors duration-200 rounded-lg -mx-4 px-4">
   <div class="pt-0.5">
     <time class="text-sm font-mono text-muted-foreground tabular-nums">{date}</time>
   </div>
