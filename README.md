@@ -95,11 +95,20 @@ Open `http://localhost:4321` and complete the first-time setup (create admin acc
 ```
 ├── astro.config.mjs          # Astro + integrations config
 ├── studiocms.config.mjs      # StudioCMS plugins config
+├── tsconfig.json             # TypeScript configuration
+├── .env                      # Environment variables (gitignored)
+├── .env.demo                 # Environment variable template
 ├── src/
 │   ├── lang-flags-icons.js   # Custom icon collection for i18n
 │   └── styles/               # Global CSS + custom layouts
+│       ├── global.css        # Tailwind directives
+│       ├── components/       # Component-level styles
+│       ├── layouts/          # Layout styles
+│       └── pages/            # Page-level styles
 ├── public/                   # Static assets
-└── .env                      # Environment variables (gitignored)
+├── tender-series/            # Blog content directory
+├── dist/                     # Production build output (gitignored)
+└── .vscode/                  # VS Code workspace settings
 ```
 
 ## Content Types
@@ -111,6 +120,16 @@ StudioCMS supports multiple content formats out of the box:
 - **MDX** — React components in content
 - **Markdoc** — Markdoc-flavored content
 - **WYSIWYG** — visual editor for non-technical users
+
+## Custom Icons
+
+The `@studiocms/blog` plugin uses the `lang-flags` icon collection for language indicators, but `@studiocms/ui` only ships with `heroicons` by default. This project includes a workaround:
+
+1. Install `@iconify-json/flag` for the icon data
+2. `src/lang-flags-icons.js` defines a custom `lang-flags` collection with flags for supported locales (en-us, de, fr, es-mx, zh)
+3. The collection is registered via `studiocmsUi({ icons: { 'lang-flags': langFlags } })` in `astro.config.mjs`
+
+To add more flags, edit `src/lang-flags-icons.js` and add entries from [flag-icons](https://github.com/lipis/flag-icons).
 
 ## Deployment
 
@@ -125,6 +144,25 @@ The output is a standalone Node.js server in `dist/`. Run with:
 ```bash
 node dist/server/entry.mjs
 ```
+
+## Troubleshooting
+
+### First-time setup
+After starting the dev server, visit `http://localhost:4321/studiocms` to create your admin account. This is required before you can access the CMS dashboard.
+
+### Database migrations
+Run `pnpm run migrate` whenever you update StudioCMS or change the database schema. Select **Migrate to latest** when prompted. If you get migration errors, try deleting `libsql.db` and running migrate again (note: this deletes all content).
+
+### OAuth setup
+- **GitHub**: Create an OAuth App at [GitHub Settings > Developer settings](https://github.com/settings/developers). Set the callback URL to `http://localhost:4321/studiocms_api/auth/callback/github`
+- **Google**: Create credentials at [Google Cloud Console](https://console.cloud.google.com/apis/credentials). Set the authorized redirect URI to `http://localhost:4321/studiocms_api/auth/callback/google`
+
+### Local vs remote database
+- **Local**: Set `CMS_LIBSQL_URL=file:./libsql.db` — no auth token needed
+- **Remote (Turso)**: Set `CMS_LIBSQL_URL=libsql://your-database.turso.io` and provide `CMS_LIBSQL_AUTH_TOKEN`
+
+### Build fails with missing icons
+If you see `lang-flags icon not found` errors, ensure `@iconify-json/flag` is installed and `src/lang-flags-icons.js` is properly imported in `astro.config.mjs`.
 
 ## Links
 
