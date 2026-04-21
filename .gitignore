@@ -24,6 +24,9 @@ libsql.db
 libsql.pem
 libsql.pub
 
+# session files
+session-ses_*
+
 # macOS-specific files
 .DS_Store
 

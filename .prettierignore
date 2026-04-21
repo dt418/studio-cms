@@ -1,0 +1,7 @@
+pnpm-lock.yaml
+libsql.db
+libsql.pem
+libsql.pub
+dist/
+.astro/
+node_modules/

@@ -1,0 +1,16 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: lint
+      glob: '**/*.{js,mjs,ts,tsx}'
+      run: pnpm lint:fix
+      stage_fixed: true
+
+    - name: format
+      glob: '**/*.{js,mjs,ts,tsx,css,md,json,yaml,yml}'
+      run: pnpm format
+      stage_fixed: true
+
+    - name: typecheck
+      glob: '**/*.{ts,tsx}'
+      run: pnpm typecheck

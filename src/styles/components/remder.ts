@@ -1,12 +1,12 @@
-import type { PluginRenderer } from 'studiocms/types';
+import type { PluginRenderer } from 'studiocms/types'
 
 const render = {
   name: 'my-custom-renderer',
   renderer: async (content: string) => {
     // Custom rendering logic goes here
-    return content;
+    return content
   },
   sanitizeOpts: {},
-} satisfies PluginRenderer;
+} satisfies PluginRenderer
 
-export default render;
+export default render

@@ -1,8 +1,8 @@
-import blog from '@studiocms/blog';
-import md from '@studiocms/md';
-import { defineStudioCMSConfig } from 'studiocms/config';
+import blog from '@studiocms/blog'
+import md from '@studiocms/md'
+import { defineStudioCMSConfig } from 'studiocms/config'
 
 export default defineStudioCMSConfig({
-	dbStartPage: true,
-	plugins: [md(), blog()],
-});
+  dbStartPage: true,
+  plugins: [md(), blog()],
+})

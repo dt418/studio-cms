@@ -19,4 +19,4 @@ export const langFlags = {
   },
   width: 16,
   height: 16,
-};
+}
