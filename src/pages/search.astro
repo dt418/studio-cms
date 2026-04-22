@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Search from '../components/Search.astro'
+---
+
+<BaseLayout
+  title="Search - Danh Thanh"
+  description="Search through blog articles, tutorials, and guides."
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Search',
+    description: 'Search through blog articles, tutorials, and guides.',
+    url: 'https://danhthanh.dev/search',
+  }}
+>
+  <section class="border-b border-white/5">
+    <div class="container py-14">
+      <div class="max-w-2xl">
+        <div class="flex items-center gap-2 mb-3">
+          <span
+            class="inline-flex items-center rounded-sm bg-white/5 px-2.5 py-0.5 text-xs font-mono font-semibold text-muted-foreground/60 uppercase tracking-wider"
+          >
+            Search
+          </span>
+        </div>
+        <h1 class="text-3xl font-bold tracking-tight lg:text-4xl mb-3">Search</h1>
+        <p class="text-base leading-relaxed text-muted-foreground/70">
+          Find articles, tutorials, and technical notes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-10">
+    <div class="max-w-3xl">
+      <Search placeholder="Search articles, tags, or topics..." />
+    </div>
+  </section>
+</BaseLayout>

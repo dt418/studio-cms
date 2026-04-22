@@ -15,7 +15,16 @@ if (!post) {
 }
 
 const { Content, headings } = await render(post)
-const { title, excerpt, coverImage, publishedAt, updatedAt, tags, category, author = 'Danh Thanh' } = post.data
+const {
+  title,
+  excerpt,
+  coverImage,
+  publishedAt,
+  updatedAt,
+  tags,
+  category,
+  author = 'Danh Thanh',
+} = post.data
 
 const formattedDate = publishedAt.toLocaleDateString('en-US', {
   year: 'numeric',
@@ -32,11 +41,11 @@ const wordCount = post.body.split(/\s+/).length
 const readingTime = Math.ceil(wordCount / 200)
 
 const allPosts = await getAllPosts()
-const currentIndex = allPosts.findIndex((p) => p.data.slug === slug)
+const currentIndex = allPosts.findIndex((post) => post.data.slug === slug)
 const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1].data : undefined
 const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1].data : undefined
 const relatedPosts = allPosts
-  .filter((p) => p.data.slug !== slug && p.data.category === category)
+  .filter((post) => post.data.slug !== slug && post.data.category === category)
   .slice(0, 3)
 
 const canonicalUrl = `https://danhthanh.dev/blog/${slug}`
@@ -44,33 +53,33 @@ const publishedTime = publishedAt.toISOString()
 const modifiedTime = updatedAt?.toISOString() ?? publishedTime
 
 const articleJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": title,
-  "description": excerpt,
-  "image": coverImage ? `${coverImage}` : undefined,
-  "datePublished": publishedTime,
-  "dateModified": modifiedTime,
-  "author": {
-    "@type": "Person",
-    "name": author,
-    "url": "https://danhthanh.dev"
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: excerpt,
+  image: coverImage ? `${coverImage}` : undefined,
+  datePublished: publishedTime,
+  dateModified: modifiedTime,
+  author: {
+    '@type': 'Person',
+    name: author,
+    url: 'https://danhthanh.dev',
   },
-  "publisher": {
-    "@type": "Organization",
-    "name": "DanhThanh.dev",
-    "url": "https://danhthanh.dev"
+  publisher: {
+    '@type': 'Organization',
+    name: 'DanhThanh.dev',
+    url: 'https://danhthanh.dev',
   },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": canonicalUrl
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
   },
-  "keywords": [...tags, category]
+  keywords: [...tags, category],
 }
 ---
 
-<BaseLayout 
-  title={`${title} | DanhThanh.dev`} 
+<BaseLayout
+  title={`${title} | DanhThanh.dev`}
   description={excerpt}
   image={coverImage}
   canonicalUrl={canonicalUrl}
@@ -85,7 +94,7 @@ const articleJsonLd = {
     <section class="border-b border-border">
       <div class="container py-12 lg:py-16">
         <div class="max-w-4xl mx-auto">
-          <PostHeader 
+          <PostHeader
             category={category}
             title={title}
             excerpt={excerpt}
@@ -100,8 +109,9 @@ const articleJsonLd = {
 
     <!-- 3-Column Layout -->
     <div class="container py-8 lg:py-12">
-      <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[200px_1fr_240px] gap-8 lg:gap-12">
-        
+      <div
+        class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[200px_1fr_240px] gap-8 lg:gap-12"
+      >
         <!-- Left Sidebar: Table of Contents -->
         <aside class="order-2 lg:order-1">
           <TableOfContents headings={headings} />
@@ -116,17 +126,29 @@ const articleJsonLd = {
           <!-- Tags -->
           <footer class="mt-12 pt-8 border-t border-border">
             <div class="flex flex-wrap gap-2 mb-8">
-              {tags.map((tag) => (
-                <a href={`/tags/${tag}`} class="inline-flex items-center rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
-                  #{tag}
-                </a>
-              ))}
+              {
+                tags.map((tag) => (
+                  <a
+                    href={`/tags/${tag}`}
+                    class="inline-flex items-center rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                  >
+                    #{tag}
+                  </a>
+                ))
+              }
             </div>
 
             <!-- Author Card -->
             <div class="flex items-center gap-4 p-6 rounded-xl border border-border bg-card/50">
-              <div class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-base font-semibold text-primary">
-                {author.split(' ').map((n) => n[0]).join('')}
+              <div
+                class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-base font-semibold text-primary"
+              >
+                {
+                  author
+                    .split(' ')
+                    .map((name) => name[0])
+                    .join('')
+                }
               </div>
               <div>
                 <p class="font-medium text-foreground">{author}</p>
@@ -136,30 +158,44 @@ const articleJsonLd = {
 
             <!-- Prev/Next Navigation -->
             <nav class="mt-8 grid gap-4 md:grid-cols-2">
-              {prevPost ? (
-                <a href={`/blog/${prevPost.slug}`} class="group rounded-xl border border-border p-5 transition-colors hover:bg-accent/50">
-                  <p class="text-xs text-muted-foreground mb-1">Previous Post</p>
-                  <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                    &larr; {prevPost.title}
-                  </p>
-                </a>
-              ) : <div />}
-              
-              {nextPost ? (
-                <a href={`/blog/${nextPost.slug}`} class="group rounded-xl border border-border p-5 text-right transition-colors hover:bg-accent/50">
-                  <p class="text-xs text-muted-foreground mb-1">Next Post</p>
-                  <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                    {nextPost.title} &rarr;
-                  </p>
-                </a>
-              ) : <div />}
+              {
+                prevPost ? (
+                  <a
+                    href={`/blog/${prevPost.slug}`}
+                    class="group rounded-xl border border-border p-5 transition-colors hover:bg-accent/50"
+                  >
+                    <p class="text-xs text-muted-foreground mb-1">Previous Post</p>
+                    <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                      &larr; {prevPost.title}
+                    </p>
+                  </a>
+                ) : (
+                  <div />
+                )
+              }
+
+              {
+                nextPost ? (
+                  <a
+                    href={`/blog/${nextPost.slug}`}
+                    class="group rounded-xl border border-border p-5 text-right transition-colors hover:bg-accent/50"
+                  >
+                    <p class="text-xs text-muted-foreground mb-1">Next Post</p>
+                    <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                      {nextPost.title} &rarr;
+                    </p>
+                  </a>
+                ) : (
+                  <div />
+                )
+              }
             </nav>
           </footer>
         </div>
 
         <!-- Right Sidebar: Post Meta Card -->
         <aside class="order-3 hidden lg:block">
-          <PostMetaCard 
+          <PostMetaCard
             author={author}
             publishedAt={formattedDate}
             updatedAt={updatedDate}
@@ -171,19 +207,21 @@ const articleJsonLd = {
     </div>
 
     <!-- Related Posts -->
-    {relatedPosts.length > 0 && (
-      <section class="border-t border-border">
-        <div class="container py-16">
-          <div class="max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold tracking-tight mb-8">Related Posts</h2>
-            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {relatedPosts.map((p) => (
-                <BlogCard post={p} />
-              ))}
+    {
+      relatedPosts.length > 0 && (
+        <section class="border-t border-border">
+          <div class="container py-16">
+            <div class="max-w-4xl mx-auto">
+              <h2 class="text-2xl font-bold tracking-tight mb-8">Related Posts</h2>
+              <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {relatedPosts.map((relatedPost) => (
+                  <BlogCard post={relatedPost} />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-    )}
+        </section>
+      )
+    }
   </article>
 </BaseLayout>

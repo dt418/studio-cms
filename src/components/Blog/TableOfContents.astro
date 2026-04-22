@@ -4,33 +4,37 @@ export interface Props {
 }
 
 const { headings } = Astro.props
-const filteredHeadings = headings.filter((h) => h.depth <= 3)
+const filteredHeadings = headings.filter((heading) => heading.depth <= 3)
 ---
 
-{filteredHeadings.length > 0 && (
-  <nav id="toc" class="sticky top-24 hidden lg:block" aria-label="Table of contents">
-    <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-4">On this page</p>
-    <ul class="space-y-1 border-l border-border">
-      {filteredHeadings.map((heading) => (
-        <li>
-          <a
-            href={`#${heading.slug}`}
-            class="toc-link block py-1.5 text-sm text-muted-foreground hover:text-foreground transition-all duration-200 border-l-2 border-transparent -ml-px"
-            data-depth={heading.depth}
-          >
-            {heading.text}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </nav>
-)}
+{
+  filteredHeadings.length > 0 && (
+    <nav id="toc" class="sticky top-24 hidden lg:block" aria-label="Table of contents">
+      <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-4">
+        On this page
+      </p>
+      <ul class="space-y-1 border-l border-border">
+        {filteredHeadings.map((heading) => (
+          <li>
+            <a
+              href={`#${heading.slug}`}
+              class="toc-link block py-1.5 text-sm text-muted-foreground hover:text-foreground transition-all duration-200 border-l-2 border-transparent -ml-px"
+              data-depth={heading.depth}
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
 
 <style>
-  .toc-link[data-depth="2"] {
+  .toc-link[data-depth='2'] {
     padding-left: 1rem;
   }
-  .toc-link[data-depth="3"] {
+  .toc-link[data-depth='3'] {
     padding-left: 1.75rem;
     font-size: 0.8rem;
   }

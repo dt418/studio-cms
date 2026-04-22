@@ -38,6 +38,6 @@ export function generateSEO({
     'twitter:description': description,
     'twitter:image': ogImage,
     'twitter:site': config.twitterHandle,
-    ...(canonicalUrl ? { 'og:url': canonicalUrl, 'canonical': canonicalUrl } : {}),
+    ...(canonicalUrl ? { 'og:url': canonicalUrl, canonical: canonicalUrl } : {}),
   }
 }

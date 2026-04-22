@@ -4,39 +4,38 @@
 // Customize as needed for your CMS (e.g., add meta tags, scripts, or styling imports).
 
 export interface Props {
-    heroImage: string | null | undefined;
-    title: string;
-    description?: string;
+  title: string
+  description?: string
 }
 
-const { heroImage, title, description = "Default description for CMS page" } = Astro.props;
+const { title, description = 'Default description for CMS page' } = Astro.props
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="description" content={description}>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{title}</title>
-        <!-- Add CMS-specific head elements here, e.g., analytics scripts or fonts -->
-    </head>
-    <body>
-        <!-- Header slot for CMS-managed navigation or branding -->
-        <header>
-            <slot name="header" />
-        </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <!-- Add CMS-specific head elements here, e.g., analytics scripts or fonts -->
+  </head>
+  <body>
+    <!-- Header slot for CMS-managed navigation or branding -->
+    <header>
+      <slot name="header" />
+    </header>
 
-        <!-- Main content slot for CMS-generated pages -->
-        <main>
-            <slot />
-        </main>
+    <!-- Main content slot for CMS-generated pages -->
+    <main>
+      <slot />
+    </main>
 
-        <!-- Footer slot for CMS-managed footer content -->
-        <footer>
-            <slot name="footer" />
-        </footer>
+    <!-- Footer slot for CMS-managed footer content -->
+    <footer>
+      <slot name="footer" />
+    </footer>
 
-        <!-- Add global scripts or CMS integrations here -->
-    </body>
+    <!-- Add global scripts or CMS integrations here -->
+  </body>
 </html>

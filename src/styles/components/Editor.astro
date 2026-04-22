@@ -1,10 +1,11 @@
 ---
-import type { PluginPageTypeEditorProps } from 'studiocms/types';
+import type { PluginPageTypeEditorProps } from 'studiocms/types'
 
-interface Props extends PluginPageTypeEditorProps {}
+type Props = PluginPageTypeEditorProps
 
-const { content } = Astro.props;
+const { content } = Astro.props
 ---
+
 <div class="editor-container">
-    <textarea id="page-content" name="page-content">{content}</textarea>
+  <textarea id="page-content" name="page-content">{content}</textarea>
 </div>

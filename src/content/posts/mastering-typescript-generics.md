@@ -1,12 +1,12 @@
 ---
-title: "Mastering TypeScript Generics"
-slug: "mastering-typescript-generics"
-excerpt: "Deep dive into TypeScript generics and learn how to write reusable, type-safe code."
-coverImage: "https://picsum.photos/seed/typescript/1200/630"
+title: 'Mastering TypeScript Generics'
+slug: 'mastering-typescript-generics'
+excerpt: 'Deep dive into TypeScript generics and learn how to write reusable, type-safe code.'
+coverImage: 'https://picsum.photos/seed/typescript/1200/630'
 publishedAt: 2025-02-10
 updatedAt: 2025-02-12
-tags: ["typescript", "programming", "generics"]
-category: "tutorials"
+tags: ['typescript', 'programming', 'generics']
+category: 'tutorials'
 ---
 
 # Mastering TypeScript Generics
@@ -24,7 +24,7 @@ function identity<T>(arg: T): T {
   return arg
 }
 
-const result = identity<string>("hello")
+const result = identity<string>('hello')
 ```
 
 ## Generic Constraints
@@ -57,9 +57,9 @@ interface User {
 }
 
 const response: ApiResponse<User> = {
-  data: { id: 1, name: "John" },
+  data: { id: 1, name: 'John' },
   status: 200,
-  message: "Success",
+  message: 'Success',
 }
 ```
 

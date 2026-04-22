@@ -7,30 +7,40 @@ interface Props {
 const { prevPost, nextPost } = Astro.props
 ---
 
-{prevPost || nextPost ? (
-  <nav class="mt-16 pt-8 border-t border-border" aria-label="Post navigation">
-    <div class="grid gap-4 md:grid-cols-2">
-      {prevPost ? (
-        <a href={`/blog/${prevPost.slug}`} class="group rounded-xl border border-border p-5 transition-colors hover:bg-accent/50">
-          <p class="text-xs text-muted-foreground mb-1">Previous Post</p>
-          <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
-            &larr; {prevPost.title}
-          </p>
-        </a>
-      ) : (
-        <div />
-      )}
+{
+  prevPost || nextPost ? (
+    <nav class="mt-16 pt-8 border-t border-border" aria-label="Post navigation">
+      <div class="grid gap-4 md:grid-cols-2">
+        {prevPost ? (
+          <a
+            href={`/blog/${prevPost.slug}`}
+            class="group rounded-xl border border-border p-5 transition-colors hover:bg-accent/50"
+          >
+            <p class="text-xs text-muted-foreground mb-1">Previous Post</p>
+            <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
+              &larr; {prevPost.title}
+            </p>
+          </a>
+        ) : (
+          <div />
+        )}
 
-      {nextPost ? (
-        <a href={`/blog/${nextPost.slug}`} class="group rounded-xl border border-border p-5 text-right transition-colors hover:bg-accent/50">
-          <p class="text-xs text-muted-foreground mb-1">Next Post</p>
-          <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
-            {nextPost.title} &rarr;
-          </p>
-        </a>
-      ) : (
-        <div />
-      )}
-    </div>
-  </nav>
-) : ''}
+        {nextPost ? (
+          <a
+            href={`/blog/${nextPost.slug}`}
+            class="group rounded-xl border border-border p-5 text-right transition-colors hover:bg-accent/50"
+          >
+            <p class="text-xs text-muted-foreground mb-1">Next Post</p>
+            <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
+              {nextPost.title} &rarr;
+            </p>
+          </a>
+        ) : (
+          <div />
+        )}
+      </div>
+    </nav>
+  ) : (
+    ''
+  )
+}

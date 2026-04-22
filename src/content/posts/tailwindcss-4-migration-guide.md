@@ -1,11 +1,11 @@
 ---
-title: "TailwindCSS 4 Migration Guide"
-slug: "tailwindcss-4-migration-guide"
-excerpt: "Everything you need to know about migrating to TailwindCSS 4, including breaking changes and new features."
-coverImage: "https://picsum.photos/seed/tailwind/1200/630"
+title: 'TailwindCSS 4 Migration Guide'
+slug: 'tailwindcss-4-migration-guide'
+excerpt: 'Everything you need to know about migrating to TailwindCSS 4, including breaking changes and new features.'
+coverImage: 'https://picsum.photos/seed/tailwind/1200/630'
 publishedAt: 2025-03-20
-tags: ["tailwindcss", "css", "frontend"]
-category: "guides"
+tags: ['tailwindcss', 'css', 'frontend']
+category: 'guides'
 ---
 
 # TailwindCSS 4 Migration Guide
@@ -41,12 +41,12 @@ export default defineConfig({
 Replace your `tailwind.config.js` with CSS variables:
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-primary: #3b82f6;
   --color-secondary: #64748b;
-  --font-sans: "Inter", sans-serif;
+  --font-sans: 'Inter', sans-serif;
 }
 ```
 
@@ -80,7 +80,7 @@ module.exports = {
 Some plugins have been renamed or restructured:
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 ```
 

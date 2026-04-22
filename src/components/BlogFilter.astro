@@ -1,0 +1,241 @@
+---
+import type { Post } from '../types/post'
+
+interface Props {
+  posts: Post[]
+  categories: string[]
+  tags: string[]
+  initialCategory?: string
+  initialTag?: string
+}
+
+const { posts, categories, tags, initialCategory, initialTag } = Astro.props
+
+const serializedPosts = posts.map((post) => {
+  const data = { ...post.data, publishedAt: post.data.publishedAt.toISOString() }
+  return { ...post, data }
+})
+---
+
+<div class="space-y-4">
+  <div class="flex flex-wrap gap-3">
+    <div class="relative flex-1 min-w-[200px]">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.3-4.3"></path>
+      </svg>
+      <input
+        type="search"
+        id="filter-search"
+        placeholder="Search posts..."
+        class="input pl-10 w-full"
+      />
+    </div>
+
+    <select id="filter-category" class="input w-full sm:w-auto sm:min-w-[160px]">
+      <option value="">All Categories</option>
+      {
+        categories.map((cat) => (
+          <option value={cat} selected={cat === initialCategory}>
+            {cat}
+          </option>
+        ))
+      }
+    </select>
+
+    <select id="filter-tag" class="input w-full sm:w-auto sm:min-w-[120px]">
+      <option value="">All Tags</option>
+      {
+        tags.map((tag) => (
+          <option value={tag} selected={tag === initialTag}>
+            {tag}
+          </option>
+        ))
+      }
+    </select>
+
+    <select id="filter-sort" class="input w-full sm:w-auto sm:min-w-[160px]">
+      <option value="date-desc">Newest first</option>
+      <option value="date-asc">Oldest first</option>
+      <option value="title-asc">Title A-Z</option>
+      <option value="title-desc">Title Z-A</option>
+      <option value="readingTime-asc">Shortest first</option>
+      <option value="readingTime-desc">Longest first</option>
+    </select>
+
+    <button
+      id="filter-reset"
+      type="button"
+      class="input whitespace-nowrap px-4 text-sm font-mono uppercase tracking-wider hover:bg-white/[0.05] transition-colors"
+      title="Clear search and reset filters"
+    >
+      Reset
+    </button>
+  </div>
+
+  <div id="filter-results-count" class="text-sm text-muted-foreground"></div>
+
+  <div id="filter-results" class="space-y-0">
+    <p class="text-muted-foreground text-center py-8">Type to search or adjust filters...</p>
+  </div>
+</div>
+
+<script type="application/json" id="filter-data" set:html={JSON.stringify(serializedPosts)} />
+
+<script is:inline>
+  function initFilter() {
+    const postsData = JSON.parse(document.getElementById('filter-data')?.textContent ?? '[]')
+    const searchInput = document.getElementById('filter-search')
+    const categorySelect = document.getElementById('filter-category')
+    const tagSelect = document.getElementById('filter-tag')
+    const sortSelect = document.getElementById('filter-sort')
+    const resultsContainer = document.getElementById('filter-results')
+    const resultsCount = document.getElementById('filter-results-count')
+    const resetButton = document.getElementById('filter-reset')
+
+    if (
+      !searchInput ||
+      !categorySelect ||
+      !tagSelect ||
+      !sortSelect ||
+      !resultsContainer ||
+      !resultsCount
+    )
+      return
+
+    function resetFilters() {
+      searchInput.value = ''
+      categorySelect.value = ''
+      tagSelect.value = ''
+      sortSelect.value = 'date-desc'
+      applyFilters()
+    }
+
+    if (resetButton) resetButton.addEventListener('click', resetFilters)
+
+    function applyFilters() {
+      const query = searchInput.value.toLowerCase().trim()
+      const category = categorySelect.value
+      const tag = tagSelect.value
+      const sortValue = sortSelect.value
+      const [sortField, sortOrder] = sortValue.split('-')
+
+      let result = postsData.filter((post) => {
+        if (query) {
+          const matchesQuery =
+            post.data.title.toLowerCase().includes(query) ||
+            post.data.excerpt.toLowerCase().includes(query) ||
+            post.data.tags.some((t) => t.toLowerCase().includes(query)) ||
+            post.data.category.toLowerCase().includes(query)
+          if (!matchesQuery) return false
+        }
+
+        if (category && post.data.category !== category) return false
+        if (tag && !post.data.tags.includes(tag)) return false
+
+        return true
+      })
+
+      const multiplier = sortOrder === 'asc' ? 1 : -1
+      result.sort((a, b) => {
+        switch (sortField) {
+          case 'date':
+            return (
+              multiplier *
+              (new Date(a.data.publishedAt).valueOf() - new Date(b.data.publishedAt).valueOf())
+            )
+          case 'title':
+            return multiplier * a.data.title.localeCompare(b.data.title)
+          case 'readingTime': {
+            const aWords = a.body ? a.body.split(/\s+/).length : 0
+            const bWords = b.body ? b.body.split(/\s+/).length : 0
+            return multiplier * (aWords - bWords)
+          }
+          default:
+            return 0
+        }
+      })
+
+      resultsCount.textContent = `${result.length} ${result.length === 1 ? 'post' : 'posts'} found`
+
+      if (result.length === 0) {
+        resultsContainer.innerHTML = `
+          <div class="text-center py-12 border border-dashed border-border rounded-lg">
+            <p class="text-muted-foreground">No posts match your filters.</p>
+          </div>
+        `
+        return
+      }
+
+      resultsContainer.innerHTML = result
+        .map((post) => {
+          const date = new Date(post.data.publishedAt)
+          const formattedDate = date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })
+          const words = post.body ? post.body.split(/\s+/).length : 0
+          const minutes = Math.max(1, Math.ceil(words / 200))
+          const slug = post.data.slug
+          const title = post.data.title
+          const excerpt = post.data.excerpt
+          const category = post.data.category
+          const tagsHtml = post.data.tags
+            .slice(0, 4)
+            .map(
+              (tag) =>
+                `<span class="inline-flex items-center rounded-sm bg-white/5 px-2 py-0.5 text-xs font-mono text-muted-foreground/50">${tag}</span>`
+            )
+            .join('')
+          const tagsOverflow =
+            post.data.tags.length > 4
+              ? `<span class="inline-flex items-center rounded-sm bg-white/5 px-2 py-0.5 text-xs font-mono text-muted-foreground/50">+${post.data.tags.length - 4}</span>`
+              : ''
+
+          return `
+            <article class="group grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-7 border-b border-white/5 items-start last:border-b-0 hover:bg-white/[0.01] transition-colors duration-200 rounded-lg -mx-4 px-4">
+              <div class="pt-0.5">
+                <time class="text-sm font-mono text-muted-foreground tabular-nums">${formattedDate}</time>
+              </div>
+              <a href="/blog/${slug}" class="block min-w-0">
+                <h2 class="text-lg font-semibold leading-snug tracking-tight text-foreground/90 group-hover:text-foreground transition-colors mb-1.5">${title}</h2>
+                <p class="text-sm leading-relaxed text-muted-foreground/70 line-clamp-2 mb-3">${excerpt}</p>
+                <div class="flex flex-wrap gap-1.5">${tagsHtml}${tagsOverflow}</div>
+              </a>
+              <div class="pt-0.5 pl-4 flex flex-col items-end gap-1">
+                <a href="/blog/${slug}" class="group/enter inline-flex items-center gap-1 text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground/40 hover:text-foreground transition-colors">
+                  <span>enter</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/enter:translate-x-0.5">
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
+                </a>
+                <span class="text-xs font-mono text-muted-foreground/30 tabular-nums">${minutes} min</span>
+              </div>
+            </article>
+          `
+        })
+        .join('')
+    }
+
+    searchInput.addEventListener('input', applyFilters)
+    categorySelect.addEventListener('change', applyFilters)
+    tagSelect.addEventListener('change', applyFilters)
+    sortSelect.addEventListener('change', applyFilters)
+
+    applyFilters()
+  }
+
+  document.addEventListener('astro:page-load', initFilter)
+  if (document.readyState === 'complete') initFilter()
+</script>

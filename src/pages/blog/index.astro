@@ -1,36 +1,36 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import YearGroup from '../../components/Blog/YearGroup.astro'
-import { getAllPosts, getAllCategories } from '../../lib/cms'
-import { groupByYear, sortedYears } from '../../lib/group'
+import BlogFilter from '../../components/BlogFilter.astro'
+import { getAllPosts, getAllCategories, getAllTags } from '../../lib/cms'
 
 const posts = await getAllPosts()
 const categories = await getAllCategories()
-const byYear = groupByYear(posts)
-const years = sortedYears(byYear)
+const tags = await getAllTags()
 ---
 
-<BaseLayout 
-  title="Blog - Danh Thanh" 
+<BaseLayout
+  title="Blog - Danh Thanh"
   description="Build logs, hackathon writeups, and technical notes."
   jsonLd={{
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "Blog Archive",
-    "description": "Build logs, hackathon writeups, and technical notes.",
-    "url": "https://danhthanh.dev/blog",
-    "isPartOf": {
-      "@type": "WebSite",
-      "name": "DanhThanh.dev",
-      "url": "https://danhthanh.dev"
-    }
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Blog Archive',
+    description: 'Build logs, hackathon writeups, and technical notes.',
+    url: 'https://danhthanh.dev/blog',
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'DanhThanh.dev',
+      url: 'https://danhthanh.dev',
+    },
   }}
 >
   <section class="border-b border-white/5" style="view-transition-name: blog-header;">
     <div class="container py-14">
       <div class="max-w-2xl">
         <div class="flex items-center gap-2 mb-3">
-          <span class="inline-flex items-center rounded-sm bg-white/5 px-2.5 py-0.5 text-xs font-mono font-semibold text-muted-foreground/60 uppercase tracking-wider">
+          <span
+            class="inline-flex items-center rounded-sm bg-white/5 px-2.5 py-0.5 text-xs font-mono font-semibold text-muted-foreground/60 uppercase tracking-wider"
+          >
             Archive
           </span>
         </div>
@@ -43,47 +43,37 @@ const years = sortedYears(byYear)
   </section>
 
   <section class="container py-10">
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-14">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
       <div class="border border-white/5 bg-white/[0.02] p-4">
         <div class="text-2xl font-bold tracking-tight tabular-nums font-mono">{posts.length}</div>
-        <div class="text-xs font-mono text-muted-foreground/40 mt-1.5 uppercase tracking-wider">Published notes</div>
+        <div class="text-xs font-mono text-muted-foreground/40 mt-1.5 uppercase tracking-wider">
+          Published notes
+        </div>
       </div>
       <div class="border border-white/5 bg-white/[0.02] p-4">
-        <div class="text-2xl font-bold tracking-tight tabular-nums font-mono">{years.length}</div>
-        <div class="text-xs font-mono text-muted-foreground/40 mt-1.5 uppercase tracking-wider">Years covered</div>
+        <div class="text-2xl font-bold tracking-tight tabular-nums font-mono">
+          {categories.length}
+        </div>
+        <div class="text-xs font-mono text-muted-foreground/40 mt-1.5 uppercase tracking-wider">
+          Categories
+        </div>
       </div>
       <div class="border border-white/5 bg-white/[0.02] p-4">
-        <div class="text-2xl font-bold tracking-tight tabular-nums font-mono">01</div>
-        <div class="text-xs font-mono text-muted-foreground/40 mt-1.5 uppercase tracking-wider">Page position</div>
+        <div class="text-2xl font-bold tracking-tight tabular-nums font-mono">{tags.length}</div>
+        <div class="text-xs font-mono text-muted-foreground/40 mt-1.5 uppercase tracking-wider">
+          Tags
+        </div>
       </div>
       <div class="border border-white/5 bg-white/[0.02] p-4">
-        <div class="text-2xl font-bold tracking-tight tabular-nums font-mono">{new Date().getFullYear()}</div>
-        <div class="text-xs font-mono text-muted-foreground/40 mt-1.5 uppercase tracking-wider">Archive snapshot</div>
+        <div class="text-2xl font-bold tracking-tight tabular-nums font-mono">
+          {new Date().getFullYear()}
+        </div>
+        <div class="text-xs font-mono text-muted-foreground/40 mt-1.5 uppercase tracking-wider">
+          Archive snapshot
+        </div>
       </div>
     </div>
 
-    <div class="mb-8">
-      <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground/40 mb-3">Browse by category</h2>
-      <div class="flex flex-wrap gap-2">
-        <a
-          href="/blog"
-          class="inline-flex items-center rounded-sm bg-primary px-3.5 py-1.5 text-xs font-semibold text-primary-foreground transition-colors"
-        >
-          All
-        </a>
-        {categories.map((cat) => (
-          <a
-            href={`/categories/${cat}`}
-            class="inline-flex items-center rounded-sm border border-white/5 px-3.5 py-1.5 text-xs font-medium transition-colors text-muted-foreground/60 hover:bg-white/5 hover:text-foreground hover:border-white/10"
-          >
-            {cat}
-          </a>
-        ))}
-      </div>
-    </div>
-
-    {years.map((year) => (
-      <YearGroup year={year} posts={byYear[year]} />
-    ))}
+    <BlogFilter posts={posts} categories={categories} tags={tags} />
   </section>
 </BaseLayout>

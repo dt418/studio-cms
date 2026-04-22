@@ -1,7 +1,7 @@
-pnpm-lock.yaml
-libsql.db
-libsql.pem
-libsql.pub
-dist/
-.astro/
-node_modules/
+dist
+node_modules
+.astro
+*.db
+*.pem
+*.pub
+tender-series

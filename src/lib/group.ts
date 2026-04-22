@@ -17,5 +17,5 @@ export function groupByYear(posts: Post[]): Record<number, Post[]> {
 export function sortedYears(groups: Record<number, Post[]>): number[] {
   return Object.keys(groups)
     .map(Number)
-    .sort((a, b) => b - a)
+    .sort((yearA, yearB) => yearB - yearA)
 }
