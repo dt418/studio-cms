@@ -1,3 +1,11 @@
+export interface SearchablePost {
+  title: string
+  excerpt: string
+  tags: string[]
+  slug: string
+  category: string
+}
+
 interface SearchResult {
   title: string
   url: string

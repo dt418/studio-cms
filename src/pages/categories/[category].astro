@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
-import BlogFilter from '../../components/BlogFilter.astro'
-import BlogCard from '../../components/BlogCard.astro'
-import { getPostsByCategory, getAllCategories, getAllTags } from '../../lib/cms'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import BlogFilter from '@/components/BlogFilter.astro'
+import BlogCard from '@/components/BlogCard.astro'
+import { getPostsByCategory, getAllCategories, getAllTags } from '@/lib/cms'
 
 const category = Astro.params.category ?? ''
 const posts = await getPostsByCategory(category)

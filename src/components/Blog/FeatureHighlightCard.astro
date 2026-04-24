@@ -8,7 +8,7 @@ interface Props {
 const { title, description, icon = '✨' } = Astro.props
 ---
 
-<div class="my-8 rounded-xl border border-border bg-card p-6 md:p-8">
+<article class="card-hover my-8">
   <div class="flex items-start gap-4">
     <div
       class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-lg"
@@ -20,4 +20,4 @@ const { title, description, icon = '✨' } = Astro.props
       <p class="text-sm text-muted-foreground leading-relaxed">{description}</p>
     </div>
   </div>
-</div>
+</article>

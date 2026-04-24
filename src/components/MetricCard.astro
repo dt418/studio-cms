@@ -1,0 +1,25 @@
+---
+export interface Props {
+  label: string
+  value: string
+  category: string
+  description: string
+}
+
+const { label, value, category, description } = Astro.props
+---
+
+<article class="card-hover">
+  <p class="font-mono text-[0.68rem] tracking-[0.26em] uppercase text-muted-foreground/40">
+    {label}
+  </p>
+  <p class="mt-4 text-[1.65rem] leading-none font-semibold tracking-[-0.06em] sm:text-[1.9rem] text-foreground">
+    {value}
+  </p>
+  <p class="mt-2 font-mono text-[0.7rem] tracking-[0.22em] uppercase text-muted-foreground/60">
+    {category}
+  </p>
+  <p class="mt-5 max-w-[30ch] text-sm leading-7 text-muted-foreground/70">
+    {description}
+  </p>
+</article>

@@ -153,8 +153,22 @@
     @apply bg-card text-card-foreground rounded-md border border-border transition-colors duration-200;
   }
 
-  .card:hover {
-    @apply border-white/15;
+  .card-hover {
+    @apply relative overflow-hidden rounded-md border border-border bg-card/30 p-6 transition-all duration-300;
+  }
+
+  .card-hover::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-500;
+    background: radial-gradient(circle at 50% 50%, oklch(1 0 0 / 0.08) 0%, transparent 70%);
+  }
+
+  .card-hover:hover {
+    border-color: oklch(1 0 0 / 0.15);
+  }
+
+  .card-hover:hover::before {
+    @apply opacity-100;
   }
 
   .badge {
@@ -332,5 +346,14 @@
 
   .animate-slide-in-left {
     animation: slide-in-left 400ms ease-out both;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
   }
 }

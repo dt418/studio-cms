@@ -76,25 +76,24 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
     />
   </head>
   <body class="min-h-screen flex flex-col bg-background text-foreground antialiased">
-    <header
-      class="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md"
-    >
+    <!-- Header (CPZ style, DT branding kept) -->
+    <header class="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
       <div class="container flex h-14 items-center">
         <a href="/" class="flex items-center gap-2 font-semibold tracking-tight">
           <span class="text-lg">DT</span>
         </a>
-        <nav class="flex items-center gap-4 ml-auto">
+        <nav class="flex items-center gap-4 ml-auto font-mono text-[0.62rem] tracking-[0.24em] uppercase">
           <a
             href="/blog"
-            class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            class="text-muted-foreground hover:text-foreground transition-colors"
           >
-            Blog
+            writing
           </a>
           <a
             href="/rss.xml"
-            class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            class="text-muted-foreground hover:text-foreground transition-colors"
           >
-            RSS
+            rss
           </a>
         </nav>
       </div>
@@ -102,7 +101,7 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
     <main class="flex-1">
       <slot />
     </main>
-    <footer class="border-t border-border">
+    <footer class="border-t border-border font-mono text-[0.62rem] tracking-[0.24em] uppercase">
       <div class="container py-16">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
@@ -118,23 +117,23 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
             <h3
               class="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-4"
             >
-              Links
+              links
             </h3>
-            <ul class="space-y-3 text-sm">
+            <ul class="space-y-3">
               <li>
                 <a
                   href="mailto:thanh@danhthanh.dev"
                   class="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Email →
+                  email →
                 </a>
               </li>
               <li>
                 <a
-                  href="https://github.com/thanh"
+                  href="https://github.com/dt418"
                   class="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  GitHub →
+                  github →
                 </a>
               </li>
               <li>
@@ -142,21 +141,21 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
                   href="/rss.xml"
                   class="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  RSS →
+                  rss →
                 </a>
               </li>
               <li>
                 <a
-                  href="https://linkedin.com/in/thanh"
+                  href="https://linkedin.com/in/danhthanh418"
                   class="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  LinkedIn →
+                  linkedin →
                 </a>
               </li>
             </ul>
           </div>
         </div>
-        <div class="mt-16 pt-6 border-t border-border text-xs text-muted-foreground/50">
+        <div class="mt-16 pt-6 border-t border-border text-muted-foreground/50">
           <p>DanhThanh.dev / {new Date().getFullYear()}</p>
         </div>
       </div>

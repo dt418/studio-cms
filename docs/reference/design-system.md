@@ -182,15 +182,15 @@ All component styles use `@apply` with Tailwind utilities.
 
 | Variant       | @apply Classes                                                                           |
 | ---------     | -----------------------------------------------------------------------------------------|
-| `btn`         | `inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm text-sm font-medium` |
+| `btn`         | `inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm text-sm font-medium leading-5 transition-all duration-150 cursor-pointer` |
 | `btn-primary` | `bg-primary text-primary-foreground`                                                     |
 | `btn-ghost`   | `bg-transparent text-muted`                                                              |
 | `btn-outline` | `border border-border bg-transparent text-muted`                                         |
-| `btn-sm`      | `px-3 py-1.5 text-xs`                                                                    |
+| `btn-sm`      | `px-3 py-1.5 text-xs leading-4`                                                                    |
 
 Focus: `@apply outline-none ring-2 ring-background ring-offset-4 ring-offset-ring`
 
-### Card (`.card`)
+### Card (`.card`) and `.card-hover`
 
 ```html
 <article class="card">
@@ -201,8 +201,8 @@ Focus: `@apply outline-none ring-2 ring-background ring-offset-4 ring-offset-rin
 </article>
 ```
 
-- `@apply bg-card text-card-foreground rounded-md border border-border transition-colors duration-200`
-- Hover: `@apply border-white/15`
+- `.card`: `@apply bg-card text-card-foreground rounded-md border border-border transition-colors duration-200`
+- `.card-hover`: `@apply relative overflow-hidden rounded-md border border-border bg-card/30 p-6 transition-all duration-300`
 
 ### Badge
 

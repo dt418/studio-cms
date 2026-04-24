@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
-import BlogFilter from '../../components/BlogFilter.astro'
-import { getAllPosts, getAllCategories, getAllTags } from '../../lib/cms'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import BlogFilter from '@/components/BlogFilter.astro'
+import { getAllPosts, getAllCategories, getAllTags } from '@/lib/cms'
 
 const posts = await getAllPosts()
 const categories = await getAllCategories()

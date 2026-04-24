@@ -1,10 +1,10 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
-import BlogCard from '../../components/BlogCard.astro'
-import PostHeader from '../../components/Blog/PostHeader.astro'
-import PostMetaCard from '../../components/Blog/PostMetaCard.astro'
-import TableOfContents from '../../components/Blog/TableOfContents.astro'
-import { getPostBySlug, getAllPosts } from '../../lib/cms'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import BlogCard from '@/components/BlogCard.astro'
+import PostHeader from '@/components/Blog/PostHeader.astro'
+import PostMetaCard from '@/components/Blog/PostMetaCard.astro'
+import TableOfContents from '@/components/Blog/TableOfContents.astro'
+import { getPostBySlug, getAllPosts } from '@/lib/cms'
 import { render } from 'astro:content'
 
 const slug = Astro.params.slug
@@ -37,7 +37,7 @@ const updatedDate = updatedAt?.toLocaleDateString('en-US', {
   day: 'numeric',
 })
 
-const wordCount = post.body.split(/\s+/).length
+const wordCount = (post.body ?? '').split(/\s+/).length
 const readingTime = Math.ceil(wordCount / 200)
 
 const allPosts = await getAllPosts()
@@ -139,7 +139,7 @@ const articleJsonLd = {
             </div>
 
             <!-- Author Card -->
-            <div class="flex items-center gap-4 p-6 rounded-xl border border-border bg-card/50">
+            <article class="card-hover flex items-center gap-4">
               <div
                 class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-base font-semibold text-primary"
               >
@@ -154,7 +154,7 @@ const articleJsonLd = {
                 <p class="font-medium text-foreground">{author}</p>
                 <p class="text-sm text-muted-foreground">Writer & Developer</p>
               </div>
-            </div>
+            </article>
 
             <!-- Prev/Next Navigation -->
             <nav class="mt-8 grid gap-4 md:grid-cols-2">
@@ -162,9 +162,9 @@ const articleJsonLd = {
                 prevPost ? (
                   <a
                     href={`/blog/${prevPost.slug}`}
-                    class="group rounded-xl border border-border p-5 transition-colors hover:bg-accent/50"
+                    class="card-hover group"
                   >
-                    <p class="text-xs text-muted-foreground mb-1">Previous Post</p>
+                    <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-1">Previous Post</p>
                     <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
                       &larr; {prevPost.title}
                     </p>
@@ -178,9 +178,9 @@ const articleJsonLd = {
                 nextPost ? (
                   <a
                     href={`/blog/${nextPost.slug}`}
-                    class="group rounded-xl border border-border p-5 text-right transition-colors hover:bg-accent/50"
+                    class="card-hover group text-right"
                   >
-                    <p class="text-xs text-muted-foreground mb-1">Next Post</p>
+                    <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-1">Next Post</p>
                     <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
                       {nextPost.title} &rarr;
                     </p>
