@@ -77,11 +77,11 @@ interface SearchResult {
 
 ## Design Tokens
 
-All CSS uses design tokens from `global.css`:
+All CSS uses `oklch()` color format and `@apply` with Tailwind utilities:
 
-- Colors: `var(--color-primary)`, `var(--color-muted-foreground)`, etc.
-- Radii: `var(--radius-sm)`, `var(--radius-md)`
-- Fonts: `var(--font-mono)`, `var(--font-sans)`
+- Colors: `@apply bg-primary`, `@apply text-muted-foreground`, etc.
+- Radii: `@apply rounded-sm`, `@apply rounded-md`, etc.
+- Fonts: `@apply font-mono`, `@apply font-sans`, etc.
 
 ---
 

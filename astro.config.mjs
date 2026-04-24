@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config'
 import node from '@astrojs/node' // SSR adapter for Node.js
+import react from '@astrojs/react'
 import studioCMS from 'studiocms'
 import sitemap from '@astrojs/sitemap'
 
@@ -24,6 +25,16 @@ export default defineConfig({
   site: process.env['SITE_URL'] ?? 'https://danhthanh.dev',
   output: 'server', // SSR mode
 
+  // Path aliases for shadcn-style imports
+  vite: {
+    resolve: {
+      alias: {
+        '@': '/src',
+      },
+    },
+    plugins: [tailwindcss()], // Tailwind CSS 4 via Vite plugin
+  },
+
   adapter: node({
     mode: 'standalone', // self-contained Node.js server
   }),
@@ -33,6 +44,7 @@ export default defineConfig({
   },
 
   integrations: [// core CMS
+    react(),
     studioCMS(),
     studiocmsUi({
       icons: {
@@ -55,9 +67,6 @@ export default defineConfig({
     sitemap(),
   ],
 
-  vite: {
-    plugins: [tailwindcss()], // Tailwind CSS 4 via Vite plugin
-  },
   markdown: {
     remarkPlugins: [remarkGfm], // tables, strikethrough, task lists, etc.
     rehypePlugins: [
