@@ -6,37 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-### Features
-
-- feat: add hybrid search system — Pagefind (build-time indexing) + Fuse.js (client-side fuzzy ranking) with TypeScript-first architecture (`src/lib/search.ts`)
-- feat: add cover images to search results — 80x80px thumbnails with responsive grid layout
-- feat: add unit testing with Vitest — 26 tests covering `filterPosts`, `groupByYear`, `sortedYears`
-- feat: add commitlint with Conventional Commits — validates commit message format via lefthook
-- feat: add Prettier formatting with Astro plugin — consistent code style across TS/TSX/Astro files
-- feat: comprehensive SEO optimization — canonical URLs, og:image, JSON-LD structured data (WebSite, CollectionPage, Article), robots.txt, sitemap integration, article meta tags (da5bc9e)
-- feat: add ViewTransition page transitions and scroll-triggered animations — shared element transitions, fade/slide/scale animations, staggered reveals (941ba68)
-- feat: add table of contents to blog post detail page — sticky sidebar TOC with scroll-spy highlighting and depth-based indentation (f52957f)
-
-### Chores
-
-- chore: add lefthook git hooks — commit-msg (commitlint), pre-commit (lint + typecheck), pre-push (test + build)
-- chore: enhance ESLint config — added `no-console`, `prefer-const`, `eqeqeq`, `curly`, `no-unused-vars` with `_` prefix exception
-- chore: remove one/ directory (70 files, ~29k lines) (375ffae)
-
 ### Documentation
 
-- docs: update coding conventions — added TypeScript rules, testing standards, git conventions, pre-commit hooks docs
-- docs: update development workflow — added full command reference, commit message format, project structure, testing guide
-- docs: update architecture overview — added search layer diagram, build pipeline, testing & quality tools
-- docs: remove one.ie references from README and AGENTS (3255488)
-- docs: audit and improve documentation (961990b)
+- docs: add code review improvements tracking document with prioritized GitHub issues (3e6bbe2)
+- docs: standardize formatting in design system documentation (816b785)
 
 ### Refactors
 
 - refactor: extract search logic to TypeScript module — `Search.astro` reduced from 652 to 280 lines, all logic in `src/lib/search.ts` with full type safety
 - refactor: convert search CSS to design tokens — replaced inline utilities with BEM-like component classes using `var(--color-*)`, `var(--radius-*)` tokens
-- refactor: update TypeScript configuration to include specific source files and exclude node_modules (f0283c9)
-- refactor: cyberpunk blog UI with clean architecture (6c34aff)
+- refactor: migrate CSS to Tailwind CSS 4 oklch colors and @apply patterns (ce6a41f)
+- refactor: portfolio-style homepage with PostCard components and design system sync (2b8dbe0)
+- refactor: standardize formatting in design system documentation (816b785)
 
 ### Bug Fixes
 
