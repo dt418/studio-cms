@@ -17,38 +17,38 @@ All colors are defined in `src/styles/global.css` as CSS custom properties using
 
 ### Base Palette
 
-| Token                       | Value                                | Usage                          |
-| --------------------------- | ------------------------------------ | ------------------------------ |
-| `--color-background`        | `oklch(0.141 0.005 285.823)`        | Page background                |
-| `--color-foreground`        | `oklch(0.922 0.004 286.032)`        | Primary text                   |
-| `--color-card`              | `oklch(0.168 0.005 285.823)`        | Card backgrounds               |
-| `--color-card-foreground`   | `oklch(0.922 0.004 286.032)`        | Card text                      |
-| `--color-popover`           | `oklch(0.168 0.005 285.823)`        | Popover/dropdown backgrounds   |
-| `--color-popover-foreground`| `oklch(0.922 0.004 286.032)`        | Popover text                   |
-| `--color-primary`           | `oklch(0.922 0.004 286.032)`        | Primary actions, links         |
-| `--color-primary-foreground`| `oklch(0.141 0.005 285.823)`        | Text on primary backgrounds    |
-| `--color-secondary`         | `oklch(0.238 0.005 285.823)`        | Secondary surfaces, badges     |
-| `--color-secondary-foreground`| `oklch(0.922 0.004 286.032)`      | Text on secondary backgrounds  |
-| `--color-muted`             | `oklch(0.667 0.008 286.032)`        | Secondary text (body copy)     |
-| `--color-muted-foreground`  | `oklch(0.488 0.008 286.032)`        | Tertiary text (meta, hints)    |
-| `--color-accent`            | `oklch(0.238 0.005 285.823)`        | Hover states                   |
-| `--color-accent-foreground` | `oklch(0.922 0.004 286.032)`        | Text on accent backgrounds     |
-| `--color-destructive`       | `oklch(0.637 0.237 25.331)`         | Error states, delete actions   |
-| `--color-destructive-foreground`| `oklch(0.922 0.004 286.032)`    | Text on destructive backgrounds|
-| `--color-border`            | `oklch(1 0 0 / 0.08)`               | Borders, dividers              |
-| `--color-input`             | `oklch(1 0 0 / 0.12)`               | Input borders                  |
-| `--color-ring`              | `oklch(1 0 0 / 0.3)`                | Focus rings                    |
+| Token                           | Value                                | Usage                          |
+|---------------------------------|--------------------------------------|------------------------------- |
+| `--color-background`            | `oklch(0.141 0.005 285.823)`         | Page background                |
+| `--color-foreground`            | `oklch(0.922 0.004 286.032)`         | Primary text                   |
+| `--color-card`                  | `oklch(0.168 0.005 285.823)`         | Card backgrounds               |
+| `--color-card-foreground`       | `oklch(0.922 0.004 286.032)`         | Card text                      |
+| `--color-popover`               | `oklch(0.168 0.005 285.823)`         | Popover/dropdown backgrounds   |
+| `--color-popover-foreground`    | `oklch(0.922 0.004 286.032)`         | Popover text                   |
+| `--color-primary`               | `oklch(0.922 0.004 286.032)`         | Primary actions, links         |
+| `--color-primary-foreground`    | `oklch(0.141 0.005 285.823)`         | Text on primary backgrounds    |
+| `--color-secondary`             | `oklch(0.238 0.005 285.823)`         | Secondary surfaces, badges     |
+| `--color-secondary-foreground`  | `oklch(0.922 0.004 286.032)`         | Text on secondary backgrounds  |
+| `--color-muted`                 | `oklch(0.667 0.008 286.032)`         | Secondary text (body copy)     |
+| `--color-muted-foreground`      | `oklch(0.488 0.008 286.032)`         | Tertiary text (meta, hints)    |
+| `--color-accent`                | `oklch(0.238 0.005 285.823)`         | Hover states                   |
+| `--color-accent-foreground`     | `oklch(0.922 0.004 286.032)`         | Text on accent backgrounds     |
+| `--color-destructive`           | `oklch(0.637 0.237 25.331)`          | Error states, delete actions   |
+| `--color-destructive-foreground`| `oklch(0.922 0.004 286.032)`         | Text on destructive backgrounds|
+| `--color-border`                | `oklch(1 0 0 / 0.08)`                | Borders, dividers              |
+| `--color-input`                 | `oklch(1 0 0 / 0.12)`                | Input borders                  |
+| `--color-ring`                  | `oklch(1 0 0 / 0.3)`                 | Focus rings                    |
 
 ### Semantic Colors
 
 | Token                        | Value                            | Usage                    |
 | ---------------------------- | -------------------------------- | ------------------------ |
-| `--color-success`            | `oklch(0.723 0.219 149.579)`    | Success states           |
-| `--color-success-foreground` | `oklch(0.141 0.005 285.823)`    | Text on success          |
-| `--color-warning`            | `oklch(0.795 0.184 86.047)`     | Warning states           |
-| `--color-warning-foreground` | `oklch(0.141 0.005 285.823)`    | Text on warning          |
-| `--color-info`               | `oklch(0.594 0.224 263.17)`     | Info states              |
-| `--color-info-foreground`    | `oklch(0.922 0.004 286.032)`    | Text on info             |
+| `--color-success`            | `oklch(0.723 0.219 149.579)`     | Success states           |
+| `--color-success-foreground` | `oklch(0.141 0.005 285.823)`     | Text on success          |
+| `--color-warning`            | `oklch(0.795 0.184 86.047)`      | Warning states           |
+| `--color-warning-foreground` | `oklch(0.141 0.005 285.823)`     | Text on warning          |
+| `--color-info`               | `oklch(0.594 0.224 263.17)`      | Info states              |
+| `--color-info-foreground`    | `oklch(0.922 0.004 286.032)`     | Text on info             |
 
 ### Usage in Tailwind
 
@@ -75,10 +75,10 @@ All component styles use `@apply` with Tailwind utilities. Never write raw CSS f
 
 ### Fonts
 
-| Token          | Value                                                        | Usage              |
-| -------------- | ------------------------------------------------------------ | ------------------ |
-| `--font-sans`  | `"Inter", ui-sans-serif, system-ui, -apple-system, sans-serif` | Body, headings    |
-| `--font-mono`  | `"JetBrains Mono", ui-monospace, SFMono-Regular, monospace`   | Code, inline code |
+| Token          | Value                                                          | Usage              |
+| -------------- | ------------------------------------------------------------   | ------------------ |
+| `--font-sans`  | `"Inter", ui-sans-serif, system-ui, -apple-system, sans-serif` | Body, headings     |
+| `--font-mono`  | `"JetBrains Mono", ui-monospace, SFMono-Regular, monospace`    | Code, inline code  |
 
 ### Heading Scale (site-wide)
 
@@ -90,11 +90,11 @@ All component styles use `@apply` with Tailwind utilities. Never write raw CSS f
 
 ### Prose Headings (within article content)
 
-| Element | Tailwind Class | Size      | Line Height |
-| ------- | -------------- | --------- | ----------- |
-| `.prose h1` | `text-4xl` | `2.25rem` | `1.1`       |
-| `.prose h2` | `text-3xl` | `1.75rem` | `1.2`       |
-| `.prose h3` | `text-2xl` | `1.25rem` | `1.3`       |
+| Element      | Tailwind Class | Size      | Line Height |
+| ------------ | -------------- | --------- | ----------- |
+| `.prose h1`  | `text-4xl`     | `2.25rem` | `1.1`       |
+| `.prose h2`  | `text-3xl`     | `1.75rem` | `1.2`       |
+| `.prose h3`  | `text-2xl`     | `1.25rem` | `1.3`       |
 
 ### Body Text
 
@@ -157,11 +157,11 @@ All component styles use `@apply` with Tailwind utilities. Never write raw CSS f
 
 ## Shadows
 
-| Token        | Value                                      | Usage          |
-| ------------ | ------------------------------------------ | -------------- |
-| `--shadow-sm`| `0 1px 2px 0 rgba(0, 0, 0, 0.3)`          | Subtle depth   |
-| `--shadow-md`| `0 4px 6px -1px rgba(0, 0, 0, 0.4)`       | Cards, popovers|
-| `--shadow-lg`| `0 10px 15px -3px rgba(0, 0, 0, 0.5)`     | Modals, dropdowns |
+| Token        | Value                                      | Usage             |
+| ------------ | ------------------------------------------ | ------------------|
+| `--shadow-sm`| `0 1px 2px 0 rgba(0, 0, 0, 0.3)`           | Subtle depth      |
+| `--shadow-md`| `0 4px 6px -1px rgba(0, 0, 0, 0.4)`        | Cards, popovers   |
+| `--shadow-lg`| `0 10px 15px -3px rgba(0, 0, 0, 0.5)`      | Modals, dropdowns |
 
 Note: Shadows are used sparingly. The design relies more on borders (`border-border`) for separation.
 
@@ -180,13 +180,13 @@ All component styles use `@apply` with Tailwind utilities.
 <button class="btn btn-primary btn-sm">Small</button>
 ```
 
-| Variant   | @apply Classes                        |
-| --------- | ------------------------------------- |
-| `btn`     | `inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm text-sm font-medium` |
-| `btn-primary` | `bg-primary text-primary-foreground` |
-| `btn-ghost`   | `bg-transparent text-muted`            |
-| `btn-outline` | `border border-border bg-transparent text-muted` |
-| `btn-sm`      | `px-3 py-1.5 text-xs`                  |
+| Variant       | @apply Classes                                                                           |
+| ---------     | -----------------------------------------------------------------------------------------|
+| `btn`         | `inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm text-sm font-medium` |
+| `btn-primary` | `bg-primary text-primary-foreground`                                                     |
+| `btn-ghost`   | `bg-transparent text-muted`                                                              |
+| `btn-outline` | `border border-border bg-transparent text-muted`                                         |
+| `btn-sm`      | `px-3 py-1.5 text-xs`                                                                    |
 
 Focus: `@apply outline-none ring-2 ring-background ring-offset-4 ring-offset-ring`
 
@@ -211,11 +211,11 @@ Focus: `@apply outline-none ring-2 ring-background ring-offset-4 ring-offset-rin
 <span class="badge badge-outline">Outline</span>
 ```
 
-| Variant       | @apply Classes                         |
-| ------------- | -------------------------------------- |
-| `badge`       | `inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium` |
-| `badge-default` | `border-transparent bg-secondary text-secondary-foreground` |
-| `badge-outline` | `bg-transparent border-border text-muted` |
+| Variant         | @apply Classes                                                                                 |
+| ----------------| ---------------------------------------------------------------------------------------------- |
+| `badge`         | `inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium` |
+| `badge-default` | `border-transparent bg-secondary text-secondary-foreground`                                    |
+| `badge-outline` | `bg-transparent border-border text-muted`                                                      |
 
 ### Input (`.input`)
 
@@ -266,14 +266,14 @@ Used for article content rendered from Markdown.
 
 ### Keyframes
 
-| Name             | Duration | Easing    | Effect                |
-| ---------------- | -------- | --------- | --------------------- |
-| `slide-up`       | 500ms    | ease-out  | Fade + translateY     |
-| `slide-in-left`  | 400ms    | ease-out  | Fade + translateX     |
-| `scale-in`       | 400ms    | ease-out  | Fade + scale          |
-| `fade-in`        | 300ms    | ease-out  | Fade + slight Y shift |
-| `fade-out`       | 300ms    | ease-out  | Fade + slight Y shift |
-| `pulse`          | 2s       | cubic-bezier | Opacity oscillation  |
+| Name             | Duration | Easing       | Effect                |
+| ---------------- | -------- | ------------ | --------------------- |
+| `slide-up`       | 500ms    | ease-out     | Fade + translateY     |
+| `slide-in-left`  | 400ms    | ease-out     | Fade + translateX     |
+| `scale-in`       | 400ms    | ease-out     | Fade + scale          |
+| `fade-in`        | 300ms    | ease-out     | Fade + slight Y shift |
+| `fade-out`       | 300ms    | ease-out     | Fade + slight Y shift |
+| `pulse`          | 2s       | cubic-bezier | Opacity oscillation   |
 
 ### Utility Classes
 
@@ -344,7 +344,7 @@ body {
 
 ### Page Structure
 
-```
+```tree
 BaseLayout
 ├── Header (sticky)
 ├── Main (flex-1)
