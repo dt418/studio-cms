@@ -11,7 +11,7 @@ import Search from '../components/Search.astro'
     '@type': 'WebPage',
     name: 'Search',
     description: 'Search through blog articles, tutorials, and guides.',
-    url: 'https://danhthanh.dev/search',
+    url: new URL('/search', Astro.site).href,
   }}
 >
   <section class="border-b border-white/5">

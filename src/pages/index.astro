@@ -7,6 +7,7 @@ import MetricCard from '@/components/MetricCard.astro'
 import MarqueeSection from '@/components/MarqueeSection.astro'
 import { getAllPosts, getAllCategories, getAllTags } from '@/lib/cms'
 import { formatDate } from '@/lib/date'
+import { SITE } from '@/lib/site'
 
 const posts = await getAllPosts()
 const categories = await getAllCategories()
@@ -47,15 +48,14 @@ const metrics = [
   jsonLd={{
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'DanhThanh.dev',
-    url: 'https://danhthanh.dev',
-    description:
-      'Thoughts, tutorials, and guides on web development, TypeScript, and modern tooling.',
+    name: SITE.name,
+    url: Astro.site?.origin,
+    description: SITE.description,
     author: {
       '@type': 'Person',
-      name: 'Danh Thanh',
-      url: 'https://danhthanh.dev',
-      sameAs: ['https://github.com/dt418', 'https://linkedin.com/in/danhthanh418'],
+      name: SITE.author,
+      url: Astro.site?.origin,
+      sameAs: [SITE.social.github, SITE.social.linkedin],
     },
   }}
 >

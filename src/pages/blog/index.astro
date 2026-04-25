@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import BlogFilter from '@/components/BlogFilter.astro'
 import { getAllPosts, getAllCategories, getAllTags } from '@/lib/cms'
+import { SITE } from '@/lib/site'
 
 const posts = await getAllPosts()
 const categories = await getAllCategories()
@@ -16,11 +17,11 @@ const tags = await getAllTags()
     '@type': 'CollectionPage',
     name: 'Blog Archive',
     description: 'Build logs, hackathon writeups, and technical notes.',
-    url: 'https://danhthanh.dev/blog',
+    url: new URL('/blog', Astro.site).href,
     isPartOf: {
       '@type': 'WebSite',
-      name: 'DanhThanh.dev',
-      url: 'https://danhthanh.dev',
+      name: SITE.name,
+      url: Astro.site?.origin,
     },
   }}
 >

@@ -1,3 +1,5 @@
+import { SITE } from './site'
+
 export interface SEOProps {
   title: string
   description: string
@@ -12,9 +14,9 @@ interface SEOConfig {
 }
 
 const config: SEOConfig = {
-  siteName: 'DanhThanh.dev',
-  defaultImage: '/og-default.jpg',
-  twitterHandle: '@danhthanhdev',
+  siteName: SITE.name,
+  defaultImage: '/og-image.png',
+  twitterHandle: SITE.social.twitter,
 }
 
 export function generateSEO({

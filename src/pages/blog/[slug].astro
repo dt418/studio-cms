@@ -7,8 +7,9 @@ import TableOfContents from '@/components/Blog/TableOfContents.astro'
 import { getPostBySlug, getAllPosts } from '@/lib/cms'
 import { readingTime } from '@/lib/reading-time'
 import { render } from 'astro:content'
+import { SITE } from '@/lib/site'
 
-const SITE_URL = 'https://danhthanh.dev'
+const siteUrl = Astro.site?.origin ?? ''
 
 const slug = Astro.params.slug
 const post = await getPostBySlug(slug ?? '')
@@ -26,7 +27,7 @@ const {
   updatedAt,
   tags,
   category,
-  author = 'Danh Thanh',
+  author = SITE.author,
 } = post.data
 
 const formattedDate = publishedAt.toLocaleDateString('en-US', {
@@ -57,7 +58,7 @@ const relatedPosts = allPosts
   .filter((entry) => entry.data.slug !== slug && entry.data.category === category)
   .slice(0, 3)
 
-const canonicalUrl = `${SITE_URL}/blog/${slug}`
+const canonicalUrl = `${siteUrl}/blog/${slug}`
 const publishedTime = publishedAt.toISOString()
 const modifiedTime = updatedAt?.toISOString() ?? publishedTime
 
@@ -69,19 +70,19 @@ const articleJsonLd = {
   image: coverImage
     ? coverImage.startsWith('http')
       ? coverImage
-      : `${SITE_URL}${coverImage.startsWith('/') ? '' : '/'}${coverImage}`
+      : `${siteUrl}${coverImage.startsWith('/') ? '' : '/'}${coverImage}`
     : undefined,
   datePublished: publishedTime,
   dateModified: modifiedTime,
   author: {
     '@type': 'Person',
     name: author,
-    url: SITE_URL,
+    url: siteUrl,
   },
   publisher: {
     '@type': 'Organization',
-    name: 'DanhThanh.dev',
-    url: SITE_URL,
+    name: SITE.name,
+    url: siteUrl,
   },
   mainEntityOfPage: {
     '@type': 'WebPage',
@@ -92,7 +93,7 @@ const articleJsonLd = {
 ---
 
 <BaseLayout
-  title={`${title} | DanhThanh.dev`}
+  title={`${title} | ${SITE.name}`}
   description={excerpt}
   image={coverImage}
   canonicalUrl={canonicalUrl}
