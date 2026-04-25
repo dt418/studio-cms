@@ -1,4 +1,6 @@
 ---
+import { formatDate } from '@/lib/date'
+
 export interface Props {
   title: string
   excerpt: string
@@ -10,6 +12,7 @@ export interface Props {
 }
 
 const { title, excerpt, slug, category, publishedAt, tags, large = false } = Astro.props
+const formattedDate = formatDate(publishedAt)
 ---
 
 <a href={`/blog/${slug}`} class="card-hover block">
@@ -19,13 +22,7 @@ const { title, excerpt, slug, category, publishedAt, tags, large = false } = Ast
     </span>
     <span class="text-muted-foreground/30">/</span>
     <time class="font-mono text-[0.68rem] tracking-[0.26em] uppercase text-muted-foreground/40">
-      {
-        publishedAt.toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-        })
-      }
+      {formattedDate}
     </time>
   </div>
   <h3

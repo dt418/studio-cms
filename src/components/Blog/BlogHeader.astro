@@ -1,0 +1,27 @@
+---
+interface Props {
+  title: string
+  description: string
+  badge?: string
+}
+
+const { title, description, badge = 'Archive' } = Astro.props
+---
+
+<section class="border-b border-white/5" style="view-transition-name: blog-header;">
+  <div class="container py-14">
+    <div class="max-w-2xl">
+      <div class="flex items-center gap-2 mb-3">
+        <span
+          class="inline-flex items-center rounded-sm bg-white/5 px-2.5 py-0.5 text-xs font-mono font-semibold text-muted-foreground/60 uppercase tracking-wider"
+        >
+          {badge}
+        </span>
+      </div>
+      <h1 class="text-3xl font-bold tracking-tight lg:text-4xl mb-3">{title}</h1>
+      <p class="text-base leading-relaxed text-muted-foreground/70">
+        {description}
+      </p>
+    </div>
+  </div>
+</section>

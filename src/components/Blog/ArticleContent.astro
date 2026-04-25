@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import TagsList from './TagsList.astro'
+import AuthorCard from './AuthorCard.astro'
+import PostNavigation from './PostNavigation.astro'
+
+interface Props {
+  tags: string[]
+  author: string
+  prevPost?: CollectionEntry<'posts'>['data']
+  nextPost?: CollectionEntry<'posts'>['data']
+}
+
+const { tags, author, prevPost, nextPost } = Astro.props
+---
+
+<div class="order-1 lg:order-2 min-w-0">
+  <div class="prose prose-lg">
+    <slot />
+  </div>
+
+  <!-- Tags -->
+  <footer class="mt-12 pt-8 border-t border-border">
+    <div class="flex flex-wrap gap-2 mb-8">
+      <TagsList tags={tags} />
+    </div>
+
+    <!-- Author Card -->
+    <AuthorCard author={author} />
+
+    <!-- Prev/Next Navigation -->
+    <PostNavigation {...prevPost && { prevPost }} {...nextPost && { nextPost }} />
+  </footer>
+</div>

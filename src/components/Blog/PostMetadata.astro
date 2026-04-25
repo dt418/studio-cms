@@ -1,0 +1,14 @@
+---
+interface Props {
+  publishedAt: string
+  readingTime: number
+}
+
+const { publishedAt, readingTime } = Astro.props
+---
+
+<div class="flex items-center gap-4 text-sm text-muted-foreground">
+  <time datetime={publishedAt}>{publishedAt}</time>
+  <span class="text-muted-foreground/40">&middot;</span>
+  <span>{readingTime} min read</span>
+</div>

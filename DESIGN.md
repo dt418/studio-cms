@@ -20,7 +20,7 @@ Components and pages must consume **Tailwind utilities** (`bg-card`, `text-muted
 ### Core tokens
 
 | Token | Role |
-|-------|------|
+| ------- | ------ |
 | `--background` / `--foreground` | Page surface and primary text |
 | `--card` / `--card-foreground` | Elevated card surface |
 | `--popover` / `--popover-foreground` | Floating panels |
@@ -38,7 +38,7 @@ Components and pages must consume **Tailwind utilities** (`bg-card`, `text-muted
 Status colors not in canonical shadcn — kept as project-specific tokens:
 
 | Token | Role |
-|-------|------|
+| ------- | ------ |
 | `--success` / `--success-foreground` | Success states |
 | `--warning` / `--warning-foreground` | Warning states |
 | `--info` / `--info-foreground` | Informational states |

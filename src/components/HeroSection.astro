@@ -1,4 +1,7 @@
 ---
+import StatsBadge from './StatsBadge.astro'
+import CTAButtons from './CTAButtons.astro'
+
 export interface Props {
   posts: number
   categories: number
@@ -33,22 +36,13 @@ const { posts, categories, allTags } = Astro.props
           </p>
         </div>
         <div class="max-w-xl space-y-4">
-          <div class="flex flex-col gap-3 sm:flex-row">
-            <a href="/blog" class="btn btn-primary btn-lg"> Read the blog </a>
-            <a href="/rss.xml" class="btn btn-outline btn-lg"> RSS Feed </a>
-          </div>
+          <CTAButtons />
           <div
             class="hidden flex-wrap items-center gap-3 text-[0.72rem] tracking-[0.26em] uppercase sm:flex"
           >
-            <span class="rounded-full border border-border px-3 py-1.5">
-              {posts} posts
-            </span>
-            <span class="rounded-full border border-border px-3 py-1.5">
-              {categories} topics
-            </span>
-            <span class="rounded-full border border-border px-3 py-1.5">
-              {allTags} tags
-            </span>
+            <StatsBadge label="posts" value={posts} />
+            <StatsBadge label="topics" value={categories} />
+            <StatsBadge label="tags" value={allTags} />
           </div>
         </div>
       </div>

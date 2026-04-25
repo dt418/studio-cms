@@ -1,0 +1,71 @@
+---
+import { formatDate } from '@/lib/date'
+
+interface PostData {
+  slug: string
+  title: string
+  category: string
+  publishedAt: Date
+}
+
+interface Props {
+  posts: PostData[]
+}
+
+const { posts } = Astro.props
+---
+
+<section class="border-b border-border">
+  <div class="container py-14 lg:py-24">
+    <div class="flex flex-col gap-4 pb-6 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-2xl">
+        <p class="font-mono text-[0.62rem] tracking-[0.28em] uppercase text-muted-foreground/50">
+          Browse
+        </p>
+        <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight mt-4 max-w-2xl">
+          All posts and writing.
+        </h2>
+        <p class="mt-4 max-w-2xl text-base leading-7 text-muted-foreground/70 sm:text-lg">
+          The full archive of tutorials, guides, and notes.
+        </p>
+      </div>
+      <a
+        href="/blog"
+        class="font-mono text-[0.72rem] tracking-[0.26em] uppercase text-muted-foreground/50 hover:text-foreground transition-colors"
+      >
+        Open full archive →
+      </a>
+    </div>
+    {
+      posts.length === 0 ? (
+        <p class="mt-8 text-sm text-muted-foreground/60">
+          No archived posts yet — see the latest above.
+        </p>
+      ) : (
+        <ul class="mt-8 divide-y divide-border border-y border-border">
+          {posts.map((post) => (
+            <li>
+              <a
+                href={`/blog/${post.slug}`}
+                class="grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-5 items-baseline hover:bg-white/2 transition-colors -mx-4 px-4 rounded-sm"
+              >
+                <time
+                  datetime={post.publishedAt.toISOString()}
+                  class="font-mono text-[0.7rem] tracking-[0.22em] uppercase text-muted-foreground/50 tabular-nums"
+                >
+                  {formatDate(post.publishedAt)}
+                </time>
+                <span class="text-sm font-medium text-foreground/90 line-clamp-1">
+                  {post.title}
+                </span>
+                <span class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/40">
+                  {post.category}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</section>

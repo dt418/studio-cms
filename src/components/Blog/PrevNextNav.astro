@@ -1,46 +1,40 @@
 ---
+import type { CollectionEntry } from 'astro:content'
+
 interface Props {
-  prevPost?: { title: string; slug: string }
-  nextPost?: { title: string; slug: string }
+  prevPost?: CollectionEntry<'posts'>['data']
+  nextPost?: CollectionEntry<'posts'>['data']
 }
 
 const { prevPost, nextPost } = Astro.props
+
+const NavigationLink = (post: CollectionEntry<'posts'>['data'], direction: 'prev' | 'next') => (
+  <a
+    href={`/blog/${post.slug}`}
+    class={`group rounded-xl border border-border p-5 transition-colors hover:bg-accent/50 ${
+      direction === 'next' ? 'text-right' : ''
+    }`}
+    aria-label={`${direction === 'prev' ? 'Previous' : 'Next'} post: ${post.title}`}
+  >
+    <p class="text-xs text-muted-foreground mb-1">
+      {direction === 'prev' ? 'Previous Post' : 'Next Post'}
+    </p>
+    <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
+      {direction === 'prev' ? '&larr; ' : ''}
+      {post.title}
+      {direction === 'next' ? ' &rarr;' : ''}
+    </p>
+  </a>
+)
 ---
 
 {
   prevPost || nextPost ? (
     <nav class="mt-16 pt-8 border-t border-border" aria-label="Post navigation">
       <div class="grid gap-4 md:grid-cols-2">
-        {prevPost ? (
-          <a
-            href={`/blog/${prevPost.slug}`}
-            class="group rounded-xl border border-border p-5 transition-colors hover:bg-accent/50"
-          >
-            <p class="text-xs text-muted-foreground mb-1">Previous Post</p>
-            <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
-              &larr; {prevPost.title}
-            </p>
-          </a>
-        ) : (
-          <div />
-        )}
-
-        {nextPost ? (
-          <a
-            href={`/blog/${nextPost.slug}`}
-            class="group rounded-xl border border-border p-5 text-right transition-colors hover:bg-accent/50"
-          >
-            <p class="text-xs text-muted-foreground mb-1">Next Post</p>
-            <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
-              {nextPost.title} &rarr;
-            </p>
-          </a>
-        ) : (
-          <div />
-        )}
+        {prevPost ? NavigationLink(prevPost, 'prev') : <div />}
+        {nextPost ? NavigationLink(nextPost, 'next') : <div />}
       </div>
     </nav>
-  ) : (
-    ''
-  )
+  ) : null
 }

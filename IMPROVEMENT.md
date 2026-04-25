@@ -1,6 +1,7 @@
 # Code Review: Homepage Refactor
 
-## 📊 Review Metrics
+## 📊 Review
+
 - **Files Reviewed**: 6 components + index page
 - **Critical Issues**: 0
 - **High Priority**: 1 (resolved)
@@ -8,6 +9,7 @@
 - **Suggestions**: 2
 
 ## 🎯 Executive Summary
+
 The refactor successfully achieved its goal of cloning chai-pin-zheng.xyz style while maintaining DRY principles through component reuse. The new components (`PostCard`, `HeroSection`, `MarqueeSection`, `MetricCard`, `SectionHeader`) are well-designed and follow the existing design system. The earlier **duplication issue** in `index.astro` has now been fixed: the page consumes the extracted components and the previously duplicated Archive section now renders the real remaining-posts list.
 
 ---
@@ -27,6 +29,7 @@ The refactor successfully achieved its goal of cloning chai-pin-zheng.xyz style 
 The following issues identified during the broader project review have been addressed in this revision:
 
 ### Critical / High
+
 - `src/pages/blog/[slug].astro`: replaced 302-redirect-on-missing-post with a proper `404` response.
 - `src/pages/blog/[slug].astro`: prev/next navigation was inverted (list is sorted descending by date). "Previous" now correctly resolves to the older post.
 - `src/pages/blog/[slug].astro`: JSON-LD `image` is now an absolute URL.
@@ -35,6 +38,7 @@ The following issues identified during the broader project review have been addr
 - `src/lib/search.ts`: Fuse.js now imports from the bundled `fuse.js` package instead of a runtime CDN URL.
 
 ### Medium
+
 - `src/components/HeroSection.astro`: fixed invalid `border-bg-[#050505]` utility (intent: `border-border bg-[#050505]`).
 - `src/pages/index.astro`: fixed `max-xl` typo → `max-w-xl`.
 - `src/pages/categories/[category].astro` and `src/pages/tags/[tag].astro`: now `decodeURIComponent` the route param so categories/tags containing spaces or symbols match the collection.
@@ -51,6 +55,7 @@ The following issues identified during the broader project review have been addr
 The following E2E testing infrastructure has been added to improve test coverage and quality assurance:
 
 ### Features Added
+
 - **Playwright E2E Testing Setup**: Configured Playwright with multi-browser support (Chromium, Firefox, WebKit, Mobile Chrome)
 - **Test Configuration**: Set up `playwright.config.ts` for Astro SSR with preview server, auto-retry on failure, and screenshot capture
 - **Core E2E Tests**: Implemented tests for home page, blog listing, blog posts, navigation, and accessibility
@@ -59,6 +64,7 @@ The following E2E testing infrastructure has been added to improve test coverage
 - **Test Commands**: Added `pnpm test:e2e`, `pnpm test:e2e:ui`, `pnpm test:e2e:debug`, `pnpm test:e2e:headed`, `pnpm test:e2e:report` scripts
 
 ### Test Coverage
+
 - Home page: page load, hero section, metrics, featured post, archive, responsive design
 - Blog listing: page load, archive header, metrics, filter, navigation
 - Blog posts: 404 handling, slug loading, table of contents, content display, tags, prev/next navigation
@@ -66,6 +72,7 @@ The following E2E testing infrastructure has been added to improve test coverage
 - Accessibility: keyboard navigation, image alt text, link text, heading hierarchy
 
 ### Documentation Updated
+
 - README.md: Updated Tech Stack, Development Commands, and Project Structure
 - CHANGELOG.md: Added feature entries for E2E testing setup
 - e2e/README.md: Created comprehensive E2E testing documentation
@@ -73,6 +80,7 @@ The following E2E testing infrastructure has been added to improve test coverage
 ---
 
 ## Still open / deferred
+
 - Centralize `https://danhthanh.dev` constant across files (currently duplicated in layout, slug page, RSS, etc.).
 - Filter URL-syncing for `BlogFilter` (parity with `Search.astro`).
 - Cache `getCollection('posts')` to avoid 3× re-derivation per SSR request.

@@ -1,12 +1,21 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import BlogFilter from '@/components/BlogFilter.astro'
+import BlogHeader from '@/components/Blog/BlogHeader.astro'
+import StatsGrid from '@/components/Blog/StatsGrid.astro'
 import { getAllPosts, getAllCategories, getAllTags } from '@/lib/cms'
 import { SITE } from '@/lib/site'
 
 const posts = await getAllPosts()
 const categories = await getAllCategories()
 const tags = await getAllTags()
+
+const stats = [
+  { value: posts.length, label: 'Published notes' },
+  { value: categories.length, label: 'Categories' },
+  { value: tags.length, label: 'Tags' },
+  { value: new Date().getFullYear(), label: 'Archive snapshot' },
+]
 ---
 
 <BaseLayout
@@ -25,56 +34,10 @@ const tags = await getAllTags()
     },
   }}
 >
-  <section class="border-b border-white/5" style="view-transition-name: blog-header;">
-    <div class="container py-14">
-      <div class="max-w-2xl">
-        <div class="flex items-center gap-2 mb-3">
-          <span
-            class="inline-flex items-center rounded-sm bg-white/5 px-2.5 py-0.5 text-xs font-mono font-semibold text-muted-foreground/60 uppercase tracking-wider"
-          >
-            Archive
-          </span>
-        </div>
-        <h1 class="text-3xl font-bold tracking-tight lg:text-4xl mb-3">Blog</h1>
-        <p class="text-base leading-relaxed text-muted-foreground/70">
-          Build logs, hackathon writeups, and technical notes.
-        </p>
-      </div>
-    </div>
-  </section>
+  <BlogHeader title="Blog" description="Build logs, hackathon writeups, and technical notes." />
 
   <section class="container py-10">
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
-      <div class="border border-white/5 bg-white/[0.02] p-4">
-        <div class="text-2xl font-bold tracking-tight tabular-nums font-mono">{posts.length}</div>
-        <div class="text-xs font-mono text-muted-foreground/40 mt-1.5 uppercase tracking-wider">
-          Published notes
-        </div>
-      </div>
-      <div class="border border-white/5 bg-white/[0.02] p-4">
-        <div class="text-2xl font-bold tracking-tight tabular-nums font-mono">
-          {categories.length}
-        </div>
-        <div class="text-xs font-mono text-muted-foreground/40 mt-1.5 uppercase tracking-wider">
-          Categories
-        </div>
-      </div>
-      <div class="border border-white/5 bg-white/[0.02] p-4">
-        <div class="text-2xl font-bold tracking-tight tabular-nums font-mono">{tags.length}</div>
-        <div class="text-xs font-mono text-muted-foreground/40 mt-1.5 uppercase tracking-wider">
-          Tags
-        </div>
-      </div>
-      <div class="border border-white/5 bg-white/[0.02] p-4">
-        <div class="text-2xl font-bold tracking-tight tabular-nums font-mono">
-          {new Date().getFullYear()}
-        </div>
-        <div class="text-xs font-mono text-muted-foreground/40 mt-1.5 uppercase tracking-wider">
-          Archive snapshot
-        </div>
-      </div>
-    </div>
-
+    <StatsGrid stats={stats} />
     <BlogFilter posts={posts} categories={categories} tags={tags} />
   </section>
 </BaseLayout>

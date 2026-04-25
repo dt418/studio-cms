@@ -1,142 +1,71 @@
-# CLAUDE.md — `one-ie/one`
+# CLAUDE.md — StudioCMS Blog
 
 Project context auto-loaded by Claude Code. The ground truth for how this
 repo organizes work, names things, and closes loops.
 
 ## What this repo is
 
-ONE — a signal-based substrate for AI agents. Six dimensions, seven loops,
-six verbs, four outcomes. The runtime is ~670 lines; the brain lives in
-TypeDB; the LLM is the only probabilistic step.
+StudioCMS Blog - A modern Astro-based blog with modular component architecture,
+following Astro best practices with strict TypeScript type safety and centralized
+utility functions.
 
-## The 6 dimensions (LOCKED — never rename)
-
-| # | Dimension | What it holds                      |
-|---|-----------|-------------------------------------|
-| 1 | Groups    | Containers — worlds, teams, orgs    |
-| 2 | Actors    | Who acts — humans, agents, worlds   |
-| 3 | Things    | What exists — skills, tasks, tokens |
-| 4 | Paths     | Weighted connections — strength/resistance |
-| 5 | Events    | What happened — signals, payments   |
-| 6 | Learning  | What was discovered — hypotheses    |
-
-Dead names (never use): *knowledge, connections, people, node, scent, alarm, trail, colony*.
-
-## The 7 loops
-
-```
-L1 SIGNAL     per message     signal → ask → outcome
-L2 TRAIL      per outcome     mark/warn → strength/resistance accumulates
-L3 FADE       every 5 min     asymmetric decay (resistance forgives 2x faster)
-L4 ECONOMIC   per payment     revenue on paths (capability price)
-L5 EVOLUTION  every 10 min    rewrite struggling agent prompts
-L6 KNOWLEDGE  every hour      harden highways into hypotheses
-L7 FRONTIER   every hour      detect unexplored tag clusters
-```
-
-## The 3 locked rules
-
-### Rule 1 — Closed loop
-
-Every signal closes with `mark()` on result, `warn()` on failure, or
-`dissolve` on missing unit/capability. No silent returns, no orphan
-signals, no handler that returns nothing without emitting a warn. Width
-only compounds if every parallel branch deposits pheromone.
-
-### Rule 2 — Structural time only
-
-Plan in **tasks → waves → cycles**. Never days, hours, weeks, sprints, or
-wall-clock units. Width = tasks-per-wave. Depth = waves-per-cycle. Learning
-= cycles-per-path. Calendar time can't be `mark()`d, so it doesn't compound.
-(Genuine external deadlines — merge freezes, release cuts — are the only
-exception.)
-
-### Rule 3 — Deterministic results in every loop
-
-Every loop reports verified numbers, not vibes. Tests passed/total. Build
-time in ms. Deploy time per service. Rubric dimension scores. Path strength
-without verification is superstition; with verification it's learning.
-
-## Slot map
+## Project Structure
 
 | Folder       | What | Read first |
 |--------------|------|------------|
-| `agents/`    | Markdown agent definitions (templates in `agents/templates/`) | `agents/README.md` |
-| `one/`       | Canonical docs — ontology, dictionary, patterns, rubrics | `one/dictionary.md` |
-| `web/`       | Astro 6 + React 19 + CF Workers substrate app | `web/CLAUDE.md` |
-| `sdk/`       | `@oneie/sdk` — TypeScript SDK | `sdk/CLAUDE.md` |
-| `mcp/`       | `@oneie/mcp` — MCP server for Claude/Cursor | `mcp/CLAUDE.md` |
-| `.claude/`   | Claude Code harness — commands, skills, rules, subagents | `.claude/CLAUDE.md` |
+| `src/components/` | Reusable Astro and React components | `AGENTS.md` |
+| `src/components/Blog/` | Blog-specific components | `AGENTS.md` |
+| `src/components/icons/` | Reusable SVG icon components | `AGENTS.md` |
+| `src/layouts/` | Layout components | `AGENTS.md` |
+| `src/pages/` | Astro pages | `AGENTS.md` |
+| `src/lib/` | Utility functions and helpers | `src/lib/utils.ts` |
+| `src/content/` | Content collections | `AGENTS.md` |
+| `CODING_RULES.md` | Coding standards and best practices | `CODING_RULES.md` |
 
-Each folder carries its own `CLAUDE.md` with the local contract. Cd into a
-folder and Claude Code auto-loads its context on top of this one.
+## Tech Stack
 
-## Tech stack
+- **Astro** - Static site generator with islands architecture
+- **React** - For interactive components
+- **Tailwind CSS** - Utility-first CSS framework
+- **TypeScript** - Type-safe development with strict mode enabled
 
-- **Astro 6** — SSR islands on CF Workers Static Assets
-- **React 19** — Actions, `use()`, transitions, ref-as-prop
-- **Tailwind 4** + **shadcn/ui** — styling
-- **TypeDB 3.0** — brain: paths, classification, learning
-- **Cloudflare Workers** — substrate runtime; D1 for signals/messages, KV for snapshots
-- **OpenRouter** — LLM router (default: Haiku 4.5 for speed, Sonnet 4.5 for decisions)
+## Key Principles
 
-## The 4 outcomes
+### Modular Architecture
+- Extract reusable UI patterns into separate components
+- Each component has a single, well-defined responsibility
+- Components use proper TypeScript types (no `any`)
 
-Every `ask()` resolves to exactly one. Every client-side caller MUST close
-the loop based on which:
+### Type Safety
+- Never use `any` types
+- Use `CollectionEntry<'posts'>` from `astro:content` for content
+- Mark optional props with `?` and use conditional prop passing
+- Follow `exactOptionalPropertyTypes: true` TypeScript config
 
-```ts
-const { result, timeout, dissolved } = await one.ask({ receiver });
-if (result)        one.mark(edge, chainDepth);
-else if (timeout)  /* neutral */;
-else if (dissolved) one.warn(edge, 0.5);
-else               one.warn(edge, 1);
-```
+### Import Conventions
+- Use `@` alias for imports: `import { formatDate } from '@/lib/date'`
+- Never use relative paths like `../lib/utils`
 
-## Style
+### Utility Functions
+Centralized across multiple files:
+- `formatDate` from `@/lib/date` - Date formatting
+- `readingTime` from `@/lib/reading-time` - Reading time calculation
+- `getAuthorInitials`, `getAuthorAvatar`, `getImageUrl` from `@/lib/utils` - Author and image utilities
 
-- TypeScript always typed — no `any`, no untyped props
-- Short sentences, dense paragraphs, ASCII diagrams over prose for architecture
-- Every onClick emits `emitClick('ui:<surface>:<action>')` to the substrate — see `.claude/rules/ui.md`
-- Never narrow the Signal type — it's frozen `{receiver, data?: unknown}`
-- Don't add backwards-compat shims; just change the code
+## Coding Standards
 
-## Canonical docs
-
-Always consult these; they define the system's vocabulary and must stay in
-sync with the code:
-
-| Doc | Locks |
-|-----|-------|
-| `one/dictionary.md` | Canonical names, 6 verbs, dimension → runtime map |
-| `one/one-ontology.md` | 6 dimensions, actor/group/thing types |
-| `one/patterns.md` | Closed loop, zero returns, deterministic sandwich |
-| `one/rubrics.md` | Quality scoring (fit/form/truth/taste, gate 0.65) |
-| `one/lifecycle.md` | Agent journey: register → signal → highway → harden |
-| `one/dsl.md` | Signal grammar |
-
-## The /do cycle (how we ship)
-
-Every non-trivial change runs four waves:
-
-```
-W1 recon  → W2 decide  → W3 edit  → W4 verify  → gate rubric ≥ 0.65 → ship
-haiku     opus         sonnet     sonnet
-```
-
-Subagents in `.claude/agents/` implement each wave. `/do <TODO-file>` runs
-the whole cycle. Full contract in `.claude/commands/do.md`.
-
-## Don't
-
-- Don't rename dimensions, verbs, or outcomes — they're locked
-- Don't catch-all errors to `dissolved` — let real failures surface as `warn(1)`
-- Don't plan in calendar time
-- Don't add `/releases` to git — it's staged locally only
-- Don't write comments that describe WHAT code does; only WHY when non-obvious
+All development must follow the standards defined in `CODING_RULES.md`. This includes:
+- Component architecture patterns
+- TypeScript type safety rules
+- Import and dependency management
+- Date and time handling
+- Code style and linting requirements
+- Styling guidelines
+- File organization
+- Accessibility requirements
 
 ## See also
 
-- `AGENTS.md` — agent manifest
-- `one/dictionary.md` — names canon
-- `.claude/commands/` — slash commands available
+- `CODING_RULES.md` - Comprehensive coding standards and best practices
+- `AGENTS.md` - Component architecture and project structure
+- `src/lib/utils.ts` - Centralized utility functions

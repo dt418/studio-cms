@@ -1,21 +1,21 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import PostCard from '@/components/PostCard.astro'
 import HeroSection from '@/components/HeroSection.astro'
 import SectionHeader from '@/components/SectionHeader.astro'
 import MetricCard from '@/components/MetricCard.astro'
 import MarqueeSection from '@/components/MarqueeSection.astro'
+import FeaturedWork from '@/components/FeaturedWork.astro'
+import ArchiveSection from '@/components/ArchiveSection.astro'
 import { getAllPosts, getAllCategories, getAllTags } from '@/lib/cms'
-import { formatDate } from '@/lib/date'
 import { SITE } from '@/lib/site'
 
 const posts = await getAllPosts()
 const categories = await getAllCategories()
 const allTags = await getAllTags()
 
-const featuredPost = posts[0]
-const recentPosts = posts.slice(1, 4)
-const archivePosts = posts.slice(4)
+const featuredPost = posts[0]?.data ?? null
+const recentPosts = posts.slice(1, 4).map((post) => post.data) ?? []
+const archivePosts = posts.slice(4).map((post) => post.data) ?? []
 
 const metrics = [
   {
@@ -120,107 +120,7 @@ const metrics = [
 
   <MarqueeSection items={categories} />
 
-  <!-- Featured Work -->
-  <section class="border-b border-border">
-    <div class="container py-14 lg:py-24">
-      <div class="max-w-3xl mb-10">
-        <p class="font-mono text-[0.62rem] tracking-[0.28em] uppercase text-muted-foreground/50">
-          Featured
-        </p>
-        <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight mt-4 max-w-2xl">
-          Latest from the blog.
-        </h2>
-        <p class="mt-4 max-w-2xl text-base leading-7 text-muted-foreground/70 sm:text-lg">
-          Recent tutorials, guides, and notes on web development.
-        </p>
-      </div>
-      <div class="grid gap-4 lg:grid-cols-12">
-        {
-          featuredPost && (
-            <div class="lg:col-span-7 card-hover">
-              <PostCard
-                title={featuredPost.data.title}
-                excerpt={featuredPost.data.excerpt}
-                slug={featuredPost.data.slug}
-                category={featuredPost.data.category}
-                publishedAt={featuredPost.data.publishedAt}
-                tags={featuredPost.data.tags}
-                large
-              />
-            </div>
-          )
-        }
-        <div class="lg:col-span-5 grid gap-4">
-          {
-            recentPosts.map((post) => (
-              <PostCard
-                title={post.data.title}
-                excerpt={post.data.excerpt}
-                slug={post.data.slug}
-                category={post.data.category}
-                publishedAt={post.data.publishedAt}
-                tags={post.data.tags}
-              />
-            ))
-          }
-        </div>
-      </div>
-    </div>
-  </section>
+  <FeaturedWork featuredPost={featuredPost} recentPosts={recentPosts} />
 
-  <!-- Archive Section -->
-  <section class="border-b border-border">
-    <div class="container py-14 lg:py-24">
-      <div class="flex flex-col gap-4 pb-6 lg:flex-row lg:items-end lg:justify-between">
-        <div class="max-w-2xl">
-          <p class="font-mono text-[0.62rem] tracking-[0.28em] uppercase text-muted-foreground/50">
-            Browse
-          </p>
-          <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight mt-4 max-w-2xl">
-            All posts and writing.
-          </h2>
-          <p class="mt-4 max-w-2xl text-base leading-7 text-muted-foreground/70 sm:text-lg">
-            The full archive of tutorials, guides, and notes.
-          </p>
-        </div>
-        <a
-          href="/blog"
-          class="font-mono text-[0.72rem] tracking-[0.26em] uppercase text-muted-foreground/50 hover:text-foreground transition-colors"
-        >
-          Open full archive →
-        </a>
-      </div>
-      {
-        archivePosts.length === 0 ? (
-          <p class="mt-8 text-sm text-muted-foreground/60">
-            No archived posts yet — see the latest above.
-          </p>
-        ) : (
-          <ul class="mt-8 divide-y divide-border border-y border-border">
-            {archivePosts.map((post) => (
-              <li>
-                <a
-                  href={`/blog/${post.data.slug}`}
-                  class="grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-5 items-baseline hover:bg-white/[0.02] transition-colors -mx-4 px-4 rounded-sm"
-                >
-                  <time
-                    datetime={post.data.publishedAt.toISOString()}
-                    class="font-mono text-[0.7rem] tracking-[0.22em] uppercase text-muted-foreground/50 tabular-nums"
-                  >
-                    {formatDate(post.data.publishedAt)}
-                  </time>
-                  <span class="text-sm font-medium text-foreground/90 line-clamp-1">
-                    {post.data.title}
-                  </span>
-                  <span class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/40">
-                    {post.data.category}
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        )
-      }
-    </div>
-  </section>
+  <ArchiveSection posts={archivePosts} />
 </BaseLayout>

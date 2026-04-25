@@ -1,0 +1,12 @@
+---
+interface Props {
+  coverImage: string
+  title: string
+}
+
+const { coverImage, title } = Astro.props
+---
+
+<div class="mt-8 rounded-xl overflow-hidden border border-border">
+  <img src={coverImage} alt={title} class="w-full h-auto object-cover" />
+</div>

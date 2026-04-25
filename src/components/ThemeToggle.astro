@@ -45,7 +45,9 @@
     if (localStorage?.getItem(STORAGE_KEY)) {
       return localStorage.getItem(STORAGE_KEY)
     }
-    if (window.matchMedia('(prefers-color-scheme: light)').matches) return LIGHT
+    if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+      return LIGHT
+    }
     return DARK
   }
 

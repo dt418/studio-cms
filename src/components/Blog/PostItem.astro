@@ -1,10 +1,11 @@
 ---
-import type { Post } from '../../types/post'
-import { formatDate } from '../../lib/date'
-import { readingTime } from '../../lib/reading-time'
+import type { CollectionEntry } from 'astro:content'
+import TagsList from './TagsList.astro'
+import { readingTime } from '@/lib/reading-time'
+import { formatDate } from '@/lib/date'
 
 export interface Props {
-  post: Post
+  post: CollectionEntry<'posts'>
 }
 
 const { post } = Astro.props
@@ -14,7 +15,7 @@ const minutes = readingTime(post.body ?? '')
 ---
 
 <article
-  class="group grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-7 border-b border-white/5 items-start last:border-b-0 hover:bg-white/[0.01] transition-colors duration-200 rounded-lg -mx-4 px-4"
+  class="group grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-7 border-b border-white/5 items-start last:border-b-0 hover:bg-white/2 transition-colors duration-200 rounded-lg -mx-4 px-4"
 >
   <div class="pt-0.5">
     <time class="text-sm font-mono text-muted-foreground tabular-nums">{date}</time>
@@ -31,24 +32,7 @@ const minutes = readingTime(post.body ?? '')
       {excerpt}
     </p>
 
-    <div class="flex flex-wrap gap-1.5">
-      {
-        tags
-          .slice(0, 4)
-          .map((tag) => (
-            <span class="inline-flex items-center rounded-sm bg-white/5 px-2 py-0.5 text-xs font-mono text-muted-foreground/50">
-              {tag}
-            </span>
-          ))
-      }
-      {
-        tags.length > 4 && (
-          <span class="inline-flex items-center rounded-sm bg-white/5 px-2 py-0.5 text-xs font-mono text-muted-foreground/50">
-            +{tags.length - 4}
-          </span>
-        )
-      }
-    </div>
+    <TagsList tags={tags} />
   </a>
 
   <div class="pt-0.5 pl-4 flex flex-col items-end gap-1">

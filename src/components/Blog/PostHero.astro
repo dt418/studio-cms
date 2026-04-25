@@ -1,0 +1,31 @@
+---
+import PostHeader from './PostHeader.astro'
+
+interface Props {
+  category: string
+  title: string
+  excerpt: string
+  tags: string[]
+  publishedAt: string
+  readingTime: number
+  coverImage?: string
+}
+
+const { category, title, excerpt, tags, publishedAt, readingTime, coverImage } = Astro.props
+---
+
+<section class="border-b border-border">
+  <div class="container py-12 lg:py-16">
+    <div class="max-w-4xl mx-auto">
+      <PostHeader
+        category={category}
+        title={title}
+        excerpt={excerpt}
+        tags={tags}
+        publishedAt={publishedAt}
+        readingTime={readingTime}
+        {...coverImage && { coverImage }}
+      />
+    </div>
+  </div>
+</section>

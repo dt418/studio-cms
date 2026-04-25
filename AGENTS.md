@@ -1,35 +1,78 @@
 # AGENTS.md — StudioCMS Blog
 
-This project includes agent definitions in the `agents/` directory.
+This project follows modular component architecture with Astro best practices.
 
-## Where to find agents
+## Project Structure
 
-| Folder        | What                                                        |
-|---------------|-------------------------------------------------------------|
-| `agents/`     | Markdown agent definitions                                  |
-| `.claude/agents/` | Claude Code subagents (internal tooling)                |
+| Folder/Directory | What |
+|------------------|------|
+| `src/components/` | Reusable Astro and React components |
+| `src/components/Blog/` | Blog-specific components (PostHero, ArticleContent, etc.) |
+| `src/components/icons/` | Reusable SVG icon components |
+| `src/layouts/` | Layout components (BaseLayout, etc.) |
+| `src/pages/` | Astro pages (blog, tags, categories, etc.) |
+| `src/lib/` | Utility functions and helpers |
+| `src/content/` | Content collections (posts, etc.) |
+| `CODING_RULES.md` | Project coding standards and best practices |
 
-## Agent shape (markdown frontmatter)
+## Component Architecture
 
-```markdown
----
-name: tutor
-model: anthropic/claude-haiku-4-5
-channels: [telegram, discord, web]
-group: education
-skills:
-  - name: explain
-    price: 0.01
-    tags: [education, explain]
-sensitivity: 0.6
----
+### Modular Components
+- Extract reusable UI patterns into separate components
+- Each component has a single, well-defined responsibility
+- Components use proper TypeScript types (no `any`)
+- Use `CollectionEntry<'posts'>` from `astro:content` for post data
 
-You are a patient tutor...
-```
+### Key Components
+
+**Blog Components:**
+- `BlogHeader.astro` - Blog page header with badge
+- `StatsGrid.astro` - Statistics display grid
+- `PostHero.astro` - Post hero section
+- `ArticleContent.astro` - Main content area with slots
+- `PostNavigation.astro` - Previous/next post navigation
+- `TagsList.astro` - Tag display component
+- `AuthorCard.astro` - Author information card
+- `RelatedPosts.astro` - Related posts section
+- `BackLink.astro` - Back navigation link
+- `TagCloud.astro` - Tag cloud with highlight
+- `CategoryCloud.astro` - Category cloud with highlight
+- `Breadcrumb.astro` - Breadcrumb navigation
+- `PostMetadata.astro` - Post metadata display
+- `CoverImage.astro` - Cover image display
+
+**Homepage Components:**
+- `HeroSection.astro` - Hero section with terminal slot
+- `FeaturedWork.astro` - Featured and recent posts
+- `ArchiveSection.astro` - Archive listing
+
+**Utility Components:**
+- `StatsBadge.astro` - Statistics badge
+- `CTAButtons.astro` - Call-to-action buttons
+- `SearchFilters.astro` - Search filter dropdowns
+
+## Utility Functions
+
+Located in multiple files:
+- `formatDate` from `@/lib/date` - Date formatting
+- `readingTime` from `@/lib/reading-time` - Reading time calculation
+- `getAuthorInitials`, `getAuthorAvatar`, `getImageUrl` from `@/lib/utils` - Author and image utilities
+
+## Import Conventions
+
+- Use `@` alias for imports: `import { formatDate } from '@/lib/date'`
+- Never use relative paths like `../lib/utils`
+- This ensures consistent imports across the project
+
+## Type Safety
+
+- Never use `any` types
+- Use `CollectionEntry<'posts'>` from `astro:content` for content
+- Mark optional props with `?` and use conditional prop passing
+- Follow `exactOptionalPropertyTypes: true` TypeScript config
 
 ## See also
 
-- `agents/README.md` — inventory of agents in this release
-- `one/dictionary.md` — canonical names and vocabulary
-- `one/lifecycle.md` — agent lifecycle patterns
-- `one/patterns.md` — core patterns
+- `CODING_RULES.md` - Comprehensive coding standards and best practices
+- `src/lib/utils.ts` - Centralized utility functions
+- `src/components/` - Component implementations

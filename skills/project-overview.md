@@ -91,16 +91,41 @@ getPostsByTag(tag) → Post[]
 getPostsByCategory(category) → Post[]
 ```
 
-### Utilities
+## Utilities
 
 | File | Purpose |
 |------|---------|
-| `src/lib/utils.ts` | `cn()` class merging |
-| `src/lib/date.ts` | `formatDate()` |
-| `src/lib/reading-time.ts` | Reading time (200 WPM) |
+| `src/lib/utils.ts` | Centralized utilities: cn(), getAuthorInitials, getAuthorAvatar, getImageUrl |
+| `src/lib/date.ts` | Date formatting (formatDate) |
+| `src/lib/reading-time.ts` | Reading time calculation |
 | `src/lib/search.ts` | Hybrid search (Pagefind + Fuse.js) |
 | `src/lib/filter.ts` | Post filtering/sorting |
 | `src/lib/group.ts` | `groupByYear()`, `sortedYears()` |
+
+## Import Conventions
+
+- Use `@` alias for imports: `import { formatDate } from '@/lib/date'`
+- Never use relative paths like `../lib/utils`
+- This ensures consistent imports across the project
+
+## Type Safety
+
+- Never use `any` types
+- Use `CollectionEntry<'posts'>` from `astro:content` for content
+- Mark optional props with `?` and use conditional prop passing
+- Follow `exactOptionalPropertyTypes: true` TypeScript config
+
+## Coding Standards
+
+All development must follow the comprehensive standards defined in `CODING_RULES.md`. This includes:
+- Component architecture patterns (modular, single responsibility)
+- TypeScript type safety rules
+- Import and dependency management
+- Date and time handling (use formatDate from utils)
+- Code style and linting requirements
+- Styling guidelines
+- File organization
+- Accessibility requirements
 
 ## Component Inventory
 
@@ -108,26 +133,54 @@ getPostsByCategory(category) → Post[]
 
 | Component | File | Purpose |
 |-----------|------|---------|
-| BlogCard | `src/components/BlogCard.astro` | Post card for homepage grid |
+| BlogHeader | `src/components/Blog/BlogHeader.astro` | Blog page header with badge |
+| StatsGrid | `src/components/Blog/StatsGrid.astro` | Statistics display grid |
+| PostHero | `src/components/Blog/PostHero.astro` | Post hero section |
+| ArticleContent | `src/components/Blog/ArticleContent.astro` | Main content area with slots |
+| PostNavigation | `src/components/Blog/PostNavigation.astro` | Previous/next post navigation |
+| TagsList | `src/components/Blog/TagsList.astro` | Tag display component |
+| AuthorCard | `src/components/Blog/AuthorCard.astro` | Author information card |
+| RelatedPosts | `src/components/Blog/RelatedPosts.astro` | Related posts section |
+| BackLink | `src/components/Blog/BackLink.astro` | Back navigation link |
+| TagCloud | `src/components/Blog/TagCloud.astro` | Tag cloud with highlight |
+| CategoryCloud | `src/components/Blog/CategoryCloud.astro` | Category cloud with highlight |
+| Breadcrumb | `src/components/Blog/Breadcrumb.astro` | Breadcrumb navigation |
+| PostMetadata | `src/components/Blog/PostMetadata.astro` | Post metadata display |
+| CoverImage | `src/components/Blog/CoverImage.astro` | Cover image display |
 | PostItem | `src/components/Blog/PostItem.astro` | Post row for blog index |
 | PostHeader | `src/components/Blog/PostHeader.astro` | Post detail header |
-| PostList | `src/components/Blog/PostList.astro` | Post list wrapper |
 | PostMetaCard | `src/components/Blog/PostMetaCard.astro` | Sticky sidebar meta card |
 | TableOfContents | `src/components/Blog/TableOfContents.astro` | Sticky TOC sidebar |
 | PrevNextNav | `src/components/Blog/PrevNextNav.astro` | Previous/next post nav |
 | YearGroup | `src/components/Blog/YearGroup.astro` | Year grouping section |
-| Callout | `src/components/Blog/Callout.astro` | Info/warning/success blocks |
-| FeatureHighlightCard | `src/components/Blog/FeatureHighlightCard.astro` | Feature highlight card |
-| ImageBlock | `src/components/Blog/ImageBlock.astro` | Image with caption |
+
+### Homepage Components
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| HeroSection | `src/components/HeroSection.astro` | Hero section with terminal slot |
+| FeaturedWork | `src/components/FeaturedWork.astro` | Featured and recent posts |
+| ArchiveSection | `src/components/ArchiveSection.astro` | Archive listing |
+
+### Utility Components
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| StatsBadge | `src/components/StatsBadge.astro` | Statistics badge |
+| CTAButtons | `src/components/CTAButtons.astro` | Call-to-action buttons |
+| SearchFilters | `src/components/SearchFilters.astro` | Search filter dropdowns |
+| SearchIcon | `src/components/icons/SearchIcon.astro` | Search SVG icon |
+| ClearIcon | `src/components/icons/ClearIcon.astro` | Clear button SVG icon |
 
 ### UI Components
 
 | Component | File | Purpose |
 |-----------|------|---------|
-| Button | `src/components/ui/button.tsx` | React button with CVA variants |
+| BlogCard | `src/components/BlogCard.astro` | Post card for homepage grid |
 | Search | `src/components/Search.astro` | Client-side search |
 | ThemeToggle | `src/components/ThemeToggle.astro` | Dark/light toggle |
 | BlogFilter | `src/components/BlogFilter.astro` | Post filter component |
+| MarqueeSection | `src/components/MarqueeSection.astro` | Scrolling marquee section |
 
 ## Routes
 
