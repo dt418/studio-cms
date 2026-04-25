@@ -18,7 +18,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Features
 
-- feat: generate OG image at build time via `scripts/generate-og-image.mjs` using `sharp`
+- feat: add Playwright E2E testing setup with multi-browser support
+  (Chromium, Firefox, WebKit, Mobile)
+- feat: configure E2E tests for Astro SSR with preview server
+- feat: implement core E2E tests for home, blog, blog posts, navigation,
+  and accessibility
+- feat: add GitHub Actions workflow for CI/CD E2E testing
+- feat: create Playwright E2E testing skill, agent, and best practices rule
+- feat: generate OG image at build time via `scripts/generate-og-image.mjs`
+  using `sharp`
 
 ### Documentation
 

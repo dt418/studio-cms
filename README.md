@@ -51,7 +51,7 @@ Open `http://localhost:4321` in your browser. Visit `/studiocms` to create your 
 | **Database**  | libSQL (local file or Turso remote)   |
 | **Styling**   | Tailwind CSS 4 + @studiocms/ui        |
 | **Search**    | Pagefind (build-time) + Fuse.js (client-side) |
-| **Testing**   | Vitest                                |
+| **Testing**   | Vitest (unit) + Playwright (E2E)      |
 | **Linting**   | ESLint (flat config) + Prettier       |
 | **Git Hooks** | Lefthook + commitlint                 |
 | **Auth**      | OAuth (GitHub + Google)               |
@@ -83,10 +83,16 @@ Open `http://localhost:4321` in your browser. Visit `/studiocms` to create your 
 ├── commitlint.config.js      # Conventional commit rules
 ├── lefthook.yml              # Git hooks configuration
 ├── vitest.config.ts          # Vitest test config
+├── playwright.config.ts      # Playwright E2E test config
 ├── .prettierrc               # Prettier formatting rules
 ├── .prettierignore           # Prettier ignore patterns
 ├── scripts/
 │   └── generate-search-index.mjs  # Pagefind index generator
+├── e2e/                      # Playwright E2E tests
+│   ├── pages/                # Page-level E2E tests
+│   ├── components/           # Component E2E tests
+│   ├── fixtures/             # Test fixtures
+│   └── utils/                # Test utilities
 ├── src/
 │   ├── lib/                  # Utility modules
 │   │   ├── filter.ts         # Post filtering/sorting logic
@@ -105,6 +111,8 @@ Open `http://localhost:4321` in your browser. Visit `/studiocms` to create your 
 ├── docs/                     # Documentation
 ├── tender-series/            # Blog content files
 ├── agents/                   # Agent definitions (markdown)
+├── skills/                   # Skills for agents
+├── rules/                    # Project rules and guidelines
 └── .claude/                  # Claude Code commands and skills
 ```
 
@@ -121,6 +129,8 @@ Open `http://localhost:4321` in your browser. Visit `/studiocms` to create your 
 | `pnpm studiocms` | StudioCMS CLI tools                      |
 | `pnpm test`      | Run unit tests (Vitest)                  |
 | `pnpm test:watch`| Run tests in watch mode                  |
+| `pnpm test:e2e`  | Run E2E tests (Playwright)               |
+| `pnpm test:e2e:ui`| Run E2E tests with UI mode            |
 | `pnpm lint`      | Check for lint errors                    |
 | `pnpm lint:fix`  | Auto-fix lint issues                     |
 | `pnpm format`    | Format code with Prettier                |
