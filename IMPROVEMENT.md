@@ -44,7 +44,35 @@ The following issues identified during the broader project review have been addr
 - `src/lib/seo.ts`: deleted (dead code; never imported).
 - `src/pages/blog/[slug].astro`: word count and reading time now use shared `readingTime()` and a properly filtered word count, replacing the duplicated inline math.
 
-### Still open / deferred
+---
+
+## ✅ Round 3: E2E Testing Infrastructure
+
+The following E2E testing infrastructure has been added to improve test coverage and quality assurance:
+
+### Features Added
+- **Playwright E2E Testing Setup**: Configured Playwright with multi-browser support (Chromium, Firefox, WebKit, Mobile Chrome)
+- **Test Configuration**: Set up `playwright.config.ts` for Astro SSR with preview server, auto-retry on failure, and screenshot capture
+- **Core E2E Tests**: Implemented tests for home page, blog listing, blog posts, navigation, and accessibility
+- **CI/CD Integration**: Added GitHub Actions workflow to run E2E tests on push and PR
+- **Testing Resources**: Created comprehensive skill (`skills/playwright-e2e-testing.md`), agent (`agents/e2e-tester.md`), and best practices rule (`rules/playwright-e2e-best-practices.md`)
+- **Test Commands**: Added `pnpm test:e2e`, `pnpm test:e2e:ui`, `pnpm test:e2e:debug`, `pnpm test:e2e:headed`, `pnpm test:e2e:report` scripts
+
+### Test Coverage
+- Home page: page load, hero section, metrics, featured post, archive, responsive design
+- Blog listing: page load, archive header, metrics, filter, navigation
+- Blog posts: 404 handling, slug loading, table of contents, content display, tags, prev/next navigation
+- Navigation: header, footer, sticky header, RSS link, breadcrumbs
+- Accessibility: keyboard navigation, image alt text, link text, heading hierarchy
+
+### Documentation Updated
+- README.md: Updated Tech Stack, Development Commands, and Project Structure
+- CHANGELOG.md: Added feature entries for E2E testing setup
+- e2e/README.md: Created comprehensive E2E testing documentation
+
+---
+
+## Still open / deferred
 - Centralize `https://danhthanh.dev` constant across files (currently duplicated in layout, slug page, RSS, etc.).
 - Filter URL-syncing for `BlogFilter` (parity with `Search.astro`).
 - Cache `getCollection('posts')` to avoid 3× re-derivation per SSR request.
