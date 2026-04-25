@@ -13,7 +13,7 @@ export async function GET(context: { site: URL }) {
       title: post.data.title,
       pubDate: post.data.publishedAt,
       description: post.data.excerpt,
-      link: `/blog/${post.data.slug}/`,
+      link: `/blog/${post.data.slug}`,
     })),
   })
 }

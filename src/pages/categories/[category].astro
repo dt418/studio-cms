@@ -4,7 +4,14 @@ import BlogFilter from '@/components/BlogFilter.astro'
 import BlogCard from '@/components/BlogCard.astro'
 import { getPostsByCategory, getAllCategories, getAllTags } from '@/lib/cms'
 
-const category = Astro.params.category ?? ''
+const rawCategory = Astro.params.category ?? ''
+const category = (() => {
+  try {
+    return decodeURIComponent(rawCategory)
+  } catch {
+    return rawCategory
+  }
+})()
 const posts = await getPostsByCategory(category)
 const allCategories = await getAllCategories()
 const allTags = await getAllTags()

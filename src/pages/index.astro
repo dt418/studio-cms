@@ -1,7 +1,12 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import PostCard from '@/components/PostCard.astro'
+import HeroSection from '@/components/HeroSection.astro'
+import SectionHeader from '@/components/SectionHeader.astro'
+import MetricCard from '@/components/MetricCard.astro'
+import MarqueeSection from '@/components/MarqueeSection.astro'
 import { getAllPosts, getAllCategories, getAllTags } from '@/lib/cms'
+import { formatDate } from '@/lib/date'
 
 const posts = await getAllPosts()
 const categories = await getAllCategories()
@@ -9,6 +14,31 @@ const allTags = await getAllTags()
 
 const featuredPost = posts[0]
 const recentPosts = posts.slice(1, 4)
+const archivePosts = posts.slice(4)
+
+const metrics = [
+  {
+    label: 'Latest',
+    value: `${posts.length} posts`,
+    category: 'Published writing',
+    description:
+      'Practical tutorials and guides on web development, TypeScript, and modern tooling.',
+  },
+  {
+    label: 'Topics',
+    value: `${categories.length} areas`,
+    category: 'Coverage areas',
+    description:
+      'Deep dives across web development, tooling, architecture, and developer experience.',
+  },
+  {
+    label: 'Tags',
+    value: `${allTags.length} tags`,
+    category: 'Keywords',
+    description:
+      'Tagged and searchable content covering React, Astro, TypeScript, and more.',
+  },
+]
 ---
 
 <BaseLayout
@@ -29,120 +59,53 @@ const recentPosts = posts.slice(1, 4)
     },
   }}
 >
-  <!-- Hero Section -->
-  <section class="border-b border-border bg-[#050505]">
-    <div class="container py-12 lg:py-16">
-      <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)] gap-10">
-        <div class="flex flex-col justify-between gap-6">
-          <div class="max-w-4xl">
-            <p class="font-mono text-[0.62rem] tracking-[0.28em] uppercase text-muted-foreground/50 mb-6">
-              For developers shipping modern web products
-            </p>
-            <h1 class="text-[clamp(2.5rem,12vw,7rem)] leading-[0.84] font-semibold tracking-[-0.09em] uppercase mb-6">
-              <span class="block">Danh</span>
-              <span class="block text-muted-foreground">Thanh</span>
-            </h1>
-            <p class="max-w-xl text-[0.98rem] leading-7 text-muted-foreground/70 sm:text-lg sm:leading-8">
-              Software engineer sharing practical insights on designing, developing,
-              launching, and growing modern web products.
-            </p>
-          </div>
-          <div class="max-w-xl space-y-4">
-            <div class="flex flex-col gap-3 sm:flex-row">
-              <a href="/blog" class="btn btn-primary btn-lg">
-                Read the blog
-              </a>
-              <a href="/rss.xml" class="btn btn-outline btn-lg">
-                RSS Feed
-              </a>
-            </div>
-            <div class="hidden flex-wrap items-center gap-3 text-[0.72rem] tracking-[0.26em] uppercase sm:flex">
-              <span class="rounded-full border border-border px-3 py-1.5">
-                {posts.length} posts
-              </span>
-              <span class="rounded-full border border-border px-3 py-1.5">
-                {categories.length} topics
-              </span>
-              <span class="rounded-full border border-border px-3 py-1.5">
-                {allTags.length} tags
-              </span>
-            </div>
+  <HeroSection posts={posts.length} categories={categories.length} allTags={allTags.length}>
+    <div slot="terminal" class="hidden lg:flex items-end justify-end">
+      <div class="w-full max-w-lg border border-border bg-card/30 p-6">
+        <div class="mb-6 border-b border-border pb-4 space-y-3">
+          <p class="font-mono text-[0.68rem] tracking-[0.28em] uppercase text-muted-foreground/50">
+            who I help
+          </p>
+          <div class="space-y-2 text-sm text-muted-foreground/80">
+            <p>Developers building modern web products who need clear, practical insights.</p>
+            <p>Topics: web development, TypeScript, Astro, React, and modern tooling.</p>
           </div>
         </div>
-        <div class="hidden lg:flex items-end justify-end">
-          <div class="w-full max-w-lg border border-border bg-card/30 p-6">
-            <div class="mb-6 border-b border-border pb-4 space-y-3">
-              <p class="font-mono text-[0.68rem] tracking-[0.28em] uppercase text-muted-foreground/50">
-                who I help
-              </p>
-              <div class="space-y-2 text-sm text-muted-foreground/80">
-                <p>Developers building modern web products who need clear, practical insights.</p>
-                <p>Topics: web development, TypeScript, Astro, React, and modern tooling.</p>
-              </div>
-            </div>
-            <div class="grid grid-cols-3 gap-3">
-              <div class="space-y-1">
-                <p class="font-mono text-[0.66rem] tracking-[0.28em] uppercase text-muted-foreground/40">01</p>
-                <p class="text-lg leading-none font-medium">Tutorials</p>
-              </div>
-              <div class="space-y-1">
-                <p class="font-mono text-[0.66rem] tracking-[0.28em] uppercase text-muted-foreground/40">02</p>
-                <p class="text-lg leading-none font-medium">Guides</p>
-              </div>
-              <div class="space-y-1">
-                <p class="font-mono text-[0.66rem] tracking-[0.28em] uppercase text-muted-foreground/40">03</p>
-                <p class="text-lg leading-none font-medium">Notes</p>
-              </div>
-            </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div class="space-y-1">
+            <p class="font-mono text-[0.66rem] tracking-[0.28em] uppercase text-muted-foreground/40">01</p>
+            <p class="text-lg leading-none font-medium">Tutorials</p>
+          </div>
+          <div class="space-y-1">
+            <p class="font-mono text-[0.66rem] tracking-[0.28em] uppercase text-muted-foreground/40">02</p>
+            <p class="text-lg leading-none font-medium">Guides</p>
+          </div>
+          <div class="space-y-1">
+            <p class="font-mono text-[0.66rem] tracking-[0.28em] uppercase text-muted-foreground/40">03</p>
+            <p class="text-lg leading-none font-medium">Notes</p>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </HeroSection>
 
-  <!-- Proof Section -->
-  <section class="border-b border-border bg-card/20">
-    <div class="container py-10 lg:py-12">
-      <div class="flex flex-col gap-4 border-b border-border pb-6 lg:flex-row lg:items-end lg:justify-between">
-        <div class="max-w-2xl">
-          <p class="font-mono text-[0.62rem] tracking-[0.28em] uppercase text-muted-foreground/50">Latest insights</p>
-          <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight mt-4 max-xl">
-            Practical knowledge for modern developers.
-          </h2>
-        </div>
-        <p class="max-w-xl text-sm leading-6 text-muted-foreground/60 sm:text-base sm:leading-7">
-          Real tutorials, guides, and notes that help you build better products.
-        </p>
-      </div>
-      <div class="mt-6 grid gap-4 sm:mt-8 sm:gap-5 lg:grid-cols-3">
-        {[
-          { label: 'Latest', value: posts.length, unit: 'posts', desc: 'Published writing', note: 'Practical tutorials and guides on web development, TypeScript, and modern tooling.' },
-          { label: 'Topics', value: categories.length, unit: 'areas', desc: 'Coverage areas', note: 'Deep dives across web development, tooling, architecture, and developer experience.' },
-          { label: 'Tags', value: allTags.length, unit: 'tags', desc: 'Keywords', note: 'Tagged and searchable content covering React, Astro, TypeScript, and more.' },
-        ].map((item) => (
-          <div class="card-hover">
-            <p class="font-mono text-[0.68rem] tracking-[0.26em] uppercase text-muted-foreground/40 relative">{item.label}</p>
-            <p class="mt-4 text-[1.65rem] leading-none font-semibold tracking-[-0.06em] sm:text-[1.9rem] text-foreground">{item.value} {item.unit}</p>
-            <p class="mt-2 font-mono text-[0.7rem] tracking-[0.22em] uppercase text-muted-foreground/60">{item.desc}</p>
-            <p class="mt-5 max-w-[30ch] text-sm leading-7 text-muted-foreground/70">{item.note}</p>
-          </div>
-        ))}
-      </div>
+  <SectionHeader title="Latest insights">
+    <h2 slot="header" class="text-2xl lg:text-3xl font-semibold tracking-tight mt-4 max-w-xl">
+      Practical knowledge for modern developers.
+    </h2>
+    <div class="mt-6 grid gap-4 sm:mt-8 sm:gap-5 lg:grid-cols-3">
+      {metrics.map((item) => (
+        <MetricCard
+          label={item.label}
+          value={item.value}
+          category={item.category}
+          description={item.description}
+        />
+      ))}
     </div>
-  </section>
+  </SectionHeader>
 
-  <!-- Marquee Strip -->
-  <section class="border-b border-border overflow-hidden">
-    <div class="py-4">
-      <div class="flex gap-6 animate-marquee whitespace-nowrap">
-        {[...categories, ...categories].map((cat) => (
-          <span class="font-mono text-[0.62rem] tracking-[0.24em] uppercase text-muted-foreground/40">
-            {cat}<span class="text-muted-foreground/20 ml-6">/</span>
-          </span>
-        ))}
-      </div>
-    </div>
-  </section>
+  <MarqueeSection items={categories} />
 
   <!-- Featured Work -->
   <section class="border-b border-border">
@@ -199,33 +162,35 @@ const recentPosts = posts.slice(1, 4)
           Open full archive →
         </a>
       </div>
-      <div class="mt-8 grid gap-8 sm:mt-10 lg:grid-cols-12">
-        {featuredPost && (
-          <div class="lg:col-span-7 card-hover">
-            <PostCard
-              title={featuredPost.data.title}
-              excerpt={featuredPost.data.excerpt}
-              slug={featuredPost.data.slug}
-              category={featuredPost.data.category}
-              publishedAt={featuredPost.data.publishedAt}
-              tags={featuredPost.data.tags}
-              large
-            />
-          </div>
-        )}
-        <div class="lg:col-span-5 space-y-4">
-          {recentPosts.map((post) => (
-            <PostCard
-              title={post.data.title}
-              excerpt={post.data.excerpt}
-              slug={post.data.slug}
-              category={post.data.category}
-              publishedAt={post.data.publishedAt}
-              tags={post.data.tags}
-            />
+      {archivePosts.length === 0 ? (
+        <p class="mt-8 text-sm text-muted-foreground/60">
+          No archived posts yet — see the latest above.
+        </p>
+      ) : (
+        <ul class="mt-8 divide-y divide-border border-y border-border">
+          {archivePosts.map((post) => (
+            <li>
+              <a
+                href={`/blog/${post.data.slug}`}
+                class="grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-5 items-baseline hover:bg-white/[0.02] transition-colors -mx-4 px-4 rounded-sm"
+              >
+                <time
+                  datetime={post.data.publishedAt.toISOString()}
+                  class="font-mono text-[0.7rem] tracking-[0.22em] uppercase text-muted-foreground/50 tabular-nums"
+                >
+                  {formatDate(post.data.publishedAt)}
+                </time>
+                <span class="text-sm font-medium text-foreground/90 line-clamp-1">
+                  {post.data.title}
+                </span>
+                <span class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/40">
+                  {post.data.category}
+                </span>
+              </a>
+            </li>
           ))}
-        </div>
-      </div>
+        </ul>
+      )}
     </div>
   </section>
 </BaseLayout>

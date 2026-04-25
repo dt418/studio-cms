@@ -5,13 +5,16 @@ import PostHeader from '@/components/Blog/PostHeader.astro'
 import PostMetaCard from '@/components/Blog/PostMetaCard.astro'
 import TableOfContents from '@/components/Blog/TableOfContents.astro'
 import { getPostBySlug, getAllPosts } from '@/lib/cms'
+import { readingTime } from '@/lib/reading-time'
 import { render } from 'astro:content'
+
+const SITE_URL = 'https://danhthanh.dev'
 
 const slug = Astro.params.slug
 const post = await getPostBySlug(slug ?? '')
 
 if (!post) {
-  return Astro.redirect('/blog')
+  return new Response('Post not found', { status: 404, statusText: 'Not Found' })
 }
 
 const { Content, headings } = await render(post)
@@ -37,18 +40,24 @@ const updatedDate = updatedAt?.toLocaleDateString('en-US', {
   day: 'numeric',
 })
 
-const wordCount = (post.body ?? '').split(/\s+/).length
-const readingTime = Math.ceil(wordCount / 200)
+const bodyText = post.body ?? ''
+const wordCount = bodyText.trim().split(/\s+/).filter(Boolean).length
+const readingTimeMin = readingTime(bodyText)
 
 const allPosts = await getAllPosts()
-const currentIndex = allPosts.findIndex((post) => post.data.slug === slug)
-const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1].data : undefined
-const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1].data : undefined
+const currentIndex = allPosts.findIndex((entry) => entry.data.slug === slug)
+// allPosts is sorted descending by publishedAt, so the older post sits at currentIndex + 1.
+const prevPost =
+  currentIndex >= 0 && currentIndex < allPosts.length - 1
+    ? allPosts[currentIndex + 1].data
+    : undefined
+const nextPost =
+  currentIndex > 0 ? allPosts[currentIndex - 1].data : undefined
 const relatedPosts = allPosts
-  .filter((post) => post.data.slug !== slug && post.data.category === category)
+  .filter((entry) => entry.data.slug !== slug && entry.data.category === category)
   .slice(0, 3)
 
-const canonicalUrl = `https://danhthanh.dev/blog/${slug}`
+const canonicalUrl = `${SITE_URL}/blog/${slug}`
 const publishedTime = publishedAt.toISOString()
 const modifiedTime = updatedAt?.toISOString() ?? publishedTime
 
@@ -57,18 +66,22 @@ const articleJsonLd = {
   '@type': 'Article',
   headline: title,
   description: excerpt,
-  image: coverImage ? `${coverImage}` : undefined,
+  image: coverImage
+    ? coverImage.startsWith('http')
+      ? coverImage
+      : `${SITE_URL}${coverImage.startsWith('/') ? '' : '/'}${coverImage}`
+    : undefined,
   datePublished: publishedTime,
   dateModified: modifiedTime,
   author: {
     '@type': 'Person',
     name: author,
-    url: 'https://danhthanh.dev',
+    url: SITE_URL,
   },
   publisher: {
     '@type': 'Organization',
     name: 'DanhThanh.dev',
-    url: 'https://danhthanh.dev',
+    url: SITE_URL,
   },
   mainEntityOfPage: {
     '@type': 'WebPage',
@@ -100,7 +113,7 @@ const articleJsonLd = {
             excerpt={excerpt}
             tags={tags}
             publishedAt={formattedDate}
-            readingTime={readingTime}
+            readingTime={readingTimeMin}
             coverImage={coverImage}
           />
         </div>
@@ -199,7 +212,7 @@ const articleJsonLd = {
             author={author}
             publishedAt={formattedDate}
             updatedAt={updatedDate}
-            readingTime={readingTime}
+            readingTime={readingTimeMin}
             wordCount={wordCount}
           />
         </aside>

@@ -36,32 +36,25 @@ interface PagefindData {
   content?: string
 }
 
-interface FuseConstructor {
-  new <T>(
-    items: T[],
-    options: {
-      keys: { name: string; weight: number }[]
-      threshold: number
-      includeScore: boolean
-      minMatchCharLength: number
-    }
-  ): { search: (query: string) => { item: T; score: number }[] }
-}
-
-declare global {
-  interface Window {
-    Fuse: FuseConstructor | null
+type FuseConstructor = new <T>(
+  items: T[],
+  options: {
+    keys: { name: string; weight: number }[]
+    threshold: number
+    includeScore: boolean
+    minMatchCharLength: number
   }
-}
+) => { search: (query: string) => { item: T; score: number }[] }
 
 const PAGEFIND_BASE_URL = '/pagefind'
 const DEBOUNCE_MS = 200
 const MAX_RESULTS = 10
 
 let pagefind: PagefindInstance | null = null
-const allCategories = new Set<string>()
-const allTags = new Set<string>()
-let isLoading = false
+let Fuse: FuseConstructor | null = null
+let allCategories = new Set<string>()
+let allTags = new Set<string>()
+let currentRequestId = 0
 
 function debounce<Args extends unknown[]>(fn: (...args: Args) => void, ms: number) {
   let timer: ReturnType<typeof setTimeout>
@@ -238,6 +231,12 @@ async function initSearch(): Promise<void> {
     return
   }
 
+  // Reset per-page state so SPA navigations don't accumulate stale entries or
+  // leave stale request flags behind.
+  allCategories = new Set<string>()
+  allTags = new Set<string>()
+  currentRequestId = 0
+
   try {
     showStatus('Loading search index...')
 
@@ -277,10 +276,7 @@ async function initSearch(): Promise<void> {
         clearBtn.hidden = false
       }
 
-      if (isLoading) {
-        return
-      }
-      isLoading = true
+      const requestId = ++currentRequestId
       showStatus('Searching...')
 
       try {
@@ -294,16 +290,24 @@ async function initSearch(): Promise<void> {
 
         const searchResult = await pagefind!.search(query, { filters })
 
+        // Drop stale results — only the most recent request is allowed to render.
+        if (requestId !== currentRequestId) {
+          return
+        }
+
         if (!searchResult.results || searchResult.results.length === 0) {
           renderEmpty()
           showStatus('No results found.')
-          isLoading = false
           return
         }
 
         const pagefindResults = await Promise.all(
           searchResult.results.slice(0, 20).map((result) => result.data())
         )
+
+        if (requestId !== currentRequestId) {
+          return
+        }
 
         const normalized = pagefindResults
           .filter(Boolean)
@@ -322,8 +326,8 @@ async function initSearch(): Promise<void> {
           }))
           .filter((item) => item.title !== '')
 
-        if (typeof window.Fuse !== 'undefined' && window.Fuse !== null && normalized.length > 1) {
-          const fuseInstance = new window.Fuse(normalized, {
+        if (Fuse !== null && normalized.length > 1) {
+          const fuseInstance = new Fuse(normalized, {
             keys: [
               { name: 'title', weight: 0.5 },
               { name: 'excerpt', weight: 0.3 },
@@ -346,10 +350,11 @@ async function initSearch(): Promise<void> {
 
         hideStatus()
       } catch (err) {
+        if (requestId !== currentRequestId) {
+          return
+        }
         console.error('Search error:', err)
         showStatus('Search failed. Please try again.')
-      } finally {
-        isLoading = false
       }
     }, DEBOUNCE_MS)
 
@@ -398,13 +403,10 @@ async function initSearch(): Promise<void> {
 
 async function loadFuse(): Promise<void> {
   try {
-    const fuseModule = await import(
-      // @ts-expect-error CDN URL not resolvable by TypeScript
-      /* @vite-ignore */ 'https://cdn.jsdelivr.net/npm/fuse.js@7.3.0/dist/fuse.mjs'
-    )
-    window.Fuse = fuseModule.default
+    const fuseModule = await import('fuse.js')
+    Fuse = fuseModule.default as unknown as FuseConstructor
   } catch {
-    window.Fuse = null
+    Fuse = null
   }
 }
 
