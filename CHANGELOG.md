@@ -52,3 +52,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - feat: RelatedPosts.astro improved heading UI with count badge and flex layout
 - feat: RelatedPosts.astro removed max-width constraint for full-width alignment
+- feat: add new blog components (ArticleContent, AuthorCard, BackLink, BlogHeader, Breadcrumb, CategoryCloud, CoverImage, PostHero, PostMetadata, StatsGrid, TagCloud, TagsList)
+- feat: add utility components (ArchiveSection, CTAButtons, FeaturedWork, SearchFilters, StatsBadge)
+- feat: add icon components directory (ClearIcon, SearchIcon)
+- feat: add PROJECT_ARCHITECTURE.md documentation
+- refactor: update existing components with improved styling
+- refactor: update documentation files (AGENTS.md, CLAUDE.md, DESIGN.md, IMPROVEMENT.md, project-overview.md)
+- refactor: update utility functions (site.ts, utils.ts)
+- refactor: update pages with new components
