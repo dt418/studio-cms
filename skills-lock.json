@@ -43,8 +43,8 @@
     },
     "shadcn": {
       "source": "shadcn/ui",
-      "sourceType": "autoskills-registry",
-      "computedHash": "1b1287f853d10e344c8e7bf8f1715ec77554b083ad48fff6a4a1c844009626cd"
+      "sourceType": "github",
+      "computedHash": "2bc6cf38ec7b4a5778a43fabb3e87642c9897ad45e9eb42438b57fd2def6cca8"
     },
     "tailwind-css-patterns": {
       "source": "giuseppe-trisciuoglio/developer-kit",
