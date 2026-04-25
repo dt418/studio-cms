@@ -15,6 +15,7 @@ export default tseslint.config(
       'libsql.pub',
       'tender-series',
       'coverage',
+      'e2e',
     ],
   },
   js.configs.recommended,
