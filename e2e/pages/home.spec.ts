@@ -17,8 +17,7 @@ test.describe('Home Page', () => {
   })
 
   test('metrics display correct counts', async ({ page }) => {
-    const metrics = page.locator('.grid.gap-3 .border').all()
-    const metricCards = await metrics
+    const metricCards = await page.locator('.grid.gap-3 .border').all()
     expect(metricCards.length).toBeGreaterThan(0)
     
     for (const card of metricCards) {
