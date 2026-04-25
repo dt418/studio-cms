@@ -5,6 +5,9 @@ dist/
 # generated types
 .astro/
 
+# generated OG image (rebuilt every `pnpm build` from scripts/generate-og-image.mjs)
+public/og-image.png
+
 # dependencies
 node_modules/
 
