@@ -1,8 +1,9 @@
 ---
-import type { Post } from '../types/post'
+import type { CollectionEntry } from 'astro:content'
+import { formatDate } from '@/lib/date'
 
 interface Props {
-  posts: Post[]
+  posts: CollectionEntry<'posts'>[]
   categories: string[]
   tags: string[]
   initialCategory?: string
@@ -12,7 +13,11 @@ interface Props {
 const { posts, categories, tags, initialCategory, initialTag } = Astro.props
 
 const serializedPosts = posts.map((post) => {
-  const data = { ...post.data, publishedAt: post.data.publishedAt.toISOString() }
+  const data = {
+    ...post.data,
+    publishedAt: post.data.publishedAt.toISOString(),
+    formattedDate: formatDate(post.data.publishedAt),
+  }
   return { ...post, data }
 })
 
@@ -110,6 +115,7 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
     function escapeAttr(value) {
       return encodeURIComponent(String(value))
     }
+
     const searchInput = document.getElementById('filter-search')
     const categorySelect = document.getElementById('filter-category')
     const tagSelect = document.getElementById('filter-tag')
@@ -124,9 +130,11 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
       !tagSelect ||
       !sortSelect ||
       !resultsContainer ||
-      !resultsCount
-    )
+      !resultsCount ||
+      !resetButton
+    ) {
       return
+    }
 
     function resetFilters() {
       searchInput.value = ''
@@ -136,7 +144,7 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
       applyFilters()
     }
 
-    if (resetButton) resetButton.addEventListener('click', resetFilters)
+    resetButton.addEventListener('click', resetFilters)
 
     function applyFilters() {
       const query = searchInput.value.toLowerCase().trim()
@@ -145,35 +153,42 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
       const sortValue = sortSelect.value
       const [sortField, sortOrder] = sortValue.split('-')
 
-      let result = postsData.filter((post) => {
+      const result = postsData.filter((post) => {
         if (query) {
           const matchesQuery =
             post.data.title.toLowerCase().includes(query) ||
             post.data.excerpt.toLowerCase().includes(query) ||
-            post.data.tags.some((t) => t.toLowerCase().includes(query)) ||
+            post.data.tags.some((tag) => tag.toLowerCase().includes(query)) ||
             post.data.category.toLowerCase().includes(query)
-          if (!matchesQuery) return false
+          if (!matchesQuery) {
+            return false
+          }
         }
 
-        if (category && post.data.category !== category) return false
-        if (tag && !post.data.tags.includes(tag)) return false
+        if (category && post.data.category !== category) {
+          return false
+        }
+        if (tag && !post.data.tags.includes(tag)) {
+          return false
+        }
 
         return true
       })
 
       const multiplier = sortOrder === 'asc' ? 1 : -1
-      result.sort((a, b) => {
+      result.sort((resultA, resultB) => {
         switch (sortField) {
           case 'date':
             return (
               multiplier *
-              (new Date(a.data.publishedAt).valueOf() - new Date(b.data.publishedAt).valueOf())
+              (new Date(resultA.data.publishedAt).valueOf() -
+                new Date(resultB.data.publishedAt).valueOf())
             )
           case 'title':
-            return multiplier * a.data.title.localeCompare(b.data.title)
+            return multiplier * resultA.data.title.localeCompare(resultB.data.title)
           case 'readingTime': {
-            const aWords = a.body ? a.body.split(/\s+/).length : 0
-            const bWords = b.body ? b.body.split(/\s+/).length : 0
+            const aWords = resultA.body ? resultA.body.split(/\s+/).length : 0
+            const bWords = resultB.body ? resultB.body.split(/\s+/).length : 0
             return multiplier * (aWords - bWords)
           }
           default:
@@ -194,12 +209,7 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
 
       resultsContainer.innerHTML = result
         .map((post) => {
-          const date = new Date(post.data.publishedAt)
-          const formattedDate = date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          })
+          const formattedDate = post.data.formattedDate
           const words = post.body ? post.body.split(/\s+/).filter(Boolean).length : 0
           const minutes = Math.max(1, Math.ceil(words / 200))
           const slugAttr = escapeAttr(post.data.slug)
@@ -252,5 +262,7 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
   }
 
   document.addEventListener('astro:page-load', initFilter)
-  if (document.readyState === 'complete') initFilter()
+  if (document.readyState === 'complete') {
+    initFilter()
+  }
 </script>

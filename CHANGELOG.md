@@ -37,6 +37,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Bug Fixes
 
+- fix: PostNavigation.astro removed React-style component function from frontmatter (not supported in Astro) — inlined navigation links directly in template
+- fix: BlogFilter.astro removed ES module import from inline script (inline scripts don't support imports) — formatted dates on server for consistency
 - fix: Tailwind v4 syntax — `hover:bg-white/[0.05]` → `hover:bg-white/5` in BlogFilter
 - fix: remove `.ts` extension from import path in Search.astro
 - fix: rename dark mode class from `theme-dark` to `dark` (shadcn canonical)
@@ -45,3 +47,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - fix: BlogFilter.astro JSON.stringify rendered as literal text — changed to `set:html={}` directive (b2)
 - fix: BlogFilter.astro layout broken with 5 elements in flex row — changed to `flex flex-wrap` with responsive `min-w` values (b2)
 - fix: improve docs and fix lefthook/eslint config issues (cd471b4)
+
+### Enhancements
+
+- feat: RelatedPosts.astro improved heading UI with count badge and flex layout
+- feat: RelatedPosts.astro removed max-width constraint for full-width alignment
