@@ -325,7 +325,7 @@ const { placeholder = 'Search articles...' } = Astro.props
 </style>
 
 <script>
-  import { initSearch, loadFuse } from '../lib/search.ts'
+  import { initSearch, loadFuse } from '../lib/search'
 
   document.addEventListener('astro:page-load', () => {
     loadFuse()
