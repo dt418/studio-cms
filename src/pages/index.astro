@@ -36,8 +36,7 @@ const metrics = [
     label: 'Tags',
     value: `${allTags.length} tags`,
     category: 'Keywords',
-    description:
-      'Tagged and searchable content covering React, Astro, TypeScript, and more.',
+    description: 'Tagged and searchable content covering React, Astro, TypeScript, and more.',
   },
 ]
 ---
@@ -73,15 +72,27 @@ const metrics = [
         </div>
         <div class="grid grid-cols-3 gap-3">
           <div class="space-y-1">
-            <p class="font-mono text-[0.66rem] tracking-[0.28em] uppercase text-muted-foreground/40">01</p>
+            <p
+              class="font-mono text-[0.66rem] tracking-[0.28em] uppercase text-muted-foreground/40"
+            >
+              01
+            </p>
             <p class="text-lg leading-none font-medium">Tutorials</p>
           </div>
           <div class="space-y-1">
-            <p class="font-mono text-[0.66rem] tracking-[0.28em] uppercase text-muted-foreground/40">02</p>
+            <p
+              class="font-mono text-[0.66rem] tracking-[0.28em] uppercase text-muted-foreground/40"
+            >
+              02
+            </p>
             <p class="text-lg leading-none font-medium">Guides</p>
           </div>
           <div class="space-y-1">
-            <p class="font-mono text-[0.66rem] tracking-[0.28em] uppercase text-muted-foreground/40">03</p>
+            <p
+              class="font-mono text-[0.66rem] tracking-[0.28em] uppercase text-muted-foreground/40"
+            >
+              03
+            </p>
             <p class="text-lg leading-none font-medium">Notes</p>
           </div>
         </div>
@@ -94,14 +105,16 @@ const metrics = [
       Practical knowledge for modern developers.
     </h2>
     <div class="mt-6 grid gap-4 sm:mt-8 sm:gap-5 lg:grid-cols-3">
-      {metrics.map((item) => (
-        <MetricCard
-          label={item.label}
-          value={item.value}
-          category={item.category}
-          description={item.description}
-        />
-      ))}
+      {
+        metrics.map((item) => (
+          <MetricCard
+            label={item.label}
+            value={item.value}
+            category={item.category}
+            description={item.description}
+          />
+        ))
+      }
     </div>
   </SectionHeader>
 
@@ -111,37 +124,45 @@ const metrics = [
   <section class="border-b border-border">
     <div class="container py-14 lg:py-24">
       <div class="max-w-3xl mb-10">
-        <p class="font-mono text-[0.62rem] tracking-[0.28em] uppercase text-muted-foreground/50">Featured</p>
-        <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight mt-4 max-w-2xl">Latest from the blog.</h2>
+        <p class="font-mono text-[0.62rem] tracking-[0.28em] uppercase text-muted-foreground/50">
+          Featured
+        </p>
+        <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight mt-4 max-w-2xl">
+          Latest from the blog.
+        </h2>
         <p class="mt-4 max-w-2xl text-base leading-7 text-muted-foreground/70 sm:text-lg">
           Recent tutorials, guides, and notes on web development.
         </p>
       </div>
       <div class="grid gap-4 lg:grid-cols-12">
-        {featuredPost && (
-          <div class="lg:col-span-7 card-hover">
-            <PostCard
-              title={featuredPost.data.title}
-              excerpt={featuredPost.data.excerpt}
-              slug={featuredPost.data.slug}
-              category={featuredPost.data.category}
-              publishedAt={featuredPost.data.publishedAt}
-              tags={featuredPost.data.tags}
-              large
-            />
-          </div>
-        )}
+        {
+          featuredPost && (
+            <div class="lg:col-span-7 card-hover">
+              <PostCard
+                title={featuredPost.data.title}
+                excerpt={featuredPost.data.excerpt}
+                slug={featuredPost.data.slug}
+                category={featuredPost.data.category}
+                publishedAt={featuredPost.data.publishedAt}
+                tags={featuredPost.data.tags}
+                large
+              />
+            </div>
+          )
+        }
         <div class="lg:col-span-5 grid gap-4">
-          {recentPosts.map((post) => (
-            <PostCard
-              title={post.data.title}
-              excerpt={post.data.excerpt}
-              slug={post.data.slug}
-              category={post.data.category}
-              publishedAt={post.data.publishedAt}
-              tags={post.data.tags}
-            />
-          ))}
+          {
+            recentPosts.map((post) => (
+              <PostCard
+                title={post.data.title}
+                excerpt={post.data.excerpt}
+                slug={post.data.slug}
+                category={post.data.category}
+                publishedAt={post.data.publishedAt}
+                tags={post.data.tags}
+              />
+            ))
+          }
         </div>
       </div>
     </div>
@@ -152,45 +173,54 @@ const metrics = [
     <div class="container py-14 lg:py-24">
       <div class="flex flex-col gap-4 pb-6 lg:flex-row lg:items-end lg:justify-between">
         <div class="max-w-2xl">
-          <p class="font-mono text-[0.62rem] tracking-[0.28em] uppercase text-muted-foreground/50">Browse</p>
-          <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight mt-4 max-w-2xl">All posts and writing.</h2>
+          <p class="font-mono text-[0.62rem] tracking-[0.28em] uppercase text-muted-foreground/50">
+            Browse
+          </p>
+          <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight mt-4 max-w-2xl">
+            All posts and writing.
+          </h2>
           <p class="mt-4 max-w-2xl text-base leading-7 text-muted-foreground/70 sm:text-lg">
             The full archive of tutorials, guides, and notes.
           </p>
         </div>
-        <a href="/blog" class="font-mono text-[0.72rem] tracking-[0.26em] uppercase text-muted-foreground/50 hover:text-foreground transition-colors">
+        <a
+          href="/blog"
+          class="font-mono text-[0.72rem] tracking-[0.26em] uppercase text-muted-foreground/50 hover:text-foreground transition-colors"
+        >
           Open full archive →
         </a>
       </div>
-      {archivePosts.length === 0 ? (
-        <p class="mt-8 text-sm text-muted-foreground/60">
-          No archived posts yet — see the latest above.
-        </p>
-      ) : (
-        <ul class="mt-8 divide-y divide-border border-y border-border">
-          {archivePosts.map((post) => (
-            <li>
-              <a
-                href={`/blog/${post.data.slug}`}
-                class="grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-5 items-baseline hover:bg-white/[0.02] transition-colors -mx-4 px-4 rounded-sm"
-              >
-                <time
-                  datetime={post.data.publishedAt.toISOString()}
-                  class="font-mono text-[0.7rem] tracking-[0.22em] uppercase text-muted-foreground/50 tabular-nums"
+      {
+        archivePosts.length === 0 ? (
+          <p class="mt-8 text-sm text-muted-foreground/60">
+            No archived posts yet — see the latest above.
+          </p>
+        ) : (
+          <ul class="mt-8 divide-y divide-border border-y border-border">
+            {archivePosts.map((post) => (
+              <li>
+                <a
+                  href={`/blog/${post.data.slug}`}
+                  class="grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-5 items-baseline hover:bg-white/[0.02] transition-colors -mx-4 px-4 rounded-sm"
                 >
-                  {formatDate(post.data.publishedAt)}
-                </time>
-                <span class="text-sm font-medium text-foreground/90 line-clamp-1">
-                  {post.data.title}
-                </span>
-                <span class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/40">
-                  {post.data.category}
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
+                  <time
+                    datetime={post.data.publishedAt.toISOString()}
+                    class="font-mono text-[0.7rem] tracking-[0.22em] uppercase text-muted-foreground/50 tabular-nums"
+                  >
+                    {formatDate(post.data.publishedAt)}
+                  </time>
+                  <span class="text-sm font-medium text-foreground/90 line-clamp-1">
+                    {post.data.title}
+                  </span>
+                  <span class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/40">
+                    {post.data.category}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
     </div>
   </section>
 </BaseLayout>

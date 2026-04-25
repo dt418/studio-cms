@@ -19,6 +19,8 @@ import studiocmsCfetch from '@studiocms/cfetch'
 import astroExpressiveCode from 'astro-expressive-code';
 import ecTwoSlash from 'expressive-code-twoslash' // TypeScript hover types in code blocks
 
+import { visualizer } from 'rollup-plugin-visualizer'
+
 // https://astro.build/config
 export default defineConfig({
   // Site URL for sitemap and canonical links
@@ -32,7 +34,15 @@ export default defineConfig({
         '@': '/src',
       },
     },
-    plugins: [tailwindcss()], // Tailwind CSS 4 via Vite plugin
+    plugins: [
+      tailwindcss(), // Tailwind CSS 4 via Vite plugin
+      visualizer({
+        open: false,
+        gzipSize: true,
+        brotliSize: true,
+        filename: 'dist/stats.html',
+      }),
+    ],
   },
 
   adapter: node({

@@ -1,6 +1,5 @@
 pre-commit:
   parallel: true
-  fail_fast: true
   commands:
     lint:
       glob: '*.{ts,tsx,astro}'
@@ -8,8 +7,12 @@ pre-commit:
       stage_fixed: true
 
     typecheck:
-      glob: '*.{ts,tsx}'
+      glob: '*.{ts,tsx,astro}'
       run: pnpm typecheck
+
+    format:
+      glob: '*.{ts,tsx,astro,css,json,md}'
+      run: pnpm format:check
 
 commit-msg:
   commands:
@@ -18,7 +21,6 @@ commit-msg:
 
 pre-push:
   parallel: true
-  fail_fast: true
   commands:
     test:
       run: pnpm test

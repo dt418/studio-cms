@@ -14,28 +14,32 @@ const { posts, categories, allTags } = Astro.props
       <!-- Left Column -->
       <div class="flex flex-col justify-between gap-6">
         <div class="max-w-4xl">
-          <p class="font-mono text-[0.62rem] tracking-[0.28em] uppercase text-muted-foreground/50 mb-6">
+          <p
+            class="font-mono text-[0.62rem] tracking-[0.28em] uppercase text-muted-foreground/50 mb-6"
+          >
             For developers shipping modern web products
           </p>
-          <h1 class="text-[clamp(2.5rem,12vw,7rem)] leading-[0.84] font-semibold tracking-[-0.09em] uppercase mb-6">
+          <h1
+            class="text-[clamp(2.5rem,12vw,7rem)] leading-[0.84] font-semibold tracking-[-0.09em] uppercase mb-6"
+          >
             <span class="block">Danh</span>
             <span class="block text-muted-foreground">Thanh</span>
           </h1>
-          <p class="max-w-xl text-[0.98rem] leading-7 text-muted-foreground/70 sm:text-lg sm:leading-8">
-            Software engineer sharing practical insights on designing, developing,
-            launching, and growing modern web products.
+          <p
+            class="max-w-xl text-[0.98rem] leading-7 text-muted-foreground/70 sm:text-lg sm:leading-8"
+          >
+            Software engineer sharing practical insights on designing, developing, launching, and
+            growing modern web products.
           </p>
         </div>
         <div class="max-w-xl space-y-4">
           <div class="flex flex-col gap-3 sm:flex-row">
-            <a href="/blog" class="btn btn-primary btn-lg">
-              Read the blog
-            </a>
-            <a href="/rss.xml" class="btn btn-outline btn-lg">
-              RSS Feed
-            </a>
+            <a href="/blog" class="btn btn-primary btn-lg"> Read the blog </a>
+            <a href="/rss.xml" class="btn btn-outline btn-lg"> RSS Feed </a>
           </div>
-          <div class="hidden flex-wrap items-center gap-3 text-[0.72rem] tracking-[0.26em] uppercase sm:flex">
+          <div
+            class="hidden flex-wrap items-center gap-3 text-[0.72rem] tracking-[0.26em] uppercase sm:flex"
+          >
             <span class="rounded-full border border-border px-3 py-1.5">
               {posts} posts
             </span>

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ---------------------------------------------------------------------------
  * shadcn/ui theme — base-nova / neutral / oklch
@@ -62,8 +62,8 @@
   --radius: 0.5rem;
 
   /* Typography */
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 }
 
 .dark {
@@ -183,15 +183,28 @@
     @apply text-inherit no-underline;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-semibold tracking-tight;
   }
 
-  h1 { @apply text-5xl leading-none; }
-  h2 { @apply text-4xl leading-tight; }
-  h3 { @apply text-2xl leading-normal; }
+  h1 {
+    @apply text-5xl leading-none;
+  }
+  h2 {
+    @apply text-4xl leading-tight;
+  }
+  h3 {
+    @apply text-2xl leading-normal;
+  }
 
-  p { @apply leading-[1.75]; }
+  p {
+    @apply leading-[1.75];
+  }
 
   ::selection {
     @apply bg-foreground/15 text-foreground;
@@ -297,13 +310,22 @@
     @apply text-foreground max-w-[65ch];
   }
 
-  .prose h1, .prose h2, .prose h3, .prose h4 {
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
     @apply font-semibold tracking-tight text-foreground mt-10 mb-4;
   }
 
-  .prose h1 { @apply text-4xl leading-tight; }
-  .prose h2 { @apply text-3xl leading-snug; }
-  .prose h3 { @apply text-2xl leading-snug; }
+  .prose h1 {
+    @apply text-4xl leading-tight;
+  }
+  .prose h2 {
+    @apply text-3xl leading-snug;
+  }
+  .prose h3 {
+    @apply text-2xl leading-snug;
+  }
 
   .prose p {
     @apply text-muted-foreground mb-5 leading-[1.8];
@@ -329,12 +351,17 @@
     @apply bg-transparent p-0 text-sm leading-[1.7];
   }
 
-  .prose ul, .prose ol {
+  .prose ul,
+  .prose ol {
     @apply text-muted-foreground mb-5 ml-6;
   }
 
-  .prose ul { list-style-type: disc; }
-  .prose ol { list-style-type: decimal; }
+  .prose ul {
+    list-style-type: disc;
+  }
+  .prose ol {
+    list-style-type: decimal;
+  }
 
   .prose li {
     @apply mb-2 leading-[1.8];
@@ -356,7 +383,8 @@
     @apply w-full border-collapse my-6;
   }
 
-  .prose th, .prose td {
+  .prose th,
+  .prose td {
     @apply border border-border p-3 text-left;
   }
 
@@ -392,34 +420,66 @@
 }
 
 @keyframes fade-out {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(-8px); }
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
 }
 
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slide-in-left {
-  from { opacity: 0; transform: translateX(-16px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .animate-on-scroll {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 500ms ease-out, transform 500ms ease-out;
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
 }
 
 .animate-on-scroll.visible {
@@ -427,13 +487,27 @@
   transform: translateY(0);
 }
 
-.animate-on-scroll:nth-child(2) { transition-delay: 60ms; }
-.animate-on-scroll:nth-child(3) { transition-delay: 120ms; }
-.animate-on-scroll:nth-child(4) { transition-delay: 180ms; }
-.animate-on-scroll:nth-child(5) { transition-delay: 240ms; }
-.animate-on-scroll:nth-child(6) { transition-delay: 300ms; }
+.animate-on-scroll:nth-child(2) {
+  transition-delay: 60ms;
+}
+.animate-on-scroll:nth-child(3) {
+  transition-delay: 120ms;
+}
+.animate-on-scroll:nth-child(4) {
+  transition-delay: 180ms;
+}
+.animate-on-scroll:nth-child(5) {
+  transition-delay: 240ms;
+}
+.animate-on-scroll:nth-child(6) {
+  transition-delay: 300ms;
+}
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }

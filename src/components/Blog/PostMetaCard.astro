@@ -18,19 +18,29 @@ const { author, publishedAt, updatedAt, readingTime, wordCount } = Astro.props
 
     <div class="space-y-4">
       <div>
-        <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-1">Author</p>
+        <p
+          class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-1"
+        >
+          Author
+        </p>
         <p class="text-sm font-medium text-foreground">{author}</p>
       </div>
 
       <div>
-        <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-1">Published</p>
+        <p
+          class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-1"
+        >
+          Published
+        </p>
         <time class="text-sm text-foreground" datetime={publishedAt}>{publishedAt}</time>
       </div>
 
       {
         updatedAt && (
           <div>
-            <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-1">Updated</p>
+            <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-1">
+              Updated
+            </p>
             <time class="text-sm text-foreground" datetime={updatedAt}>
               {updatedAt}
             </time>
@@ -56,7 +66,9 @@ const { author, publishedAt, updatedAt, readingTime, wordCount } = Astro.props
 
     <div class="h-px bg-border"></div>
     <div>
-      <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-3">Share</p>
+      <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-3">
+        Share
+      </p>
       <div class="flex gap-2">
         <button
           class="inline-flex items-center justify-center h-8 w-8 rounded-md border border-border text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
@@ -66,7 +78,7 @@ const { author, publishedAt, updatedAt, readingTime, wordCount } = Astro.props
             ><path
               d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
             ></path></svg
-        >
+          >
         </button>
         <button
           class="inline-flex items-center justify-center h-8 w-8 rounded-md border border-border text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
@@ -80,7 +92,7 @@ const { author, publishedAt, updatedAt, readingTime, wordCount } = Astro.props
             viewBox="0 0 24 24"
             ><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path
               d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg
-        >
+          >
         </button>
       </div>
     </div>

@@ -42,25 +42,25 @@ describe('filterPosts', () => {
     it('matches posts by title', () => {
       const result = filterPosts(posts, { query: 'typescript' })
       expect(result).toHaveLength(1)
-      expect(result[0].data.slug).toBe('typescript-generics')
+      expect(result[0]?.data.slug).toBe('typescript-generics')
     })
 
     it('matches posts by excerpt', () => {
       const result = filterPosts(posts, { query: 'generic types' })
       expect(result).toHaveLength(1)
-      expect(result[0].data.slug).toBe('typescript-generics')
+      expect(result[0]?.data.slug).toBe('typescript-generics')
     })
 
     it('matches posts by tag', () => {
       const result = filterPosts(posts, { query: 'saas' })
       expect(result).toHaveLength(1)
-      expect(result[0].data.slug).toBe('saas-guide')
+      expect(result[0]?.data.slug).toBe('saas-guide')
     })
 
     it('matches posts by category', () => {
       const result = filterPosts(posts, { query: 'guides' })
       expect(result).toHaveLength(1)
-      expect(result[0].data.slug).toBe('saas-guide')
+      expect(result[0]?.data.slug).toBe('saas-guide')
     })
 
     it('is case insensitive', () => {
@@ -104,7 +104,7 @@ describe('filterPosts', () => {
     it('combines query and category', () => {
       const result = filterPosts(posts, { query: 'astro', category: 'guides' })
       expect(result).toHaveLength(1)
-      expect(result[0].data.slug).toBe('saas-guide')
+      expect(result[0]?.data.slug).toBe('saas-guide')
     })
 
     it('combines query and tag', () => {
@@ -116,27 +116,27 @@ describe('filterPosts', () => {
   describe('sorting', () => {
     it('sorts by date descending by default', () => {
       const result = filterPosts(posts, {})
-      expect(result[0].data.publishedAt).toEqual(new Date('2025-03-05'))
-      expect(result[2].data.publishedAt).toEqual(new Date('2025-01-15'))
+      expect(result[0]?.data.publishedAt).toEqual(new Date('2025-03-05'))
+      expect(result[2]?.data.publishedAt).toEqual(new Date('2025-01-15'))
     })
 
     it('sorts by date ascending', () => {
       const result = filterPosts(posts, { sortField: 'date', sortOrder: 'asc' })
-      expect(result[0].data.publishedAt).toEqual(new Date('2025-01-15'))
-      expect(result[2].data.publishedAt).toEqual(new Date('2025-03-05'))
+      expect(result[0]?.data.publishedAt).toEqual(new Date('2025-01-15'))
+      expect(result[2]?.data.publishedAt).toEqual(new Date('2025-03-05'))
     })
 
     it('sorts by title ascending', () => {
       const result = filterPosts(posts, { sortField: 'title', sortOrder: 'asc' })
-      expect(result[0].data.title).toBe('Building a SaaS with Astro')
-      expect(result[1].data.title).toBe('Getting Started with Astro')
-      expect(result[2].data.title).toBe('Mastering TypeScript Generics')
+      expect(result[0]?.data.title).toBe('Building a SaaS with Astro')
+      expect(result[1]?.data.title).toBe('Getting Started with Astro')
+      expect(result[2]?.data.title).toBe('Mastering TypeScript Generics')
     })
 
     it('sorts by title descending', () => {
       const result = filterPosts(posts, { sortField: 'title', sortOrder: 'desc' })
-      expect(result[0].data.title).toBe('Mastering TypeScript Generics')
-      expect(result[2].data.title).toBe('Building a SaaS with Astro')
+      expect(result[0]?.data.title).toBe('Mastering TypeScript Generics')
+      expect(result[2]?.data.title).toBe('Building a SaaS with Astro')
     })
 
     it('sorts by reading time', () => {

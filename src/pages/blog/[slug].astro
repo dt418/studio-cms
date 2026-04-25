@@ -52,8 +52,7 @@ const prevPost =
   currentIndex >= 0 && currentIndex < allPosts.length - 1
     ? allPosts[currentIndex + 1].data
     : undefined
-const nextPost =
-  currentIndex > 0 ? allPosts[currentIndex - 1].data : undefined
+const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1].data : undefined
 const relatedPosts = allPosts
   .filter((entry) => entry.data.slug !== slug && entry.data.category === category)
   .slice(0, 3)
@@ -174,11 +173,10 @@ const articleJsonLd = {
             <nav class="mt-8 grid gap-4 md:grid-cols-2">
               {
                 prevPost ? (
-                  <a
-                    href={`/blog/${prevPost.slug}`}
-                    class="card-hover group"
-                  >
-                    <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-1">Previous Post</p>
+                  <a href={`/blog/${prevPost.slug}`} class="card-hover group">
+                    <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-1">
+                      Previous Post
+                    </p>
                     <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
                       &larr; {prevPost.title}
                     </p>
@@ -190,11 +188,10 @@ const articleJsonLd = {
 
               {
                 nextPost ? (
-                  <a
-                    href={`/blog/${nextPost.slug}`}
-                    class="card-hover group text-right"
-                  >
-                    <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-1">Next Post</p>
+                  <a href={`/blog/${nextPost.slug}`} class="card-hover group text-right">
+                    <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 mb-1">
+                      Next Post
+                    </p>
                     <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
                       {nextPost.title} &rarr;
                     </p>

@@ -9,12 +9,14 @@ const { items } = Astro.props
 <section class="border-b border-border overflow-hidden">
   <div class="py-4">
     <div class="flex gap-6 animate-marquee whitespace-nowrap">
-      {[...items, ...items].map((item) => (
-        <span class="font-mono text-[0.62rem] tracking-[0.24em] uppercase text-muted-foreground/40">
-          {item}
-          <span class="text-muted-foreground/20 ml-6">/</span>
-        </span>
-      ))}
+      {
+        [...items, ...items].map((item) => (
+          <span class="font-mono text-[0.62rem] tracking-[0.24em] uppercase text-muted-foreground/40">
+            {item}
+            <span class="text-muted-foreground/20 ml-6">/</span>
+          </span>
+        ))
+      }
     </div>
   </div>
 </section>

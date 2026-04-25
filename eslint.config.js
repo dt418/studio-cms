@@ -2,6 +2,7 @@ import js from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import prettier from 'eslint-config-prettier'
 import astro from 'eslint-plugin-astro'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
 
 export default tseslint.config(
   {
@@ -18,9 +19,12 @@ export default tseslint.config(
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  ...astro.configs['flat/recommended'],
+  ...astro.configs.recommended,
   prettier,
   {
+    plugins: {
+      'jsx-a11y': jsxA11y,
+    },
     languageOptions: {
       globals: {
         process: 'readonly',
@@ -44,6 +48,11 @@ export default tseslint.config(
       'eqeqeq': ['error', 'always'],
       'no-var': 'error',
       'curly': ['error', 'all'],
+      // Accessibility
+      'jsx-a11y/alt-text': 'error',
+      'jsx-a11y/img-redundant-alt': 'error',
+      'jsx-a11y/anchor-is-valid': 'warn',
+      'jsx-a11y/aria-props': 'warn',
     },
   },
   {

@@ -83,17 +83,13 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
         <a href="/" class="flex items-center gap-2 font-semibold tracking-tight">
           <span class="text-lg">DT</span>
         </a>
-        <nav class="flex items-center gap-4 ml-auto font-mono text-[0.62rem] tracking-[0.24em] uppercase">
-          <a
-            href="/blog"
-            class="text-muted-foreground hover:text-foreground transition-colors"
-          >
+        <nav
+          class="flex items-center gap-4 ml-auto font-mono text-[0.62rem] tracking-[0.24em] uppercase"
+        >
+          <a href="/blog" class="text-muted-foreground hover:text-foreground transition-colors">
             writing
           </a>
-          <a
-            href="/rss.xml"
-            class="text-muted-foreground hover:text-foreground transition-colors"
-          >
+          <a href="/rss.xml" class="text-muted-foreground hover:text-foreground transition-colors">
             rss
           </a>
         </nav>
