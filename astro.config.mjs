@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module'
 import { defineConfig } from 'astro/config'
 import node from '@astrojs/node' // SSR adapter for Node.js
 import react from '@astrojs/react'
@@ -6,6 +7,9 @@ import sitemap from '@astrojs/sitemap'
 
 import studiocmsUi from '@studiocms/ui'
 import { langFlags } from './src/lang-flags-icons.js' // custom icon collection
+
+const require = createRequire(import.meta.url)
+const simpleIcons = require('@iconify-json/simple-icons/icons.json')
 
 import tailwindcss from '@tailwindcss/vite'
 
@@ -24,7 +28,7 @@ import { visualizer } from 'rollup-plugin-visualizer'
 // https://astro.build/config
 export default defineConfig({
   // Site URL for sitemap and canonical links
-  site: process.env['SITE_URL'] ?? 'https://danhthanh.dev',
+  site: process.env['SITE_URL'] ?? 'http://localhost:4321',
   output: 'server', // SSR mode
 
   // Path aliases for shadcn-style imports
@@ -59,6 +63,7 @@ export default defineConfig({
     studiocmsUi({
       icons: {
         'lang-flags': langFlags, // register custom flag icons for blog plugin
+        simpleicons: simpleIcons, // brand icons used by StudioCMS dashboard pages
       },
     }), // client-side content fetching
     studiocmsCfetch(),

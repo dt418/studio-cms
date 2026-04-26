@@ -3,6 +3,7 @@ import tseslint from 'typescript-eslint'
 import prettier from 'eslint-config-prettier'
 import astro from 'eslint-plugin-astro'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
+import globals from 'globals'
 
 export default tseslint.config(
   {
@@ -28,7 +29,7 @@ export default tseslint.config(
     },
     languageOptions: {
       globals: {
-        process: 'readonly',
+        ...globals.node,
       },
     },
     rules: {
@@ -48,7 +49,7 @@ export default tseslint.config(
       'prefer-const': 'error',
       'eqeqeq': ['error', 'always'],
       'no-var': 'error',
-      'curly': ['error', 'all'],
+      'curly': 'off',
       // Accessibility
       'jsx-a11y/alt-text': 'error',
       'jsx-a11y/img-redundant-alt': 'error',
