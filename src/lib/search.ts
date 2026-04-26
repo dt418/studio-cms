@@ -36,15 +36,15 @@ interface PagefindData {
   content?: string
 }
 
-type FuseConstructor = new <T>(
-  items: T[],
+type FuseConstructor = new <TItem>(
+  items: TItem[],
   options: {
     keys: { name: string; weight: number }[]
     threshold: number
     includeScore: boolean
     minMatchCharLength: number
   }
-) => { search: (query: string) => { item: T; score: number }[] }
+) => { search: (query: string) => { item: TItem; score: number }[] }
 
 const PAGEFIND_BASE_URL = '/pagefind'
 const DEBOUNCE_MS = 200

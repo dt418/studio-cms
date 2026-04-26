@@ -22,7 +22,7 @@ function parseFrontmatter(fileContent) {
     if ((value.startsWith('[') && value.endsWith(']'))) {
       const items = value.slice(1, -1)
       value = items
-        ? items.split(',').map((s) => s.trim().replace(/^["']|["']$/g, ''))
+        ? items.split(',').map((str) => str.trim().replace(/^["']|["']$/g, ''))
         : []
     } else {
       value = value.replace(/^["']|["']$/g, '')
@@ -61,7 +61,7 @@ function htmlEscape(str) {
     .replace(/"/g, '&quot;')
 }
 
-const files = readdirSync(POSTS_DIR).filter((f) => f.endsWith('.md') || f.endsWith('.mdx'))
+const files = readdirSync(POSTS_DIR).filter((file) => file.endsWith('.md') || file.endsWith('.mdx'))
 
 const posts = files.map((file) => {
   const content = readFileSync(join(POSTS_DIR, file), 'utf-8')
@@ -79,10 +79,10 @@ const posts = files.map((file) => {
   }
 })
 
-posts.sort((a, b) => {
-  if (!a.publishedAt) return 1
-  if (!b.publishedAt) return -1
-  return new Date(b.publishedAt) - new Date(a.publishedAt)
+posts.sort((nameA, nameB) => {
+  if (!nameA.publishedAt) return 1
+  if (!nameB.publishedAt) return -1
+  return new Date(nameB.publishedAt) - new Date(nameA.publishedAt)
 })
 
 const htmlParts = posts.map((post) => {
@@ -90,7 +90,7 @@ const htmlParts = posts.map((post) => {
     ? `<span data-pagefind-filter="category" hidden>${htmlEscape(post.category)}</span>`
     : ''
   const tagFilters = post.tags
-    .map((t) => `<span data-pagefind-filter="tag" hidden>${htmlEscape(t)}</span>`)
+    .map((tag) => `<span data-pagefind-filter="tag" hidden>${htmlEscape(tag)}</span>`)
     .join('')
 
   return `
@@ -100,7 +100,7 @@ const htmlParts = posts.map((post) => {
   <p data-pagefind-meta="excerpt">${htmlEscape(post.excerpt)}</p>
   <p data-pagefind-meta="coverImage">${htmlEscape(post.coverImage)}</p>
   <p data-pagefind-meta="category">${htmlEscape(post.category)}</p>
-  <p data-pagefind-meta="tags">${post.tags.map((t) => htmlEscape(t)).join(', ')}</p>
+  <p data-pagefind-meta="tags">${post.tags.map((tag) => htmlEscape(tag)).join(', ')}</p>
   <p data-pagefind-meta="slug">${htmlEscape(post.slug)}</p>
   <p data-pagefind-meta="publishedAt">${htmlEscape(post.publishedAt)}</p>
   <div>${htmlEscape(post.body)}</div>

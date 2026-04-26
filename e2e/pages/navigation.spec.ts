@@ -3,52 +3,107 @@ import { test, expect } from '@playwright/test'
 test.describe('Navigation', () => {
   test('header navigation works', async ({ page }) => {
     await page.goto('/')
-    
-    const homeLink = page.locator('header a[href="/"]')
-    await expect(homeLink).toBeVisible()
-    
+
+    // Header should have DT branding
+    const branding = page.locator('header a[href="/"]')
+    await expect(branding).toBeVisible()
+    await expect(branding).toContainText('DT')
+
+    // Should have blog link with "writing" text
     const blogLink = page.locator('header a[href="/blog"]')
     await expect(blogLink).toBeVisible()
-    
+    await expect(blogLink).toContainText('writing')
+
+    // Navigate to blog
     await blogLink.click()
     await expect(page).toHaveURL('/blog')
   })
 
+  test('header has RSS link', async ({ page }) => {
+    await page.goto('/')
+
+    const rssLink = page.locator('header a[href="/rss.xml"]')
+    await expect(rssLink).toBeVisible()
+    await expect(rssLink).toContainText('rss')
+  })
+
   test('footer links work', async ({ page }) => {
     await page.goto('/')
-    
-    const emailLink = page.locator('footer a[href*="mailto:"]')
+
+    const footer = page.locator('footer')
+    await expect(footer).toBeVisible()
+
+    const emailLink = footer.locator('a[href*="mailto:"]')
     await expect(emailLink).toBeVisible()
-    
-    const githubLink = page.locator('footer a[href*="github"]')
+
+    const githubLink = footer.locator('a[href*="github"]')
     await expect(githubLink).toBeVisible()
-    
-    const rssLink = page.locator('footer a[href="/rss.xml"]')
+
+    const rssLink = footer.locator('a[href="/rss.xml"]')
     await expect(rssLink).toBeVisible()
+
+    const linkedinLink = footer.locator('a[href*="linkedin"]')
+    await expect(linkedinLink).toBeVisible()
+  })
+
+  test('footer shows links section', async ({ page }) => {
+    await page.goto('/')
+
+    const footer = page.locator('footer')
+    await expect(footer).toContainText('links')
   })
 
   test('navigation is sticky on scroll', async ({ page }) => {
     await page.goto('/')
-    
+
     const header = page.locator('header')
     await expect(header).toHaveCSS('position', 'sticky')
   })
 
-  test('rss link is accessible', async ({ page }) => {
+  test('header has backdrop blur effect', async ({ page }) => {
     await page.goto('/')
-    
-    const rssLink = page.locator('a[href="/rss.xml"]')
-    const responsePromise = page.waitForResponse((response) => response.url().includes('rss.xml'))
-    await rssLink.click()
-    const response = await responsePromise
-    expect(response.status()).toBe(200)
+
+    const header = page.locator('header')
+    await expect(header).toHaveClass(/backdrop-blur/)
   })
 
-  test('breadcrumb navigation works', async ({ page }) => {
+  test('rss link is accessible and returns valid XML', async ({ page }) => {
+    await page.goto('/')
+
+    const rssLink = page.locator('a[href="/rss.xml"]').first()
+
+    // Open RSS in new page to check response
+    const [newPage] = await Promise.all([
+      page.context().waitForEvent('page'),
+      rssLink.click({ button: 'middle' }),
+    ])
+
+    await newPage.waitForLoadState()
+    const content = await newPage.content()
+    expect(content).toContain('<rss')
+    await newPage.close()
+  })
+
+  test('navigation from blog to home works', async ({ page }) => {
     await page.goto('/blog')
-    
-    const homeLink = page.locator('a[href="/"]')
+
+    const homeLink = page.locator('header a[href="/"]')
+    await expect(homeLink).toBeVisible()
+
     await homeLink.click()
     await expect(page).toHaveURL('/')
+  })
+
+  test('all footer links have proper text', async ({ page }) => {
+    await page.goto('/')
+
+    const footerLinks = page.locator('footer a')
+    const count = await footerLinks.count()
+
+    for (let i = 0; i < count; i++) {
+      const link = footerLinks.nth(i)
+      const text = await link.textContent()
+      expect(text?.trim()).toBeTruthy()
+    }
   })
 })

@@ -9,7 +9,8 @@ import studiocmsUi from '@studiocms/ui'
 import { langFlags } from './src/lang-flags-icons.js' // custom icon collection
 
 const require = createRequire(import.meta.url)
-const simpleIcons = require('@iconify-json/simple-icons/icons.json')
+const heroicons = require('@iconify-json/heroicons/icons.json')
+const singleIcons = require('@iconify-json/simple-icons/icons.json')
 
 import tailwindcss from '@tailwindcss/vite'
 
@@ -63,7 +64,8 @@ export default defineConfig({
     studiocmsUi({
       icons: {
         'lang-flags': langFlags, // register custom flag icons for blog plugin
-        simpleicons: simpleIcons, // brand icons used by StudioCMS dashboard pages
+        heroicons: heroicons,
+        simpleicons: singleIcons,
       },
     }), // client-side content fetching
     studiocmsCfetch(),

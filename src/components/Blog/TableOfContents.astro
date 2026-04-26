@@ -71,7 +71,7 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 3)
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             links.forEach((link) => link.classList.remove('active'))
-            const activeLink = toc.querySelector(`a[href="#${entry.target.id}"]`)
+            const activeLink = toc.querySelector<HTMLAnchorElement>(`a[href="#${entry.target.id}"]`)
             activeLink?.classList.add('active')
           }
         })

@@ -16,8 +16,8 @@ function safeReplace(file, replacer) {
 // 1. Fix effect unused imports
 safeReplace(
   "node_modules/@withstudiocms/effect/dist/effect.js",
-  (c) =>
-    c.replace(
+  (content) =>
+    content.replace(
       /import\s*{[^}]+}\s*from\s*["']effect["'];?/g,
       'import { deepmerge } from "effect";'
     )
@@ -26,8 +26,8 @@ safeReplace(
 // 2. Remove astro internal helpers (dangerous dep)
 safeReplace(
   "node_modules/@studiocms/markdown-remark/dist/index.js",
-  (c) =>
-    c.replace(
+  (content) =>
+    content.replace(
       /import\s*{[^}]+}\s*from\s*["']@astrojs\/internal-helpers["'];?/g,
       ""
     )
@@ -41,8 +41,8 @@ if (fs.existsSync(studiocmsDir)) {
   for (const file of fs.readdirSync(studiocmsDir, { recursive: true })) {
     const full = path.join(studiocmsDir, file);
     if (full.endsWith(".ts")) {
-      safeReplace(full, (c) =>
-        c.replace(/import\s*{[^}]+}\s*from\s*["']effect["'];?/g, "")
+      safeReplace(full, (content) =>
+        content.replace(/import\s*{[^}]+}\s*from\s*["']effect["'];?/g, "")
       );
     }
   }

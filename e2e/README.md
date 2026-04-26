@@ -27,7 +27,7 @@ pnpm test:e2e:report
 
 ## Test Structure
 
-```
+```text
 e2e/
 ├── pages/           # Page-level tests
 │   ├── home.spec.ts
