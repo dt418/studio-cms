@@ -25,12 +25,12 @@ jobs:
         run: pnpm migrate
         env:
           CMS_LIBSQL_URL: file:./libsql.db
-          CMS_ENCRYPTION_KEY: test-key-for-ci-only
+          CMS_ENCRYPTION_KEY: ${{ secrets.CMS_ENCRYPTION_KEY }}
       - name: Build application
         run: pnpm build
         env:
           CMS_LIBSQL_URL: file:./libsql.db
-          CMS_ENCRYPTION_KEY: test-key-for-ci-only
+          CMS_ENCRYPTION_KEY: ${{ secrets.CMS_ENCRYPTION_KEY }}
           SITE_URL: http://localhost:4321
       - name: Run Playwright tests
         run: pnpm test:e2e
