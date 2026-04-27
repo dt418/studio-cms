@@ -12,7 +12,7 @@ export async function getAllPosts(): Promise<Post[]> {
 
 export async function getPostBySlug(slug: string): Promise<Post | undefined> {
   const posts = await getCollection('posts')
-  return posts.find((post) => post.data.slug === slug)
+  return posts.find((post) => (post.data.slug ?? post.id) === slug)
 }
 
 export async function getAllTags(): Promise<string[]> {

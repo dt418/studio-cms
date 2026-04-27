@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content'
 import TagsList from './TagsList.astro'
 import { readingTime } from '@/lib/reading-time'
 import { formatDate } from '@/lib/date'
+import { getSlug } from '@/lib/content-graph'
 
 export interface Props {
   post: CollectionEntry<'posts'>
@@ -12,6 +13,7 @@ const { post } = Astro.props
 const { title, excerpt, publishedAt, tags } = post.data
 const date = formatDate(publishedAt)
 const minutes = readingTime(post.body ?? '')
+const resolvedSlug = getSlug(post)
 ---
 
 <article
@@ -21,7 +23,7 @@ const minutes = readingTime(post.body ?? '')
     <time class="text-sm font-mono text-muted-foreground tabular-nums">{date}</time>
   </div>
 
-  <a href={`/blog/${post.data.slug}`} class="block min-w-0">
+  <a href={`/blog/${resolvedSlug}`} class="block min-w-0">
     <h2
       class="text-lg font-semibold leading-snug tracking-tight text-foreground/90 group-hover:text-foreground transition-colors mb-1.5"
     >
@@ -37,7 +39,7 @@ const minutes = readingTime(post.body ?? '')
 
   <div class="pt-0.5 pl-4 flex flex-col items-end gap-1">
     <a
-      href={`/blog/${post.data.slug}`}
+      href={`/blog/${resolvedSlug}`}
       class="group/enter inline-flex items-center gap-1 text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground/40 hover:text-foreground transition-colors"
     >
       <span>enter</span>

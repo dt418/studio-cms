@@ -13,9 +13,9 @@ const posts = await getAllPosts()
 const categories = await getAllCategories()
 const allTags = await getAllTags()
 
-const featuredPost = posts[0]?.data ?? null
-const recentPosts = posts.slice(1, 4).map((post) => post.data) ?? []
-const archivePosts = posts.slice(4).map((post) => post.data) ?? []
+const featuredPost = posts[0] ?? null
+const recentPosts = posts.slice(1, 4)
+const archivePosts = posts.slice(4)
 
 const metrics = [
   {

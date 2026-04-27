@@ -7,6 +7,7 @@ import ArticleContent from '@/components/Blog/ArticleContent.astro'
 import RelatedPosts from '@/components/Blog/RelatedPosts.astro'
 import { getPostBySlug, getAllPosts } from '@/lib/cms'
 import { readingTime } from '@/lib/reading-time'
+import { getSlug } from '@/lib/content-graph'
 import { render } from 'astro:content'
 import { SITE } from '@/lib/site'
 import { getImageUrl, getAdjacentPosts } from '@/lib/utils'
@@ -47,7 +48,7 @@ const {
 } = post.data
 
 const formattedDate = formatDate(publishedAt)
-const updatedDate = updatedAt ? formatDate(updatedAt) : undefined
+const updatedDate = updatedAt ? formatDate(updatedAt) : null
 
 // Content metrics
 const bodyText = post.body ?? ''
@@ -59,11 +60,11 @@ const readingTimeMin = readingTime(bodyText)
 // ============================================================================
 
 const allPosts = await getAllPosts()
-const currentIndex = allPosts.findIndex((entry) => entry.data.slug === slug)
+const currentIndex = allPosts.findIndex((entry) => getSlug(entry) === slug)
 const { prev: prevPost, next: nextPost } = getAdjacentPosts(allPosts, currentIndex)
 
 const relatedPosts = allPosts
-  .filter((entry) => entry.data.slug !== slug && entry.data.category === category)
+  .filter((entry) => getSlug(entry) !== slug && entry.data.category === category)
   .slice(0, 3)
 
 // ============================================================================
@@ -103,13 +104,13 @@ const articleJsonLd = {
 <BaseLayout
   title={`${title} | ${SITE.name}`}
   description={excerpt}
-  {...coverImage && { image: coverImage }}
   canonicalUrl={canonicalUrl}
   publishedTime={publishedTime}
   modifiedTime={modifiedTime}
   author={author}
   type="article"
   jsonLd={articleJsonLd}
+  {...coverImage && { image: coverImage }}
 >
   <article class="min-h-screen" transition:name="post-detail">
     <!-- Hero Section -->
@@ -148,9 +149,9 @@ const articleJsonLd = {
           <PostMetaCard
             author={author}
             publishedAt={formattedDate}
-            {...updatedDate && { updatedAt: updatedDate }}
             readingTime={readingTimeMin}
             wordCount={wordCount}
+            {...updatedDate && { updatedAt: updatedDate }}
           />
         </aside>
       </div>

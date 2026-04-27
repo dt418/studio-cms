@@ -5,24 +5,31 @@
 - **Name:** DanhThanh.dev Blog
 - **Framework:** Astro 5.18.1 (SSR, Node adapter standalone)
 - **CMS:** StudioCMS 0.4.4 with libSQL (Turso)
-- **Styling:** Tailwind CSS 4 + custom design tokens in `src/styles/global.css`
+- **Styling:** Tailwind CSS 4 + design tokens (shadcn/ui base-nova) + `tw-animate-css` in `src/styles/global.css`
 - **React:** 19.2.5 (interactive components via `@astrojs/react`)
 - **UI Primitives:** `@base-ui/react` + `class-variance-authority`
 
 ## Design System
 
-### Colors (Dark Theme Default, oklch format)
+### Colors (shadcn/ui base-nova / neutral / oklch)
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--color-background` | `oklch(0.141 0.005 285.823)` | Page background |
-| `--color-foreground` | `oklch(0.922 0.004 286.032)` | Primary text |
-| `--color-card` | `oklch(0.168 0.005 285.823)` | Card backgrounds |
-| `--color-secondary` | `oklch(0.238 0.005 285.823)` | Secondary surfaces, badges |
-| `--color-muted` | `oklch(0.667 0.008 286.032)` | Secondary text |
-| `--color-muted-foreground` | `oklch(0.488 0.008 286.032)` | Tertiary text |
-| `--color-border` | `oklch(1 0 0 / 0.08)` | Borders |
-| `--color-primary` | `oklch(0.922 0.004 286.032)` | Links, primary actions |
+Canonical shadcn theme in `src/styles/global.css`:
+- **Light defaults** on `:root`, **dark overrides** on `.dark`
+- Bare token names (`--background`, `--foreground`, etc.) are source of truth
+- **`@theme inline`** bridges bare vars to Tailwind v4's `--color-*` namespace
+- **`@import 'tw-animate-css'`** provides shadcn animation utilities
+
+| Token | Light | Dark | Role |
+|-------|-------|------|------|
+| `--background` | `oklch(1 0 0)` | `oklch(0.145 0 0)` | Page background |
+| `--foreground` | `oklch(0.145 0 0)` | `oklch(0.985 0 0)` | Primary text |
+| `--card` | `oklch(1 0 0)` | `oklch(0.205 0 0)` | Card backgrounds |
+| `--primary` | `oklch(0.205 0 0)` | `oklch(0.922 0 0)` | Primary actions, links |
+| `--secondary` | `oklch(0.97 0 0)` | `oklch(0.269 0 0)` | Secondary surfaces |
+| `--muted` | `oklch(0.97 0 0)` | `oklch(0.269 0 0)` | Subtle surfaces |
+| `--muted-foreground` | `oklch(0.556 0 0)` | `oklch(0.708 0 0)` | De-emphasized text |
+| `--border` | `oklch(0.922 0 0)` | `oklch(1 0 0 / 10%)` | Borders |
+| `--destructive` | `oklch(0.577 0.245 27.325)` | `oklch(0.704 0.191 22.216)` | Error states |
 
 ### Typography
 
@@ -33,17 +40,19 @@
 
 ### Background Pattern
 
-Body has subtle dot-grid: `radial-gradient(oklch(1 0 0 / 0.06) 1px, transparent 1px)` at `24px 24px`.
+Body has subtle dot-grid: `radial-gradient(color-mix(in oklch, var(--foreground) 6%, transparent) 1px, transparent 1px)` at `24px 24px`. Uses `color-mix()` so dots adapt to both light and dark themes.
 
 ### CSS Architecture
 
 - All colors use `oklch()` format (Tailwind CSS 4 native)
+- Bare tokens on `:root`, `@theme inline` bridges to `--color-*` namespace
+- `@import 'tw-animate-css'` provides shadcn-native animation utilities
 - Component styles use `@apply` with Tailwind utilities
 - Raw CSS only for: `background-image`, `::view-transition`, `@keyframes`, `transition-delay`, `list-style-type`
 
 ### Tailwind Usage
 
-Use design token utilities: `bg-background`, `text-foreground`, `border-border`, `bg-card`, `text-muted`, `bg-secondary`, etc.
+Use design token utilities: `bg-background`, `text-foreground`, `border-border`, `bg-card`, `text-muted-foreground`, `bg-secondary`, etc.
 
 ## Component Patterns
 
@@ -216,13 +225,14 @@ astro build → generate-search-index.mjs → pagefind --site dist/client
 ## Key Rules
 
 1. **Use `@apply` for component styles** — never raw CSS when Tailwind utilities exist
-2. **All colors use `oklch()` format** — Tailwind CSS 4 native color space
-3. **Follow existing component patterns** — check similar components before creating new ones
-4. **Use `cn()` for React class merging** — never concatenate class strings manually
-5. **Type everything** — no `any` types, strict TypeScript
-6. **Test utilities** — `src/lib/*.test.ts` for pure functions
-7. **ESLint rules** — no unused vars, strict equality, prefer-const, no-console (except warn/error)
-8. **Conventional commits** — enforced by commitlint + lefthook
+2. **All colors use `oklch()` format** — Tailwind CSS 4 + shadcn/ui base-nova theme
+3. **Use Tailwind semantic utilities** (`bg-background`, `text-muted-foreground`) — never raw `var(--)` or `oklch()` literals in markup
+4. **Follow existing component patterns** — check similar components before creating new ones
+5. **Use `cn()` for React class merging** — never concatenate class strings manually
+6. **Type everything** — no `any` types, strict TypeScript
+7. **Test utilities** — `src/lib/*.test.ts` for pure functions
+8. **ESLint rules** — no unused vars, strict equality, prefer-const, no-console (except warn/error)
+9. **Conventional commits** — enforced by commitlint + lefthook
 
 ## CSS Classes Reference
 

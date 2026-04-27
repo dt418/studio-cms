@@ -1,21 +1,13 @@
 ---
 import PostCard from '@/components/PostCard.astro'
-
-interface PostData {
-  title: string
-  excerpt: string
-  slug: string
-  category: string
-  publishedAt: Date
-  tags: string[]
-}
+import type { Post } from '@/lib/cms'
 
 interface Props {
-  featuredPost: PostData | null
-  recentPosts: PostData[]
+  featuredPost: Post | null
+  recentPosts: Post[]
 }
 
-const { featuredPost, recentPosts } = Astro.props
+const { featuredPost = null, recentPosts } = Astro.props
 ---
 
 <section class="border-b border-border">
@@ -35,31 +27,12 @@ const { featuredPost, recentPosts } = Astro.props
       {
         featuredPost ? (
           <div class="lg:col-span-7 card-hover">
-            <PostCard
-              title={featuredPost.title}
-              excerpt={featuredPost.excerpt}
-              slug={featuredPost.slug}
-              category={featuredPost.category}
-              publishedAt={featuredPost.publishedAt}
-              tags={featuredPost.tags}
-              large
-            />
+            <PostCard post={featuredPost} large />
           </div>
         ) : null
       }
       <div class="lg:col-span-5 grid gap-4">
-        {
-          recentPosts.map((post) => (
-            <PostCard
-              title={post.title}
-              excerpt={post.excerpt}
-              slug={post.slug}
-              category={post.category}
-              publishedAt={post.publishedAt}
-              tags={post.tags}
-            />
-          ))
-        }
+        {recentPosts.map((recentPost) => <PostCard post={recentPost} />)}
       </div>
     </div>
   </div>

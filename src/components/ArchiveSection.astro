@@ -1,15 +1,9 @@
 ---
+import { getSlug, type Post } from '@/lib/content-graph'
 import { formatDate } from '@/lib/date'
 
-interface PostData {
-  slug: string
-  title: string
-  category: string
-  publishedAt: Date
-}
-
 interface Props {
-  posts: PostData[]
+  posts: Post[]
 }
 
 const { posts } = Astro.props
@@ -46,20 +40,20 @@ const { posts } = Astro.props
           {posts.map((post) => (
             <li>
               <a
-                href={`/blog/${post.slug}`}
+                href={`/blog/${getSlug(post)}`}
                 class="grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-5 items-baseline hover:bg-white/2 transition-colors -mx-4 px-4 rounded-sm"
               >
                 <time
-                  datetime={post.publishedAt.toISOString()}
+                  datetime={post.data.publishedAt.toISOString()}
                   class="font-mono text-[0.7rem] tracking-[0.22em] uppercase text-muted-foreground/50 tabular-nums"
                 >
-                  {formatDate(post.publishedAt)}
+                  {formatDate(post.data.publishedAt)}
                 </time>
                 <span class="text-sm font-medium text-foreground/90 line-clamp-1">
-                  {post.title}
+                  {post.data.title}
                 </span>
                 <span class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/40">
-                  {post.category}
+                  {post.data.category}
                 </span>
               </a>
             </li>

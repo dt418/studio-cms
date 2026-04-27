@@ -13,42 +13,72 @@ The visual language and component patterns for DanhThanh.dev.
 
 ## Color Tokens
 
-All colors are defined in `src/styles/global.css` as CSS custom properties using `oklch()` format.
+All colors defined in `src/styles/global.css` as CSS custom properties using `oklch()` format, following the canonical shadcn/ui theme (base-nova / neutral).
 
-### Base Palette
+**Token layers:**
+1. **Bare tokens** (`--background`, `--foreground`, ...) on `:root` (light) and `.dark` — source of truth
+2. **`@theme inline`** bridges them to Tailwind v4's `--color-*` namespace
+3. **Tailwind utilities** (`bg-background`, `text-muted-foreground`, ...) consumed by components
 
-| Token                           | Value                                | Usage                          |
-|---------------------------------|--------------------------------------|------------------------------- |
-| `--color-background`            | `oklch(0.141 0.005 285.823)`         | Page background                |
-| `--color-foreground`            | `oklch(0.922 0.004 286.032)`         | Primary text                   |
-| `--color-card`                  | `oklch(0.168 0.005 285.823)`         | Card backgrounds               |
-| `--color-card-foreground`       | `oklch(0.922 0.004 286.032)`         | Card text                      |
-| `--color-popover`               | `oklch(0.168 0.005 285.823)`         | Popover/dropdown backgrounds   |
-| `--color-popover-foreground`    | `oklch(0.922 0.004 286.032)`         | Popover text                   |
-| `--color-primary`               | `oklch(0.922 0.004 286.032)`         | Primary actions, links         |
-| `--color-primary-foreground`    | `oklch(0.141 0.005 285.823)`         | Text on primary backgrounds    |
-| `--color-secondary`             | `oklch(0.238 0.005 285.823)`         | Secondary surfaces, badges     |
-| `--color-secondary-foreground`  | `oklch(0.922 0.004 286.032)`         | Text on secondary backgrounds  |
-| `--color-muted`                 | `oklch(0.667 0.008 286.032)`         | Secondary text (body copy)     |
-| `--color-muted-foreground`      | `oklch(0.488 0.008 286.032)`         | Tertiary text (meta, hints)    |
-| `--color-accent`                | `oklch(0.238 0.005 285.823)`         | Hover states                   |
-| `--color-accent-foreground`     | `oklch(0.922 0.004 286.032)`         | Text on accent backgrounds     |
-| `--color-destructive`           | `oklch(0.637 0.237 25.331)`          | Error states, delete actions   |
-| `--color-destructive-foreground`| `oklch(0.922 0.004 286.032)`         | Text on destructive backgrounds|
-| `--color-border`                | `oklch(1 0 0 / 0.08)`                | Borders, dividers              |
-| `--color-input`                 | `oklch(1 0 0 / 0.12)`                | Input borders                  |
-| `--color-ring`                  | `oklch(1 0 0 / 0.3)`                 | Focus rings                    |
+Toggle dark mode with `class="dark"` on `<html>` (handled by `ThemeToggle.astro`). See `DESIGN.md` for the full token → utility pipeline.
 
-### Semantic Colors
+### Core Palette
 
-| Token                        | Value                            | Usage                    |
-| ---------------------------- | -------------------------------- | ------------------------ |
-| `--color-success`            | `oklch(0.723 0.219 149.579)`     | Success states           |
-| `--color-success-foreground` | `oklch(0.141 0.005 285.823)`     | Text on success          |
-| `--color-warning`            | `oklch(0.795 0.184 86.047)`      | Warning states           |
-| `--color-warning-foreground` | `oklch(0.141 0.005 285.823)`     | Text on warning          |
-| `--color-info`               | `oklch(0.594 0.224 263.17)`      | Info states              |
-| `--color-info-foreground`    | `oklch(0.922 0.004 286.032)`     | Text on info             |
+| Token | Light (`:root`) | Dark (`.dark`) | Role |
+|-------|-----------------|----------------|------|
+| `--background` | `oklch(1 0 0)` | `oklch(0.145 0 0)` | Page surface |
+| `--foreground` | `oklch(0.145 0 0)` | `oklch(0.985 0 0)` | Primary text |
+| `--card` | `oklch(1 0 0)` | `oklch(0.205 0 0)` | Card surface |
+| `--card-foreground` | `oklch(0.145 0 0)` | `oklch(0.985 0 0)` | Card text |
+| `--popover` | `oklch(1 0 0)` | `oklch(0.205 0 0)` | Floating panels |
+| `--popover-foreground` | `oklch(0.145 0 0)` | `oklch(0.985 0 0)` | Popover text |
+| `--primary` | `oklch(0.205 0 0)` | `oklch(0.922 0 0)` | Primary actions, links |
+| `--primary-foreground` | `oklch(0.985 0 0)` | `oklch(0.205 0 0)` | Text on primary |
+| `--secondary` | `oklch(0.97 0 0)` | `oklch(0.269 0 0)` | Secondary surfaces |
+| `--secondary-foreground` | `oklch(0.205 0 0)` | `oklch(0.985 0 0)` | Text on secondary |
+| `--muted` | `oklch(0.97 0 0)` | `oklch(0.269 0 0)` | Subtle surfaces |
+| `--muted-foreground` | `oklch(0.556 0 0)` | `oklch(0.708 0 0)` | De-emphasized text |
+| `--accent` | `oklch(0.97 0 0)` | `oklch(0.269 0 0)` | Hover surfaces |
+| `--accent-foreground` | `oklch(0.205 0 0)` | `oklch(0.985 0 0)` | Text on accent |
+| `--destructive` | `oklch(0.577 0.245 27.325)` | `oklch(0.704 0.191 22.216)` | Error states |
+| `--destructive-foreground` | `oklch(0.985 0 0)` | `oklch(0.985 0 0)` | Text on destructive |
+| `--border` | `oklch(0.922 0 0)` | `oklch(1 0 0 / 10%)` | Borders, dividers |
+| `--input` | `oklch(0.922 0 0)` | `oklch(1 0 0 / 15%)` | Input borders |
+| `--ring` | `oklch(0.708 0 0)` | `oklch(0.556 0 0)` | Focus rings |
+
+### Semantic Colors (Project Extensions)
+
+| Token | Value | Role |
+|-------|-------|------|
+| `--success` | `oklch(0.723 0.219 149.579)` | Success states |
+| `--success-foreground` | `oklch(0.145 0 0)` | Text on success |
+| `--warning` | `oklch(0.795 0.184 86.047)` | Warning states |
+| `--warning-foreground` | `oklch(0.145 0 0)` | Text on warning |
+| `--info` | `oklch(0.594 0.224 263.17)` | Info states |
+| `--info-foreground` | `oklch(0.985 0 0)` | Text on info |
+
+### Chart Palette
+
+| Token | Light | Dark | Role |
+|-------|-------|------|------|
+| `--chart-1` | `oklch(0.646 0.222 41.116)` | `oklch(0.488 0.243 264.376)` | Chart color 1 |
+| `--chart-2` | `oklch(0.6 0.118 184.704)` | `oklch(0.696 0.17 162.48)` | Chart color 2 |
+| `--chart-3` | `oklch(0.398 0.07 227.392)` | `oklch(0.769 0.188 70.08)` | Chart color 3 |
+| `--chart-4` | `oklch(0.828 0.189 84.429)` | `oklch(0.627 0.265 303.9)` | Chart color 4 |
+| `--chart-5` | `oklch(0.769 0.188 70.08)` | `oklch(0.645 0.246 16.439)` | Chart color 5 |
+
+### Sidebar
+
+| Token | Light | Dark | Role |
+|-------|-------|------|------|
+| `--sidebar` | `oklch(0.985 0 0)` | `oklch(0.205 0 0)` | Sidebar surface |
+| `--sidebar-foreground` | `oklch(0.145 0 0)` | `oklch(0.985 0 0)` | Sidebar text |
+| `--sidebar-primary` | `oklch(0.205 0 0)` | `oklch(0.488 0.243 264.376)` | Sidebar primary |
+| `--sidebar-primary-foreground` | `oklch(0.985 0 0)` | `oklch(0.985 0 0)` | Text on sidebar primary |
+| `--sidebar-accent` | `oklch(0.97 0 0)` | `oklch(0.269 0 0)` | Sidebar accent |
+| `--sidebar-accent-foreground` | `oklch(0.205 0 0)` | `oklch(0.985 0 0)` | Text on sidebar accent |
+| `--sidebar-border` | `oklch(0.922 0 0)` | `oklch(1 0 0 / 10%)` | Sidebar border |
+| `--sidebar-ring` | `oklch(0.708 0 0)` | `oklch(0.556 0 0)` | Sidebar focus ring |
 
 ### Usage in Tailwind
 
@@ -100,7 +130,7 @@ All component styles use `@apply` with Tailwind utilities. Never write raw CSS f
 
 - Paragraph line height: `leading-[1.75]`
 - Prose paragraph line height: `leading-[1.8]`
-- Paragraph color: `text-muted`
+- Paragraph color: `text-muted-foreground`
 
 ### Selection
 
@@ -136,12 +166,15 @@ All component styles use `@apply` with Tailwind utilities. Never write raw CSS f
 
 ## Border Radius
 
-| Token        | Value    | Usage                    |
-| ------------ | -------- | ------------------------ |
-| `--radius-sm`| `0.25rem`| Buttons, inputs, badges  |
-| `--radius-md`| `0.5rem` | Cards, pre blocks        |
-| `--radius-lg`| `0.75rem`| Larger containers        |
-| `--radius-xl`| `1rem`   | Images, large surfaces   |
+A single `--radius` base (default `0.5rem`); the scale is derived inside `@theme inline`:
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--radius` | `0.5rem` | Base radius |
+| `--radius-sm` | `calc(var(--radius) - 4px)` | Buttons, inputs, badges |
+| `--radius-md` | `calc(var(--radius) - 2px)` | Cards, pre blocks |
+| `--radius-lg` | `var(--radius)` | Larger containers |
+| `--radius-xl` | `calc(var(--radius) + 4px)` | Images, large surfaces |
 
 ### Usage in Tailwind
 
@@ -157,13 +190,15 @@ All component styles use `@apply` with Tailwind utilities. Never write raw CSS f
 
 ## Shadows
 
-| Token        | Value                                      | Usage             |
-| ------------ | ------------------------------------------ | ------------------|
-| `--shadow-sm`| `0 1px 2px 0 rgba(0, 0, 0, 0.3)`           | Subtle depth      |
-| `--shadow-md`| `0 4px 6px -1px rgba(0, 0, 0, 0.4)`        | Cards, popovers   |
-| `--shadow-lg`| `0 10px 15px -3px rgba(0, 0, 0, 0.5)`      | Modals, dropdowns |
+Shadows use Tailwind v4's default shadow scale (`shadow-sm`, `shadow`, `shadow-md`, `shadow-lg`, `shadow-xl`, `shadow-2xl`). Used sparingly — the design relies more on borders (`border-border`) for separation.
 
-Note: Shadows are used sparingly. The design relies more on borders (`border-border`) for separation.
+### Usage
+
+```html
+<div class="shadow-sm">...</div>
+<div class="shadow-md">...</div>
+<div class="shadow-lg">...</div>
+```
 
 ---
 
@@ -184,11 +219,11 @@ All component styles use `@apply` with Tailwind utilities.
 | ---------     | -----------------------------------------------------------------------------------------|
 | `btn`         | `inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm text-sm font-medium leading-5 transition-all duration-150 cursor-pointer` |
 | `btn-primary` | `bg-primary text-primary-foreground`                                                     |
-| `btn-ghost`   | `bg-transparent text-muted`                                                              |
-| `btn-outline` | `border border-border bg-transparent text-muted`                                         |
+| `btn-ghost`   | `bg-transparent text-muted-foreground`                                                   |
+| `btn-outline` | `border border-border bg-transparent text-muted-foreground`                                         |
 | `btn-sm`      | `px-3 py-1.5 text-xs leading-4`                                                                    |
 
-Focus: `@apply outline-none ring-2 ring-background ring-offset-4 ring-offset-ring`
+Focus: `@apply outline-none ring-[3px] ring-ring/50`
 
 ### Card (`.card`) and `.card-hover`
 
@@ -213,9 +248,9 @@ Focus: `@apply outline-none ring-2 ring-background ring-offset-4 ring-offset-rin
 
 | Variant         | @apply Classes                                                                                 |
 | ----------------| ---------------------------------------------------------------------------------------------- |
-| `badge`         | `inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium` |
+| `badge`         | `inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium leading-5 transition-all duration-150` |
 | `badge-default` | `border-transparent bg-secondary text-secondary-foreground`                                    |
-| `badge-outline` | `bg-transparent border-border text-muted`                                                      |
+| `badge-outline` | `bg-transparent border-border text-muted-foreground`                                                      |
 
 ### Input (`.input`)
 
@@ -223,9 +258,9 @@ Focus: `@apply outline-none ring-2 ring-background ring-offset-4 ring-offset-rin
 <input class="input" placeholder="Search..." />
 ```
 
-- `@apply flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm text-foreground`
-- Placeholder: `@apply text-muted`
-- Focus: `@apply outline-none ring-2 ring-background ring-offset-4 ring-offset-ring`
+- `@apply flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm leading-6 text-foreground transition-all duration-150`
+- Placeholder: `@apply text-muted-foreground`
+- Focus: `@apply outline-none ring-[3px] ring-ring/50`
 
 ### Prose (`.prose`)
 
@@ -238,11 +273,11 @@ Used for article content rendered from Markdown.
 ```
 
 - Max width: `@apply max-w-[65ch]`
-- Paragraphs: `@apply text-muted mb-5 leading-[1.8]`
+- Paragraphs: `@apply text-muted-foreground mb-5 leading-[1.8]`
 - Links: `@apply text-primary font-medium underline underline-offset-4`
 - Code: `@apply rounded-sm bg-secondary px-1 py-0.5 font-mono`
 - Pre blocks: `@apply rounded-md border border-border bg-secondary p-4 my-6`
-- Blockquotes: `@apply my-6 border-l-2 border-border italic text-muted pl-6`
+- Blockquotes: `@apply my-6 border-l-2 border-border italic text-muted-foreground pl-6`
 
 ### Separator
 
@@ -264,16 +299,29 @@ Used for article content rendered from Markdown.
 
 ## Animations
 
-### Keyframes
+`@import 'tw-animate-css'` provides shadcn-native animation utilities (`animate-fade-in`, `animate-slide-in-from-left`, etc.). Custom keyframes extend these with project-specific animations.
+
+### Custom Keyframes (defined at top level in global.css)
 
 | Name             | Duration | Easing       | Effect                |
 | ---------------- | -------- | ------------ | --------------------- |
 | `slide-up`       | 500ms    | ease-out     | Fade + translateY     |
 | `slide-in-left`  | 400ms    | ease-out     | Fade + translateX     |
 | `scale-in`       | 400ms    | ease-out     | Fade + scale          |
-| `fade-in`        | 300ms    | ease-out     | Fade + slight Y shift |
-| `fade-out`       | 300ms    | ease-out     | Fade + slight Y shift |
-| `pulse`          | 2s       | cubic-bezier | Opacity oscillation   |
+| `fade-in`        | 300ms    | ease-out     | Fade + translateY(8px → 0) |
+| `fade-out`       | 300ms    | ease-out     | Fade + translateY(0 → -8px) |
+| `marquee`        | 30s      | linear       | Infinite translateX   |
+
+### @theme inline animation bindings
+
+```css
+@theme inline {
+  --animate-slide-up: slide-up 500ms ease-out both;
+  --animate-scale-in: scale-in 400ms ease-out both;
+  --animate-slide-in-left: slide-in-left 400ms ease-out both;
+  --animate-marquee: marquee 30s linear infinite;
+}
+```
 
 ### Utility Classes
 
@@ -317,7 +365,10 @@ The body has a subtle dot-grid background (only raw CSS, not Tailwind-able):
 ```css
 body {
   @apply bg-background text-foreground font-sans antialiased;
-  background-image: radial-gradient(oklch(1 0 0 / 0.06) 1px, transparent 1px);
+  background-image: radial-gradient(
+    color-mix(in oklch, var(--foreground) 6%, transparent) 1px,
+    transparent 1px
+  );
   background-size: 24px 24px;
 }
 ```
@@ -383,18 +434,22 @@ Powered by Expressive Code with TwoSlash:
 1. **Use `@apply` for all component styles** — never write raw CSS properties when Tailwind utilities exist
 2. **Only use raw CSS for**: `background-image` (dot-grid), `::view-transition`, `@keyframes`, `transition-delay`, `list-style-type`
 3. **All colors use `oklch()` format** — Tailwind CSS 4 native color space
-4. **Define tokens in `:root`**, map them in `@theme`, use via `@apply` in `@layer components`
+4. **Define tokens in `:root`**, map them in `@theme inline`, use via `@apply` in `@layer components`
+5. **`@import 'tw-animate-css'`** provides shadcn-native animation utilities
+6. Never use raw `var(--background)` or `oklch()` literals in markup — use Tailwind utilities
 
 ### File Structure
 
 ```
 src/styles/global.css
-├── @import "tailwindcss"
-├── :root { --color-*, --radius-*, --font-*, --shadow-* }
-├── @theme { map tokens to Tailwind }
-├── @layer base { body, headings, selection }
-├── @layer components { .btn, .card, .badge, .input, .prose, etc. }
-└── @layer utilities { .animate-* }
+├── @import 'tailwindcss'
+├── @import 'tw-animate-css'
+├── :root { bare tokens (--background, --foreground, ...), --radius, --font-* }
+├── .dark { dark overrides for bare tokens }
+├── @theme inline { --color-* bridge, --radius-*, --animate-* }
+├── @layer base { *, body (dot-grid), headings, selection }
+├── @layer components { .container, .btn, .card, .badge, .input, .prose, .separator, .skeleton }
+└── Raw: @keyframes, ::view-transition, .animate-on-scroll
 ```
 
 ---
@@ -403,6 +458,6 @@ src/styles/global.css
 
 | File | Purpose |
 | ---- | ------- |
-| `src/styles/global.css` | All design tokens and component styles (via @apply) |
+| `src/styles/global.css` | Design tokens, `tw-animate-css`, component styles, animations |
 | `src/layouts/BaseLayout.astro` | Page layout with header, footer, scroll observer |
 | `src/components/ui/button.tsx` | React button with CVA variants |

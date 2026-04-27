@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content'
 import TagsList from './Blog/TagsList.astro'
 import { formatDate } from '@/lib/date'
+import { getSlug } from '@/lib/content-graph'
 
 interface Props {
   post: CollectionEntry<'posts'>
@@ -10,10 +11,11 @@ interface Props {
 const { post } = Astro.props
 const { title, excerpt, coverImage, publishedAt, tags, category } = post.data
 const formattedDate = formatDate(publishedAt)
+const resolvedSlug = getSlug(post)
 ---
 
 <article class="card-hover group">
-  <a href={`/blog/${post.data.slug}`} class="flex flex-col flex-1">
+  <a href={`/blog/${resolvedSlug}`} class="flex flex-col flex-1">
     {
       coverImage && (
         <div class="aspect-video overflow-hidden bg-muted -m-6 -mt-6 mb-4">

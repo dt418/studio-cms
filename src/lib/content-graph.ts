@@ -1,8 +1,7 @@
 import { getCollection } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
 
-export type Posts = Awaited<ReturnType<typeof getCollection>>
-
-export type Post = Posts[number]
+export type Post = CollectionEntry<'posts'>
 
 export interface ContentGraph {
   posts: Post[]
@@ -12,7 +11,7 @@ export interface ContentGraph {
 }
 
 function normalizeSlug(post: Post): string {
-  return post.data.slug ?? post.id
+  return post.data?.slug ?? post.id
 }
 
 function isPublished(post: Post): boolean {
@@ -131,5 +130,5 @@ export function getNavigation(graph: ContentGraph, slug: string) {
 }
 
 export function getSlug(post: Post): string {
-  return post.data.slug ?? post.id
+  return post.data?.slug ?? post.id
 }

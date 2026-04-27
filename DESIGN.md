@@ -14,6 +14,7 @@ Canonical shadcn theme (base-nova / neutral / oklch) in `src/styles/global.css`:
 - **Light defaults** on `:root`, **dark overrides** on `.dark`. Bare token names (`--background`, `--foreground`, `--muted-foreground`, ...) are the source of truth.
 - **`@theme inline`** bridges those bare vars to Tailwind v4's `--color-*` namespace, so utilities like `bg-background`, `text-muted-foreground`, `ring-ring` resolve correctly and react to runtime theme switching.
 - Toggle dark mode by adding/removing `class="dark"` on `<html>` (handled by `src/components/ThemeToggle.astro`).
+- **`@import 'tw-animate-css'`** provides shadcn animation utilities (`animate-fade-in`, `animate-slide-in-from-left`, etc.) for components added via the shadcn CLI.
 
 Components and pages must consume **Tailwind utilities** (`bg-card`, `text-muted-foreground`, `bg-muted`, etc.) — never raw `var(--background)` or `oklch()` literals. New shadcn components added via the CLI work with no extra configuration.
 
@@ -52,6 +53,20 @@ A single `--radius` base (default `0.5rem`); the Tailwind scale derives from it 
 - `--radius-lg` = `var(--radius)`
 - `--radius-xl` = `calc(var(--radius) + 4px)`
 
+## Background Pattern
+
+`body` has a subtle dot-grid via `background-image` (only raw CSS, not Tailwind-able):
+
+```css
+background-image: radial-gradient(
+  color-mix(in oklch, var(--foreground) 6%, transparent) 1px,
+  transparent 1px
+);
+background-size: 24px 24px;
+```
+
+Uses `color-mix()` so the dots adapt to both light and dark themes automatically.
+
 ## Typography
 
 - **Font**: `"Inter", ui-sans-serif, system-ui, -apple-system`
@@ -73,8 +88,8 @@ A single `--radius` base (default `0.5rem`); the Tailwind scale derives from it 
 | --- | --- |
 | `btn` | `inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm text-sm font-medium leading-5 transition-all duration-150 cursor-pointer` |
 | `btn-primary` | `bg-primary text-primary-foreground` |
-| `btn-ghost` | `bg-transparent text-muted` |
-| `btn-outline` | `border border-border bg-transparent text-muted` |
+| `btn-ghost` | `bg-transparent text-muted-foreground` |
+| `btn-outline` | `border border-border bg-transparent text-muted-foreground` |
 | `btn-sm` | `px-3 py-1.5 text-xs leading-4` |
 
 ### Card
@@ -87,6 +102,46 @@ A single `--radius` base (default `0.5rem`); the Tailwind scale derives from it 
 - Max width: `65ch`
 - Paragraphs: `text-muted-foreground mb-5 leading-[1.8]`
 - Links: `text-primary font-medium underline underline-offset-4`
+
+### Badge / Input / Separator / Skeleton
+
+| Class | Purpose |
+| --- | --- |
+| `.badge` | Inline pill: `inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium` |
+| `.badge-default` | Filled variant: `border-transparent bg-secondary text-secondary-foreground` |
+| `.badge-outline` | Outlined variant: `bg-transparent border-border text-muted-foreground` |
+| `.input` | Form input: `h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm` |
+| `.separator` | Horizontal divider: `h-px bg-border` |
+| `.skeleton` | Loading placeholder: `rounded-md bg-muted animate-pulse` |
+
+## Animations
+
+### Custom Keyframes (defined in `@theme inline`)
+
+| Animation | Duration | Effect |
+| --- | --- | --- |
+| `animate-slide-up` | 500ms | Fade + translateY(24px → 0) |
+| `animate-scale-in` | 400ms | Fade + scale(0.95 → 1) |
+| `animate-slide-in-left` | 400ms | Fade + translateX(-16px → 0) |
+| `animate-marquee` | 30s | Infinite translateX scroll |
+
+`@import 'tw-animate-css'` provides shadcn-native animations (`animate-fade-in`, `animate-slide-in-from-left`, etc.) as well.
+
+### View Transitions
+
+```css
+::view-transition-old(root) { animation: fade-out 300ms ease-out; }
+::view-transition-new(root) { animation: fade-in 300ms ease-out; }
+```
+
+`fade-out`: slides up 8px while fading. `fade-in`: slides up from 8px below while fading.
+
+### Scroll-Triggered (`.animate-on-scroll`)
+
+- Initial: `opacity: 0; transform: translateY(24px)`
+- When visible: `opacity: 1; transform: translateY(0)`, 500ms ease-out
+- Staggered delays on `nth-child(2-6)`: 60ms, 120ms, 180ms, 240ms, 300ms
+- Triggered by `IntersectionObserver` in `BaseLayout.astro`
 
 ## Accessibility
 
@@ -121,7 +176,7 @@ All identity strings live in `src/lib/site.ts` (`SITE` object):
 | File | Purpose |
 | --- | --- |
 | `src/lib/site.ts` | Site identity constants (single source of truth) |
-| `src/styles/global.css` | Design tokens + component styles |
+| `src/styles/global.css` | Design tokens, `tw-animate-css`, component styles, animations |
 | `src/layouts/BaseLayout.astro` | Page layout, meta tags, footer |
 | `src/lib/seo.ts` | SEO helper (consumes `SITE`) |
 | `scripts/generate-og-image.mjs` | Build-time OG image generator |

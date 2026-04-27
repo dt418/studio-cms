@@ -1,21 +1,20 @@
 ---
+import { getSlug } from '@/lib/content-graph'
 import { formatDate } from '@/lib/date'
+import type { CollectionEntry } from 'astro:content'
 
 export interface Props {
-  title: string
-  excerpt: string
-  slug: string
-  category: string
-  publishedAt: Date
-  tags: string[]
+  post: CollectionEntry<'posts'>
   large?: boolean
 }
 
-const { title, excerpt, slug, category, publishedAt, tags, large = false } = Astro.props
+const { post, large = false } = Astro.props
+const { title, excerpt, category, publishedAt, tags } = post.data
 const formattedDate = formatDate(publishedAt)
+const resolvedSlug = getSlug(post)
 ---
 
-<a href={`/blog/${slug}`} class="card-hover block">
+<a href={`/blog/${resolvedSlug}`} class="card-hover block">
   <div class="flex items-center gap-3 mb-4">
     <span class="font-mono text-[0.68rem] tracking-[0.26em] uppercase text-muted-foreground/50">
       {category}
