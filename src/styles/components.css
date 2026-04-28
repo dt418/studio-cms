@@ -1,0 +1,276 @@
+/* ---------------------------------------------------------------------------
+ * components.css — reusable UI component classes
+ * ------------------------------------------------------------------------- */
+
+@layer components {
+  .container {
+    @apply mx-auto max-w-7xl px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm text-sm font-medium leading-5 transition-all duration-150 cursor-pointer;
+  }
+
+  .btn:focus-visible {
+    @apply outline-none ring-[3px] ring-ring/50;
+  }
+
+  .btn:disabled {
+    @apply pointer-events-none opacity-50;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  .btn-primary:hover {
+    @apply opacity-85;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-muted-foreground;
+  }
+
+  .btn-ghost:hover {
+    @apply bg-accent text-accent-foreground;
+  }
+
+  .btn-outline {
+    @apply border border-border bg-transparent text-muted-foreground;
+  }
+
+  .btn-outline:hover {
+    @apply bg-accent text-accent-foreground;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs leading-4;
+  }
+
+  .card {
+    @apply bg-card text-card-foreground rounded-md border border-border transition-colors duration-200;
+  }
+
+  .card-hover {
+    @apply relative overflow-hidden rounded-md border border-border bg-card/30 p-6 transition-all duration-300;
+  }
+
+  .card-hover::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-500;
+    background: radial-gradient(
+      circle at 50% 50%,
+      color-mix(in oklch, var(--foreground) 8%, transparent) 0%,
+      transparent 70%
+    );
+  }
+
+  .card-hover:hover {
+    border-color: color-mix(in oklch, var(--foreground) 15%, transparent);
+  }
+
+  .card-hover:hover::before {
+    @apply opacity-100;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium leading-5 transition-all duration-150;
+  }
+
+  .badge-default {
+    @apply border-transparent bg-secondary text-secondary-foreground;
+  }
+
+  .badge-outline {
+    @apply bg-transparent border-border text-muted-foreground;
+  }
+
+  .input {
+    @apply flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm leading-6 text-foreground transition-all duration-150;
+  }
+
+  .input::placeholder {
+    @apply text-muted-foreground;
+  }
+
+  .input:focus-visible {
+    @apply outline-none ring-[3px] ring-ring/50 border-ring;
+  }
+
+  .prose {
+    @apply text-foreground max-w-[65ch];
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    @apply font-semibold tracking-tight text-foreground mt-10 mb-4;
+  }
+
+  .prose h1 {
+    @apply text-4xl leading-tight;
+  }
+  .prose h2 {
+    @apply text-3xl leading-snug;
+  }
+  .prose h3 {
+    @apply text-2xl leading-snug;
+  }
+
+  .prose p {
+    @apply text-muted-foreground mb-5 leading-[1.8];
+  }
+
+  .prose a {
+    @apply text-primary font-medium underline underline-offset-4;
+  }
+
+  .prose a:hover {
+    @apply opacity-80;
+  }
+
+  .prose code {
+    @apply relative rounded-sm bg-muted px-1 py-0.5 font-mono text-[0.85em] font-medium;
+  }
+
+  .prose pre {
+    @apply overflow-x-auto rounded-md border border-border bg-muted p-4 my-6;
+  }
+
+  .prose pre code {
+    @apply bg-transparent p-0 text-sm leading-[1.7];
+  }
+
+  .prose ul,
+  .prose ol {
+    @apply text-muted-foreground mb-5 ml-6;
+  }
+
+  .prose ul {
+    list-style-type: disc;
+  }
+  .prose ol {
+    list-style-type: decimal;
+  }
+
+  .prose li {
+    @apply mb-2 leading-[1.8];
+  }
+
+  .prose blockquote {
+    @apply my-6 border-l-2 border-border italic text-muted-foreground pl-6;
+  }
+
+  .prose img {
+    @apply rounded-md border border-border;
+  }
+
+  .prose hr {
+    @apply my-10 border-border;
+  }
+
+  .prose table {
+    @apply w-full border-collapse my-6;
+  }
+
+  .prose th,
+  .prose td {
+    @apply border border-border p-3 text-left;
+  }
+
+  .prose th {
+    @apply bg-muted font-semibold text-foreground;
+  }
+
+  .prose td {
+    @apply text-muted-foreground;
+  }
+
+  .separator {
+    @apply h-px bg-border;
+  }
+
+  .skeleton {
+    @apply rounded-md bg-muted animate-pulse;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Keyframe animations
+ * ------------------------------------------------------------------------- */
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Scroll-triggered animation system
+ * ------------------------------------------------------------------------- */
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-on-scroll:nth-child(2) {
+  transition-delay: 60ms;
+}
+.animate-on-scroll:nth-child(3) {
+  transition-delay: 120ms;
+}
+.animate-on-scroll:nth-child(4) {
+  transition-delay: 180ms;
+}
+.animate-on-scroll:nth-child(5) {
+  transition-delay: 240ms;
+}
+.animate-on-scroll:nth-child(6) {
+  transition-delay: 300ms;
+}

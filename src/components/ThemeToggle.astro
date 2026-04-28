@@ -35,56 +35,59 @@
 </button>
 
 <script is:inline>
-  const STORAGE_KEY = 'theme'
-  const DARK_CLASS = 'dark'
-  const DARK = 'dark'
-  const LIGHT = 'light'
-  const root = document.documentElement
+  var STORAGE_KEY = 'theme-config'
+  var DARK_CLASS = 'dark'
+  var root = document.documentElement
 
-  function getUserPreference() {
-    if (localStorage?.getItem(STORAGE_KEY)) {
-      return localStorage.getItem(STORAGE_KEY)
+  function getConfig() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY)
+      return raw ? JSON.parse(raw) : null
+    } catch (_) {
+      return null
     }
-    if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-      return LIGHT
-    }
-    return DARK
   }
 
-  function applyTheme(isDark) {
+  function applyTheme(config) {
+    var isDark =
+      config && config.theme ? config.theme === 'dark' : root.classList.contains(DARK_CLASS)
     root.classList.toggle(DARK_CLASS, isDark)
-    const sunIcon = document.querySelector('.theme-light-icon')
-    const moonIcon = document.querySelector('.theme-dark-icon')
+    var sunIcon = document.querySelector('.theme-light-icon')
+    var moonIcon = document.querySelector('.theme-dark-icon')
     if (isDark) {
-      sunIcon?.classList.remove('hidden')
-      moonIcon?.classList.add('hidden')
+      sunIcon && sunIcon.classList.remove('hidden')
+      moonIcon && moonIcon.classList.add('hidden')
     } else {
-      sunIcon?.classList.add('hidden')
-      moonIcon?.classList.remove('hidden')
+      sunIcon && sunIcon.classList.add('hidden')
+      moonIcon && moonIcon.classList.remove('hidden')
     }
-  }
-
-  function initTheme() {
-    const theme = getUserPreference()
-    applyTheme(theme === DARK)
   }
 
   function handleClick() {
-    const isDark = !root.classList.contains(DARK_CLASS)
-    applyTheme(isDark)
-    localStorage.setItem(STORAGE_KEY, isDark ? DARK : LIGHT)
+    var config = getConfig() || { theme: 'dark', primary: { l: 0.205, c: 0, h: 0 } }
+    config.theme = root.classList.contains(DARK_CLASS) ? 'light' : 'dark'
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
+    } catch (_) {}
+    applyTheme(config)
   }
 
-  function setButtonHandler() {
-    const button = document.getElementById('theme-toggle')
-    button?.addEventListener('click', handleClick)
+  function init() {
+    applyTheme(getConfig())
   }
 
-  initTheme()
-  setButtonHandler()
+  init()
 
-  document.addEventListener('astro:after-swap', () => {
-    initTheme()
-    setButtonHandler()
+  document.addEventListener('astro:after-swap', function () {
+    init()
+    var btn = document.getElementById('theme-toggle')
+    if (btn) {
+      var clone = btn.cloneNode(true)
+      btn.parentNode.replaceChild(clone, btn)
+      clone.addEventListener('click', handleClick)
+    }
   })
+
+  var btn = document.getElementById('theme-toggle')
+  if (btn) btn.addEventListener('click', handleClick)
 </script>

@@ -36,10 +36,16 @@ export default tseslint.config(
       // Immutability
       'no-param-reassign': 'error',
       // Naming
-      'id-length': ['error', { min: 2, exceptions: ['i', 'j', 'k', 'e', 'x', 'y', 'z'] }],
+      'id-length': [
+        'error',
+        { min: 2, exceptions: ['i', 'j', 'k', 'e', 'x', 'y', 'z', 'l', 'c', 'h', '_'] },
+      ],
       // Types
       '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
       '@typescript-eslint/consistent-type-imports': 'warn',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
@@ -47,9 +53,9 @@ export default tseslint.config(
       'max-depth': ['warn', 4],
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'prefer-const': 'error',
-      'eqeqeq': ['error', 'always'],
+      eqeqeq: ['error', 'always'],
       'no-var': 'error',
-      'curly': 'off',
+      curly: 'off',
       // Accessibility
       'jsx-a11y/alt-text': 'error',
       'jsx-a11y/img-redundant-alt': 'error',
