@@ -1,52 +1,16 @@
 ---
-import { formatDate } from '@/lib/date'
+import PostNavLink from './PostNavLink.astro'
 import type { CollectionEntry } from 'astro:content'
 
 interface Props {
-  prevPost?: CollectionEntry<'posts'>['data']
-  nextPost?: CollectionEntry<'posts'>['data']
+  prevPost?: CollectionEntry<'posts'>
+  nextPost?: CollectionEntry<'posts'>
 }
 
 const { prevPost, nextPost } = Astro.props
 ---
 
 <nav class="mt-8 grid gap-4 md:grid-cols-2" aria-label="Post navigation">
-  {
-    prevPost && (
-      <a
-        href={`/blog/${prevPost.slug}`}
-        class="card-hover group flex flex-col gap-2 p-4 border border-border rounded-lg hover:border-primary/50 transition-colors"
-        aria-label={`Previous post: ${prevPost.title}`}
-      >
-        <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50">
-          Previous Post
-        </p>
-        <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
-          &larr; {prevPost.title}
-        </p>
-        <p class="text-xs text-muted-foreground">
-          {prevPost.category} · {formatDate(prevPost.publishedAt)}
-        </p>
-      </a>
-    )
-  }
-  {
-    nextPost && (
-      <a
-        href={`/blog/${nextPost.slug}`}
-        class="card-hover group flex flex-col gap-2 p-4 border border-border rounded-lg hover:border-primary/50 transition-colors text-right"
-        aria-label={`Next post: ${nextPost.title}`}
-      >
-        <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50">
-          Next Post
-        </p>
-        <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
-          {nextPost.title} &rarr;
-        </p>
-        <p class="text-xs text-muted-foreground">
-          {nextPost.category} · {formatDate(nextPost.publishedAt)}
-        </p>
-      </a>
-    )
-  }
+  {prevPost && <PostNavLink post={prevPost} direction="prev" />}
+  {nextPost && <PostNavLink post={nextPost} direction="next" />}
 </nav>

@@ -7,8 +7,8 @@ import PostNavigation from './PostNavigation.astro'
 interface Props {
   tags: string[]
   author: string
-  prevPost?: CollectionEntry<'posts'>['data']
-  nextPost?: CollectionEntry<'posts'>['data']
+  prevPost?: CollectionEntry<'posts'>
+  nextPost?: CollectionEntry<'posts'>
 }
 
 const { tags, author, prevPost, nextPost } = Astro.props

@@ -1,0 +1,37 @@
+---
+import { getSlug } from '@/lib/content-graph'
+import { formatDate } from '@/lib/date'
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  post: CollectionEntry<'posts'>
+  direction: 'prev' | 'next'
+}
+
+const { post, direction } = Astro.props
+const postData = post.data || null
+const isPrev = direction === 'prev'
+const resolvedSlug = getSlug(post)
+---
+
+<a
+  href={`/blog/${resolvedSlug}`}
+  class={`card-hover group flex flex-col gap-2 p-4 border border-border rounded-lg hover:border-primary/50 transition-colors ${
+    isPrev ? '' : 'text-right'
+  }`}
+  aria-label={`${isPrev ? 'Previous' : 'Next'} post: ${postData?.title}`}
+>
+  <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50">
+    {isPrev ? 'Previous Post' : 'Next Post'}
+  </p>
+  <p
+    class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2"
+  >
+    {isPrev ? '← ' : ''}
+    {postData?.title ?? null}
+    {isPrev ? '' : ' →'}
+  </p>
+  <p class="text-xs text-muted-foreground">
+    {postData?.category && `${postData.category} · `}{formatDate(postData?.publishedAt)}
+  </p>
+</a>

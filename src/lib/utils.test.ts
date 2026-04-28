@@ -78,19 +78,19 @@ describe('getAdjacentPosts', () => {
 
   it('returns prev and next for middle post', () => {
     const result = getAdjacentPosts(posts, 1)
-    expect(result.prev?.title).toBe('First Post')
-    expect(result.next?.title).toBe('Third Post')
+    expect(result.prev?.data.title).toBe('First Post')
+    expect(result.next?.data.title).toBe('Third Post')
   })
 
   it('returns undefined prev for first post', () => {
     const result = getAdjacentPosts(posts, 0)
     expect(result.prev).toBeUndefined()
-    expect(result.next?.title).toBe('Second Post')
+    expect(result.next?.data.title).toBe('Second Post')
   })
 
   it('returns undefined next for last post', () => {
     const result = getAdjacentPosts(posts, 2)
-    expect(result.prev?.title).toBe('Second Post')
+    expect(result.prev?.data.title).toBe('Second Post')
     expect(result.next).toBeUndefined()
   })
 

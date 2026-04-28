@@ -35,16 +35,16 @@ export const getAdjacentPosts = (
   allPosts: CollectionEntry<'posts'>[],
   currentIndex: number
 ): {
-  prev: CollectionEntry<'posts'>['data'] | undefined
-  next: CollectionEntry<'posts'>['data'] | undefined
+  prev: CollectionEntry<'posts'> | undefined
+  next: CollectionEntry<'posts'> | undefined
 } => {
   // Posts are sorted descending by publishedAt (newest first)
   // prev = newer post (index - 1), next = older post (index + 1)
   return {
-    prev: currentIndex > 0 ? allPosts[currentIndex - 1]?.data : undefined,
+    prev: currentIndex > 0 ? allPosts[currentIndex - 1] : undefined,
     next:
       currentIndex >= 0 && currentIndex < allPosts.length - 1
-        ? allPosts[currentIndex + 1]?.data
+        ? allPosts[currentIndex + 1]
         : undefined,
   }
 }
