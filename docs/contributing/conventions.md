@@ -1,6 +1,6 @@
 # Coding Conventions
 
-This document outlines the coding conventions for the StudioCMS Blog project.
+This document outlines the coding conventions for the danhthanh.dev monorepo.
 
 ## General Principles
 
@@ -39,16 +39,16 @@ This document outlines the coding conventions for the StudioCMS Blog project.
 
 ## Code Quality Rules
 
-| Rule                  | Description                     |
-| --------------------- | ------------------------------- |
-| No long functions     | Keep functions under 50 lines   |
-| No deep nesting       | Max 4 levels, use early returns |
-| No magic numbers      | Use named constants             |
-| Comments explain WHY  | Not WHAT (code shows what)      |
-| JSDoc for public APIs | Document exported functions     |
+| Rule                  | Description                                   |
+| --------------------- | --------------------------------------------- |
+| No long functions     | Keep functions under 50 lines                 |
+| No deep nesting       | Max 4 levels, use early returns               |
+| No magic numbers      | Use named constants                           |
+| Comments explain WHY  | Not WHAT (code shows what)                    |
+| JSDoc for public APIs | Document exported functions                   |
 | Identifier length     | Min 2 chars (exceptions: i, j, k, e, x, y, z) |
-| Curly braces          | Always required on if/else/for/while |
-| Strict equality       | Use `===` and `!==` always      |
+| Curly braces          | Always required on if/else/for/while          |
+| Strict equality       | Use `===` and `!==` always                    |
 
 ## Testing
 
@@ -56,7 +56,7 @@ This document outlines the coding conventions for the StudioCMS Blog project.
 - **Pattern**: AAA (Arrange, Act, Assert)
 - **Descriptive test names**: Should do X when Y
 - **Test files**: Next to source files (`*.test.ts`)
-- **Test helpers**: `src/test-helpers.ts` for factory functions
+- **Test helpers**: `apps/web/src/test-helpers.ts` for factory functions
 - **Coverage target**: 80%+ on critical paths
 
 ## Git Conventions
@@ -71,11 +71,11 @@ This document outlines the coding conventions for the StudioCMS Blog project.
 
 Managed by Lefthook:
 
-| Hook | Commands | Description |
-|------|----------|-------------|
-| `commit-msg` | commitlint | Validate conventional commit format |
+| Hook         | Commands                    | Description                               |
+| ------------ | --------------------------- | ----------------------------------------- |
+| `commit-msg` | commitlint                  | Validate conventional commit format       |
 | `pre-commit` | lint + typecheck (parallel) | ESLint + TypeScript check on staged files |
-| `pre-push` | test + build (parallel) | Run tests + full build before push |
+| `pre-push`   | test + build (parallel)     | Run tests + full build before push        |
 
 ## Related Topics
 

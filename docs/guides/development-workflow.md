@@ -1,10 +1,10 @@
 # Development Workflow Guide
 
-This guide covers the development workflow for the StudioCMS Blog project.
+This guide covers the development workflow for the danhthanh.dev monorepo.
 
 ## Prerequisites
 
-- Node.js 20+ installed
+- Node.js 22+ installed
 - pnpm package manager installed (`npm install -g pnpm`)
 - Git installed
 
@@ -21,32 +21,37 @@ pnpm install
 # Set up environment variables
 cp .env.demo .env
 
-# Run database migrations
-pnpm migrate
+# Run CMS database migrations
+pnpm cms:migrate
 
 # Start the development server
 pnpm dev
 ```
 
-Open `http://localhost:4321` in your browser.
+Open `http://localhost:4321` for the public web app. Run `pnpm cms:dev` and open `http://localhost:4322/studiocms` for the CMS dashboard.
 
 ## Development Commands
 
-| Command          | Description                              |
-| ---------------- | ---------------------------------------- |
-| `pnpm dev`       | Start development server with hot reload |
-| `pnpm build`     | Build for production (includes Pagefind) |
-| `pnpm preview`   | Preview production build locally         |
-| `pnpm migrate`   | Run database migrations                  |
-| `pnpm studiocms` | StudioCMS CLI tools                      |
-| `pnpm test`      | Run unit tests (Vitest)                  |
-| `pnpm test:watch`| Run tests in watch mode                  |
-| `pnpm lint`      | Check for lint errors                    |
-| `pnpm lint:fix`  | Auto-fix lint issues                     |
-| `pnpm format`    | Format code with Prettier                |
-| `pnpm format:check` | Check formatting without modifying    |
-| `pnpm typecheck` | Run TypeScript type checking             |
-| `pnpm check`     | Run all checks (lint + format + test + typecheck) |
+| Command             | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| `pnpm dev`          | Start the public web dev server                   |
+| `pnpm web:dev`      | Start `apps/web` on port 4321                     |
+| `pnpm cms:dev`      | Start `apps/cms` on port 4322                     |
+| `pnpm build`        | Build web and CMS with Turborepo                  |
+| `pnpm web:build`    | Build the static web app                          |
+| `pnpm cms:build`    | Build the StudioCMS SSR app                       |
+| `pnpm preview`      | Preview the web production build locally          |
+| `pnpm cms:migrate`  | Run StudioCMS database migrations                 |
+| `pnpm studiocms`    | StudioCMS CLI tools                               |
+| `pnpm test`         | Run web unit tests (Vitest)                       |
+| `pnpm test:watch`   | Run tests in watch mode                           |
+| `pnpm test:e2e`     | Run E2E tests (Playwright)                        |
+| `pnpm lint`         | Check for lint errors                             |
+| `pnpm lint:fix`     | Auto-fix lint issues                              |
+| `pnpm format`       | Format code with Prettier                         |
+| `pnpm format:check` | Check formatting without modifying                |
+| `pnpm typecheck`    | Run TypeScript type checking                      |
+| `pnpm check`        | Run all checks (lint + format + test + typecheck) |
 
 ## Code Quality
 
@@ -63,6 +68,7 @@ pnpm lint:fix
 ```
 
 **Key rules:**
+
 - No `any` types
 - No unused variables (except `_` prefix)
 - Identifier names min 2 chars
@@ -110,17 +116,17 @@ pnpm test
 pnpm test:watch
 ```
 
-Tests are in `src/**/*.test.ts`. Test helpers at `src/test-helpers.ts`.
+Unit tests are in `apps/web/src/**/*.test.ts`. Test helpers are in `apps/web/src/test-helpers.ts`.
 
 ## Git Hooks (Lefthook)
 
 Automated checks run on git operations:
 
-| Hook | When | Commands |
-|------|------|----------|
-| `commit-msg` | On commit | commitlint (validate message format) |
-| `pre-commit` | On commit | ESLint (auto-fix) + TypeScript check |
-| `pre-push` | On push | Tests + Full build |
+| Hook         | When      | Commands                                           |
+| ------------ | --------- | -------------------------------------------------- |
+| `commit-msg` | On commit | commitlint (validate message format)               |
+| `pre-commit` | On commit | lint, typecheck, and format check for staged files |
+| `pre-push`   | On push   | Tests + full build                                 |
 
 ### Commit Message Format
 
@@ -133,6 +139,7 @@ type: subject (max 72 chars)
 ```
 
 **Allowed types:**
+
 - `feat` — New feature
 - `fix` — Bug fix
 - `docs` — Documentation changes
@@ -145,6 +152,7 @@ type: subject (max 72 chars)
 - `revert` — Revert a previous commit
 
 **Examples:**
+
 ```
 feat: add hybrid search with Pagefind and Fuse.js
 fix: resolve filter bug in BlogFilter
@@ -174,7 +182,7 @@ chore: add commitlint and lefthook integration
 
 - Keep `<script>` blocks minimal — import from `.ts` files
 - Use CSS component classes (not inline utilities)
-- Follow design tokens from `global.css`
+- Follow design tokens from `apps/web/src/styles/*.css`
 
 ### Git Workflow
 
@@ -186,32 +194,32 @@ chore: add commitlint and lefthook integration
 ## Project Structure
 
 ```
-├── astro.config.mjs          # Astro + integrations config
-├── studiocms.config.mjs      # StudioCMS plugins config
+├── apps/
+│   ├── web/                  # Static Astro public site
+│   │   ├── astro.config.mjs
+│   │   ├── scripts/          # OG image and search index generation
+│   │   └── src/
+│   │       ├── lib/          # Utility modules and unit tests
+│   │       ├── components/   # Astro and React components
+│   │       ├── pages/        # Route pages
+│   │       ├── content/posts/# Markdown and MDX blog posts
+│   │       ├── styles/       # Tailwind entrypoint and token modules
+│   │       ├── layouts/      # Page layouts
+│   │       └── test-helpers.ts
+│   └── cms/                  # StudioCMS SSR admin/API app
+│       ├── astro.config.mjs
+│       ├── studiocms.config.mjs
+│       └── src/
+├── pnpm-workspace.yaml       # Workspace package boundaries
+├── turbo.json                # Turborepo task graph
 ├── eslint.config.js          # ESLint flat config
 ├── commitlint.config.js      # Conventional commit rules
 ├── lefthook.yml              # Git hooks configuration
-├── vitest.config.ts          # Vitest test config
+├── playwright.config.ts      # Playwright E2E test config
 ├── .prettierrc               # Prettier formatting rules
 ├── .prettierignore           # Prettier ignore patterns
-├── scripts/
-│   └── generate-search-index.mjs  # Pagefind index generator
-├── src/
-│   ├── lib/                  # Utility modules (filter.ts, search.ts, etc.)
-│   │   ├── filter.ts         # Post filtering/sorting logic
-│   │   ├── filter.test.ts    # Tests for filter
-│   │   ├── group.ts          # Post grouping logic
-│   │   ├── group.test.ts     # Tests for group
-│   │   └── search.ts         # Hybrid search (Pagefind + Fuse.js)
-│   ├── components/           # Astro components
-│   │   ├── Search.astro      # Search UI (minimal, imports from lib/search.ts)
-│   │   └── Blog/             # Blog-specific components
-│   ├── pages/                # Route pages
-│   ├── content/posts/        # Markdown blog posts
-│   ├── styles/               # Global CSS + design tokens
-│   ├── layouts/              # Page layouts
-│   └── test-helpers.ts       # Test factory functions
 ├── docs/                     # Documentation
+├── e2e/                      # Playwright E2E tests
 └── agents/                   # Agent definitions
 ```
 

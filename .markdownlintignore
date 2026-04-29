@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+.turbo/
+apps/*/dist/
+apps/*/.astro/
+tender-series/
+session-ses_*.md

@@ -13,9 +13,10 @@ The visual language and component patterns for DanhThanh.dev.
 
 ## Color Tokens
 
-All colors defined in `src/styles/global.css` as CSS custom properties using `oklch()` format, following the canonical shadcn/ui theme (base-nova / neutral).
+All colors are defined in `apps/web/src/styles/tokens.css` and related style modules as CSS custom properties using `oklch()` format, following the canonical shadcn/ui theme (base-nova / neutral).
 
 **Token layers:**
+
 1. **Bare tokens** (`--background`, `--foreground`, ...) on `:root` (light) and `.dark` — source of truth
 2. **`@theme inline`** bridges them to Tailwind v4's `--color-*` namespace
 3. **Tailwind utilities** (`bg-background`, `text-muted-foreground`, ...) consumed by components
@@ -24,77 +25,77 @@ Toggle dark mode with `class="dark"` on `<html>` (handled by `ThemeToggle.astro`
 
 ### Core Palette
 
-| Token | Light (`:root`) | Dark (`.dark`) | Role |
-|-------|-----------------|----------------|------|
-| `--background` | `oklch(1 0 0)` | `oklch(0.145 0 0)` | Page surface |
-| `--foreground` | `oklch(0.145 0 0)` | `oklch(0.985 0 0)` | Primary text |
-| `--card` | `oklch(1 0 0)` | `oklch(0.205 0 0)` | Card surface |
-| `--card-foreground` | `oklch(0.145 0 0)` | `oklch(0.985 0 0)` | Card text |
-| `--popover` | `oklch(1 0 0)` | `oklch(0.205 0 0)` | Floating panels |
-| `--popover-foreground` | `oklch(0.145 0 0)` | `oklch(0.985 0 0)` | Popover text |
-| `--primary` | `oklch(0.205 0 0)` | `oklch(0.922 0 0)` | Primary actions, links |
-| `--primary-foreground` | `oklch(0.985 0 0)` | `oklch(0.205 0 0)` | Text on primary |
-| `--secondary` | `oklch(0.97 0 0)` | `oklch(0.269 0 0)` | Secondary surfaces |
-| `--secondary-foreground` | `oklch(0.205 0 0)` | `oklch(0.985 0 0)` | Text on secondary |
-| `--muted` | `oklch(0.97 0 0)` | `oklch(0.269 0 0)` | Subtle surfaces |
-| `--muted-foreground` | `oklch(0.556 0 0)` | `oklch(0.708 0 0)` | De-emphasized text |
-| `--accent` | `oklch(0.97 0 0)` | `oklch(0.269 0 0)` | Hover surfaces |
-| `--accent-foreground` | `oklch(0.205 0 0)` | `oklch(0.985 0 0)` | Text on accent |
-| `--destructive` | `oklch(0.577 0.245 27.325)` | `oklch(0.704 0.191 22.216)` | Error states |
-| `--destructive-foreground` | `oklch(0.985 0 0)` | `oklch(0.985 0 0)` | Text on destructive |
-| `--border` | `oklch(0.922 0 0)` | `oklch(1 0 0 / 10%)` | Borders, dividers |
-| `--input` | `oklch(0.922 0 0)` | `oklch(1 0 0 / 15%)` | Input borders |
-| `--ring` | `oklch(0.708 0 0)` | `oklch(0.556 0 0)` | Focus rings |
+| Token                      | Light (`:root`)             | Dark (`.dark`)              | Role                   |
+| -------------------------- | --------------------------- | --------------------------- | ---------------------- |
+| `--background`             | `oklch(1 0 0)`              | `oklch(0.145 0 0)`          | Page surface           |
+| `--foreground`             | `oklch(0.145 0 0)`          | `oklch(0.985 0 0)`          | Primary text           |
+| `--card`                   | `oklch(1 0 0)`              | `oklch(0.205 0 0)`          | Card surface           |
+| `--card-foreground`        | `oklch(0.145 0 0)`          | `oklch(0.985 0 0)`          | Card text              |
+| `--popover`                | `oklch(1 0 0)`              | `oklch(0.205 0 0)`          | Floating panels        |
+| `--popover-foreground`     | `oklch(0.145 0 0)`          | `oklch(0.985 0 0)`          | Popover text           |
+| `--primary`                | `oklch(0.205 0 0)`          | `oklch(0.922 0 0)`          | Primary actions, links |
+| `--primary-foreground`     | `oklch(0.985 0 0)`          | `oklch(0.205 0 0)`          | Text on primary        |
+| `--secondary`              | `oklch(0.97 0 0)`           | `oklch(0.269 0 0)`          | Secondary surfaces     |
+| `--secondary-foreground`   | `oklch(0.205 0 0)`          | `oklch(0.985 0 0)`          | Text on secondary      |
+| `--muted`                  | `oklch(0.97 0 0)`           | `oklch(0.269 0 0)`          | Subtle surfaces        |
+| `--muted-foreground`       | `oklch(0.556 0 0)`          | `oklch(0.708 0 0)`          | De-emphasized text     |
+| `--accent`                 | `oklch(0.97 0 0)`           | `oklch(0.269 0 0)`          | Hover surfaces         |
+| `--accent-foreground`      | `oklch(0.205 0 0)`          | `oklch(0.985 0 0)`          | Text on accent         |
+| `--destructive`            | `oklch(0.577 0.245 27.325)` | `oklch(0.704 0.191 22.216)` | Error states           |
+| `--destructive-foreground` | `oklch(0.985 0 0)`          | `oklch(0.985 0 0)`          | Text on destructive    |
+| `--border`                 | `oklch(0.922 0 0)`          | `oklch(1 0 0 / 10%)`        | Borders, dividers      |
+| `--input`                  | `oklch(0.922 0 0)`          | `oklch(1 0 0 / 15%)`        | Input borders          |
+| `--ring`                   | `oklch(0.708 0 0)`          | `oklch(0.556 0 0)`          | Focus rings            |
 
 ### Semantic Colors (Project Extensions)
 
-| Token | Value | Role |
-|-------|-------|------|
-| `--success` | `oklch(0.723 0.219 149.579)` | Success states |
-| `--success-foreground` | `oklch(0.145 0 0)` | Text on success |
-| `--warning` | `oklch(0.795 0.184 86.047)` | Warning states |
-| `--warning-foreground` | `oklch(0.145 0 0)` | Text on warning |
-| `--info` | `oklch(0.594 0.224 263.17)` | Info states |
-| `--info-foreground` | `oklch(0.985 0 0)` | Text on info |
+| Token                  | Value                        | Role            |
+| ---------------------- | ---------------------------- | --------------- |
+| `--success`            | `oklch(0.723 0.219 149.579)` | Success states  |
+| `--success-foreground` | `oklch(0.145 0 0)`           | Text on success |
+| `--warning`            | `oklch(0.795 0.184 86.047)`  | Warning states  |
+| `--warning-foreground` | `oklch(0.145 0 0)`           | Text on warning |
+| `--info`               | `oklch(0.594 0.224 263.17)`  | Info states     |
+| `--info-foreground`    | `oklch(0.985 0 0)`           | Text on info    |
 
 ### Chart Palette
 
-| Token | Light | Dark | Role |
-|-------|-------|------|------|
+| Token       | Light                       | Dark                         | Role          |
+| ----------- | --------------------------- | ---------------------------- | ------------- |
 | `--chart-1` | `oklch(0.646 0.222 41.116)` | `oklch(0.488 0.243 264.376)` | Chart color 1 |
-| `--chart-2` | `oklch(0.6 0.118 184.704)` | `oklch(0.696 0.17 162.48)` | Chart color 2 |
-| `--chart-3` | `oklch(0.398 0.07 227.392)` | `oklch(0.769 0.188 70.08)` | Chart color 3 |
-| `--chart-4` | `oklch(0.828 0.189 84.429)` | `oklch(0.627 0.265 303.9)` | Chart color 4 |
-| `--chart-5` | `oklch(0.769 0.188 70.08)` | `oklch(0.645 0.246 16.439)` | Chart color 5 |
+| `--chart-2` | `oklch(0.6 0.118 184.704)`  | `oklch(0.696 0.17 162.48)`   | Chart color 2 |
+| `--chart-3` | `oklch(0.398 0.07 227.392)` | `oklch(0.769 0.188 70.08)`   | Chart color 3 |
+| `--chart-4` | `oklch(0.828 0.189 84.429)` | `oklch(0.627 0.265 303.9)`   | Chart color 4 |
+| `--chart-5` | `oklch(0.769 0.188 70.08)`  | `oklch(0.645 0.246 16.439)`  | Chart color 5 |
 
 ### Sidebar
 
-| Token | Light | Dark | Role |
-|-------|-------|------|------|
-| `--sidebar` | `oklch(0.985 0 0)` | `oklch(0.205 0 0)` | Sidebar surface |
-| `--sidebar-foreground` | `oklch(0.145 0 0)` | `oklch(0.985 0 0)` | Sidebar text |
-| `--sidebar-primary` | `oklch(0.205 0 0)` | `oklch(0.488 0.243 264.376)` | Sidebar primary |
-| `--sidebar-primary-foreground` | `oklch(0.985 0 0)` | `oklch(0.985 0 0)` | Text on sidebar primary |
-| `--sidebar-accent` | `oklch(0.97 0 0)` | `oklch(0.269 0 0)` | Sidebar accent |
-| `--sidebar-accent-foreground` | `oklch(0.205 0 0)` | `oklch(0.985 0 0)` | Text on sidebar accent |
-| `--sidebar-border` | `oklch(0.922 0 0)` | `oklch(1 0 0 / 10%)` | Sidebar border |
-| `--sidebar-ring` | `oklch(0.708 0 0)` | `oklch(0.556 0 0)` | Sidebar focus ring |
+| Token                          | Light              | Dark                         | Role                    |
+| ------------------------------ | ------------------ | ---------------------------- | ----------------------- |
+| `--sidebar`                    | `oklch(0.985 0 0)` | `oklch(0.205 0 0)`           | Sidebar surface         |
+| `--sidebar-foreground`         | `oklch(0.145 0 0)` | `oklch(0.985 0 0)`           | Sidebar text            |
+| `--sidebar-primary`            | `oklch(0.205 0 0)` | `oklch(0.488 0.243 264.376)` | Sidebar primary         |
+| `--sidebar-primary-foreground` | `oklch(0.985 0 0)` | `oklch(0.985 0 0)`           | Text on sidebar primary |
+| `--sidebar-accent`             | `oklch(0.97 0 0)`  | `oklch(0.269 0 0)`           | Sidebar accent          |
+| `--sidebar-accent-foreground`  | `oklch(0.205 0 0)` | `oklch(0.985 0 0)`           | Text on sidebar accent  |
+| `--sidebar-border`             | `oklch(0.922 0 0)` | `oklch(1 0 0 / 10%)`         | Sidebar border          |
+| `--sidebar-ring`               | `oklch(0.708 0 0)` | `oklch(0.556 0 0)`           | Sidebar focus ring      |
 
 ### Usage in Tailwind
 
 All component styles use `@apply` with Tailwind utilities. Never write raw CSS for colors.
 
 ```css
-/* In global.css @layer components */
+/* In apps/web/src/styles/components.css */
 .card {
-  @apply bg-card text-card-foreground rounded-md border border-border;
+  @apply bg-card text-card-foreground border-border rounded-md border;
 }
 ```
 
 ```html
 <!-- In templates -->
 <div class="bg-background text-foreground">...</div>
-<div class="bg-card border border-border">...</div>
+<div class="bg-card border-border border">...</div>
 <div class="text-muted-foreground">...</div>
 <div class="bg-secondary text-secondary-foreground">...</div>
 ```
@@ -105,26 +106,26 @@ All component styles use `@apply` with Tailwind utilities. Never write raw CSS f
 
 ### Fonts
 
-| Token          | Value                                                          | Usage              |
-| -------------- | ------------------------------------------------------------   | ------------------ |
-| `--font-sans`  | `"Inter", ui-sans-serif, system-ui, -apple-system, sans-serif` | Body, headings     |
-| `--font-mono`  | `"JetBrains Mono", ui-monospace, SFMono-Regular, monospace`    | Code, inline code  |
+| Token         | Value                                                          | Usage             |
+| ------------- | -------------------------------------------------------------- | ----------------- |
+| `--font-sans` | `"Inter", ui-sans-serif, system-ui, -apple-system, sans-serif` | Body, headings    |
+| `--font-mono` | `"JetBrains Mono", ui-monospace, SFMono-Regular, monospace`    | Code, inline code |
 
 ### Heading Scale (site-wide)
 
-| Element | Tailwind Class | Size     | Line Height | Weight | Letter Spacing |
-| ------- | -------------- | -------- | ----------- | ------ | -------------- |
-| `h1`    | `text-5xl`     | `3rem`   | `1`         | `600`  | `-0.04em`      |
-| `h2`    | `text-4xl`     | `2.25rem`| `1.1`       | `600`  | `-0.04em`      |
-| `h3`    | `text-2xl`     | `1.5rem` | `1.2`       | `600`  | `-0.04em`      |
+| Element | Tailwind Class | Size      | Line Height | Weight | Letter Spacing |
+| ------- | -------------- | --------- | ----------- | ------ | -------------- |
+| `h1`    | `text-5xl`     | `3rem`    | `1`         | `600`  | `-0.04em`      |
+| `h2`    | `text-4xl`     | `2.25rem` | `1.1`       | `600`  | `-0.04em`      |
+| `h3`    | `text-2xl`     | `1.5rem`  | `1.2`       | `600`  | `-0.04em`      |
 
 ### Prose Headings (within article content)
 
-| Element      | Tailwind Class | Size      | Line Height |
-| ------------ | -------------- | --------- | ----------- |
-| `.prose h1`  | `text-4xl`     | `2.25rem` | `1.1`       |
-| `.prose h2`  | `text-3xl`     | `1.75rem` | `1.2`       |
-| `.prose h3`  | `text-2xl`     | `1.25rem` | `1.3`       |
+| Element     | Tailwind Class | Size      | Line Height |
+| ----------- | -------------- | --------- | ----------- |
+| `.prose h1` | `text-4xl`     | `2.25rem` | `1.1`       |
+| `.prose h2` | `text-3xl`     | `1.75rem` | `1.2`       |
+| `.prose h3` | `text-2xl`     | `1.25rem` | `1.3`       |
 
 ### Body Text
 
@@ -136,7 +137,7 @@ All component styles use `@apply` with Tailwind utilities. Never write raw CSS f
 
 ```css
 ::selection {
-  @apply bg-white/15 text-foreground;
+  @apply text-foreground bg-white/15;
 }
 ```
 
@@ -154,13 +155,13 @@ All component styles use `@apply` with Tailwind utilities. Never write raw CSS f
 
 ### Common Spacing Patterns
 
-| Context             | Tailwind Pattern               |
-| ------------------- | ------------------------------ |
-| Header height       | `h-14` (56px)                  |
-| Section padding     | `py-16` (64px)                 |
-| Card padding        | `p-4` (16px)                   |
-| Gap between items   | `gap-4` (16px)                 |
-| Footer top padding  | `py-16` (64px)                 |
+| Context            | Tailwind Pattern |
+| ------------------ | ---------------- |
+| Header height      | `h-14` (56px)    |
+| Section padding    | `py-16` (64px)   |
+| Card padding       | `p-4` (16px)     |
+| Gap between items  | `gap-4` (16px)   |
+| Footer top padding | `py-16` (64px)   |
 
 ---
 
@@ -168,13 +169,13 @@ All component styles use `@apply` with Tailwind utilities. Never write raw CSS f
 
 A single `--radius` base (default `0.5rem`); the scale is derived inside `@theme inline`:
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--radius` | `0.5rem` | Base radius |
+| Token         | Value                       | Usage                   |
+| ------------- | --------------------------- | ----------------------- |
+| `--radius`    | `0.5rem`                    | Base radius             |
 | `--radius-sm` | `calc(var(--radius) - 4px)` | Buttons, inputs, badges |
-| `--radius-md` | `calc(var(--radius) - 2px)` | Cards, pre blocks |
-| `--radius-lg` | `var(--radius)` | Larger containers |
-| `--radius-xl` | `calc(var(--radius) + 4px)` | Images, large surfaces |
+| `--radius-md` | `calc(var(--radius) - 2px)` | Cards, pre blocks       |
+| `--radius-lg` | `var(--radius)`             | Larger containers       |
+| `--radius-xl` | `calc(var(--radius) + 4px)` | Images, large surfaces  |
 
 ### Usage in Tailwind
 
@@ -215,13 +216,13 @@ All component styles use `@apply` with Tailwind utilities.
 <button class="btn btn-primary btn-sm">Small</button>
 ```
 
-| Variant       | @apply Classes                                                                           |
-| ---------     | -----------------------------------------------------------------------------------------|
+| Variant       | @apply Classes                                                                                                                                |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | `btn`         | `inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm text-sm font-medium leading-5 transition-all duration-150 cursor-pointer` |
-| `btn-primary` | `bg-primary text-primary-foreground`                                                     |
-| `btn-ghost`   | `bg-transparent text-muted-foreground`                                                   |
-| `btn-outline` | `border border-border bg-transparent text-muted-foreground`                                         |
-| `btn-sm`      | `px-3 py-1.5 text-xs leading-4`                                                                    |
+| `btn-primary` | `bg-primary text-primary-foreground`                                                                                                          |
+| `btn-ghost`   | `bg-transparent text-muted-foreground`                                                                                                        |
+| `btn-outline` | `border border-border bg-transparent text-muted-foreground`                                                                                   |
+| `btn-sm`      | `px-3 py-1.5 text-xs leading-4`                                                                                                               |
 
 Focus: `@apply outline-none ring-[3px] ring-ring/50`
 
@@ -242,15 +243,14 @@ Focus: `@apply outline-none ring-[3px] ring-ring/50`
 ### Badge
 
 ```html
-<span class="badge badge-default">Default</span>
-<span class="badge badge-outline">Outline</span>
+<span class="badge badge-default">Default</span> <span class="badge badge-outline">Outline</span>
 ```
 
-| Variant         | @apply Classes                                                                                 |
-| ----------------| ---------------------------------------------------------------------------------------------- |
+| Variant         | @apply Classes                                                                                                                       |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | `badge`         | `inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium leading-5 transition-all duration-150` |
-| `badge-default` | `border-transparent bg-secondary text-secondary-foreground`                                    |
-| `badge-outline` | `bg-transparent border-border text-muted-foreground`                                                      |
+| `badge-default` | `border-transparent bg-secondary text-secondary-foreground`                                                                          |
+| `badge-outline` | `bg-transparent border-border text-muted-foreground`                                                                                 |
 
 ### Input (`.input`)
 
@@ -301,16 +301,16 @@ Used for article content rendered from Markdown.
 
 `@import 'tw-animate-css'` provides shadcn-native animation utilities (`animate-fade-in`, `animate-slide-in-from-left`, etc.). Custom keyframes extend these with project-specific animations.
 
-### Custom Keyframes (defined at top level in global.css)
+### Custom Keyframes
 
-| Name             | Duration | Easing       | Effect                |
-| ---------------- | -------- | ------------ | --------------------- |
-| `slide-up`       | 500ms    | ease-out     | Fade + translateY     |
-| `slide-in-left`  | 400ms    | ease-out     | Fade + translateX     |
-| `scale-in`       | 400ms    | ease-out     | Fade + scale          |
-| `fade-in`        | 300ms    | ease-out     | Fade + translateY(8px → 0) |
-| `fade-out`       | 300ms    | ease-out     | Fade + translateY(0 → -8px) |
-| `marquee`        | 30s      | linear       | Infinite translateX   |
+| Name            | Duration | Easing   | Effect                      |
+| --------------- | -------- | -------- | --------------------------- |
+| `slide-up`      | 500ms    | ease-out | Fade + translateY           |
+| `slide-in-left` | 400ms    | ease-out | Fade + translateX           |
+| `scale-in`      | 400ms    | ease-out | Fade + scale                |
+| `fade-in`       | 300ms    | ease-out | Fade + translateY(8px → 0)  |
+| `fade-out`      | 300ms    | ease-out | Fade + translateY(0 → -8px) |
+| `marquee`       | 30s      | linear   | Infinite translateX         |
 
 ### @theme inline animation bindings
 
@@ -407,13 +407,13 @@ BaseLayout
 
 ## Responsive Breakpoints
 
-| Breakpoint | Width   | Usage              |
-| ---------- | ------- | ------------------ |
-| `sm`       | 640px   | Mobile landscape   |
-| `md`       | 768px   | Tablet             |
-| `lg`       | 1024px  | Desktop            |
-| `xl`       | 1280px  | Large desktop      |
-| `2xl`      | 1536px  | Extra large        |
+| Breakpoint | Width  | Usage            |
+| ---------- | ------ | ---------------- |
+| `sm`       | 640px  | Mobile landscape |
+| `md`       | 768px  | Tablet           |
+| `lg`       | 1024px | Desktop          |
+| `xl`       | 1280px | Large desktop    |
+| `2xl`      | 1536px | Extra large      |
 
 ---
 
@@ -441,23 +441,22 @@ Powered by Expressive Code with TwoSlash:
 ### File Structure
 
 ```
-src/styles/global.css
-├── @import 'tailwindcss'
-├── @import 'tw-animate-css'
-├── :root { bare tokens (--background, --foreground, ...), --radius, --font-* }
-├── .dark { dark overrides for bare tokens }
-├── @theme inline { --color-* bridge, --radius-*, --animate-* }
-├── @layer base { *, body (dot-grid), headings, selection }
-├── @layer components { .container, .btn, .card, .badge, .input, .prose, .separator, .skeleton }
-└── Raw: @keyframes, ::view-transition, .animate-on-scroll
+apps/web/src/styles/
+├── app.css        # Tailwind entrypoint and module imports
+├── tokens.css     # Bare tokens, dark overrides, and @theme inline bridge
+├── semantic.css   # Semantic project extensions
+├── base.css       # Base layer, headings, selection, and page defaults
+└── components.css # Component classes, animations, and utilities
 ```
 
 ---
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `src/styles/global.css` | Design tokens, `tw-animate-css`, component styles, animations |
-| `src/layouts/BaseLayout.astro` | Page layout with header, footer, scroll observer |
-| `src/components/ui/button.tsx` | React button with CVA variants |
+| File                                    | Purpose                                                    |
+| --------------------------------------- | ---------------------------------------------------------- |
+| `apps/web/src/styles/app.css`           | Tailwind entrypoint and style module imports               |
+| `apps/web/src/styles/tokens.css`        | Design tokens, dark mode values, and Tailwind theme bridge |
+| `apps/web/src/styles/components.css`    | Component styles and animations                            |
+| `apps/web/src/layouts/BaseLayout.astro` | Page layout with header, footer, scroll observer           |
+| `apps/web/src/components/ui/button.tsx` | React button with CVA variants                             |

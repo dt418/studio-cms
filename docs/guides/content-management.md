@@ -5,11 +5,11 @@ This guide explains how to manage blog content using the StudioCMS dashboard.
 ## Prerequisites
 
 - Admin account created (visit `/studiocms` on first run)
-- Development server running (`pnpm dev`)
+- CMS development server running (`pnpm cms:dev`)
 
 ## Accessing the CMS Dashboard
 
-Navigate to `http://localhost:4321/studiocms` to access the CMS dashboard.
+Navigate to `http://localhost:4322/studiocms` to access the CMS dashboard.
 
 ## Creating Blog Posts
 
@@ -53,15 +53,15 @@ StudioCMS supports multiple content formats:
 
 ## RSS Feed
 
-Blog posts are automatically included in the RSS feed at `/blog/rss.xml`.
+Public blog posts are automatically included in the RSS feed at `/rss.xml`.
 
 ## Language Support
 
 The blog supports multiple languages with language indicators displayed using flag icons. To add support for a new language:
 
-1. Edit `src/lang-flags-icons.js`
-2. Add the new flag entry from [flag-icons](https://github.com/lipis/flag-icons)
-3. The new language will be available in the CMS
+1. Add the new language to the content schema and UI options in `apps/web/src` or `apps/cms/src`, depending on whether it affects public content, CMS content, or both.
+2. Add the matching flag metadata from [flag-icons](https://github.com/lipis/flag-icons) where language indicators are rendered.
+3. Verify the new language appears in public listings and CMS editing flows.
 
 ## Related Topics
 

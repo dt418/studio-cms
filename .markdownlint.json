@@ -1,0 +1,14 @@
+{
+  "default": true,
+  "line-length": false,
+  "no-duplicate-heading": false,
+  "no-inline-html": false,
+  "no-bare-urls": false,
+  "single-title": false,
+  "first-line-heading": false,
+  "fenced-code-language": false,
+  "blanks-around-headings": false,
+  "blanks-around-fences": false,
+  "blanks-around-lists": false,
+  "table-column-style": false
+}

@@ -1,6 +1,6 @@
 # Environment Variables Reference
 
-All environment variables are defined in `.env` (gitignored). Use `.env.demo` as a template.
+All environment variables are defined in `.env` (gitignored). Use `.env.demo` as a template. The web app primarily needs public site metadata, while the CMS app also needs database and authentication settings.
 
 ## Required Variables
 

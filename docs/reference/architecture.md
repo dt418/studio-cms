@@ -1,136 +1,119 @@
 # Architecture Overview
 
-This document describes the technical architecture of the StudioCMS Blog project.
+This document describes the technical architecture of the danhthanh.dev monorepo. The repository contains two deployable Astro apps: a static public web app and a separate StudioCMS Node SSR app.
 
 ## System Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
-│                        Client Browser                        │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    Astro 5 (SSR Server)                      │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │                  Node Adapter                          │  │
-│  │  (Standalone server: dist/server/entry.mjs)          │  │
-│  └──────────────────────────────────────────────────────┘  │
-│                              │                              │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │              StudioCMS 0.4 Core                      │  │
-│  │  ┌────────────┐ ┌────────────┐ ┌──────────────┐    │  │
-│  │  │ Blog Plugin│ │ UI Kit     │ │ Content Fetch │    │  │
-│  │  └────────────┘ └────────────┘ └──────────────┘    │  │
-│  └──────────────────────────────────────────────────────┘  │
-│                              │                              │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │              Search Layer                            │  │
-│  │  ┌────────────┐ ┌────────────┐                      │  │
-│  │  │ Pagefind   │ │ Fuse.js    │                      │  │
-│  │  │ (build-time│ │ (client-   │                      │  │
-│  │  │  indexing) │ │  side)     │                      │  │
-│  │  └────────────┘ └────────────┘                      │  │
-│  └──────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    libSQL Database                           │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │  Local: file:./libsql.db                             │  │
-│  │  Remote: Turso (libsql://your-db.turso.io)           │  │
-│  └──────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
+│                         Browser                              │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+             ┌─────────────────┴─────────────────┐
+             ▼                                   ▼
+┌─────────────────────────────┐     ┌─────────────────────────┐
+│ apps/web                    │     │ apps/cms                │
+│ Astro 5 static public site  │     │ StudioCMS Astro SSR app │
+│                             │     │                         │
+│ /                           │     │ /studiocms              │
+│ /blog                       │     │ /studiocms_api          │
+│ /blog/:slug                 │     │ /studiocms-blog         │
+│ /search                     │     │                         │
+│ /rss.xml                    │     │ Node standalone server  │
+└──────────────┬──────────────┘     └────────────┬────────────┘
+               │                                 │
+               │                                 ▼
+               │                    ┌─────────────────────────┐
+               │                    │ libSQL / Turso          │
+               │                    │ CMS data and auth       │
+               │                    └─────────────────────────┘
+               ▼
+┌─────────────────────────────┐
+│ Pagefind static index       │
+│ apps/web/dist/pagefind      │
+└─────────────────────────────┘
 ```
 
-## Key Components
+## Workspace Responsibilities
 
-### Astro 5
+| Workspace  | Purpose                                                 | Build Output                     | Runtime        |
+| ---------- | ------------------------------------------------------- | -------------------------------- | -------------- |
+| `apps/web` | Public portfolio/blog, content collections, RSS, search | `apps/web/dist`                  | Static hosting |
+| `apps/cms` | StudioCMS dashboard, auth, CMS APIs, CMS-managed routes | `apps/cms/dist/server/entry.mjs` | Node.js SSR    |
 
-- **Mode**: SSR (`output: 'server'`)
-- **Adapter**: `@astrojs/node` in standalone mode
-- **Markdown Pipeline**:
-  - remark: `remark-gfm` (GitHub-flavored markdown)
-  - rehype: `rehype-slug` → `rehype-autolink-headings` → `rehype-pretty-code`
-  - Code blocks: Expressive Code + TwoSlash
+The workspaces are coordinated by `pnpm-workspace.yaml` and `turbo.json`. Root scripts delegate to filtered workspace tasks so local commands and CI can run from the repository root.
 
-### StudioCMS 0.4
+## Web App
 
-- Headful CMS with database-backed content management
-- OAuth authentication (GitHub + Google)
-- Multiple content formats: Markdown, HTML, MDX, Markdoc, WYSIWYG
+`apps/web` is the public static site.
 
-### Search System
+- **Framework**: Astro 5 static output.
+- **Content source**: `apps/web/src/content/posts/**/*.{md,mdx}` through Astro content collections.
+- **Blog routes**: Custom routes under `apps/web/src/pages/blog`.
+- **Route helpers**: `apps/web/src/lib/routes.ts` encodes dynamic path segments consistently.
+- **Visibility rules**: `apps/web/src/lib/post-visibility.ts` keeps draft and `noindex` posts out of public listings by default.
+- **RSS**: Generated at `/rss.xml` using the same route helpers as the page routes.
 
-- **Pagefind**: Build-time static search index generation
-  - Runs after `astro build` via `scripts/generate-search-index.mjs`
-  - Generates `dist/client/pagefind/` with indexes and filters
-- **Fuse.js**: Client-side fuzzy search refinement
-  - Lazy-loaded from CDN
-  - Weighted scoring: title (0.5), excerpt (0.3), tags (0.2)
-  - Threshold: 0.3, min match: 2 chars
-- **Architecture**: TypeScript-first (`src/lib/search.ts`) with minimal Astro wrapper
+## CMS App
 
-### Blog Routing And Visibility
+`apps/cms` is the StudioCMS admin and API app.
 
-- **Content Source**: Custom blog routes read `src/content/posts/**/*.{md,mdx}` through `src/lib/cms.ts`.
-- **Route Helpers**: Blog, tag, and category links use `src/lib/routes.ts` so dynamic path segments are encoded consistently.
-- **Visibility Rules**: `src/lib/post-visibility.ts` keeps draft and `noindex` posts out of public listings by default, while detail previews can opt in when needed.
-- **RSS**: The public feed is generated at `/rss.xml` and uses the same blog path helper as the page routes.
+- **Framework**: Astro 5 with `@astrojs/node` standalone output.
+- **CMS**: StudioCMS 0.4 with database-backed content management.
+- **Routes**: Dashboard at `/studiocms`, APIs under `/studiocms_api`, plugin content under `/studiocms-blog`.
+- **Database**: libSQL, using local `file:./libsql.db` or remote Turso.
+- **Authentication**: GitHub and Google OAuth configured against the CMS origin.
 
-### UI Layer
+StudioCMS routes are intentionally separate from the custom public `/blog` routes so the static web app owns the main blog experience.
 
-- **@studiocms/ui**: Core UI components with heroicons
-- **Tailwind CSS 4**: Via Vite plugin (not PostCSS)
-- **Custom Icons**: `lang-flags` collection for language indicators
-- **Design Tokens**: CSS custom properties in `src/styles/*.css` modules (colors, radii, fonts, shadows)
+## Search System
 
-### Database
+- **Pagefind**: Build-time static search index generated from `apps/web/dist`.
+- **Fuse.js**: Client-side fuzzy search refinement for loaded search data.
+- **Search code**: `apps/web/src/lib/search.ts`, with Astro wrappers kept small.
 
-- **Dialect**: libSQL (Turso-compatible SQLite)
-- **Local**: `file:./libsql.db` (gitignored)
-- **Remote**: Turso URL + auth token
-- **Migrations**: Managed via `studiocms migrate`
+The web build generates Open Graph assets, builds Astro output, generates search HTML, and then runs Pagefind against the static output.
 
-### Testing & Quality
+```text
+generate-og-image.mjs → astro build → generate-search-index.mjs → pagefind --site dist
+```
 
-- **Vitest**: Unit testing framework
-- **ESLint**: Flat config with TypeScript + Astro + Prettier
-- **Prettier**: Code formatting with Astro plugin
-- **Lefthook**: Git hooks (commit-msg, pre-commit, pre-push)
-- **Commitlint**: Conventional commit validation
+## UI Layer
+
+- **Styling**: Tailwind CSS 4 through `apps/web/src/styles/app.css`.
+- **Token modules**: `tokens.css`, `semantic.css`, `base.css`, and `components.css`.
+- **UI components**: Astro components plus selected React/shadcn components under `apps/web/src/components`.
+- **Design tokens**: CSS custom properties mapped into Tailwind utilities with `@theme inline`.
 
 ## Configuration Files
 
-| File                   | Purpose                              |
-| ---------------------- | ------------------------------------ |
-| `astro.config.mjs`     | Astro framework + all integrations   |
-| `studiocms.config.mjs` | StudioCMS plugins + database dialect |
-| `eslint.config.js`     | ESLint rules (flat config)           |
-| `commitlint.config.js` | Conventional commit rules            |
-| `lefthook.yml`         | Git hooks configuration              |
-| `vitest.config.ts`     | Vitest test configuration            |
-| `.prettierrc`          | Prettier formatting rules            |
-| `tsconfig.json`        | TypeScript compiler options          |
-
-## Content Flow
-
-1. Content created/edited via CMS dashboard (`/studiocms`)
-2. Content stored in libSQL database
-3. Astro fetches content at request time (SSR)
-4. Markdown processed through remark/rehype pipeline
-5. HTML rendered and sent to client
+| File                            | Purpose                                |
+| ------------------------------- | -------------------------------------- |
+| `pnpm-workspace.yaml`           | Workspace package boundaries           |
+| `turbo.json`                    | Turborepo task graph                   |
+| `apps/web/astro.config.mjs`     | Public web Astro config                |
+| `apps/cms/astro.config.mjs`     | CMS Astro SSR config                   |
+| `apps/cms/studiocms.config.mjs` | StudioCMS plugins and database dialect |
+| `eslint.config.js`              | Root ESLint flat config                |
+| `playwright.config.ts`          | E2E test config                        |
+| `lefthook.yml`                  | Git hooks configuration                |
+| `commitlint.config.js`          | Conventional commit rules              |
 
 ## Build Pipeline
 
-```
-astro build → generate-search-index.mjs → pagefind --site dist/client
-```
+Root `pnpm build` runs the Turborepo build graph for both deployable apps.
 
-1. **Astro build**: Compiles SSR server + static assets
-2. **Search index generator**: Reads content collections, generates `search-index.html` with Pagefind data attributes
-3. **Pagefind**: Indexes the HTML + generates search indexes
+1. `apps/web` builds static public output and Pagefind assets.
+2. `apps/cms` builds the Node SSR server bundle.
+3. Deployment publishes `apps/web/dist` to static hosting and runs `node apps/cms/dist/server/entry.mjs` for CMS.
+
+## Testing And Quality
+
+- **Unit tests**: Vitest tests in `apps/web/src/**/*.test.ts`.
+- **E2E tests**: Playwright tests in `e2e/` against the web app.
+- **Linting**: ESLint flat config with TypeScript, Astro, and Prettier integration.
+- **Formatting**: Prettier with Astro and Tailwind plugins.
+- **Hooks**: Lefthook runs commit message checks, pre-commit checks, and pre-push tests/build.
 
 ## Related Topics
 

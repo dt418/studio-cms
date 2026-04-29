@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Refactors
 
+- refactor: migrate site to Turborepo monorepo with separate web and CMS workspaces (220a9fe)
 - refactor: compact repository agent instructions for OpenCode sessions (uncommitted)
 - refactor: align shadcn and Prettier Tailwind configuration with `src/styles/app.css` (uncommitted)
 - refactor: migrate to canonical shadcn/ui theme system (base-nova / neutral / oklch) — replaced custom two-tier token system with bare shadcn vars on `:root` / `.dark`, bridged via `@theme inline` to Tailwind v4
@@ -35,6 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Documentation
 
+- docs: update project documentation for the Turborepo monorepo structure (uncommitted)
 - docs: add site configuration section to DESIGN.md with file reference table
 - docs: update DESIGN.md to reflect shadcn token system, accessibility, and rules
 - docs: add code review improvements tracking document with prioritized GitHub issues (3e6bbe2)
@@ -42,6 +44,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Bug Fixes
 
+- fix: avoid duplicate pnpm version configuration in the Playwright workflow (3b78612)
+- fix: stabilize Playwright e2e tests for blog, search, tags, and RSS flows (322f1b1)
 - fix: exclude StudioCMS and API routes from generated sitemap entries (uncommitted)
 - fix: route RSS item links through shared post path encoding (uncommitted)
 - fix: preserve saved light theme and custom primary color before first paint (uncommitted)

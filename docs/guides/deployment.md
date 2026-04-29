@@ -43,7 +43,7 @@ Update OAuth callback URLs to point to the CMS production domain:
 
 In `apps/cms/astro.config.mjs`, review `checkOrigin` before production. It is currently disabled for local/CMS compatibility:
 
-```js
+```text
 security: {
   checkOrigin: true, // Enable for production
 }

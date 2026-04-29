@@ -191,7 +191,7 @@ See the [Deployment Guide](docs/guides/deployment.md) for full instructions.
 
 | Issue               | Solution                                             |
 | ------------------- | ---------------------------------------------------- |
-| Database not found  | Run `pnpm migrate` to initialize                     |
+| Database not found  | Run `pnpm cms:migrate` to initialize                 |
 | OAuth login fails   | Verify callback URLs match your domain               |
 | Port already in use | Set `PORT=xxxx` env var or kill the existing process |
 | Build fails         | Run `pnpm typecheck` and `pnpm lint` to diagnose     |
