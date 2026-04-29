@@ -68,6 +68,33 @@ export function Card({ className, variant, size, ...props }: CardProps) {
 
 ## Common Patterns
 
+### Homepage Component Inventory
+
+| Component        | Status      | Usage                                                                  |
+| ---------------- | ----------- | ---------------------------------------------------------------------- |
+| `HeroSection`    | In use      | `apps/web/src/pages/index.astro` hero section                          |
+| `SectionHeader`  | In use      | `apps/web/src/pages/index.astro` section intro and metric grid wrapper |
+| `MetricCard`     | In use      | `apps/web/src/pages/index.astro` homepage metric cards                 |
+| `MarqueeSection` | In use      | `apps/web/src/pages/index.astro` category marquee                      |
+| `FeaturedWork`   | In use      | `apps/web/src/pages/index.astro` featured and recent posts             |
+| `ArchiveSection` | In use      | `apps/web/src/pages/index.astro` post archive                          |
+| `.card-hover`    | CSS utility | `apps/web/src/styles/components.css`; reused by card-like components   |
+
+`CardHover.astro` does not exist. Use the `.card-hover` utility class for shared hover treatment
+unless a component needs reusable Astro props or slots.
+
+### Section Header Slots
+
+`SectionHeader` has two slot areas with different responsibilities:
+
+| Slot     | Expected content                                            | Example                              |
+| -------- | ----------------------------------------------------------- | ------------------------------------ |
+| `header` | The full heading element rendered under the eyebrow `title` | `<h2 slot="header">Latest work</h2>` |
+| default  | The section body rendered below the header row              | Cards, grids, lists, or rich content |
+
+Use the named `header` slot when the caller needs control over heading level, copy, and responsive
+typography. Use the default slot for the section content.
+
 ### Card with Hover Effect
 
 ```html
