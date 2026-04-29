@@ -3,7 +3,7 @@ pre-commit:
   commands:
     lint:
       glob: '*.{ts,tsx,astro}'
-      run: pnpm lint -- {staged_files}
+      run: pnpm lint
       stage_fixed: true
 
     typecheck:

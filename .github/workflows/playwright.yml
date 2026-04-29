@@ -24,7 +24,7 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
       - name: Run database migrations
-        run: pnpm migrate --latest
+        run: pnpm cms:migrate --latest
         env:
           CMS_LIBSQL_URL: file:./libsql.db
           CMS_ENCRYPTION_KEY: ${{ secrets.CMS_ENCRYPTION_KEY }}

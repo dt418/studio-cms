@@ -1,0 +1,89 @@
+/* ---------------------------------------------------------------------------
+ * base.css — element reset & typography foundations
+ * ------------------------------------------------------------------------- */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image: radial-gradient(
+      color-mix(in oklch, var(--foreground) 6%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-5xl leading-none;
+  }
+  h2 {
+    @apply text-4xl leading-tight;
+  }
+  h3 {
+    @apply text-2xl leading-normal;
+  }
+
+  p {
+    @apply leading-[1.75];
+  }
+
+  ::selection {
+    @apply bg-foreground/15 text-foreground;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * View transition animations — Astro SPA navigation feels
+ * ------------------------------------------------------------------------- */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 300ms;
+  animation-timing-function: ease-out;
+}
+
+::view-transition-old(root) {
+  animation-name: fade-out;
+}
+
+::view-transition-new(root) {
+  animation-name: fade-in;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

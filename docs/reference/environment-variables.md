@@ -4,10 +4,10 @@ All environment variables are defined in `.env` (gitignored). Use `.env.demo` as
 
 ## Required Variables
 
-| Variable             | Description             | Example                                           |
-| -------------------- | ----------------------- | ------------------------------------------------- |
-| `CMS_LIBSQL_URL`     | Database connection URL | `libsql://your-db.turso.io` or `file:./libsql.db` |
-| `CMS_ENCRYPTION_KEY` | Auth encryption key     | Generate: `openssl rand --base64 16`              |
+| Variable             | Description                 | Example                                           |
+| -------------------- | --------------------------- | ------------------------------------------------- |
+| `CMS_LIBSQL_URL`     | CMS database connection URL | `libsql://your-db.turso.io` or `file:./libsql.db` |
+| `CMS_ENCRYPTION_KEY` | CMS auth encryption key     | Generate: `openssl rand --base64 16`              |
 
 ## Authentication Variables
 
@@ -18,7 +18,9 @@ All environment variables are defined in `.env` (gitignored). Use `.env.demo` as
 | `CMS_GITHUB_CLIENT_ID`     | GitHub OAuth app client ID     | `Ov23li...` |
 | `CMS_GITHUB_CLIENT_SECRET` | GitHub OAuth app client secret | `abc123...` |
 
-**Callback URL**: `http://localhost:4321/studiocms_api/auth/callback/github`
+**Local callback URL**: `http://localhost:4322/studiocms_api/auth/callback/github`
+
+**Production callback URL**: `https://cms.yourdomain.com/studiocms_api/auth/callback/github`
 
 ### Google OAuth
 
@@ -27,14 +29,17 @@ All environment variables are defined in `.env` (gitignored). Use `.env.demo` as
 | `CMS_GOOGLE_CLIENT_ID`     | Google OAuth client ID     | `123456-abc.apps.googleusercontent.com` |
 | `CMS_GOOGLE_CLIENT_SECRET` | Google OAuth client secret | `GOCSPX-abc123`                         |
 
-**Callback URL**: `http://localhost:4321/studiocms_api/auth/callback/google`
+**Local callback URL**: `http://localhost:4322/studiocms_api/auth/callback/google`
+
+**Production callback URL**: `https://cms.yourdomain.com/studiocms_api/auth/callback/google`
 
 ## Optional Variables
 
 | Variable                | Description                               | Default                 |
 | ----------------------- | ----------------------------------------- | ----------------------- |
 | `CMS_LIBSQL_AUTH_TOKEN` | Turso auth token (required for remote DB) | Empty (local only)      |
-| `SITE_URL`              | Production site URL                       | `http://localhost:4321` |
+| `SITE_URL`              | Public web URL                            | `http://localhost:4321` |
+| `CMS_SITE_URL`          | CMS/admin app URL                         | `http://localhost:4322` |
 
 ## Local vs Production
 
@@ -44,6 +49,7 @@ All environment variables are defined in `.env` (gitignored). Use `.env.demo` as
 CMS_LIBSQL_URL=file:./libsql.db
 CMS_LIBSQL_AUTH_TOKEN=
 SITE_URL=http://localhost:4321
+CMS_SITE_URL=http://localhost:4322
 ```
 
 ### Production
@@ -52,6 +58,7 @@ SITE_URL=http://localhost:4321
 CMS_LIBSQL_URL=libsql://your-database.turso.io
 CMS_LIBSQL_AUTH_TOKEN=your-turso-auth-token
 SITE_URL=https://yourdomain.com
+CMS_SITE_URL=https://cms.yourdomain.com
 ```
 
 ## Generating Encryption Key

@@ -194,6 +194,10 @@ function renderResults(results: SearchResult[], query: string): void {
     .join('')
 }
 
+function showResultCount(count: number): void {
+  showStatus(`${count} ${count === 1 ? 'result' : 'results'} found.`)
+}
+
 function populateFilters(): void {
   const categoryFilter = document.getElementById(
     'search-category-filter'
@@ -246,8 +250,14 @@ async function initSearch(): Promise<void> {
   }
 
   searchInput.addEventListener('input', () => {
+    const query = searchInput.value.trim()
     if (clearBtn) {
-      clearBtn.hidden = searchInput.value.trim() === ''
+      clearBtn.hidden = query === ''
+    }
+    if (query) {
+      showStatus('Searching...')
+    } else {
+      hideStatus()
     }
   })
 
@@ -278,7 +288,9 @@ async function initSearch(): Promise<void> {
     }
 
     populateFilters()
-    hideStatus()
+    if (!searchInput.value.trim()) {
+      hideStatus()
+    }
 
     const doSearch = debounce(async () => {
       const query = input.value.trim()
@@ -366,11 +378,12 @@ async function initSearch(): Promise<void> {
             .map((result) => ({ ...result.item, score: result.score }))
 
           renderResults(refined, query)
+          showResultCount(refined.length)
         } else {
-          renderResults(normalized.slice(0, MAX_RESULTS), query)
+          const results = normalized.slice(0, MAX_RESULTS)
+          renderResults(results, query)
+          showResultCount(results.length)
         }
-
-        hideStatus()
       } catch (err) {
         if (requestId !== currentRequestId) {
           return
@@ -402,6 +415,8 @@ async function initSearch(): Promise<void> {
     const initialQuery = urlParams.get('q')
     if (initialQuery) {
       input.value = initialQuery
+      doSearch()
+    } else if (input.value.trim()) {
       doSearch()
     }
   } catch (err) {

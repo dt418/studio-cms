@@ -298,13 +298,16 @@ const { placeholder = 'Search articles...' } = Astro.props
 <script>
   import { initSearch, loadFuse } from '@/lib/search'
 
-  document.addEventListener('astro:page-load', () => {
-    loadFuse()
+  const startSearch = () => {
+    void loadFuse()
     initSearch()
-  })
+  }
 
-  if (document.readyState === 'complete') {
-    loadFuse()
-    initSearch()
+  document.addEventListener('astro:page-load', startSearch)
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startSearch, { once: true })
+  } else {
+    startSearch()
   }
 </script>

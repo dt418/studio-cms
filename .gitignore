@@ -2,11 +2,12 @@
 dist/
 .output/
 .vercel/
+.turbo/
 # generated types
 .astro/
 
 # generated OG image (rebuilt every `pnpm build` from scripts/generate-og-image.mjs)
-public/og-image.png
+**/public/og-image.png
 
 # dependencies
 node_modules/

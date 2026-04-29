@@ -67,7 +67,7 @@ export default tseslint.config(
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
       parserOptions: {
-        project: './tsconfig.json',
+        project: ['./tsconfig.json', './apps/web/tsconfig.json', './apps/cms/tsconfig.json'],
       },
     },
   },

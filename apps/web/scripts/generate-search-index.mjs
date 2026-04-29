@@ -2,7 +2,7 @@ import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync } from 
 import { join } from 'node:path'
 
 const POSTS_DIR = './src/content/posts'
-const OUTPUT_DIR = './dist/client'
+const OUTPUT_DIR = './dist'
 const OUTPUT_FILE = join(OUTPUT_DIR, 'search-index.html')
 
 function parseFrontmatter(fileContent) {

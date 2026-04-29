@@ -1,6 +1,6 @@
 # Documentation
 
-StudioCMS Blog project documentation, organized following the [Diátaxis framework](https://diataxis.fr/).
+danhthanh.dev monorepo documentation, organized following the [Diátaxis framework](https://diataxis.fr/).
 
 ## Structure
 
