@@ -11,15 +11,15 @@ const { title, description, badge = 'Archive' } = Astro.props
 <section class="border-b border-white/5" style="view-transition-name: blog-header;">
   <div class="container py-14">
     <div class="max-w-2xl">
-      <div class="flex items-center gap-2 mb-3">
+      <div class="mb-3 flex items-center gap-2">
         <span
-          class="inline-flex items-center rounded-sm bg-white/5 px-2.5 py-0.5 text-xs font-mono font-semibold text-muted-foreground/60 uppercase tracking-wider"
+          class="text-muted-foreground/60 inline-flex items-center rounded-sm bg-white/5 px-2.5 py-0.5 font-mono text-xs font-semibold tracking-wider uppercase"
         >
           {badge}
         </span>
       </div>
-      <h1 class="text-3xl font-bold tracking-tight lg:text-4xl mb-3">{title}</h1>
-      <p class="text-base leading-relaxed text-muted-foreground/70">
+      <h1 class="mb-3 text-3xl font-bold tracking-tight lg:text-4xl">{title}</h1>
+      <p class="text-muted-foreground/70 text-base leading-relaxed">
         {description}
       </p>
     </div>

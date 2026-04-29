@@ -1,6 +1,6 @@
 ---
-import { getSlug } from '@/lib/content-graph'
 import { formatDate } from '@/lib/date'
+import { getPostPath } from '@/lib/routes'
 import type { CollectionEntry } from 'astro:content'
 
 export interface Props {
@@ -11,16 +11,16 @@ export interface Props {
 const { post, large = false } = Astro.props
 const { title, excerpt, category, publishedAt, tags } = post.data
 const formattedDate = formatDate(publishedAt)
-const resolvedSlug = getSlug(post)
+const postPath = getPostPath(post)
 ---
 
-<a href={`/blog/${resolvedSlug}`} class="card-hover block">
-  <div class="flex items-center gap-3 mb-4">
-    <span class="font-mono text-[0.68rem] tracking-[0.26em] uppercase text-muted-foreground/50">
+<a href={postPath} class="card-hover block">
+  <div class="mb-4 flex items-center gap-3">
+    <span class="text-muted-foreground/50 font-mono text-[0.68rem] tracking-[0.26em] uppercase">
       {category}
     </span>
     <span class="text-muted-foreground/30">/</span>
-    <time class="font-mono text-[0.68rem] tracking-[0.26em] uppercase text-muted-foreground/40">
+    <time class="text-muted-foreground/40 font-mono text-[0.68rem] tracking-[0.26em] uppercase">
       {formattedDate}
     </time>
   </div>
@@ -40,16 +40,16 @@ const resolvedSlug = getSlug(post)
   </p>
   {
     large && (
-      <div class="flex flex-wrap gap-2 mb-6">
+      <div class="mb-6 flex flex-wrap gap-2">
         {tags.slice(0, 3).map((tag) => (
-          <span class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 border border-border px-2 py-1">
+          <span class="text-muted-foreground/50 border-border border px-2 py-1 font-mono text-[0.62rem] tracking-[0.22em] uppercase">
             {tag}
           </span>
         ))}
       </div>
     )
   }
-  <span class="font-mono text-[0.62rem] tracking-[0.24em] uppercase text-muted-foreground/50">
+  <span class="text-muted-foreground/50 font-mono text-[0.62rem] tracking-[0.24em] uppercase">
     Read more →
   </span>
 </a>

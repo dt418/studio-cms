@@ -14,9 +14,9 @@ interface Props {
 const { category, title, excerpt, tags, publishedAt, readingTime, coverImage } = Astro.props
 ---
 
-<section class="border-b border-border">
+<section class="border-border border-b">
   <div class="container py-12 lg:py-16">
-    <div class="max-w-4xl mx-auto">
+    <div class="mx-auto max-w-4xl">
       <PostHeader
         category={category}
         title={title}

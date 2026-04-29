@@ -1,6 +1,9 @@
 import rss from '@astrojs/rss'
 import { getAllPosts } from '../lib/cms'
 import { SITE } from '../lib/site'
+import { getPostPath } from '../lib/routes'
+
+export const prerender = true
 
 export async function GET(context: { site: URL }) {
   const posts = await getAllPosts()
@@ -13,7 +16,7 @@ export async function GET(context: { site: URL }) {
       title: post.data.title,
       pubDate: post.data.publishedAt,
       description: post.data.excerpt,
-      link: `/blog/${post.data.slug}`,
+      link: getPostPath(post),
     })),
   })
 }

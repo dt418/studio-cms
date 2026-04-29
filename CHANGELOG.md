@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Refactors
 
+- refactor: compact repository agent instructions for OpenCode sessions (uncommitted)
+- refactor: align shadcn and Prettier Tailwind configuration with `src/styles/app.css` (uncommitted)
 - refactor: migrate to canonical shadcn/ui theme system (base-nova / neutral / oklch) — replaced custom two-tier token system with bare shadcn vars on `:root` / `.dark`, bridged via `@theme inline` to Tailwind v4
 - refactor: centralize hardcoded site URLs — created `src/lib/site.ts` as single source of truth for brand identity; all pages now use `Astro.site` for URLs and `SITE.*` for strings
 - refactor: extract search logic to TypeScript module — `Search.astro` reduced from 652 to 280 lines, all logic in `src/lib/search.ts` with full type safety
@@ -18,6 +20,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Features
 
+- feat: add centralized route helpers for encoded blog, tag, and category links (uncommitted)
+- feat: add post visibility filtering for drafts and noindex content with explicit opt-in support (uncommitted)
+- feat: prerender blog detail and RSS routes with canonical URLs and preview/noindex handling (uncommitted)
 - feat: add Playwright E2E testing setup with multi-browser support
   (Chromium, Firefox, WebKit, Mobile)
 - feat: configure E2E tests for Astro SSR with preview server
@@ -37,6 +42,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Bug Fixes
 
+- fix: exclude StudioCMS and API routes from generated sitemap entries (uncommitted)
+- fix: route RSS item links through shared post path encoding (uncommitted)
+- fix: preserve saved light theme and custom primary color before first paint (uncommitted)
+- fix: remove stale data-only post navigation helpers that could generate `/blog/` links (uncommitted)
+- fix: restore the shared container max width for wide screens (uncommitted)
 - fix: PostNavigation.astro removed React-style component function from frontmatter (not supported in Astro) — inlined navigation links directly in template
 - fix: BlogFilter.astro removed ES module import from inline script (inline scripts don't support imports) — formatted dates on server for consistency
 - fix: Tailwind v4 syntax — `hover:bg-white/[0.05]` → `hover:bg-white/5` in BlogFilter
@@ -50,6 +60,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Enhancements
 
+- test: cover post visibility rules and route helper encoding (uncommitted)
+- docs: document blog visibility, route helpers, and the public RSS path (uncommitted)
 - feat: RelatedPosts.astro improved heading UI with count badge and flex layout
 - feat: RelatedPosts.astro removed max-width constraint for full-width alignment
 - feat: add new blog components (ArticleContent, AuthorCard, BackLink, BlogHeader, Breadcrumb, CategoryCloud, CoverImage, PostHero, PostMetadata, StatsGrid, TagCloud, TagsList)

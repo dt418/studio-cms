@@ -2,7 +2,7 @@
 import type { CollectionEntry } from 'astro:content'
 import TagsList from './Blog/TagsList.astro'
 import { formatDate } from '@/lib/date'
-import { getSlug } from '@/lib/content-graph'
+import { getPostPath } from '@/lib/routes'
 
 interface Props {
   post: CollectionEntry<'posts'>
@@ -11,36 +11,36 @@ interface Props {
 const { post } = Astro.props
 const { title, excerpt, coverImage, publishedAt, tags, category } = post.data
 const formattedDate = formatDate(publishedAt)
-const resolvedSlug = getSlug(post)
+const postPath = getPostPath(post)
 ---
 
 <article class="card-hover group">
-  <a href={`/blog/${resolvedSlug}`} class="flex flex-col flex-1">
+  <a href={postPath} class="flex flex-1 flex-col">
     {
       coverImage && (
-        <div class="aspect-video overflow-hidden bg-muted -m-6 -mt-6 mb-4">
+        <div class="bg-muted -m-6 -mt-6 mb-4 aspect-video overflow-hidden">
           <img
             src={coverImage}
             alt={title}
-            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
         </div>
       )
     }
-    <div class="flex items-center gap-2 mb-3">
+    <div class="mb-3 flex items-center gap-2">
       <span
-        class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50 border border-border px-2 py-1"
+        class="text-muted-foreground/50 border-border border px-2 py-1 font-mono text-[0.62rem] tracking-[0.22em] uppercase"
         >{category}</span
       >
-      <time class="font-mono text-[0.68rem] tracking-[0.26em] uppercase text-muted-foreground/40">
+      <time class="text-muted-foreground/40 font-mono text-[0.68rem] tracking-[0.26em] uppercase">
         {formattedDate}
       </time>
     </div>
-    <h2 class="text-lg font-semibold tracking-tight mb-2 text-foreground line-clamp-2">
+    <h2 class="text-foreground mb-2 line-clamp-2 text-lg font-semibold tracking-tight">
       {title}
     </h2>
-    <p class="text-sm text-muted-foreground/70 mb-4 line-clamp-3">
+    <p class="text-muted-foreground/70 mb-4 line-clamp-3 text-sm">
       {excerpt}
     </p>
     <TagsList tags={tags} />

@@ -6,6 +6,8 @@ import StatsGrid from '@/components/Blog/StatsGrid.astro'
 import { getAllPosts, getAllCategories, getAllTags } from '@/lib/cms'
 import { SITE } from '@/lib/site'
 
+export const prerender = true
+
 const posts = await getAllPosts()
 const categories = await getAllCategories()
 const tags = await getAllTags()

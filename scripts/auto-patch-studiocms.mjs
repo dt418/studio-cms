@@ -48,4 +48,14 @@ if (fs.existsSync(studiocmsDir)) {
   }
 }
 
+// 4. Keep StudioCMS dashboard content full-width after the sidebar width is applied.
+safeReplace(
+  "node_modules/studiocms/frontend/layouts/DashboardLayout.astro",
+  (content) =>
+    content.replace(
+      "main.style.maxWidth = computedWidth > 840 ? `${computedWidth}px` : `100%`;",
+      "main.style.width = computedWidth > 840 ? `${computedWidth}px` : `100%`;\n\t\t\t\tmain.style.maxWidth = computedWidth > 840 ? `${computedWidth}px` : `100%`;"
+    )
+);
+
 console.warn("🎯 studiocms auto-patch done");

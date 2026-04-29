@@ -61,11 +61,11 @@ export function ThemeEditor() {
       <div className="space-y-5">
         {/* Mode toggle */}
         <div className="flex items-center justify-between">
-          <span className="text-xs font-medium text-muted-foreground">Mode</span>
+          <span className="text-muted-foreground text-xs font-medium">Mode</span>
           <button
             type="button"
             onClick={toggleTheme}
-            className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground hover:bg-accent transition-colors"
+            className="border-border bg-background text-foreground hover:bg-accent inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs font-medium transition-colors"
           >
             {config.theme === 'dark' ? (
               <>
@@ -83,7 +83,7 @@ export function ThemeEditor() {
 
         {/* Presets */}
         <div>
-          <span className="block text-xs font-medium text-muted-foreground mb-2">Presets</span>
+          <span className="text-muted-foreground mb-2 block text-xs font-medium">Presets</span>
           <Presets
             current={
               [
@@ -103,7 +103,7 @@ export function ThemeEditor() {
 
         {/* OKLCH Sliders */}
         <div>
-          <span className="block text-xs font-medium text-muted-foreground mb-2">
+          <span className="text-muted-foreground mb-2 block text-xs font-medium">
             Primary Color
           </span>
           <ColorControl color={config.primary} onChange={setPrimary} />
@@ -111,18 +111,18 @@ export function ThemeEditor() {
             type="button"
             onClick={commitPrimary}
             onKeyUp={(e) => e.key === 'Enter' && commitPrimary()}
-            className="mt-3 w-full rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-85 transition-opacity"
+            className="bg-primary text-primary-foreground mt-3 w-full rounded-md px-3 py-1.5 text-xs font-medium transition-opacity hover:opacity-85"
           >
             Apply
           </button>
         </div>
 
         {/* Share */}
-        <div className="border-t border-border pt-4">
+        <div className="border-border border-t pt-4">
           <button
             type="button"
             onClick={share}
-            className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+            className="border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs font-medium transition-colors"
           >
             <Share2 className="size-3.5" />
             {copied ? 'Copied!' : 'Share theme'}

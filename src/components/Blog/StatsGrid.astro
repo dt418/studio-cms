@@ -11,12 +11,12 @@ interface Props {
 const { stats } = Astro.props
 ---
 
-<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
+<div class="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
   {
     stats.map((stat) => (
       <div class="border border-white/5 bg-white/2 p-4">
-        <div class="text-2xl font-bold tracking-tight tabular-nums font-mono">{stat.value}</div>
-        <div class="text-xs font-mono text-muted-foreground/40 mt-1.5 uppercase tracking-wider">
+        <div class="font-mono text-2xl font-bold tracking-tight tabular-nums">{stat.value}</div>
+        <div class="text-muted-foreground/40 mt-1.5 font-mono text-xs tracking-wider uppercase">
           {stat.label}
         </div>
       </div>

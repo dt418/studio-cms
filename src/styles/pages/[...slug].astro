@@ -15,10 +15,10 @@ if (!page) {
   return new Response(null, { status: 404 })
 }
 
-const { title, description, heroImage } = page
+const { title, description } = page
 ---
 
-<Layout title={title} description={description} heroImage={heroImage}>
+<Layout title={title} description={description}>
   <main>
     <StudioCMSRenderer data={page} />
   </main>

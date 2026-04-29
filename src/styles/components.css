@@ -8,11 +8,11 @@
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-sm text-sm font-medium leading-5 transition-all duration-150 cursor-pointer;
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-sm px-4 py-2 text-sm leading-5 font-medium transition-all duration-150;
   }
 
   .btn:focus-visible {
-    @apply outline-none ring-[3px] ring-ring/50;
+    @apply ring-ring/50 ring-[3px] outline-none;
   }
 
   .btn:disabled {
@@ -28,7 +28,7 @@
   }
 
   .btn-ghost {
-    @apply bg-transparent text-muted-foreground;
+    @apply text-muted-foreground bg-transparent;
   }
 
   .btn-ghost:hover {
@@ -36,7 +36,7 @@
   }
 
   .btn-outline {
-    @apply border border-border bg-transparent text-muted-foreground;
+    @apply border-border text-muted-foreground border bg-transparent;
   }
 
   .btn-outline:hover {
@@ -48,11 +48,11 @@
   }
 
   .card {
-    @apply bg-card text-card-foreground rounded-md border border-border transition-colors duration-200;
+    @apply bg-card text-card-foreground border-border rounded-md border transition-colors duration-200;
   }
 
   .card-hover {
-    @apply relative overflow-hidden rounded-md border border-border bg-card/30 p-6 transition-all duration-300;
+    @apply border-border bg-card/30 relative overflow-hidden rounded-md border p-6 transition-all duration-300;
   }
 
   .card-hover::before {
@@ -74,19 +74,19 @@
   }
 
   .badge {
-    @apply inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium leading-5 transition-all duration-150;
+    @apply border-border inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs leading-5 font-medium transition-all duration-150;
   }
 
   .badge-default {
-    @apply border-transparent bg-secondary text-secondary-foreground;
+    @apply bg-secondary text-secondary-foreground border-transparent;
   }
 
   .badge-outline {
-    @apply bg-transparent border-border text-muted-foreground;
+    @apply border-border text-muted-foreground bg-transparent;
   }
 
   .input {
-    @apply flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm leading-6 text-foreground transition-all duration-150;
+    @apply border-input bg-background text-foreground flex h-10 w-full rounded-sm border px-3 py-2 text-sm leading-6 transition-all duration-150;
   }
 
   .input::placeholder {
@@ -94,7 +94,7 @@
   }
 
   .input:focus-visible {
-    @apply outline-none ring-[3px] ring-ring/50 border-ring;
+    @apply ring-ring/50 border-ring ring-[3px] outline-none;
   }
 
   .prose {
@@ -105,7 +105,7 @@
   .prose h2,
   .prose h3,
   .prose h4 {
-    @apply font-semibold tracking-tight text-foreground mt-10 mb-4;
+    @apply text-foreground mt-10 mb-4 font-semibold tracking-tight;
   }
 
   .prose h1 {
@@ -131,11 +131,11 @@
   }
 
   .prose code {
-    @apply relative rounded-sm bg-muted px-1 py-0.5 font-mono text-[0.85em] font-medium;
+    @apply bg-muted relative rounded-sm px-1 py-0.5 font-mono text-[0.85em] font-medium;
   }
 
   .prose pre {
-    @apply overflow-x-auto rounded-md border border-border bg-muted p-4 my-6;
+    @apply border-border bg-muted my-6 overflow-x-auto rounded-md border p-4;
   }
 
   .prose pre code {
@@ -159,28 +159,28 @@
   }
 
   .prose blockquote {
-    @apply my-6 border-l-2 border-border italic text-muted-foreground pl-6;
+    @apply border-border text-muted-foreground my-6 border-l-2 pl-6 italic;
   }
 
   .prose img {
-    @apply rounded-md border border-border;
+    @apply border-border rounded-md border;
   }
 
   .prose hr {
-    @apply my-10 border-border;
+    @apply border-border my-10;
   }
 
   .prose table {
-    @apply w-full border-collapse my-6;
+    @apply my-6 w-full border-collapse;
   }
 
   .prose th,
   .prose td {
-    @apply border border-border p-3 text-left;
+    @apply border-border border p-3 text-left;
   }
 
   .prose th {
-    @apply bg-muted font-semibold text-foreground;
+    @apply bg-muted text-foreground font-semibold;
   }
 
   .prose td {
@@ -188,11 +188,11 @@
   }
 
   .separator {
-    @apply h-px bg-border;
+    @apply bg-border h-px;
   }
 
   .skeleton {
-    @apply rounded-md bg-muted animate-pulse;
+    @apply bg-muted animate-pulse rounded-md;
   }
 }
 

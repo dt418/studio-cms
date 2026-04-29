@@ -68,7 +68,7 @@ Open `http://localhost:4321` in your browser. Visit `/studiocms` to create your 
 | `/blog`          | Blog listing                         |
 | `/blog/:slug`    | Individual blog post                 |
 | `/search`        | Search page (Pagefind + Fuse.js)     |
-| `/blog/rss.xml`  | RSS feed                             |
+| `/rss.xml`       | RSS feed                             |
 | `/studiocms`     | CMS dashboard (admin)                |
 | `/studiocms-blog`| CMS-managed blog content             |
 

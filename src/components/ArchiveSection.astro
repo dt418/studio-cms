@@ -1,6 +1,7 @@
 ---
-import { getSlug, type Post } from '@/lib/content-graph'
+import type { Post } from '@/lib/content-graph'
 import { formatDate } from '@/lib/date'
+import { getPostPath } from '@/lib/routes'
 
 interface Props {
   posts: Post[]
@@ -9,50 +10,50 @@ interface Props {
 const { posts } = Astro.props
 ---
 
-<section class="border-b border-border">
+<section class="border-border border-b">
   <div class="container py-14 lg:py-24">
     <div class="flex flex-col gap-4 pb-6 lg:flex-row lg:items-end lg:justify-between">
       <div class="max-w-2xl">
-        <p class="font-mono text-[0.62rem] tracking-[0.28em] uppercase text-muted-foreground/50">
+        <p class="text-muted-foreground/50 font-mono text-[0.62rem] tracking-[0.28em] uppercase">
           Browse
         </p>
-        <h2 class="text-2xl lg:text-3xl font-semibold tracking-tight mt-4 max-w-2xl">
+        <h2 class="mt-4 max-w-2xl text-2xl font-semibold tracking-tight lg:text-3xl">
           All posts and writing.
         </h2>
-        <p class="mt-4 max-w-2xl text-base leading-7 text-muted-foreground/70 sm:text-lg">
+        <p class="text-muted-foreground/70 mt-4 max-w-2xl text-base leading-7 sm:text-lg">
           The full archive of tutorials, guides, and notes.
         </p>
       </div>
       <a
         href="/blog"
-        class="font-mono text-[0.72rem] tracking-[0.26em] uppercase text-muted-foreground/50 hover:text-foreground transition-colors"
+        class="text-muted-foreground/50 hover:text-foreground font-mono text-[0.72rem] tracking-[0.26em] uppercase transition-colors"
       >
         Open full archive →
       </a>
     </div>
     {
       posts.length === 0 ? (
-        <p class="mt-8 text-sm text-muted-foreground/60">
+        <p class="text-muted-foreground/60 mt-8 text-sm">
           No archived posts yet — see the latest above.
         </p>
       ) : (
-        <ul class="mt-8 divide-y divide-border border-y border-border">
+        <ul class="divide-border border-border mt-8 divide-y border-y">
           {posts.map((post) => (
             <li>
               <a
-                href={`/blog/${getSlug(post)}`}
-                class="grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-5 items-baseline hover:bg-white/2 transition-colors -mx-4 px-4 rounded-sm"
+                href={getPostPath(post)}
+                class="-mx-4 grid grid-cols-[120px_1fr_auto] items-baseline gap-4 rounded-sm px-4 py-5 transition-colors hover:bg-white/2 sm:gap-6"
               >
                 <time
                   datetime={post.data.publishedAt.toISOString()}
-                  class="font-mono text-[0.7rem] tracking-[0.22em] uppercase text-muted-foreground/50 tabular-nums"
+                  class="text-muted-foreground/50 font-mono text-[0.7rem] tracking-[0.22em] uppercase tabular-nums"
                 >
                   {formatDate(post.data.publishedAt)}
                 </time>
-                <span class="text-sm font-medium text-foreground/90 line-clamp-1">
+                <span class="text-foreground/90 line-clamp-1 text-sm font-medium">
                   {post.data.title}
                 </span>
-                <span class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/40">
+                <span class="text-muted-foreground/40 font-mono text-[0.62rem] tracking-[0.22em] uppercase">
                   {post.data.category}
                 </span>
               </a>

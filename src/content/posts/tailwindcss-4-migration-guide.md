@@ -81,7 +81,7 @@ Some plugins have been renamed or restructured:
 
 ```css
 @import 'tailwindcss';
-@plugin "@tailwindcss/typography";
+@plugin '@tailwindcss/typography';
 ```
 
 ## Migration Steps

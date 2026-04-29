@@ -6,14 +6,27 @@ import BackLink from '@/components/Blog/BackLink.astro'
 import CategoryCloud from '@/components/Blog/CategoryCloud.astro'
 import { getPostsByCategory, getAllCategories, getAllTags } from '@/lib/cms'
 
+export const prerender = true
+
+export async function getStaticPaths() {
+  const categories = await getAllCategories()
+
+  return categories.map((category) => ({
+    params: { category },
+    props: { category },
+  }))
+}
+
 const rawCategory = Astro.params.category ?? ''
-const category = (() => {
-  try {
-    return decodeURIComponent(rawCategory)
-  } catch {
-    return rawCategory
-  }
-})()
+const category =
+  Astro.props.category ??
+  (() => {
+    try {
+      return decodeURIComponent(rawCategory)
+    } catch {
+      return rawCategory
+    }
+  })()
 const posts = await getPostsByCategory(category)
 const allCategories = await getAllCategories()
 const allTags = await getAllTags()
@@ -23,8 +36,8 @@ const allTags = await getAllTags()
   <section class="container py-16">
     <div class="mb-12">
       <BackLink href="/blog" />
-      <h1 class="text-4xl font-bold tracking-tight mb-2">Category: {category}</h1>
-      <p class="text-lg text-muted-foreground">
+      <h1 class="mb-2 text-4xl font-bold tracking-tight">Category: {category}</h1>
+      <p class="text-muted-foreground text-lg">
         {posts.length}
         {posts.length === 1 ? 'post' : 'posts'} in "{category}"
       </p>
@@ -37,7 +50,7 @@ const allTags = await getAllTags()
     </div>
 
     <div class="mt-12">
-      <h2 class="text-sm font-medium text-muted-foreground mb-4">Search & Filter</h2>
+      <h2 class="text-muted-foreground mb-4 text-sm font-medium">Search & Filter</h2>
       <BlogFilter
         posts={posts}
         categories={allCategories}

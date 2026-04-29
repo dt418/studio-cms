@@ -10,15 +10,15 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 3)
 {
   filteredHeadings.length > 0 && (
     <nav id="toc" class="sticky top-24 hidden lg:block" aria-label="Table of contents">
-      <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-4">
+      <p class="text-muted-foreground/60 mb-4 text-xs font-semibold tracking-wider uppercase">
         On this page
       </p>
-      <ul class="space-y-1 border-l border-border p-4">
+      <ul class="border-border space-y-1 border-l p-4">
         {filteredHeadings.map((heading) => (
           <li>
             <a
               href={`#${heading.slug}`}
-              class="toc-link block py-1.5 text-sm text-muted-foreground hover:text-foreground transition-all duration-200 border-l-2 border-transparent -ml-px"
+              class="toc-link text-muted-foreground hover:text-foreground -ml-px block border-l-2 border-transparent py-1.5 text-sm transition-all duration-200"
               data-depth={heading.depth}
             >
               {heading.text}

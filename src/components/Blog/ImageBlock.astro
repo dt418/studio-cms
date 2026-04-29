@@ -9,12 +9,12 @@ const { src, alt, caption } = Astro.props
 ---
 
 <figure class="my-8">
-  <div class="rounded-xl overflow-hidden border border-border">
-    <img src={src} alt={alt} class="w-full h-auto object-cover" />
+  <div class="border-border overflow-hidden rounded-xl border">
+    <img src={src} alt={alt} class="h-auto w-full object-cover" />
   </div>
   {
     caption && (
-      <figcaption class="mt-3 text-sm text-muted-foreground text-center italic">
+      <figcaption class="text-muted-foreground mt-3 text-center text-sm italic">
         {caption}
       </figcaption>
     )

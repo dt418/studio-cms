@@ -11,11 +11,11 @@ const { relatedPosts } = Astro.props
 
 {
   relatedPosts.length > 0 && (
-    <section class="border-t border-border">
+    <section class="border-border border-t">
       <div class="container py-16">
-        <div class="flex items-center justify-between mb-8">
-          <h2 class="text-2xl font-bold tracking-tight text-foreground">Related Posts</h2>
-          <span class="font-mono text-xs text-muted-foreground/50 border border-border px-3 py-1 rounded-full">
+        <div class="mb-8 flex items-center justify-between">
+          <h2 class="text-foreground text-2xl font-bold tracking-tight">Related Posts</h2>
+          <span class="text-muted-foreground/50 border-border rounded-full border px-3 py-1 font-mono text-xs">
             {relatedPosts.length}
           </span>
         </div>

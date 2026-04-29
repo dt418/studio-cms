@@ -10,12 +10,12 @@ const { author } = Astro.props
 
 <article class="card-hover flex items-center gap-4">
   <div
-    class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-base font-semibold text-primary"
+    class="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-full text-base font-semibold"
   >
     {getAuthorInitials(author)}
   </div>
   <div>
-    <p class="font-medium text-foreground">{author}</p>
-    <p class="text-sm text-muted-foreground">Writer & Developer</p>
+    <p class="text-foreground font-medium">{author}</p>
+    <p class="text-muted-foreground text-sm">Writer & Developer</p>
   </div>
 </article>

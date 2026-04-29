@@ -72,12 +72,19 @@ This document describes the technical architecture of the StudioCMS Blog project
   - Threshold: 0.3, min match: 2 chars
 - **Architecture**: TypeScript-first (`src/lib/search.ts`) with minimal Astro wrapper
 
+### Blog Routing And Visibility
+
+- **Content Source**: Custom blog routes read `src/content/posts/**/*.{md,mdx}` through `src/lib/cms.ts`.
+- **Route Helpers**: Blog, tag, and category links use `src/lib/routes.ts` so dynamic path segments are encoded consistently.
+- **Visibility Rules**: `src/lib/post-visibility.ts` keeps draft and `noindex` posts out of public listings by default, while detail previews can opt in when needed.
+- **RSS**: The public feed is generated at `/rss.xml` and uses the same blog path helper as the page routes.
+
 ### UI Layer
 
 - **@studiocms/ui**: Core UI components with heroicons
 - **Tailwind CSS 4**: Via Vite plugin (not PostCSS)
 - **Custom Icons**: `lang-flags` collection for language indicators
-- **Design Tokens**: CSS custom properties in `global.css` (colors, radii, fonts, shadows)
+- **Design Tokens**: CSS custom properties in `src/styles/*.css` modules (colors, radii, fonts, shadows)
 
 ### Database
 

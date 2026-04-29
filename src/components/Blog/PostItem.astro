@@ -3,7 +3,7 @@ import type { CollectionEntry } from 'astro:content'
 import TagsList from './TagsList.astro'
 import { readingTime } from '@/lib/reading-time'
 import { formatDate } from '@/lib/date'
-import { getSlug } from '@/lib/content-graph'
+import { getPostPath } from '@/lib/routes'
 
 export interface Props {
   post: CollectionEntry<'posts'>
@@ -13,34 +13,34 @@ const { post } = Astro.props
 const { title, excerpt, publishedAt, tags } = post.data
 const date = formatDate(publishedAt)
 const minutes = readingTime(post.body ?? '')
-const resolvedSlug = getSlug(post)
+const postPath = getPostPath(post)
 ---
 
 <article
-  class="group grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-7 border-b border-white/5 items-start last:border-b-0 hover:bg-white/2 transition-colors duration-200 rounded-lg -mx-4 px-4"
+  class="group -mx-4 grid grid-cols-[120px_1fr_auto] items-start gap-4 rounded-lg border-b border-white/5 px-4 py-7 transition-colors duration-200 last:border-b-0 hover:bg-white/2 sm:gap-6"
 >
   <div class="pt-0.5">
-    <time class="text-sm font-mono text-muted-foreground tabular-nums">{date}</time>
+    <time class="text-muted-foreground font-mono text-sm tabular-nums">{date}</time>
   </div>
 
-  <a href={`/blog/${resolvedSlug}`} class="block min-w-0">
+  <a href={postPath} class="block min-w-0">
     <h2
-      class="text-lg font-semibold leading-snug tracking-tight text-foreground/90 group-hover:text-foreground transition-colors mb-1.5"
+      class="text-foreground/90 group-hover:text-foreground mb-1.5 text-lg leading-snug font-semibold tracking-tight transition-colors"
     >
       {title}
     </h2>
 
-    <p class="text-sm leading-relaxed text-muted-foreground/70 line-clamp-2 mb-3">
+    <p class="text-muted-foreground/70 mb-3 line-clamp-2 text-sm leading-relaxed">
       {excerpt}
     </p>
 
     <TagsList tags={tags} />
   </a>
 
-  <div class="pt-0.5 pl-4 flex flex-col items-end gap-1">
+  <div class="flex flex-col items-end gap-1 pt-0.5 pl-4">
     <a
-      href={`/blog/${resolvedSlug}`}
-      class="group/enter inline-flex items-center gap-1 text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground/40 hover:text-foreground transition-colors"
+      href={postPath}
+      class="group/enter text-muted-foreground/40 hover:text-foreground inline-flex items-center gap-1 font-mono text-xs font-semibold tracking-wider uppercase transition-colors"
     >
       <span>enter</span>
       <svg
@@ -59,6 +59,6 @@ const resolvedSlug = getSlug(post)
         <path d="m12 5 7 7-7 7"></path>
       </svg>
     </a>
-    <span class="text-xs font-mono text-muted-foreground/30 tabular-nums">{minutes} min</span>
+    <span class="text-muted-foreground/30 font-mono text-xs tabular-nums">{minutes} min</span>
   </div>
 </article>

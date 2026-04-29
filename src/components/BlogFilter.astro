@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 import { formatDate } from '@/lib/date'
+import { getSlug } from '@/lib/content-graph'
+import { getPostPath } from '@/lib/routes'
 
 interface Props {
   posts: CollectionEntry<'posts'>[]
@@ -15,6 +17,8 @@ const { posts, categories, tags, initialCategory, initialTag } = Astro.props
 const serializedPosts = posts.map((post) => {
   const data = {
     ...post.data,
+    slug: getSlug(post),
+    path: getPostPath(post),
     publishedAt: post.data.publishedAt.toISOString(),
     formattedDate: formatDate(post.data.publishedAt),
   }
@@ -28,7 +32,7 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
 
 <div class="space-y-4">
   <div class="flex flex-wrap gap-3">
-    <div class="relative flex-1 min-w-[200px]">
+    <div class="relative min-w-[200px] flex-1">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -37,7 +41,7 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
+        class="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
       >
         <circle cx="11" cy="11" r="8"></circle>
         <path d="m21 21-4.3-4.3"></path>
@@ -46,7 +50,7 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
         type="search"
         id="filter-search"
         placeholder="Search posts..."
-        class="input pl-10 w-full"
+        class="input w-full pl-10"
       />
     </div>
 
@@ -84,17 +88,17 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
     <button
       id="filter-reset"
       type="button"
-      class="input whitespace-nowrap px-4 text-sm font-mono uppercase tracking-wider hover:bg-white/5 transition-colors"
+      class="input px-4 font-mono text-sm tracking-wider whitespace-nowrap uppercase transition-colors hover:bg-white/5"
       title="Clear search and reset filters"
     >
       Reset
     </button>
   </div>
 
-  <div id="filter-results-count" class="text-sm text-muted-foreground"></div>
+  <div id="filter-results-count" class="text-muted-foreground text-sm"></div>
 
   <div id="filter-results" class="space-y-0">
-    <p class="text-muted-foreground text-center py-8">Type to search or adjust filters...</p>
+    <p class="text-muted-foreground py-8 text-center">Type to search or adjust filters...</p>
   </div>
 </div>
 
@@ -212,7 +216,7 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
           const formattedDate = post.data.formattedDate
           const words = post.body ? post.body.split(/\s+/).filter(Boolean).length : 0
           const minutes = Math.max(1, Math.ceil(words / 200))
-          const slugAttr = escapeAttr(post.data.slug)
+          const pathAttr = escapeAttr(post.data.path)
           const title = escapeHtml(post.data.title)
           const excerpt = escapeHtml(post.data.excerpt)
           const tagsHtml = post.data.tags
@@ -232,13 +236,13 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
               <div class="pt-0.5">
                 <time class="text-sm font-mono text-muted-foreground tabular-nums">${escapeHtml(formattedDate)}</time>
               </div>
-              <a href="/blog/${slugAttr}" class="block min-w-0">
+              <a href="${pathAttr}" class="block min-w-0">
                 <h2 class="text-lg font-semibold leading-snug tracking-tight text-foreground/90 group-hover:text-foreground transition-colors mb-1.5">${title}</h2>
                 <p class="text-sm leading-relaxed text-muted-foreground/70 line-clamp-2 mb-3">${excerpt}</p>
                 <div class="flex flex-wrap gap-1.5">${tagsHtml}${tagsOverflow}</div>
               </a>
               <div class="pt-0.5 pl-4 flex flex-col items-end gap-1">
-                <a href="/blog/${slugAttr}" class="group/enter inline-flex items-center gap-1 text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground/40 hover:text-foreground transition-colors">
+                <a href="${pathAttr}" class="group/enter inline-flex items-center gap-1 text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground/40 hover:text-foreground transition-colors">
                   <span>enter</span>
                   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/enter:translate-x-0.5">
                     <path d="M5 12h14" />

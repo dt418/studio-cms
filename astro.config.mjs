@@ -21,7 +21,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings' // make headings c
 import rehypePrettyCode from 'rehype-pretty-code' // syntax highlighting for code blocks
 
 import studiocmsCfetch from '@studiocms/cfetch'
-import astroExpressiveCode from 'astro-expressive-code';
+import astroExpressiveCode from 'astro-expressive-code'
 import ecTwoSlash from 'expressive-code-twoslash' // TypeScript hover types in code blocks
 
 import { visualizer } from 'rollup-plugin-visualizer'
@@ -88,7 +88,8 @@ export default defineConfig({
     checkOrigin: false, // disable CSRF origin check (adjust based on your hosting)
   },
 
-  integrations: [// core CMS
+  integrations: [
+    // core CMS
     react(),
     studioCMS(),
     studiocmsUi({
@@ -111,7 +112,9 @@ export default defineConfig({
       plugins: [ecTwoSlash()], // TS type hover info in code blocks
     }),
     // Sitemap generation
-    sitemap(),
+    sitemap({
+      filter: (page) => !page.includes('/studiocms') && !page.includes('/api/'),
+    }),
   ],
 
   markdown: {

@@ -6,14 +6,27 @@ import BackLink from '@/components/Blog/BackLink.astro'
 import TagCloud from '@/components/Blog/TagCloud.astro'
 import { getPostsByTag, getAllTags, getAllCategories } from '@/lib/cms'
 
+export const prerender = true
+
+export async function getStaticPaths() {
+  const tags = await getAllTags()
+
+  return tags.map((tag) => ({
+    params: { tag },
+    props: { tag },
+  }))
+}
+
 const rawTag = Astro.params.tag ?? ''
-const tag = (() => {
-  try {
-    return decodeURIComponent(rawTag)
-  } catch {
-    return rawTag
-  }
-})()
+const tag =
+  Astro.props.tag ??
+  (() => {
+    try {
+      return decodeURIComponent(rawTag)
+    } catch {
+      return rawTag
+    }
+  })()
 const posts = await getPostsByTag(tag)
 const allTags = await getAllTags()
 const allCategories = await getAllCategories()
@@ -23,8 +36,8 @@ const allCategories = await getAllCategories()
   <section class="container py-16">
     <div class="mb-12">
       <BackLink href="/blog" />
-      <h1 class="text-4xl font-bold tracking-tight mb-2">Tag: {tag}</h1>
-      <p class="text-lg text-muted-foreground">
+      <h1 class="mb-2 text-4xl font-bold tracking-tight">Tag: {tag}</h1>
+      <p class="text-muted-foreground text-lg">
         {posts.length}
         {posts.length === 1 ? 'post' : 'posts'} tagged with "{tag}"
       </p>
@@ -37,7 +50,7 @@ const allCategories = await getAllCategories()
     </div>
 
     <div class="mt-12">
-      <h2 class="text-sm font-medium text-muted-foreground mb-4">Search & Filter</h2>
+      <h2 class="text-muted-foreground mb-4 text-sm font-medium">Search & Filter</h2>
       <BlogFilter posts={posts} categories={allCategories} tags={allTags} initialTag={tag} />
     </div>
   </section>

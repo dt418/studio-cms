@@ -1,9 +1,8 @@
 ---
 import '../styles/app.css'
 import { SITE } from '@/lib/site'
-import { ThemeEditor } from '@/components/theme/ThemeEditor'
 
-interface Props {
+export interface Props {
   title: string
   description?: string
   image?: string
@@ -12,6 +11,7 @@ interface Props {
   modifiedTime?: string
   author?: string
   type?: 'website' | 'article'
+  noindex?: boolean
   jsonLd?: Record<string, unknown>
 }
 
@@ -24,6 +24,7 @@ const {
   modifiedTime,
   author = SITE.author,
   type = 'website',
+  noindex = false,
   jsonLd,
 } = Astro.props
 
@@ -36,71 +37,36 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
 <!doctype html>
 <html lang="en" class="dark">
   <head>
-    <!-- SSR-safe theme initialization — runs before first paint to prevent flash -->
-    <script is:inline>
-      ;(function () {
-        var STORAGE_KEY = 'theme-config'
-        var DARK_CLASS = 'dark'
-        var root = document.documentElement
-
-        function tryRead() {
-          try {
-            var raw = localStorage.getItem(STORAGE_KEY)
-            if (raw) return JSON.parse(raw)
-          } catch (_) {}
-          return null
-        }
-
-        function tryReadUrl() {
-          try {
-            var url = new URL(window.location.href)
-            var param = url.searchParams.get('theme')
-            if (!param) return null
-            var compact = decodeCompact(param)
-            if (compact) return compact
-            return JSON.parse(atob(param))
-          } catch (_) {}
-          return null
-        }
-
-        // Format: [d|l][l_hex2][c_hex2][h_hex3]  (8 chars)
-        function decodeCompact(s) {
-          if (!/^[dl][0-9a-f]{7}$/.test(s)) return null
-          return {
-            theme: s[0] === 'd' ? 'dark' : 'light',
-            primary: {
-              l: parseInt(s.slice(1, 3), 16) / 100,
-              c: parseInt(s.slice(3, 5), 16) / 100,
-              h: parseInt(s.slice(5, 8), 16),
-            },
-          }
-        }
-
-        function applyTheme(theme, primary) {
-          if (theme === 'light') root.classList.remove(DARK_CLASS)
-          else root.classList.add(DARK_CLASS)
-          if (primary && primary.l !== undefined) {
-            root.style.setProperty(
-              '--primary',
-              'oklch(' + primary.l + ' ' + (primary.c || 0) + ' ' + (primary.h || 0) + ')'
-            )
-          }
-        }
-
-        var urlConfig = tryReadUrl()
-        var storedConfig = tryRead()
-        var config = urlConfig || storedConfig
-        if (config) applyTheme(config.theme, config.primary)
-      })()
-    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <script is:inline>
+      try {
+        const config = JSON.parse(localStorage.getItem('theme-config') ?? 'null')
+        const root = document.documentElement
+
+        if (config?.theme === 'light') {
+          root.classList.remove('dark')
+        } else {
+          root.classList.add('dark')
+        }
+
+        if (config?.primary && typeof config.primary === 'object') {
+          const { l, c, h } = config.primary
+          if (typeof l === 'number' && typeof c === 'number' && typeof h === 'number') {
+            root.style.setProperty('--primary', `oklch(${l} ${c} ${h})`)
+          }
+        }
+      } catch {
+        document.documentElement.classList.add('dark')
+      }
+    </script>
 
     <!-- Primary Meta Tags -->
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
     <link rel="canonical" href={canonical} />
 
     <!-- Open Graph / Facebook -->
@@ -132,25 +98,17 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
-      media="print"
-      onload="this.onload=null;this.media='all'"
     />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
   </head>
-  <body class="min-h-screen flex flex-col bg-background text-foreground antialiased">
+  <body class="bg-background text-foreground flex min-h-screen flex-col antialiased">
     <!-- Header (CPZ style, DT branding kept) -->
-    <header class="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
+    <header class="border-border bg-background/80 sticky top-0 z-50 border-b backdrop-blur-xl">
       <div class="container flex h-14 items-center">
         <a href="/" class="flex items-center gap-2 font-semibold tracking-tight">
           <span class="text-lg">DT</span>
         </a>
         <nav
-          class="flex items-center gap-4 ml-auto font-mono text-[0.62rem] tracking-[0.24em] uppercase"
+          class="ml-auto flex items-center gap-4 font-mono text-[0.62rem] tracking-[0.24em] uppercase"
         >
           <a href="/blog" class="text-muted-foreground hover:text-foreground transition-colors">
             writing
@@ -164,21 +122,21 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
     <main class="flex-1">
       <slot />
     </main>
-    <footer class="border-t border-border font-mono text-[0.62rem] tracking-[0.24em] uppercase">
+    <footer class="border-border border-t font-mono text-[0.62rem] tracking-[0.24em] uppercase">
       <div class="container py-16">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
           <div>
-            <h2 class="text-2xl font-bold tracking-tight mb-4">
+            <h2 class="mb-4 text-2xl font-bold tracking-tight">
               Building onboarding, internal tooling, and operational systems with clear proof.
             </h2>
-            <p class="text-sm text-muted-foreground leading-relaxed max-w-lg">
+            <p class="text-muted-foreground max-w-lg text-sm leading-relaxed">
               Software engineer building systems that make complex products easier to adopt and
               trust.
             </p>
           </div>
-          <div class="lg:text-right lg:flex lg:flex-col lg:items-end">
+          <div class="lg:flex lg:flex-col lg:items-end lg:text-right">
             <h3
-              class="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-4"
+              class="text-muted-foreground/60 mb-4 text-xs font-semibold tracking-wider uppercase"
             >
               links
             </h3>
@@ -222,12 +180,11 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
             </ul>
           </div>
         </div>
-        <div class="mt-16 pt-6 border-t border-border text-muted-foreground/50">
+        <div class="border-border text-muted-foreground/50 mt-16 border-t pt-6">
           <p>{SITE.name} / {new Date().getFullYear()}</p>
         </div>
       </div>
     </footer>
-    <ThemeEditor client:idle />
   </body>
 </html>
 

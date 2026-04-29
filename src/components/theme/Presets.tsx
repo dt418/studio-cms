@@ -14,18 +14,14 @@ export function Presets({ current, onSelect }: PresetsProps) {
           key={preset.name}
           type="button"
           onClick={() => onSelect(preset)}
-          className={`
-            inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs font-medium
-            transition-all duration-150
-            ${
-              current === preset.name
-                ? 'border-primary/40 bg-primary/10 text-foreground'
-                : 'border-border bg-transparent text-muted-foreground hover:border-primary/20 hover:bg-accent hover:text-accent-foreground'
-            }
-          `}
+          className={`inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs font-medium transition-all duration-150 ${
+            current === preset.name
+              ? 'border-primary/40 bg-primary/10 text-foreground'
+              : 'border-border text-muted-foreground hover:border-primary/20 hover:bg-accent hover:text-accent-foreground bg-transparent'
+          } `}
         >
           <span
-            className="size-3 rounded-full border border-border/50"
+            className="border-border/50 size-3 rounded-full border"
             style={{ background: toOklchString(preset.primary) }}
           />
           {preset.label}

@@ -6,10 +6,10 @@ interface Props {
 const { title } = Astro.props
 ---
 
-<nav class="flex items-center gap-2 text-sm text-muted-foreground" aria-label="Breadcrumb">
+<nav class="text-muted-foreground flex items-center gap-2 text-sm" aria-label="Breadcrumb">
   <a href="/" class="hover:text-foreground transition-colors">Home</a>
   <span class="text-muted-foreground/40">/</span>
   <a href="/blog" class="hover:text-foreground transition-colors">Blog</a>
   <span class="text-muted-foreground/40">/</span>
-  <span class="text-foreground truncate max-w-[200px]">{title}</span>
+  <span class="text-foreground max-w-50 truncate">{title}</span>
 </nav>

@@ -1,6 +1,6 @@
 ---
-import { getSlug } from '@/lib/content-graph'
 import { formatDate } from '@/lib/date'
+import { getPostPath } from '@/lib/routes'
 import type { CollectionEntry } from 'astro:content'
 
 interface Props {
@@ -11,27 +11,27 @@ interface Props {
 const { post, direction } = Astro.props
 const postData = post.data || null
 const isPrev = direction === 'prev'
-const resolvedSlug = getSlug(post)
+const postPath = getPostPath(post)
 ---
 
 <a
-  href={`/blog/${resolvedSlug}`}
+  href={postPath}
   class={`card-hover group flex flex-col gap-2 p-4 border border-border rounded-lg hover:border-primary/50 transition-colors ${
     isPrev ? '' : 'text-right'
   }`}
   aria-label={`${isPrev ? 'Previous' : 'Next'} post: ${postData?.title}`}
 >
-  <p class="font-mono text-[0.62rem] tracking-[0.22em] uppercase text-muted-foreground/50">
+  <p class="text-muted-foreground/50 font-mono text-[0.62rem] tracking-[0.22em] uppercase">
     {isPrev ? 'Previous Post' : 'Next Post'}
   </p>
   <p
-    class="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2"
+    class="text-foreground group-hover:text-primary line-clamp-2 text-sm font-medium transition-colors"
   >
     {isPrev ? '← ' : ''}
     {postData?.title ?? null}
     {isPrev ? '' : ' →'}
   </p>
-  <p class="text-xs text-muted-foreground">
+  <p class="text-muted-foreground text-xs">
     {postData?.category && `${postData.category} · `}{formatDate(postData?.publishedAt)}
   </p>
 </a>

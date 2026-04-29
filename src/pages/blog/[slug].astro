@@ -5,13 +5,32 @@ import TableOfContents from '@/components/Blog/TableOfContents.astro'
 import PostHero from '@/components/Blog/PostHero.astro'
 import ArticleContent from '@/components/Blog/ArticleContent.astro'
 import RelatedPosts from '@/components/Blog/RelatedPosts.astro'
-import { getPostBySlug, getAllPosts } from '@/lib/cms'
+import { getAllPosts } from '@/lib/cms'
 import { readingTime } from '@/lib/reading-time'
 import { getSlug } from '@/lib/content-graph'
 import { render } from 'astro:content'
 import { SITE } from '@/lib/site'
 import { getImageUrl, getAdjacentPosts } from '@/lib/utils'
 import { formatDate } from '@/lib/date'
+import { getPostPath } from '@/lib/routes'
+import type { CollectionEntry } from 'astro:content'
+
+export const prerender = true
+
+export async function getStaticPaths() {
+  const routePosts = await getAllPosts({ includeNoindex: true })
+  const publicPosts = await getAllPosts()
+
+  return routePosts.map((post) => ({
+    params: { slug: getSlug(post) },
+    props: { post, allPosts: publicPosts },
+  }))
+}
+
+interface Props {
+  post: CollectionEntry<'posts'>
+  allPosts: CollectionEntry<'posts'>[]
+}
 
 // ============================================================================
 // Data Fetching
@@ -19,16 +38,8 @@ import { formatDate } from '@/lib/date'
 
 const siteUrl = Astro.site?.origin ?? ''
 const slug = Astro.params.slug
-
-if (!slug) {
-  return new Response('Slug required', { status: 400, statusText: 'Bad Request' })
-}
-
-const post = await getPostBySlug(slug)
-
-if (!post) {
-  return new Response('Post not found', { status: 404, statusText: 'Not Found' })
-}
+const { post, allPosts } = Astro.props as Props
+const isPreview = Astro.url.searchParams.get('preview') === 'true'
 
 const { Content, headings } = await render(post)
 
@@ -59,7 +70,6 @@ const readingTimeMin = readingTime(bodyText)
 // Navigation & Related Posts
 // ============================================================================
 
-const allPosts = await getAllPosts()
 const currentIndex = allPosts.findIndex((entry) => getSlug(entry) === slug)
 const { prev: prevPost, next: nextPost } = getAdjacentPosts(allPosts, currentIndex)
 
@@ -71,7 +81,7 @@ const relatedPosts = allPosts
 // SEO & Metadata
 // ============================================================================
 
-const canonicalUrl = `${siteUrl}/blog/${slug}`
+const canonicalUrl = new URL(getPostPath(post), siteUrl || Astro.url.origin).href
 const publishedTime = publishedAt.toISOString()
 const modifiedTime = updatedAt?.toISOString() ?? publishedTime
 
@@ -110,9 +120,17 @@ const articleJsonLd = {
   author={author}
   type="article"
   jsonLd={articleJsonLd}
+  noindex={isPreview || post.data.noindex}
   {...coverImage && { image: coverImage }}
 >
   <article class="min-h-screen" transition:name="post-detail">
+    {
+      isPreview && (
+        <div class="border-b border-amber-500/30 bg-amber-500/10 px-4 py-3 text-center font-mono text-xs tracking-[0.22em] text-amber-200 uppercase">
+          Preview mode
+        </div>
+      )
+    }
     <!-- Hero Section -->
     <PostHero
       category={category}
@@ -127,7 +145,7 @@ const articleJsonLd = {
     <!-- 3-Column Layout -->
     <div class="container py-8 lg:py-12">
       <div
-        class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[200px_1fr_240px] gap-8 lg:gap-12"
+        class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-[200px_1fr_240px] lg:gap-12"
       >
         <!-- Left Sidebar: Table of Contents -->
         <aside class="order-2 lg:order-1">

@@ -14,14 +14,14 @@ interface Props {
 const { tags, author, prevPost, nextPost } = Astro.props
 ---
 
-<div class="order-1 lg:order-2 min-w-0">
+<div class="order-1 min-w-0 lg:order-2">
   <div class="prose prose-lg">
     <slot />
   </div>
 
   <!-- Tags -->
-  <footer class="mt-12 pt-8 border-t border-border">
-    <div class="flex flex-wrap gap-2 mb-8">
+  <footer class="border-border mt-12 border-t pt-8">
+    <div class="mb-8 flex flex-wrap gap-2">
       <TagsList tags={tags} />
     </div>
 
