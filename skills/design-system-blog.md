@@ -14,7 +14,7 @@ description: Creates implementation-ready design-system guidance for Blog with t
 
 ## Color Tokens
 
-All colors defined in `src/styles/global.css` as CSS custom properties, following shadcn/ui canonical theme (base-nova / neutral / oklch).
+Theme tokens live in `apps/web/src/styles/tokens.css` and are imported through `apps/web/src/styles/app.css`, following the project Tailwind v4 + shadcn token model.
 
 - **Light defaults** on `:root`, **dark overrides** on `.dark`
 - Bare token names (`--background`, `--foreground`, etc.) are the source of truth
@@ -48,7 +48,7 @@ All colors defined in `src/styles/global.css` as CSS custom properties, followin
 ### Usage
 
 ```css
-/* global.css @layer components */
+/* components.css */
 .card {
   @apply bg-card text-card-foreground border-border rounded-md border;
 }
@@ -115,8 +115,8 @@ Components and pages must consume **Tailwind utilities** (`bg-card`, `text-muted
 
 ## Animations
 
-- **`@import 'tw-animate-css'`** provides shadcn-native animations
-- **Custom keyframes** in `@theme inline`: `animate-slide-up` (500ms), `animate-scale-in` (400ms), `animate-slide-in-left` (400ms), `animate-marquee` (30s)
+- Shared animations and utilities live in the existing `apps/web/src/styles/*.css` modules.
+- **Custom keyframes** are defined in the style modules and consumed through Tailwind utilities.
 - **View transitions**: fade-out/fade-in on `::view-transition-old/new(root)`, 300ms ease-out
 - **Scroll-triggered**: `.animate-on-scroll` fades and slides up when visible, with staggered nth-child delays
 
@@ -149,8 +149,10 @@ background-size: 24px 24px;
 
 ## File Reference
 
-| File                           | Purpose                                                       |
-| ------------------------------ | ------------------------------------------------------------- |
-| `src/styles/global.css`        | Design tokens, `tw-animate-css`, component styles, animations |
-| `src/layouts/BaseLayout.astro` | Page layout with header, footer                               |
-| `src/components/ui/button.tsx` | React button component                                        |
+| File                                    | Purpose                                                |
+| --------------------------------------- | ------------------------------------------------------ |
+| `apps/web/src/styles/app.css`           | Tailwind v4 entrypoint and style-module imports        |
+| `apps/web/src/styles/tokens.css`        | Raw design tokens                                      |
+| `apps/web/src/styles/semantic.css`      | Semantic token mappings                                |
+| `apps/web/src/styles/components.css`    | Shared utilities such as `.card-hover`, buttons, prose |
+| `apps/web/src/layouts/BaseLayout.astro` | Page layout with header, footer                        |

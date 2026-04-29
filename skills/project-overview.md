@@ -3,22 +3,22 @@
 ## Project Overview
 
 - **Name:** DanhThanh.dev Blog
-- **Framework:** Astro 5.18.1 (SSR, Node adapter standalone)
-- **CMS:** StudioCMS 0.4.4 with libSQL (Turso)
-- **Styling:** Tailwind CSS 4 + design tokens (shadcn/ui base-nova) + `tw-animate-css` in `src/styles/global.css`
-- **React:** 19.2.5 (interactive components via `@astrojs/react`)
+- **Framework:** Astro 5 monorepo with public web app in `apps/web` and CMS/admin app in `apps/cms`
+- **CMS:** StudioCMS with libSQL/Turso env vars in `apps/cms`
+- **Styling:** Tailwind CSS 4 + design tokens imported through `apps/web/src/styles/app.css`
+- **React:** Used only where interactive islands/components need it
 - **UI Primitives:** `@base-ui/react` + `class-variance-authority`
 
 ## Design System
 
 ### Colors (shadcn/ui base-nova / neutral / oklch)
 
-Canonical shadcn theme in `src/styles/global.css`:
+Canonical theme modules in `apps/web/src/styles/`:
 
 - **Light defaults** on `:root`, **dark overrides** on `.dark`
 - Bare token names (`--background`, `--foreground`, etc.) are source of truth
 - **`@theme inline`** bridges bare vars to Tailwind v4's `--color-*` namespace
-- **`@import 'tw-animate-css'`** provides shadcn animation utilities
+- `app.css` imports `tokens.css`, `semantic.css`, `base.css`, and `components.css`.
 
 | Token                | Light                       | Dark                        | Role                   |
 | -------------------- | --------------------------- | --------------------------- | ---------------------- |
@@ -47,7 +47,7 @@ Body has subtle dot-grid: `radial-gradient(color-mix(in oklch, var(--foreground)
 
 - All colors use `oklch()` format (Tailwind CSS 4 native)
 - Bare tokens on `:root`, `@theme inline` bridges to `--color-*` namespace
-- `@import 'tw-animate-css'` provides shadcn-native animation utilities
+- Shared animations and component utilities live in the existing style modules.
 - Component styles use `@apply` with Tailwind utilities
 - Raw CSS only for: `background-image`, `::view-transition`, `@keyframes`, `transition-delay`, `list-style-type`
 
@@ -74,7 +74,7 @@ Use design token utilities: `bg-background`, `text-foreground`, `border-border`,
 
 ### Layout
 
-All pages use `BaseLayout` (`src/layouts/BaseLayout.astro`):
+All public pages use `BaseLayout` (`apps/web/src/layouts/BaseLayout.astro`):
 
 - Sticky header with logo + nav
 - Footer with bio + links
@@ -85,14 +85,14 @@ All pages use `BaseLayout` (`src/layouts/BaseLayout.astro`):
 
 ### Content Collections
 
-Defined in `src/content.config.ts` with Zod schema:
+Defined in `apps/web/src/content.config.ts` with Zod schema:
 
 - `title`, `slug`, `excerpt`, `category` (required)
 - `coverImage`, `updatedAt`, `authorAvatar` (optional)
 - `tags` (default `[]`), `author` (default `'Danh Thanh'`)
-- Loader: `glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' })`
+- Loader reads `apps/web/src/content/posts/**/*.{md,mdx}`.
 
-### CMS Functions (`src/lib/cms.ts`)
+### CMS Functions (`apps/web/src/lib/cms.ts`)
 
 ```ts
 getAllPosts() → Post[]                    // sorted desc by date
@@ -105,14 +105,14 @@ getPostsByCategory(category) → Post[]
 
 ## Utilities
 
-| File                      | Purpose                                                                      |
-| ------------------------- | ---------------------------------------------------------------------------- |
-| `src/lib/utils.ts`        | Centralized utilities: cn(), getAuthorInitials, getAuthorAvatar, getImageUrl |
-| `src/lib/date.ts`         | Date formatting (formatDate)                                                 |
-| `src/lib/reading-time.ts` | Reading time calculation                                                     |
-| `src/lib/search.ts`       | Hybrid search (Pagefind + Fuse.js)                                           |
-| `src/lib/filter.ts`       | Post filtering/sorting                                                       |
-| `src/lib/group.ts`        | `groupByYear()`, `sortedYears()`                                             |
+| File                               | Purpose                                                                      |
+| ---------------------------------- | ---------------------------------------------------------------------------- |
+| `apps/web/src/lib/utils.ts`        | Centralized utilities: cn(), getAuthorInitials, getAuthorAvatar, getImageUrl |
+| `apps/web/src/lib/date.ts`         | Date formatting (formatDate)                                                 |
+| `apps/web/src/lib/reading-time.ts` | Reading time calculation                                                     |
+| `apps/web/src/lib/search.ts`       | Search types and helpers                                                     |
+| `apps/web/src/lib/filter.ts`       | Post filtering/sorting                                                       |
+| `apps/web/src/lib/group.ts`        | `groupByYear()`, `sortedYears()`                                             |
 
 ## Import Conventions
 
@@ -144,68 +144,68 @@ All development must follow the comprehensive standards defined in `CODING_RULES
 
 ### Blog Components
 
-| Component       | File                                        | Purpose                       |
-| --------------- | ------------------------------------------- | ----------------------------- |
-| BlogHeader      | `src/components/Blog/BlogHeader.astro`      | Blog page header with badge   |
-| StatsGrid       | `src/components/Blog/StatsGrid.astro`       | Statistics display grid       |
-| PostHero        | `src/components/Blog/PostHero.astro`        | Post hero section             |
-| ArticleContent  | `src/components/Blog/ArticleContent.astro`  | Main content area with slots  |
-| PostNavigation  | `src/components/Blog/PostNavigation.astro`  | Previous/next post navigation |
-| TagsList        | `src/components/Blog/TagsList.astro`        | Tag display component         |
-| AuthorCard      | `src/components/Blog/AuthorCard.astro`      | Author information card       |
-| RelatedPosts    | `src/components/Blog/RelatedPosts.astro`    | Related posts section         |
-| BackLink        | `src/components/Blog/BackLink.astro`        | Back navigation link          |
-| TagCloud        | `src/components/Blog/TagCloud.astro`        | Tag cloud with highlight      |
-| CategoryCloud   | `src/components/Blog/CategoryCloud.astro`   | Category cloud with highlight |
-| Breadcrumb      | `src/components/Blog/Breadcrumb.astro`      | Breadcrumb navigation         |
-| PostMetadata    | `src/components/Blog/PostMetadata.astro`    | Post metadata display         |
-| CoverImage      | `src/components/Blog/CoverImage.astro`      | Cover image display           |
-| PostItem        | `src/components/Blog/PostItem.astro`        | Post row for blog index       |
-| PostHeader      | `src/components/Blog/PostHeader.astro`      | Post detail header            |
-| PostMetaCard    | `src/components/Blog/PostMetaCard.astro`    | Sticky sidebar meta card      |
-| TableOfContents | `src/components/Blog/TableOfContents.astro` | Sticky TOC sidebar            |
-| PrevNextNav     | `src/components/Blog/PrevNextNav.astro`     | Previous/next post nav        |
-| YearGroup       | `src/components/Blog/YearGroup.astro`       | Year grouping section         |
+| Component       | File                                                 | Purpose                       |
+| --------------- | ---------------------------------------------------- | ----------------------------- |
+| BlogHeader      | `apps/web/src/components/Blog/BlogHeader.astro`      | Blog page header with badge   |
+| StatsGrid       | `apps/web/src/components/Blog/StatsGrid.astro`       | Statistics display grid       |
+| PostHero        | `apps/web/src/components/Blog/PostHero.astro`        | Post hero section             |
+| ArticleContent  | `apps/web/src/components/Blog/ArticleContent.astro`  | Main content area with slots  |
+| PostNavigation  | `apps/web/src/components/Blog/PostNavigation.astro`  | Previous/next post navigation |
+| TagsList        | `apps/web/src/components/Blog/TagsList.astro`        | Tag display component         |
+| AuthorCard      | `apps/web/src/components/Blog/AuthorCard.astro`      | Author information card       |
+| RelatedPosts    | `apps/web/src/components/Blog/RelatedPosts.astro`    | Related posts section         |
+| BackLink        | `apps/web/src/components/Blog/BackLink.astro`        | Back navigation link          |
+| TagCloud        | `apps/web/src/components/Blog/TagCloud.astro`        | Tag cloud with highlight      |
+| CategoryCloud   | `apps/web/src/components/Blog/CategoryCloud.astro`   | Category cloud with highlight |
+| Breadcrumb      | `apps/web/src/components/Blog/Breadcrumb.astro`      | Breadcrumb navigation         |
+| PostMetadata    | `apps/web/src/components/Blog/PostMetadata.astro`    | Post metadata display         |
+| CoverImage      | `apps/web/src/components/Blog/CoverImage.astro`      | Cover image display           |
+| PostItem        | `apps/web/src/components/Blog/PostItem.astro`        | Post row for blog index       |
+| PostHeader      | `apps/web/src/components/Blog/PostHeader.astro`      | Post detail header            |
+| PostMetaCard    | `apps/web/src/components/Blog/PostMetaCard.astro`    | Sticky sidebar meta card      |
+| TableOfContents | `apps/web/src/components/Blog/TableOfContents.astro` | Sticky TOC sidebar            |
+| PrevNextNav     | `apps/web/src/components/Blog/PrevNextNav.astro`     | Previous/next post nav        |
+| YearGroup       | `apps/web/src/components/Blog/YearGroup.astro`       | Year grouping section         |
 
 ### Homepage Components
 
-| Component      | File                                  | Purpose                         |
-| -------------- | ------------------------------------- | ------------------------------- |
-| HeroSection    | `src/components/HeroSection.astro`    | Hero section with terminal slot |
-| FeaturedWork   | `src/components/FeaturedWork.astro`   | Featured and recent posts       |
-| ArchiveSection | `src/components/ArchiveSection.astro` | Archive listing                 |
+| Component      | File                                           | Purpose                         |
+| -------------- | ---------------------------------------------- | ------------------------------- |
+| HeroSection    | `apps/web/src/components/HeroSection.astro`    | Hero section with terminal slot |
+| FeaturedWork   | `apps/web/src/components/FeaturedWork.astro`   | Featured and recent posts       |
+| ArchiveSection | `apps/web/src/components/ArchiveSection.astro` | Archive listing                 |
 
 ### Utility Components
 
-| Component     | File                                    | Purpose                 |
-| ------------- | --------------------------------------- | ----------------------- |
-| StatsBadge    | `src/components/StatsBadge.astro`       | Statistics badge        |
-| CTAButtons    | `src/components/CTAButtons.astro`       | Call-to-action buttons  |
-| SearchFilters | `src/components/SearchFilters.astro`    | Search filter dropdowns |
-| SearchIcon    | `src/components/icons/SearchIcon.astro` | Search SVG icon         |
-| ClearIcon     | `src/components/icons/ClearIcon.astro`  | Clear button SVG icon   |
+| Component     | File                                             | Purpose                 |
+| ------------- | ------------------------------------------------ | ----------------------- |
+| StatsBadge    | `apps/web/src/components/StatsBadge.astro`       | Statistics badge        |
+| CTAButtons    | `apps/web/src/components/CTAButtons.astro`       | Call-to-action buttons  |
+| SearchFilters | `apps/web/src/components/SearchFilters.astro`    | Search filter dropdowns |
+| SearchIcon    | `apps/web/src/components/icons/SearchIcon.astro` | Search SVG icon         |
+| ClearIcon     | `apps/web/src/components/icons/ClearIcon.astro`  | Clear button SVG icon   |
 
 ### UI Components
 
-| Component      | File                                  | Purpose                     |
-| -------------- | ------------------------------------- | --------------------------- |
-| BlogCard       | `src/components/BlogCard.astro`       | Post card for homepage grid |
-| Search         | `src/components/Search.astro`         | Client-side search          |
-| ThemeToggle    | `src/components/ThemeToggle.astro`    | Dark/light toggle           |
-| BlogFilter     | `src/components/BlogFilter.astro`     | Post filter component       |
-| MarqueeSection | `src/components/MarqueeSection.astro` | Scrolling marquee section   |
+| Component      | File                                           | Purpose                     |
+| -------------- | ---------------------------------------------- | --------------------------- |
+| BlogCard       | `apps/web/src/components/BlogCard.astro`       | Post card for homepage grid |
+| Search         | `apps/web/src/components/Search.astro`         | Client-side search          |
+| ThemeToggle    | `apps/web/src/components/ThemeToggle.astro`    | Dark/light toggle           |
+| BlogFilter     | `apps/web/src/components/BlogFilter.astro`     | Post filter component       |
+| MarqueeSection | `apps/web/src/components/MarqueeSection.astro` | Scrolling marquee section   |
 
 ## Routes
 
-| Route                    | File                                    | Description      |
-| ------------------------ | --------------------------------------- | ---------------- |
-| `/`                      | `src/pages/index.astro`                 | Homepage         |
-| `/blog`                  | `src/pages/blog/index.astro`            | Blog archive     |
-| `/blog/[slug]`           | `src/pages/blog/[slug].astro`           | Post detail      |
-| `/search`                | `src/pages/search.astro`                | Search page      |
-| `/tags/[tag]`            | `src/pages/tags/[tag].astro`            | Tag archive      |
-| `/categories/[category]` | `src/pages/categories/[category].astro` | Category archive |
-| `/rss.xml`               | `src/pages/rss.xml.ts`                  | RSS feed         |
+| Route                    | File                                             | Description      |
+| ------------------------ | ------------------------------------------------ | ---------------- |
+| `/`                      | `apps/web/src/pages/index.astro`                 | Homepage         |
+| `/blog`                  | `apps/web/src/pages/blog/index.astro`            | Blog archive     |
+| `/blog/[slug]`           | `apps/web/src/pages/blog/[slug].astro`           | Post detail      |
+| `/search`                | `apps/web/src/pages/search.astro`                | Search page      |
+| `/tags/[tag]`            | `apps/web/src/pages/tags/[tag].astro`            | Tag archive      |
+| `/categories/[category]` | `apps/web/src/pages/categories/[category].astro` | Category archive |
+| `/rss.xml`               | `apps/web/src/pages/rss.xml.ts`                  | RSS feed         |
 
 ## Commands
 
@@ -223,7 +223,7 @@ pnpm test:watch   # Vitest watch mode
 ## Build Pipeline
 
 ```
-astro build → generate-search-index.mjs → pagefind --site dist/client
+generate-og-image.mjs → astro build → generate-search-index.mjs → pagefind --site dist/client
 ```
 
 ## Key Rules
@@ -234,7 +234,7 @@ astro build → generate-search-index.mjs → pagefind --site dist/client
 4. **Follow existing component patterns** — check similar components before creating new ones
 5. **Use `cn()` for React class merging** — never concatenate class strings manually
 6. **Type everything** — no `any` types, strict TypeScript
-7. **Test utilities** — `src/lib/*.test.ts` for pure functions
+7. **Test utilities** — `apps/web/src/lib/*.test.ts` for pure functions
 8. **ESLint rules** — no unused vars, strict equality, prefer-const, no-console (except warn/error)
 9. **Conventional commits** — enforced by commitlint + lefthook
 

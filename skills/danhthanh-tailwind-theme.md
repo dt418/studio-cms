@@ -4,10 +4,10 @@ Use this skill when changing styling, design tokens, theme behavior, shadcn/ui w
 
 ## Project Facts
 
-- Tailwind CSS v4 enters through `src/styles/app.css`.
-- `src/styles/app.css` imports `tokens.css`, `semantic.css`, `base.css`, and `components.css`.
+- Tailwind CSS v4 enters through `apps/web/src/styles/app.css`.
+- `apps/web/src/styles/app.css` imports `tokens.css`, `semantic.css`, `base.css`, and `components.css`.
 - Keep token and theme changes in those modules instead of adding new global CSS entrypoints.
-- `components.json` configures shadcn with TSX, `@/components/ui`, `@/lib/utils`, Tailwind CSS at `src/styles/app.css`, and no RSC.
+- `components.json` configures shadcn with TSX, `@/components/ui`, `@/lib/utils`, Tailwind CSS at `apps/web/src/styles/app.css`, and no RSC.
 - Prettier includes Astro and Tailwind plugins; let it sort classes.
 
 ## Styling Rules

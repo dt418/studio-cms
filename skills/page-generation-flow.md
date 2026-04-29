@@ -1,32 +1,30 @@
 # StudioCMS Blog Page Generation
 
-Visual guide to how the homepage and blog index pages are generated in the Astro 5 + StudioCMS 0.4 + libSQL project.
+Visual guide to how the homepage and blog index pages are generated in the Astro 5 monorepo.
 
 ## Architecture Overview
 
 ```
-libSQL (Turso) Database
+apps/cms StudioCMS admin (libSQL/Turso)
+    ↓ optional publishing workflow
+Content Collections (apps/web/src/content.config.ts) -- glob loader
     ↓
-StudioCMS (studiocms + @studiocms/blog + @studiocms/md)
-    ↓
-Content Collections (src/content.config.ts) -- glob loader
-    ↓
-src/content/posts/*.md, *.mdx -- markdown/MDX source files
+apps/web/src/content/posts/*.md, *.mdx -- markdown/MDX source files
     ↓
 astro:content getCollection('posts') -- Astro's content API
     ↓
-src/lib/cms.ts -- getAllPosts(), getAllCategories(), etc.
+apps/web/src/lib/cms.ts -- getAllPosts(), getAllCategories(), etc.
     ↓
 Pages (index.astro, blog/index.astro) -- consume and render
     ↓
 Components (BlogCard, YearGroup, PostItem, Search) -- presentational
 ```
 
-**Key detail:** Content is stored as filesystem-based markdown/MDX files. StudioCMS provides the CMS UI, but `@studiocms/blog` has `injectRoutes: false` and `enableRSS: false` -- custom pages handle all routing.
+**Key detail:** Public content is stored as filesystem-based markdown/MDX files in `apps/web`. StudioCMS provides the CMS UI in `apps/cms`, but `@studiocms/blog` has `injectRoutes: false` and `enableRSS: false` -- custom pages handle public routing.
 
 ## Data Flow
 
-### 1. Content Collection Schema (`src/content.config.ts`)
+### 1. Content Collection Schema (`apps/web/src/content.config.ts`)
 
 The `posts` collection uses a Zod schema:
 
@@ -43,9 +41,9 @@ The `posts` collection uses a Zod schema:
 | `author`       | `string`   | Yes      | Default `'Danh Thanh'` |
 | `authorAvatar` | `string`   | No       | Author avatar URL      |
 
-Loader: `glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' })`
+Loader reads `apps/web/src/content/posts/**/*.{md,mdx}`.
 
-### 2. CMS Data Layer (`src/lib/cms.ts`)
+### 2. CMS Data Layer (`apps/web/src/lib/cms.ts`)
 
 All functions wrap `getCollection('posts')`:
 
@@ -67,7 +65,7 @@ getPostsByCategory(category: string) → Post[]
 
 **Note:** No caching layer -- each request hits the content layer fresh in SSR mode.
 
-### 3. Grouping Utilities (`src/lib/group.ts`)
+### 3. Grouping Utilities (`apps/web/src/lib/group.ts`)
 
 ```ts
 // Groups posts by publishedAt.getFullYear()
@@ -77,7 +75,7 @@ groupByYear(posts: Post[]) → Record<number, Post[]>
 sortedYears(groups: Record<number, Post[]>) → number[]
 ```
 
-## Homepage Generation (`src/pages/index.astro`)
+## Homepage Generation (`apps/web/src/pages/index.astro`)
 
 ### Structure (5 vertical sections)
 
@@ -152,7 +150,7 @@ const remainingPosts = posts.slice(1)
 | `BlogCard`   | Post card in grid          | `remainingPosts` (each `Post`)                                   |
 | `BaseLayout` | HTML shell with SEO        | `title`, `description`, `jsonLd`                                 |
 
-## Blog Index Generation (`src/pages/blog/index.astro`)
+## Blog Index Generation (`apps/web/src/pages/blog/index.astro`)
 
 ### Structure (4 sections)
 
@@ -205,7 +203,7 @@ const years = sortedYears(byYear) // [2026, 2025, ...]
 
 ## Component Details
 
-### BlogCard (`src/components/BlogCard.astro`)
+### BlogCard (`apps/web/src/components/BlogCard.astro`)
 
 ```
 ┌─────────────────────────────┐
@@ -224,7 +222,7 @@ const years = sortedYears(byYear) // [2026, 2025, ...]
 **Link:** `/blog/${post.data.slug}`
 **Hover:** Card border brightens, image scales slightly
 
-### YearGroup (`src/components/Blog/YearGroup.astro`)
+### YearGroup (`apps/web/src/components/Blog/YearGroup.astro`)
 
 ```
 ─── 2026 (5) ──────────────────────────────────
@@ -236,7 +234,7 @@ const years = sortedYears(byYear) // [2026, 2025, ...]
 **Props:** `year: number`, `posts: Post[]`
 **Renders:** Monospace year heading + count, border separator, iterates `PostItem`
 
-### PostItem (`src/components/Blog/PostItem.astro`)
+### PostItem (`apps/web/src/components/Blog/PostItem.astro`)
 
 ```
 ┌────────────┬──────────────────────────┬────────┐
@@ -248,9 +246,9 @@ const years = sortedYears(byYear) // [2026, 2025, ...]
 
 **Props:** `post: Post`
 **Layout:** 3-column grid `[120px date | content | auto metadata]`
-**Uses:** `formatDate()` from `src/lib/date.ts`, `readingTime()` from `src/lib/reading-time.ts`
+**Uses:** `formatDate()` from `apps/web/src/lib/date.ts`, `readingTime()` from `apps/web/src/lib/reading-time.ts`
 
-### Search (`src/components/Search.astro`)
+### Search (`apps/web/src/components/Search.astro`)
 
 ```
 ┌─────────────────────────────────────┐
@@ -267,7 +265,7 @@ const years = sortedYears(byYear) // [2026, 2025, ...]
 **Client:** Parses JSON, creates Fuse.js index, listens to input events
 **Fuse config:** title weight 0.5, excerpt weight 0.3, tags weight 0.2, threshold 0.3, limit 8
 
-## BaseLayout (`src/layouts/BaseLayout.astro`)
+## BaseLayout (`apps/web/src/layouts/BaseLayout.astro`)
 
 Wraps all pages with:
 
@@ -294,31 +292,31 @@ interface Props {
 
 ## SSR vs Static Generation
 
-**Mode:** SSR (`output: 'server'`, `adapter: node({ mode: 'standalone' })`)
+**Mode:** Static public web build in `apps/web`; StudioCMS admin runs separately as SSR in `apps/cms`.
 
-- Pages rendered on-demand by Node.js server
-- `getAllPosts()` called on every request (no build-time caching)
+- Public pages are generated by Astro's static build.
+- `getAllPosts()` reads content collections during build.
 - View Transitions enabled for SPA-like navigation
-- `checkOrigin: false` -- CSRF origin checking disabled
+- `apps/cms` uses `output: 'server'`, `adapter: node({ mode: 'standalone' })`, and `checkOrigin: false` for StudioCMS.
 
 ## File Inventory
 
-| File                                  | Purpose                                   |
-| ------------------------------------- | ----------------------------------------- |
-| `src/pages/index.astro`               | Homepage (5 sections)                     |
-| `src/pages/blog/index.astro`          | Blog index (4 sections)                   |
-| `src/pages/blog/[slug].astro`         | Post detail (3-column layout)             |
-| `src/lib/cms.ts`                      | CMS data fetching (wraps `astro:content`) |
-| `src/lib/group.ts`                    | Year grouping utilities                   |
-| `src/lib/search.ts`                   | Search types and Fuse.js factory          |
-| `src/lib/date.ts`                     | Date formatting utility                   |
-| `src/lib/reading-time.ts`             | Reading time calculation (200 WPM)        |
-| `src/types/post.ts`                   | `Post` type alias                         |
-| `src/content.config.ts`               | Content collection schema (Zod)           |
-| `src/components/BlogCard.astro`       | Blog card (homepage grid)                 |
-| `src/components/Blog/YearGroup.astro` | Year group section (blog index)           |
-| `src/components/Blog/PostItem.astro`  | Individual post row (blog index)          |
-| `src/components/Search.astro`         | Client-side search with Fuse.js           |
-| `src/layouts/BaseLayout.astro`        | Base HTML layout with SEO                 |
-| `astro.config.mjs`                    | Astro configuration                       |
-| `studiocms.config.mjs`                | StudioCMS configuration                   |
+| File                                           | Purpose                                  |
+| ---------------------------------------------- | ---------------------------------------- |
+| `apps/web/src/pages/index.astro`               | Homepage sections                        |
+| `apps/web/src/pages/blog/index.astro`          | Blog index                               |
+| `apps/web/src/pages/blog/[slug].astro`         | Post detail                              |
+| `apps/web/src/lib/cms.ts`                      | Content fetching (wraps `astro:content`) |
+| `apps/web/src/lib/group.ts`                    | Year grouping utilities                  |
+| `apps/web/src/lib/search.ts`                   | Search types and helpers                 |
+| `apps/web/src/lib/date.ts`                     | Date formatting utility                  |
+| `apps/web/src/lib/reading-time.ts`             | Reading time calculation                 |
+| `apps/web/src/content.config.ts`               | Content collection schema                |
+| `apps/web/src/components/BlogCard.astro`       | Blog card                                |
+| `apps/web/src/components/Blog/YearGroup.astro` | Year group section                       |
+| `apps/web/src/components/Blog/PostItem.astro`  | Individual post row                      |
+| `apps/web/src/components/Search.astro`         | Client-side search                       |
+| `apps/web/src/layouts/BaseLayout.astro`        | Base HTML layout with SEO                |
+| `apps/web/astro.config.mjs`                    | Public Astro configuration               |
+| `apps/cms/astro.config.mjs`                    | CMS Astro SSR configuration              |
+| `apps/cms/studiocms.config.mjs`                | StudioCMS configuration                  |

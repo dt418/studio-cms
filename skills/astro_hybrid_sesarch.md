@@ -6,7 +6,7 @@ This skill integrates a hybrid search system into an existing Astro project usin
 
 - Pagefind → fast, build-time full-text search
 - Fuse.js → client-side fuzzy search and ranking refinement
-- TypeScript-first architecture — all logic in `src/lib/search.ts`
+- TypeScript-first architecture — all logic in `apps/web/src/lib/search.ts`
 
 ---
 
@@ -21,8 +21,8 @@ This skill integrates a hybrid search system into an existing Astro project usin
 ## Architecture
 
 ```
-src/lib/search.ts          ← All search logic (typed)
-src/components/Search.astro ← Minimal UI wrapper (HTML + CSS + 4-line script)
+apps/web/src/lib/search.ts           ← Search types and helper logic
+apps/web/src/components/Search.astro ← Minimal UI wrapper
 scripts/generate-search-index.mjs ← Build-time index generator
 ```
 
@@ -92,4 +92,4 @@ pnpm test        # Run all tests
 pnpm test:watch  # Watch mode
 ```
 
-Tests in `src/lib/filter.test.ts`, `src/lib/group.test.ts`.
+Tests in `apps/web/src/lib/filter.test.ts`, `apps/web/src/lib/group.test.ts`.
