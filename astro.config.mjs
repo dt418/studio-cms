@@ -26,6 +26,35 @@ import ecTwoSlash from 'expressive-code-twoslash' // TypeScript hover types in c
 
 import { visualizer } from 'rollup-plugin-visualizer'
 
+const studioCMSLayoutOverrides = () => ({
+  name: 'studiocms-layout-overrides',
+  enforce: 'pre',
+  transform(code, id) {
+    if (id.endsWith('/studiocms/frontend/styles/dashboard-base.css')) {
+      return `${code}
+
+/* Keep StudioCMS dashboard content aligned with the sidebar without patching node_modules. */
+main {
+  width: 100%;
+  max-width: 100%;
+}
+`
+    }
+
+    if (id.endsWith('/studiocms/frontend/styles/auth-layout.css')) {
+      return `${code}
+
+/* Avoid viewport-unit horizontal overflow on StudioCMS auth screens. */
+main {
+  width: 100%;
+}
+`
+    }
+
+    return null
+  },
+})
+
 // https://astro.build/config
 export default defineConfig({
   // Site URL for sitemap and canonical links
@@ -41,6 +70,7 @@ export default defineConfig({
     },
     plugins: [
       tailwindcss(), // Tailwind CSS 4 via Vite plugin
+      studioCMSLayoutOverrides(),
       visualizer({
         open: false,
         gzipSize: true,
