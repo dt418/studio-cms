@@ -72,16 +72,13 @@ test.describe('Navigation', () => {
 
     const rssLink = page.locator('a[href="/rss.xml"]').first()
 
-    // Open RSS in new page to check response
-    const [newPage] = await Promise.all([
-      page.context().waitForEvent('page'),
-      rssLink.click({ button: 'middle' }),
-    ])
+    const href = await rssLink.getAttribute('href')
+    expect(href).toBeTruthy()
 
-    await newPage.waitForLoadState()
-    const content = await newPage.content()
+    const response = await page.request.get(href!)
+    expect(response.ok()).toBe(true)
+    const content = await response.text()
     expect(content).toContain('<rss')
-    await newPage.close()
   })
 
   test('navigation from blog to home works', async ({ page }) => {

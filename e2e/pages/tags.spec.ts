@@ -3,17 +3,15 @@ import { test, expect } from '@playwright/test'
 test.describe('Tags Page', () => {
   async function getFirstTagUrl(page: any): Promise<string | null> {
     await page.goto('/blog')
-    await page.waitForLoadState('networkidle')
 
-    const tagLinks = page.locator('a[href^="/tags/"]').first()
-    const count = await tagLinks.count()
-
+    const tagOption = page.locator('#filter-tag option').filter({ hasNotText: 'All Tags' }).first()
+    const count = await tagOption.count()
     if (count === 0) {
       return null
     }
 
-    const href = await tagLinks.getAttribute('href')
-    return href
+    const tag = await tagOption.getAttribute('value')
+    return tag ? `/tags/${encodeURIComponent(tag)}` : null
   }
 
   test('404 for non-existent tag', async ({ page }) => {
@@ -27,7 +25,7 @@ test.describe('Tags Page', () => {
 
     await page.goto(href!)
     await expect(page).toHaveURL(/\/tags\//)
-    await expect(page.locator('h1')).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: /Tag:/ })).toBeVisible()
   })
 
   test('tag page displays filtered posts', async ({ page }) => {
@@ -44,8 +42,8 @@ test.describe('Tags Page', () => {
 
   test('tag cloud displays on blog page', async ({ page }) => {
     await page.goto('/blog')
-    const tagCloud = page.locator('a[href^="/tags/"]')
-    const count = await tagCloud.count()
+    const tagFilter = page.locator('#filter-tag option').filter({ hasNotText: 'All Tags' })
+    const count = await tagFilter.count()
     expect(count).toBeGreaterThan(0)
   })
 
@@ -64,7 +62,7 @@ test.describe('Tags Page', () => {
 
     await page.goto(href!)
 
-    const backLink = page.locator('a[href="/blog"]')
+    const backLink = page.getByRole('link', { name: /Back to Blog/i })
     await expect(backLink).toBeVisible()
   })
 
@@ -96,7 +94,7 @@ test.describe('Tags Page', () => {
 
     await page.goto(href!)
 
-    const blogLink = page.locator('a[href="/blog"]').first()
+    const blogLink = page.getByRole('link', { name: /Back to Blog/i })
     await blogLink.click()
     await expect(page).toHaveURL('/blog')
   })

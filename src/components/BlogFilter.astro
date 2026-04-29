@@ -54,7 +54,11 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
       />
     </div>
 
-    <select id="filter-category" class="input w-full sm:w-auto sm:min-w-[160px]">
+    <select
+      id="filter-category"
+      class="input w-full sm:w-auto sm:min-w-[160px]"
+      aria-label="Filter posts by category"
+    >
       <option value="">All Categories</option>
       {
         categories.map((cat) => (
@@ -65,7 +69,11 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
       }
     </select>
 
-    <select id="filter-tag" class="input w-full sm:w-auto sm:min-w-[120px]">
+    <select
+      id="filter-tag"
+      class="input w-full sm:w-auto sm:min-w-[120px]"
+      aria-label="Filter posts by tag"
+    >
       <option value="">All Tags</option>
       {
         tags.map((tag) => (
@@ -76,7 +84,11 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
       }
     </select>
 
-    <select id="filter-sort" class="input w-full sm:w-auto sm:min-w-[160px]">
+    <select
+      id="filter-sort"
+      class="input w-full sm:w-auto sm:min-w-[160px]"
+      aria-label="Sort posts"
+    >
       <option value="date-desc">Newest first</option>
       <option value="date-asc">Oldest first</option>
       <option value="title-asc">Title A-Z</option>
@@ -116,10 +128,6 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;')
     }
-    function escapeAttr(value) {
-      return encodeURIComponent(String(value))
-    }
-
     const searchInput = document.getElementById('filter-search')
     const categorySelect = document.getElementById('filter-category')
     const tagSelect = document.getElementById('filter-tag')
@@ -216,7 +224,7 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
           const formattedDate = post.data.formattedDate
           const words = post.body ? post.body.split(/\s+/).filter(Boolean).length : 0
           const minutes = Math.max(1, Math.ceil(words / 200))
-          const pathAttr = escapeAttr(post.data.path)
+          const pathAttr = escapeHtml(post.data.path)
           const title = escapeHtml(post.data.title)
           const excerpt = escapeHtml(post.data.excerpt)
           const tagsHtml = post.data.tags

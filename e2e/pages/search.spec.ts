@@ -25,7 +25,11 @@ test.describe('Search Functionality', () => {
 
   test('search filters are displayed', async ({ page }) => {
     await page.goto('/search')
+    const searchInput = page.locator('input#search-input')
+    await searchInput.fill('astro')
+
     const filterSection = page.locator('.search-filters')
+    await expect(filterSection).toBeVisible()
     const selects = page.locator('select')
     const count = await selects.count()
 

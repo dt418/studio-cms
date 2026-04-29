@@ -230,6 +230,28 @@ async function initSearch(): Promise<void> {
   if (!input) {
     return
   }
+  const searchInput = input
+
+  function clearSearch(): void {
+    searchInput.value = ''
+    if (clearBtn) {
+      clearBtn.hidden = true
+    }
+    const resultsContainer = document.getElementById('search-results')
+    if (resultsContainer) {
+      resultsContainer.innerHTML = ''
+    }
+    hideStatus()
+    searchInput.focus()
+  }
+
+  searchInput.addEventListener('input', () => {
+    if (clearBtn) {
+      clearBtn.hidden = searchInput.value.trim() === ''
+    }
+  })
+
+  clearBtn?.addEventListener('click', clearSearch)
 
   // Reset per-page state so SPA navigations don't accumulate stale entries or
   // leave stale request flags behind.
@@ -359,19 +381,6 @@ async function initSearch(): Promise<void> {
     }, DEBOUNCE_MS)
 
     input.addEventListener('input', doSearch)
-
-    if (clearBtn) {
-      clearBtn.addEventListener('click', () => {
-        input.value = ''
-        clearBtn!.hidden = true
-        const resultsContainer = document.getElementById('search-results')
-        if (resultsContainer) {
-          resultsContainer.innerHTML = ''
-        }
-        hideStatus()
-        input.focus()
-      })
-    }
 
     if (categoryFilter) {
       categoryFilter.addEventListener('change', () => {

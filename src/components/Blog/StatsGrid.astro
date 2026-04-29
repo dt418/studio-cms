@@ -11,7 +11,7 @@ interface Props {
 const { stats } = Astro.props
 ---
 
-<div class="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+<div class="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4" data-testid="blog-stats-grid">
   {
     stats.map((stat) => (
       <div class="border border-white/5 bg-white/2 p-4">

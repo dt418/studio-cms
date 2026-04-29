@@ -3,17 +3,15 @@ import { test, expect } from '@playwright/test'
 test.describe('Blog Post Page', () => {
   async function getFirstPostUrl(page: any): Promise<string | null> {
     await page.goto('/blog')
-    await page.waitForLoadState('networkidle')
 
     // Find first post link (excluding header navigation)
-    const postLinks = page.locator('a[href^="/blog/"]:not(header a)').first()
-    const count = await postLinks.count()
-
-    if (count === 0) {
+    const postLink = page.locator('#filter-results a[href^="/blog/"]').first()
+    const isVisible = await postLink.isVisible({ timeout: 5000 }).catch(() => false)
+    if (!isVisible) {
       return null
     }
 
-    const href = await postLinks.getAttribute('href')
+    const href = await postLink.getAttribute('href')
     return href
   }
 

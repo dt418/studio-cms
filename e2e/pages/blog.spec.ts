@@ -22,7 +22,7 @@ test.describe('Blog Listing Page', () => {
   })
 
   test('displays stats grid with 4 metrics', async ({ page }) => {
-    const statsGrid = page.locator('.grid:has(> div:has(.tabular-nums))')
+    const statsGrid = page.getByTestId('blog-stats-grid')
     await expect(statsGrid).toBeVisible()
 
     const statCards = statsGrid.locator('> div')
@@ -30,10 +30,10 @@ test.describe('Blog Listing Page', () => {
     expect(count).toBe(4)
 
     // Check for expected labels
-    await expect(page.locator('text=Published notes')).toBeVisible()
-    await expect(page.locator('text=Categories')).toBeVisible()
-    await expect(page.locator('text=Tags')).toBeVisible()
-    await expect(page.locator('text=Archive snapshot')).toBeVisible()
+    await expect(statsGrid.getByText('Published notes')).toBeVisible()
+    await expect(statsGrid.getByText('Categories')).toBeVisible()
+    await expect(statsGrid.getByText('Tags')).toBeVisible()
+    await expect(statsGrid.getByText('Archive snapshot')).toBeVisible()
   })
 
   test('stats show numeric values', async ({ page }) => {
@@ -88,7 +88,7 @@ test.describe('Blog Listing Page', () => {
     await expect(header).toContainText('Blog')
 
     // Stats should still be visible on mobile
-    const statsGrid = page.locator('.grid:has(> div:has(.tabular-nums))')
+    const statsGrid = page.getByTestId('blog-stats-grid')
     await expect(statsGrid).toBeVisible()
   })
 
