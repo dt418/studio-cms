@@ -3,7 +3,7 @@ You are a senior frontend architect.
 Generate a fully production-ready Blog Post Detail Page using:
 
 - Astro (v5)
-- TailwindCSS v4 (token-based design system, no tailwind.config.*)
+- TailwindCSS v4 (token-based design system, no tailwind.config.\*)
 - shadcn-style component architecture (CVA variants)
 - MDX content support
 - Clean SaaS/blog hybrid UI
@@ -25,6 +25,7 @@ Create a premium dark-mode editorial layout similar to modern dev blogs (Stripe,
 ## PAGE STRUCTURE
 
 ### 1. Global Layout
+
 - Max width: 1200px
 - Centered content
 - 3-column layout:
@@ -35,7 +36,9 @@ Create a premium dark-mode editorial layout similar to modern dev blogs (Stripe,
 ---
 
 ### 2. Hero Section (Top)
+
 Include:
+
 - Breadcrumb (small, muted)
 - Title (very large, bold, tight leading)
 - Subtitle / excerpt
@@ -48,6 +51,7 @@ Include:
 ---
 
 ### 3. Sidebar LEFT (Table of Contents)
+
 - Sticky
 - Auto-generated from headings (h2, h3)
 - Active section highlight
@@ -57,7 +61,9 @@ Include:
 ---
 
 ### 4. Sidebar RIGHT (Post Info Card)
+
 Card component:
+
 - Title: "Reading Details"
 - Published date
 - Author
@@ -65,6 +71,7 @@ Card component:
 - Optional share buttons
 
 Style:
+
 - Glass / subtle border
 - Rounded-xl
 - Dark elevated surface
@@ -74,6 +81,7 @@ Style:
 ### 5. Article Content (MAIN)
 
 Typography:
+
 - Prose (custom, not default @tailwind typography)
 - Max width: 720px
 - Strong hierarchy:
@@ -85,38 +93,47 @@ Typography:
 Content blocks:
 
 #### a. Paragraphs
+
 - Muted white text
 - Good spacing
 
 #### b. Image Blocks
+
 - Rounded-xl
 - Border
 - Caption support
 
 #### c. Callout Blocks
+
 Variants:
+
 - info
 - warning
 - success
 
 #### d. Code Blocks
+
 - Dark themed
 - Rounded-lg
 - Copy button
 - Syntax highlight
 
 #### e. Feature Highlight Card
+
 Centered visual block:
+
 - White background inside dark layout
 - Used to emphasize product
 
 #### f. Lists
+
 - Styled bullets
 - Good spacing
 
 ---
 
 ### 6. Section Divider
+
 - Subtle horizontal line
 - Used between sections
 
@@ -125,6 +142,7 @@ Centered visual block:
 ### 7. Bottom Section
 
 Include:
+
 - "What I don't want this to become" section
 - Links section
 - Previous / Next post navigation
@@ -132,6 +150,7 @@ Include:
 ---
 
 ### 8. Footer CTA Section
+
 Full-width block:
 
 - Large heading
@@ -154,6 +173,7 @@ Define tokens:
 Spacing scale: 4px base
 
 Radius:
+
 - lg: 12px
 - xl: 16px
 - 2xl: 20px

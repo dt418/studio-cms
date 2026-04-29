@@ -30,18 +30,18 @@ Components (BlogCard, YearGroup, PostItem, Search) -- presentational
 
 The `posts` collection uses a Zod schema:
 
-| Field | Type | Required | Notes |
-|-------|------|----------|-------|
-| `title` | `string` | Yes | Post title |
-| `slug` | `string` | Yes | URL slug |
-| `excerpt` | `string` | Yes | Short description |
-| `coverImage` | `string` | No | Hero image URL |
-| `publishedAt` | `Date` | Yes | Coerced from string |
-| `updatedAt` | `Date` | No | Last-modified date |
-| `tags` | `string[]` | Yes | Default `[]` |
-| `category` | `string` | Yes | Single category |
-| `author` | `string` | Yes | Default `'Danh Thanh'` |
-| `authorAvatar` | `string` | No | Author avatar URL |
+| Field          | Type       | Required | Notes                  |
+| -------------- | ---------- | -------- | ---------------------- |
+| `title`        | `string`   | Yes      | Post title             |
+| `slug`         | `string`   | Yes      | URL slug               |
+| `excerpt`      | `string`   | Yes      | Short description      |
+| `coverImage`   | `string`   | No       | Hero image URL         |
+| `publishedAt`  | `Date`     | Yes      | Coerced from string    |
+| `updatedAt`    | `Date`     | No       | Last-modified date     |
+| `tags`         | `string[]` | Yes      | Default `[]`           |
+| `category`     | `string`   | Yes      | Single category        |
+| `author`       | `string`   | Yes      | Default `'Danh Thanh'` |
+| `authorAvatar` | `string`   | No       | Author avatar URL      |
 
 Loader: `glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' })`
 
@@ -127,11 +127,11 @@ sortedYears(groups: Record<number, Post[]>) → number[]
 
 ```ts
 // 1. Fetch all posts and categories
-const posts = await getAllPosts()        // sorted by publishedAt desc
+const posts = await getAllPosts() // sorted by publishedAt desc
 const categories = await getAllCategories()
 
 // 2. Prepare search data (flattened for client-side)
-const searchPosts: SearchablePost[] = posts.map(post => ({
+const searchPosts: SearchablePost[] = posts.map((post) => ({
   title: post.data.title,
   excerpt: post.data.excerpt,
   tags: post.data.tags,
@@ -146,11 +146,11 @@ const remainingPosts = posts.slice(1)
 
 ### Components Used
 
-| Component | Purpose | Data Source |
-|-----------|---------|-------------|
-| `Search` | Client-side Fuse.js search | `searchPosts` (serialized to `<script type="application/json">`) |
-| `BlogCard` | Post card in grid | `remainingPosts` (each `Post`) |
-| `BaseLayout` | HTML shell with SEO | `title`, `description`, `jsonLd` |
+| Component    | Purpose                    | Data Source                                                      |
+| ------------ | -------------------------- | ---------------------------------------------------------------- |
+| `Search`     | Client-side Fuse.js search | `searchPosts` (serialized to `<script type="application/json">`) |
+| `BlogCard`   | Post card in grid          | `remainingPosts` (each `Post`)                                   |
+| `BaseLayout` | HTML shell with SEO        | `title`, `description`, `jsonLd`                                 |
 
 ## Blog Index Generation (`src/pages/blog/index.astro`)
 
@@ -191,17 +191,17 @@ const remainingPosts = posts.slice(1)
 // 1. Fetch and group posts
 const posts = await getAllPosts()
 const categories = await getAllCategories()
-const byYear = groupByYear(posts)      // { 2026: [...], 2025: [...] }
-const years = sortedYears(byYear)      // [2026, 2025, ...]
+const byYear = groupByYear(posts) // { 2026: [...], 2025: [...] }
+const years = sortedYears(byYear) // [2026, 2025, ...]
 ```
 
 ### Components Used
 
-| Component | Purpose | Data Source |
-|-----------|---------|-------------|
-| `YearGroup` | Year section with heading | `year: number`, `posts: Post[]` |
-| `PostItem` | Individual post row | `post: Post` |
-| `BaseLayout` | HTML shell with SEO | `title`, `description`, `jsonLd` |
+| Component    | Purpose                   | Data Source                      |
+| ------------ | ------------------------- | -------------------------------- |
+| `YearGroup`  | Year section with heading | `year: number`, `posts: Post[]`  |
+| `PostItem`   | Individual post row       | `post: Post`                     |
+| `BaseLayout` | HTML shell with SEO       | `title`, `description`, `jsonLd` |
 
 ## Component Details
 
@@ -277,6 +277,7 @@ Wraps all pages with:
 - **Client scripts:** ViewTransition for internal links, IntersectionObserver for `.animate-on-scroll`
 
 **Props:**
+
 ```ts
 interface Props {
   title: string
@@ -302,22 +303,22 @@ interface Props {
 
 ## File Inventory
 
-| File | Purpose |
-|------|---------|
-| `src/pages/index.astro` | Homepage (5 sections) |
-| `src/pages/blog/index.astro` | Blog index (4 sections) |
-| `src/pages/blog/[slug].astro` | Post detail (3-column layout) |
-| `src/lib/cms.ts` | CMS data fetching (wraps `astro:content`) |
-| `src/lib/group.ts` | Year grouping utilities |
-| `src/lib/search.ts` | Search types and Fuse.js factory |
-| `src/lib/date.ts` | Date formatting utility |
-| `src/lib/reading-time.ts` | Reading time calculation (200 WPM) |
-| `src/types/post.ts` | `Post` type alias |
-| `src/content.config.ts` | Content collection schema (Zod) |
-| `src/components/BlogCard.astro` | Blog card (homepage grid) |
-| `src/components/Blog/YearGroup.astro` | Year group section (blog index) |
-| `src/components/Blog/PostItem.astro` | Individual post row (blog index) |
-| `src/components/Search.astro` | Client-side search with Fuse.js |
-| `src/layouts/BaseLayout.astro` | Base HTML layout with SEO |
-| `astro.config.mjs` | Astro configuration |
-| `studiocms.config.mjs` | StudioCMS configuration |
+| File                                  | Purpose                                   |
+| ------------------------------------- | ----------------------------------------- |
+| `src/pages/index.astro`               | Homepage (5 sections)                     |
+| `src/pages/blog/index.astro`          | Blog index (4 sections)                   |
+| `src/pages/blog/[slug].astro`         | Post detail (3-column layout)             |
+| `src/lib/cms.ts`                      | CMS data fetching (wraps `astro:content`) |
+| `src/lib/group.ts`                    | Year grouping utilities                   |
+| `src/lib/search.ts`                   | Search types and Fuse.js factory          |
+| `src/lib/date.ts`                     | Date formatting utility                   |
+| `src/lib/reading-time.ts`             | Reading time calculation (200 WPM)        |
+| `src/types/post.ts`                   | `Post` type alias                         |
+| `src/content.config.ts`               | Content collection schema (Zod)           |
+| `src/components/BlogCard.astro`       | Blog card (homepage grid)                 |
+| `src/components/Blog/YearGroup.astro` | Year group section (blog index)           |
+| `src/components/Blog/PostItem.astro`  | Individual post row (blog index)          |
+| `src/components/Search.astro`         | Client-side search with Fuse.js           |
+| `src/layouts/BaseLayout.astro`        | Base HTML layout with SEO                 |
+| `astro.config.mjs`                    | Astro configuration                       |
+| `studiocms.config.mjs`                | StudioCMS configuration                   |

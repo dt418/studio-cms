@@ -4,11 +4,11 @@ Your task is to refactor and migrate an existing Tailwind CSS v4 + shadcn UI the
 
 ## 🎯 Goals
 
-* Preserve all existing design tokens (OKLCH-based)
-* Keep compatibility with shadcn/ui utilities (bg-primary, text-muted-foreground, etc.)
-* Implement a Linear-style theme system (dynamic, shareable, user-customizable)
-* Ensure SSR-safe theme initialization (no flash)
-* Use Tailwind CSS v4 (@theme inline)
+- Preserve all existing design tokens (OKLCH-based)
+- Keep compatibility with shadcn/ui utilities (bg-primary, text-muted-foreground, etc.)
+- Implement a Linear-style theme system (dynamic, shareable, user-customizable)
+- Ensure SSR-safe theme initialization (no flash)
+- Use Tailwind CSS v4 (@theme inline)
 
 ---
 
@@ -16,12 +16,12 @@ Your task is to refactor and migrate an existing Tailwind CSS v4 + shadcn UI the
 
 You are given a monolithic CSS file containing:
 
-* :root tokens (OKLCH)
-* .dark overrides
-* @theme inline mapping
-* @layer base + components
-* custom animations
-* shadcn-compatible utilities
+- :root tokens (OKLCH)
+- .dark overrides
+- @theme inline mapping
+- @layer base + components
+- custom animations
+- shadcn-compatible utilities
 
 ---
 
@@ -31,29 +31,29 @@ Split the system into the following files:
 
 src/styles/
 
-* tokens.css        → raw design tokens (:root + .dark)
-* semantic.css      → @theme inline bridge to Tailwind
-* base.css          → base layer
-* components.css    → UI components
-* app.css           → imports
+- tokens.css → raw design tokens (:root + .dark)
+- semantic.css → @theme inline bridge to Tailwind
+- base.css → base layer
+- components.css → UI components
+- app.css → imports
 
 src/lib/
 
-* theme-store.ts    → apply theme + persist
-* palette.ts        → generate OKLCH palette from primary
-* theme-url.ts      → encode/decode theme to URL
-* presets.ts        → predefined themes
+- theme-store.ts → apply theme + persist
+- palette.ts → generate OKLCH palette from primary
+- theme-url.ts → encode/decode theme to URL
+- presets.ts → predefined themes
 
 src/components/theme/
 
-* ThemeEditor.tsx   → main UI (React island)
-* Panel.tsx         → floating panel
-* ColorControl.tsx  → OKLCH sliders (L, C, H)
-* Presets.tsx       → preset buttons
+- ThemeEditor.tsx → main UI (React island)
+- Panel.tsx → floating panel
+- ColorControl.tsx → OKLCH sliders (L, C, H)
+- Presets.tsx → preset buttons
 
 src/layouts/
 
-* BaseLayout.astro  → SSR-safe theme init
+- BaseLayout.astro → SSR-safe theme init
 
 ---
 
@@ -61,20 +61,20 @@ src/layouts/
 
 ### 1. Theme System
 
-* Use CSS variables as source of truth
-* Support:
+- Use CSS variables as source of truth
+- Support:
+  - light / dark mode
+  - dynamic primary color
 
-  * light / dark mode
-  * dynamic primary color
-* Persist theme in localStorage
+- Persist theme in localStorage
 
 ---
 
 ### 2. Tailwind v4 Integration
 
-* Use @theme inline to map:
+- Use @theme inline to map:
   --color-primary → var(--primary)
-* Ensure utilities like:
+- Ensure utilities like:
   bg-primary, text-foreground work
 
 ---
@@ -83,12 +83,12 @@ src/layouts/
 
 Generate:
 
-* --primary-50
-* --primary-100
-* --primary-200
-* --primary-500
-* --primary-700
-* --primary-900
+- --primary-50
+- --primary-100
+- --primary-200
+- --primary-500
+- --primary-700
+- --primary-900
 
 Using:
 color-mix(in oklch, ...)
@@ -101,11 +101,11 @@ Build a floating panel (bottom-right):
 
 Features:
 
-* Toggle light/dark
-* OKLCH sliders (L, C, H)
-* Preset themes (linear, vercel, github)
-* Live preview
-* Share button (copy URL)
+- Toggle light/dark
+- OKLCH sliders (L, C, H)
+- Preset themes (linear, vercel, github)
+- Live preview
+- Share button (copy URL)
 
 ---
 
@@ -122,9 +122,9 @@ Auto apply on load.
 
 Inject inline script in <head>:
 
-* read localStorage
-* read URL param
-* apply before render
+- read localStorage
+- read URL param
+- apply before render
 
 ---
 
@@ -140,22 +140,22 @@ github → blue
 
 ## 🎨 UI Requirements
 
-* Use shadcn button styles
-* Use Tailwind utilities only
-* Add:
+- Use shadcn button styles
+- Use Tailwind utilities only
+- Add:
   backdrop-blur
   soft shadow
   rounded-xl panel
-* Visual style similar to Linear.app
+- Visual style similar to Linear.app
 
 ---
 
 ## 🚫 Constraints
 
-* DO NOT use Tailwind config (v4 only)
-* DO NOT break existing class names
-* DO NOT remove OKLCH
-* DO NOT hardcode colors outside tokens
+- DO NOT use Tailwind config (v4 only)
+- DO NOT break existing class names
+- DO NOT remove OKLCH
+- DO NOT hardcode colors outside tokens
 
 ---
 
@@ -172,9 +172,9 @@ Return:
 
 ## 🔥 Bonus (if possible)
 
-* Add gradient primary support
-* Add theme export/import JSON
-* Add smooth transitions
+- Add gradient primary support
+- Add theme export/import JSON
+- Add smooth transitions
 
 ---
 

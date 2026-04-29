@@ -8,16 +8,16 @@ This skill provides guidance for maintaining GitHub Actions workflows with the l
 
 ### Core Actions
 
-| Action | Current Latest | Purpose |
-|--------|---------------|---------|
-| `actions/checkout` | v6 | Checkout repository code |
-| `actions/setup-node` | v6 | Set up Node.js environment |
-| `actions/upload-artifact` | v7 | Upload build artifacts |
-| `actions/download-artifact` | v4 | Download build artifacts |
-| `pnpm/action-setup` | v5 | Set up pnpm package manager |
-| `actions/setup-python` | v5 | Set up Python environment |
-| `actions/setup-go` | v5 | Set up Go environment |
-| `actions/cache` | v4 | Cache dependencies |
+| Action                      | Current Latest | Purpose                     |
+| --------------------------- | -------------- | --------------------------- |
+| `actions/checkout`          | v6             | Checkout repository code    |
+| `actions/setup-node`        | v6             | Set up Node.js environment  |
+| `actions/upload-artifact`   | v7             | Upload build artifacts      |
+| `actions/download-artifact` | v4             | Download build artifacts    |
+| `pnpm/action-setup`         | v5             | Set up pnpm package manager |
+| `actions/setup-python`      | v5             | Set up Python environment   |
+| `actions/setup-go`          | v5             | Set up Go environment       |
+| `actions/cache`             | v4             | Cache dependencies          |
 
 ## Checking for Latest Versions
 
@@ -40,6 +40,7 @@ gh release list --repo actions/upload-artifact --limit 1
 ### Web Search Approach
 
 When uncertain about the latest version, search for:
+
 - "actions/checkout latest version 2026"
 - "actions/setup-node latest release"
 - "GitHub Actions [action-name] latest version"
@@ -66,6 +67,7 @@ When updating multiple actions, use a systematic approach:
 4. Test the workflow after updates
 
 Example:
+
 ```yaml
 steps:
   - uses: actions/checkout@v6
@@ -87,6 +89,7 @@ steps:
 ### The Node.js 20 Deprecation
 
 GitHub Actions is transitioning from Node.js 20 to Node.js 24:
+
 - **June 2, 2026**: Node.js 24 becomes default
 - **September 16, 2026**: Node.js 20 removed from runners
 
@@ -107,6 +110,7 @@ jobs:
 ### Verify Action Compatibility
 
 Before updating, check if the action supports Node.js 24:
+
 - Review the action's release notes
 - Look for "Node.js 24 support" in changelog
 - Actions v6+ typically support Node.js 24
@@ -116,18 +120,21 @@ Before updating, check if the action supports Node.js 24:
 ### Version Pinning
 
 **Recommended:** Pin to major version
+
 ```yaml
-- uses: actions/checkout@v6  # Good: gets v6.x.x updates
+- uses: actions/checkout@v6 # Good: gets v6.x.x updates
 ```
 
 **Not Recommended:** Pin to exact version
+
 ```yaml
-- uses: actions/checkout@v6.0.2  # Too specific, misses patch updates
+- uses: actions/checkout@v6.0.2 # Too specific, misses patch updates
 ```
 
 **Avoid:** Using branches
+
 ```yaml
-- uses: actions/checkout@main  # Risky: breaking changes
+- uses: actions/checkout@main # Risky: breaking changes
 ```
 
 ### Semantic Versioning
@@ -169,7 +176,7 @@ Before updating, check if the action supports Node.js 24:
 - uses: actions/setup-node@v6
   with:
     node-version: '22'
-    cache: 'npm'  # or 'pnpm', 'yarn'
+    cache: 'npm' # or 'pnpm', 'yarn'
     cache-dependency-path: '**/package-lock.json'
 ```
 
@@ -181,7 +188,7 @@ Before updating, check if the action supports Node.js 24:
     name: artifact-name
     path: ./dist
     retention-days: 30
-    if-no-files-found: warn  # or 'error' or 'ignore'
+    if-no-files-found: warn # or 'error' or 'ignore'
 ```
 
 ### pnpm/action-setup
@@ -203,10 +210,10 @@ Create `.github/dependabot.yml`:
 ```yaml
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     open-pull-requests-limit: 10
 ```
 
@@ -235,6 +242,7 @@ done
 ### Action Not Found
 
 If an action version doesn't exist:
+
 - Verify the action name is correct
 - Check if the version tag exists
 - Use a valid major version instead
@@ -242,6 +250,7 @@ If an action version doesn't exist:
 ### Breaking Changes
 
 After updating, if workflow fails:
+
 1. Check the action's release notes
 2. Review required configuration changes
 3. Update workflow configuration accordingly
@@ -250,6 +259,7 @@ After updating, if workflow fails:
 ### Deprecation Warnings
 
 GitHub may show deprecation warnings:
+
 - Read the warning message carefully
 - Follow the recommended migration path
 - Update before the deprecation deadline
@@ -272,19 +282,23 @@ When updating GitHub Actions:
 ### StudioCMS Blog Workflows
 
 **Active Workflows:**
+
 - `.github/workflows/playwright.yml` - E2E testing
 
 **Current Actions:**
+
 - `actions/checkout@v6`
 - `pnpm/action-setup@v5`
 - `actions/setup-node@v6`
 - `actions/upload-artifact@v7`
 
 **Update Schedule:**
+
 - Check for updates monthly
 - Update before Node.js 20 deprecation (June 2026)
 - Review Dependabot PRs for action updates
 
 **Environment Variables:**
+
 - `CMS_ENCRYPTION_KEY` - Stored as GitHub secret
 - `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` - Set to true for Node.js 24

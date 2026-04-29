@@ -123,7 +123,7 @@ test('keyboard navigation works', async ({ page }) => {
 test('all images have alt text', async ({ page }) => {
   const images = page.locator('img')
   const count = await images.count()
-  
+
   for (let i = 0; i < count; i++) {
     const alt = await images.nth(i).getAttribute('alt')
     expect(alt).toBeTruthy()
@@ -183,6 +183,7 @@ pnpm test:e2e:report      # View test report
 ### CI/CD Integration
 
 E2E tests run automatically in GitHub Actions on:
+
 - Push to main branch
 - Pull requests to main branch
 
@@ -193,6 +194,7 @@ Tests are NOT in git hooks to avoid slowing down local development.
 ### Timeout Errors
 
 Increase timeout in playwright.config.ts:
+
 ```typescript
 webServer: {
   timeout: 120000, // 2 minutes
@@ -208,6 +210,7 @@ webServer: {
 ### Browser Dependencies
 
 Install browsers locally:
+
 ```bash
 pnpm exec playwright install
 ```
@@ -217,6 +220,7 @@ pnpm exec playwright install
 ### StudioCMS Blog E2E Tests
 
 **Covered Routes:**
+
 - `/` - Home page
 - `/blog` - Blog listing
 - `/blog/[slug]` - Individual posts
@@ -225,6 +229,7 @@ pnpm exec playwright install
 - `/categories/[category]` - Category pages
 
 **Test Files:**
+
 - `e2e/pages/home.spec.ts` - Home page tests
 - `e2e/pages/blog.spec.ts` - Blog listing tests
 - `e2e/pages/blog-post.spec.ts` - Blog post tests
@@ -232,6 +237,7 @@ pnpm exec playwright install
 - `e2e/pages/accessibility.spec.ts` - Accessibility tests
 
 **Key Considerations:**
+
 - Tests run against preview server, not dev server
 - Database content may vary between environments
 - Use realistic test data or mock responses
