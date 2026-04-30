@@ -3,6 +3,7 @@ dist/
 .output/
 .vercel/
 .turbo/
+graphify-out/
 # generated types
 .astro/
 

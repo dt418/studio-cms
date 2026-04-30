@@ -15,5 +15,8 @@
       ],
       "enabled": true
     }
-  }
+  },
+  "plugin": [
+    ".opencode/plugins/graphify.js"
+  ]
 }
