@@ -114,7 +114,7 @@ const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
   </div>
 </div>
 
-<script type="application/json" id="filter-data" set:html={serializedJson} />
+<script is:inline type="application/json" id="filter-data" set:html={serializedJson} />
 
 <script is:inline>
   function initFilter() {

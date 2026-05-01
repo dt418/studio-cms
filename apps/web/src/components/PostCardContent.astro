@@ -1,0 +1,50 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  post: CollectionEntry<'posts'>
+  large?: boolean
+  formattedDate: string
+}
+
+const { post, large = false, formattedDate } = Astro.props
+const { title, excerpt, category, tags } = post.data
+---
+
+<div class="mb-4 flex items-center gap-3">
+  <span class="text-muted-foreground/50 font-mono text-[0.68rem] tracking-[0.26em] uppercase">
+    {category}
+  </span>
+  <span class="text-muted-foreground/30">/</span>
+  <time class="text-muted-foreground/40 font-mono text-[0.68rem] tracking-[0.26em] uppercase">
+    {formattedDate}
+  </time>
+</div>
+<h3
+  class={large
+    ? 'text-foreground mb-4 text-xl font-semibold tracking-tight lg:text-2xl'
+    : 'text-foreground mb-2 text-lg font-semibold tracking-tight'}
+>
+  {title}
+</h3>
+<p
+  class={large
+    ? 'text-muted-foreground/70 mb-6 text-sm leading-7'
+    : 'text-muted-foreground/60 mb-4 text-sm leading-6'}
+>
+  {excerpt}
+</p>
+{
+  large && (
+    <div class="mb-6 flex flex-wrap gap-2">
+      {tags.slice(0, 3).map((tag) => (
+        <span class="text-muted-foreground/50 border-border border px-2 py-1 font-mono text-[0.62rem] tracking-[0.22em] uppercase">
+          {tag}
+        </span>
+      ))}
+    </div>
+  )
+}
+<span class="text-muted-foreground/50 font-mono text-[0.62rem] tracking-[0.24em] uppercase">
+  Read more →
+</span>

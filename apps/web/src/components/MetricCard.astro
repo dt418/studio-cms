@@ -1,27 +1,36 @@
 ---
+import MetricCardContent from '@/components/MetricCardContent.astro'
+import SpotlightCard from '@/components/SpotlightCard.astro'
+
 export interface Props {
   label: string
   value: string
   category: string
   description: string
+  spotlight?: boolean
 }
 
-const { label, value, category, description } = Astro.props
+const { label, value, category, description, spotlight = false } = Astro.props
 ---
 
-<article class="card-hover">
-  <p class="text-muted-foreground/40 font-mono text-[0.68rem] tracking-[0.26em] uppercase">
-    {label}
-  </p>
-  <p
-    class="text-foreground mt-4 text-[1.65rem] leading-none font-semibold tracking-[-0.06em] sm:text-[1.9rem]"
-  >
-    {value}
-  </p>
-  <p class="text-muted-foreground/60 mt-2 font-mono text-[0.7rem] tracking-[0.22em] uppercase">
-    {category}
-  </p>
-  <p class="text-muted-foreground/70 mt-5 max-w-[30ch] text-sm leading-7">
-    {description}
-  </p>
-</article>
+{
+  spotlight ? (
+    <SpotlightCard as="article" class="p-6">
+      <MetricCardContent
+        label={label}
+        value={value}
+        category={category}
+        description={description}
+      />
+    </SpotlightCard>
+  ) : (
+    <article class="card-hover">
+      <MetricCardContent
+        label={label}
+        value={value}
+        category={category}
+        description={description}
+      />
+    </article>
+  )
+}

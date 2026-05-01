@@ -2,6 +2,25 @@
 
 This guide explains how to manage blog content using the StudioCMS dashboard.
 
+## Content Schema Rules
+
+Public post metadata is validated in `apps/web/src/content.config.ts` with Astro's Zod integration.
+
+- Use `z.url()` for URL fields such as `canonicalUrl`.
+- Do not use deprecated `z.string().url()`.
+- Run `pnpm lint:patterns` after changing content schemas.
+
+## Structured Data Scripts
+
+Astro scripts that inject JSON or JSON-LD with `set:html` should be explicit inline scripts:
+
+```astro
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+```
+
+This keeps `astro check` free of inline-script hints and makes the intended no-processing behavior
+obvious.
+
 ## Prerequisites
 
 - Admin account created (visit `/studiocms` on first run)

@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Features
 
+- feat: add reusable SpotlightCard with Base UI render composition for interactive post and metric cards (uncommitted)
 - feat: add centralized route helpers for encoded blog, tag, and category links (uncommitted)
 - feat: add post visibility filtering for drafts and noindex content with explicit opt-in support (uncommitted)
 - feat: prerender blog detail and RSS routes with canonical URLs and preview/noindex handling (uncommitted)
@@ -36,6 +37,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Documentation
 
+- docs: document SpotlightCard usage, `.card-hover` separation, and design-system sync rules (uncommitted)
+- docs: document Zod URL schema and Astro inline script guardrails (uncommitted)
 - docs: update project documentation for the Turborepo monorepo structure (uncommitted)
 - docs: add site configuration section to DESIGN.md with file reference table
 - docs: update DESIGN.md to reflect shadcn token system, accessibility, and rules
@@ -44,6 +47,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Bug Fixes
 
+- fix: clear Astro/Zod typecheck warnings by using `z.url()` and explicit `is:inline` scripts (uncommitted)
 - fix: avoid duplicate pnpm version configuration in the Playwright workflow (3b78612)
 - fix: stabilize Playwright e2e tests for blog, search, tags, and RSS flows (322f1b1)
 - fix: exclude StudioCMS and API routes from generated sitemap entries (uncommitted)
@@ -64,6 +68,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Enhancements
 
+- chore: add project pattern lint guard for deprecated Zod URL schemas and Astro `set:html` scripts (uncommitted)
 - test: cover post visibility rules and route helper encoding (uncommitted)
 - docs: document blog visibility, route helpers, and the public RSS path (uncommitted)
 - feat: RelatedPosts.astro improved heading UI with count badge and flex layout

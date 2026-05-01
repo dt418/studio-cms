@@ -59,4 +59,4 @@ const twitterCreator = SITE.social.twitter.startsWith('@')
 <meta name="twitter:creator" content={twitterCreator} />
 
 {author && <meta name="author" content={author} />}
-{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+{jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}

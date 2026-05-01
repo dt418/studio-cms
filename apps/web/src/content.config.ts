@@ -35,7 +35,7 @@ export const posts = defineCollection({
 
     // 🔗 SEO
     description: z.string().optional(), // fallback = excerpt
-    canonicalUrl: z.string().url().optional(),
+    canonicalUrl: z.url().optional(),
 
     // 📚 Series (rất mạnh cho SEO)
     series: z.string().optional(),

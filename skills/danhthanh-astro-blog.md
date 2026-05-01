@@ -33,6 +33,13 @@ Use this skill when changing blog routes, RSS, sitemap behavior, post visibility
 - Preserve `studiocms-layout-overrides` in `apps/cms/astro.config.mjs`; it exists to patch StudioCMS dashboard/auth CSS before downstream transforms.
 - Do not patch `node_modules` directly for StudioCMS layout fixes.
 
+## Content Schema And Inline Script Rules
+
+- Use `z.url()` for URL fields in `apps/web/src/content.config.ts`.
+- Do not use deprecated `z.string().url()`.
+- Add `is:inline` to Astro `<script>` tags that use `set:html` for JSON or JSON-LD payloads.
+- Treat missing `is:inline` hints from `astro check` as actionable drift, not acceptable noise.
+
 ## Tests To Update
 
 - Update `apps/web/src/lib/routes.test.ts` when route helper behavior changes.
@@ -42,6 +49,7 @@ Use this skill when changing blog routes, RSS, sitemap behavior, post visibility
 ## Verification
 
 - Focused route/visibility check: `pnpm test -- apps/web/src/lib/routes.test.ts apps/web/src/lib/cms.test.ts`
+- Pattern guard: `pnpm lint:patterns`
 - Full project check: `pnpm check`
 - Run `pnpm build` when changing RSS, sitemap, search index generation, generated OG image behavior, or Astro config.
 

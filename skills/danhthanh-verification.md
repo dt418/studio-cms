@@ -9,6 +9,7 @@ Use this skill before claiming work is complete, committing broad changes, prepa
 - Focused unit test: `pnpm test -- src/path/to/file.test.ts`
 - Full unit tests: `pnpm test`
 - Lint: `pnpm lint`
+- Pattern lint: `pnpm lint:patterns`
 - Format check: `pnpm format:check`
 - Typecheck: `pnpm typecheck`
 - Full check: `pnpm check`
@@ -20,6 +21,7 @@ Use this skill before claiming work is complete, committing broad changes, prepa
 `pnpm check` runs:
 
 - `pnpm lint`
+- `pnpm lint:patterns`
 - `pnpm format:check`
 - `pnpm test`
 - `pnpm typecheck`
@@ -36,6 +38,7 @@ Run `pnpm build` when changing:
 - Search index generation
 - generated OG image behavior
 - content metadata that affects generated search or feeds
+- content collection schemas or structured-data script injection
 - SSR adapter/server behavior
 
 Remember that `pnpm build` runs OG generation, `astro build`, search index generation, and Pagefind indexing.
@@ -56,6 +59,8 @@ Remember that `pnpm build` runs OG generation, `astro build`, search index gener
 ## Strictness Traps
 
 - TypeScript uses `exactOptionalPropertyTypes`, `noUncheckedIndexedAccess`, and unused checks.
+- Use `z.url()` for Zod URL fields; `z.string().url()` is deprecated and blocked by `pnpm lint:patterns`.
+- Astro `<script>` tags that use `set:html` for JSON/JSON-LD must include `is:inline`.
 - ESLint forbids `any` except in `*.test.ts`.
 - `no-param-reassign` is disabled for `.astro` and tests but enforced elsewhere.
 - Prettier uses no semicolons, single quotes, 100-column width, and Astro plus Tailwind plugins.

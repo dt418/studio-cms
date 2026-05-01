@@ -94,6 +94,11 @@ Components and pages must consume **Tailwind utilities** (`bg-card`, `text-muted
 
 - `.card`: `@apply bg-card text-card-foreground rounded-md border border-border transition-colors duration-200`
 - `.card-hover`: `@apply relative overflow-hidden rounded-md border border-border bg-card/30 p-6 transition-all duration-300`
+- `.card-hover` uses a shared radial hover wash with `color-mix(in oklch, var(--foreground) 12%, transparent)`.
+- `SpotlightCard` provides a separate interactive card surface with pointer/focus-tracked lighting via `apps/web/src/components/ui/spotlight-card.tsx` and the Astro wrapper `apps/web/src/components/SpotlightCard.astro`.
+- Prefer `.card-hover` for CSS-only hover states; prefer `SpotlightCard` when an interactive spotlight surface is needed.
+- Do not combine `.card-hover` with `SpotlightCard`; `SpotlightCard` owns the card surface classes.
+- `SpotlightCard` uses Base UI-style `render` composition in React and `as="article"` / `as="a"` on the Astro wrapper.
 
 ### Badge / Input / Separator / Skeleton
 

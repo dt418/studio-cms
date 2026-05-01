@@ -60,7 +60,7 @@
     @apply absolute inset-0 opacity-0 transition-opacity duration-500;
     background: radial-gradient(
       circle at 50% 50%,
-      color-mix(in oklch, var(--foreground) 8%, transparent) 0%,
+      color-mix(in oklch, var(--foreground) 12%, transparent) 0%,
       transparent 70%
     );
   }

@@ -1,7 +1,6 @@
 ---
 import PostCard from '@/components/PostCard.astro'
 import type { Post } from '@/lib/cms'
-
 interface Props {
   featuredPost: Post | null
   recentPosts: Post[]
@@ -26,13 +25,13 @@ const { featuredPost = null, recentPosts } = Astro.props
     <div class="grid gap-4 lg:grid-cols-12">
       {
         featuredPost ? (
-          <div class="card-hover lg:col-span-7">
-            <PostCard post={featuredPost} large />
+          <div class="lg:col-span-7">
+            <PostCard post={featuredPost} large spotlight />
           </div>
         ) : null
       }
       <div class="grid gap-4 lg:col-span-5">
-        {recentPosts.map((recentPost) => <PostCard post={recentPost} />)}
+        {recentPosts.map((recentPost) => <PostCard post={recentPost} spotlight />)}
       </div>
     </div>
   </div>

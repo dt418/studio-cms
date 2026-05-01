@@ -70,18 +70,23 @@ export function Card({ className, variant, size, ...props }: CardProps) {
 
 ### Homepage Component Inventory
 
-| Component        | Status      | Usage                                                                  |
-| ---------------- | ----------- | ---------------------------------------------------------------------- |
-| `HeroSection`    | In use      | `apps/web/src/pages/index.astro` hero section                          |
-| `SectionHeader`  | In use      | `apps/web/src/pages/index.astro` section intro and metric grid wrapper |
-| `MetricCard`     | In use      | `apps/web/src/pages/index.astro` homepage metric cards                 |
-| `MarqueeSection` | In use      | `apps/web/src/pages/index.astro` category marquee                      |
-| `FeaturedWork`   | In use      | `apps/web/src/pages/index.astro` featured and recent posts             |
-| `ArchiveSection` | In use      | `apps/web/src/pages/index.astro` post archive                          |
-| `.card-hover`    | CSS utility | `apps/web/src/styles/components.css`; reused by card-like components   |
+| Component        | Status      | Usage                                                                     |
+| ---------------- | ----------- | ------------------------------------------------------------------------- |
+| `HeroSection`    | In use      | `apps/web/src/pages/index.astro` hero section                             |
+| `SectionHeader`  | In use      | `apps/web/src/pages/index.astro` section intro and metric grid wrapper    |
+| `MetricCard`     | In use      | `apps/web/src/pages/index.astro` homepage metric cards                    |
+| `MarqueeSection` | In use      | `apps/web/src/pages/index.astro` category marquee                         |
+| `FeaturedWork`   | In use      | `apps/web/src/pages/index.astro` featured and recent posts                |
+| `ArchiveSection` | In use      | `apps/web/src/pages/index.astro` post archive                             |
+| `SpotlightCard`  | In use      | `apps/web/src/components/SpotlightCard.astro` and `ui/spotlight-card.tsx` |
+| `.card-hover`    | CSS utility | `apps/web/src/styles/components.css`; reused by card-like components      |
 
 `CardHover.astro` does not exist. Use the `.card-hover` utility class for shared hover treatment
 unless a component needs reusable Astro props or slots.
+
+`SpotlightCard` is the reusable wrapper for the interactive spotlight effect. Prefer it when a card
+needs cursor/focus-follow lighting. Do not combine it with `.card-hover`; `SpotlightCard` owns its
+own card surface, border, radius, and transition classes.
 
 ### Section Header Slots
 
@@ -106,6 +111,26 @@ typography. Use the default slot for the section content.
   </a>
 </article>
 ```
+
+### Spotlight Card Wrapper
+
+```astro
+---
+import SpotlightCard from '@/components/SpotlightCard.astro'
+---
+
+<SpotlightCard as="a" href="/link" class="block p-8">
+  <h3 class="text-foreground transition-colors">Title</h3>
+  <p class="text-muted-foreground">Interactive hover/focus spotlight.</p>
+</SpotlightCard>
+```
+
+- React primitive: `apps/web/src/components/ui/spotlight-card.tsx`
+- React composition API: `render={<article />}` or `render={<a href="/link" />}`
+- Astro wrapper: `apps/web/src/components/SpotlightCard.astro`
+- Astro composition API: `as="article"` or `as="a" href="/link"`
+- Default spotlight color is synced with `.card-hover` via `color-mix(in oklch, var(--foreground) 12%, transparent)`.
+- Current production use: `apps/web/src/components/FeaturedWork.astro` through `PostCard.astro`'s `spotlight` prop.
 
 ### Badge/Pill
 

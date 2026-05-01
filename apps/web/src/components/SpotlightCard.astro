@@ -1,0 +1,29 @@
+---
+import {
+  SpotlightCard as SpotlightCardPrimitive,
+  type SpotlightCardProps,
+} from '@/components/ui/spotlight-card'
+
+interface Props {
+  as?: 'div' | 'article' | 'a'
+  class?: string
+  href?: string
+  spotlightColor?: SpotlightCardProps['spotlightColor']
+}
+
+const { as = 'div', class: className, href, spotlightColor } = Astro.props as Props
+
+if (as === 'a' && !href) {
+  throw new Error('SpotlightCard with as="a" requires an href prop')
+}
+---
+
+<SpotlightCardPrimitive
+  client:visible
+  {...as !== 'div' && { as }}
+  {...href && { href }}
+  {...className && { className }}
+  {...spotlightColor && { spotlightColor }}
+>
+  <slot />
+</SpotlightCardPrimitive>

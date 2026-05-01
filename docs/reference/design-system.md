@@ -226,7 +226,7 @@ All component styles use `@apply` with Tailwind utilities.
 
 Focus: `@apply outline-none ring-[3px] ring-ring/50`
 
-### Card (`.card`) and `.card-hover`
+### Card (`.card`), `.card-hover`, and `SpotlightCard`
 
 ```html
 <article class="card">
@@ -239,6 +239,22 @@ Focus: `@apply outline-none ring-[3px] ring-ring/50`
 
 - `.card`: `@apply bg-card text-card-foreground rounded-md border border-border transition-colors duration-200`
 - `.card-hover`: `@apply relative overflow-hidden rounded-md border border-border bg-card/30 p-6 transition-all duration-300`
+- `.card-hover` uses a shared radial hover wash in `components.css` with `color-mix(in oklch, var(--foreground) 12%, transparent)` to keep hover contrast subtle and theme-aware.
+- `SpotlightCard` is the interactive React primitive for cursor/focus-follow highlights at `apps/web/src/components/ui/spotlight-card.tsx`, with the Astro wrapper at `apps/web/src/components/SpotlightCard.astro`.
+- Default `SpotlightCard` overlay color matches `.card-hover`: `color-mix(in oklch, var(--foreground) 12%, transparent)`.
+- Use `.card-hover` when CSS-only hover treatment is enough. Use `SpotlightCard` when pointer/focus-tracked spotlight behavior is needed.
+- Do not combine `.card-hover` and `SpotlightCard` on the same element; `SpotlightCard` owns its own card surface, border, radius, and transition classes.
+- The React primitive follows Base UI composition with `render={<article />}` or `render={<a href="..." />}`. The Astro wrapper exposes this as `as="article"` or `as="a"`.
+
+```astro
+---
+import SpotlightCard from '@/components/SpotlightCard.astro'
+---
+
+<SpotlightCard as="a" href="/blog/example" class="block p-8">
+  <h3 class="text-foreground">Spotlight card</h3>
+</SpotlightCard>
+```
 
 ### Badge
 

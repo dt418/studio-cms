@@ -32,26 +32,27 @@ Open `http://localhost:4321` for the public web app. Run `pnpm cms:dev` and open
 
 ## Development Commands
 
-| Command             | Description                                       |
-| ------------------- | ------------------------------------------------- |
-| `pnpm dev`          | Start the public web dev server                   |
-| `pnpm web:dev`      | Start `apps/web` on port 4321                     |
-| `pnpm cms:dev`      | Start `apps/cms` on port 4322                     |
-| `pnpm build`        | Build web and CMS with Turborepo                  |
-| `pnpm web:build`    | Build the static web app                          |
-| `pnpm cms:build`    | Build the StudioCMS SSR app                       |
-| `pnpm preview`      | Preview the web production build locally          |
-| `pnpm cms:migrate`  | Run StudioCMS database migrations                 |
-| `pnpm studiocms`    | StudioCMS CLI tools                               |
-| `pnpm test`         | Run web unit tests (Vitest)                       |
-| `pnpm test:watch`   | Run tests in watch mode                           |
-| `pnpm test:e2e`     | Run E2E tests (Playwright)                        |
-| `pnpm lint`         | Check for lint errors                             |
-| `pnpm lint:fix`     | Auto-fix lint issues                              |
-| `pnpm format`       | Format code with Prettier                         |
-| `pnpm format:check` | Check formatting without modifying                |
-| `pnpm typecheck`    | Run TypeScript type checking                      |
-| `pnpm check`        | Run all checks (lint + format + test + typecheck) |
+| Command              | Description                                                  |
+| -------------------- | ------------------------------------------------------------ |
+| `pnpm dev`           | Start the public web dev server                              |
+| `pnpm web:dev`       | Start `apps/web` on port 4321                                |
+| `pnpm cms:dev`       | Start `apps/cms` on port 4322                                |
+| `pnpm build`         | Build web and CMS with Turborepo                             |
+| `pnpm web:build`     | Build the static web app                                     |
+| `pnpm cms:build`     | Build the StudioCMS SSR app                                  |
+| `pnpm preview`       | Preview the web production build locally                     |
+| `pnpm cms:migrate`   | Run StudioCMS database migrations                            |
+| `pnpm studiocms`     | StudioCMS CLI tools                                          |
+| `pnpm test`          | Run web unit tests (Vitest)                                  |
+| `pnpm test:watch`    | Run tests in watch mode                                      |
+| `pnpm test:e2e`      | Run E2E tests (Playwright)                                   |
+| `pnpm lint`          | Check for lint errors                                        |
+| `pnpm lint:patterns` | Check project-specific forbidden patterns                    |
+| `pnpm lint:fix`      | Auto-fix lint issues                                         |
+| `pnpm format`        | Format code with Prettier                                    |
+| `pnpm format:check`  | Check formatting without modifying                           |
+| `pnpm typecheck`     | Run TypeScript type checking                                 |
+| `pnpm check`         | Run all checks (patterns + lint + format + test + typecheck) |
 
 ## Code Quality
 
@@ -75,6 +76,19 @@ pnpm lint:fix
 - Always use curly braces
 - Strict equality (`===` / `!==`)
 - `prefer-const` enforced
+- `z.string().url()` is blocked; use `z.url()` for Zod URL schemas
+- Astro `<script>` tags with `set:html` must include `is:inline`
+
+### Pattern Linting
+
+`pnpm lint:patterns` catches repo-specific regressions that standard ESLint and Astro typecheck may
+only report as warnings or hints.
+
+Current guards:
+
+- Deprecated Zod URL validation: use `z.url()`, not `z.string().url()`.
+- Astro script injection: use `is:inline` on `<script>` tags that inject JSON or JSON-LD with
+  `set:html`.
 
 ### Formatting
 
@@ -104,7 +118,7 @@ pnpm typecheck
 pnpm check
 ```
 
-Runs: lint → format:check → test → typecheck
+Runs: lint:patterns → lint → format:check → test → typecheck
 
 ## Testing
 
