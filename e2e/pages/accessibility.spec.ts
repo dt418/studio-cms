@@ -4,7 +4,7 @@ import AxeBuilder from '@axe-core/playwright'
 test.describe('Accessibility Tests', () => {
   test('home page should not have critical accessibility violations', async ({ page }) => {
     await page.goto('/')
-    await page.waitForLoadState('networkidle')
+    await expect(page.locator('h1')).toBeVisible()
 
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa'])
@@ -22,7 +22,7 @@ test.describe('Accessibility Tests', () => {
 
   test('blog page should not have critical accessibility violations', async ({ page }) => {
     await page.goto('/blog')
-    await page.waitForLoadState('networkidle')
+    await expect(page.locator('h1')).toContainText('Blog')
 
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa'])

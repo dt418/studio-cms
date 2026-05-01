@@ -47,6 +47,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Bug Fixes
 
+- fix: stabilize Playwright E2E metric-card assertions and accessibility page readiness waits (uncommitted)
 - fix: clear Astro/Zod typecheck warnings by using `z.url()` and explicit `is:inline` scripts (uncommitted)
 - fix: avoid duplicate pnpm version configuration in the Playwright workflow (3b78612)
 - fix: stabilize Playwright e2e tests for blog, search, tags, and RSS flows (322f1b1)

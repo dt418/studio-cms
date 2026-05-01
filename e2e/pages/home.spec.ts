@@ -48,16 +48,15 @@ test.describe('Home Page', () => {
   })
 
   test('metric cards show posts/topics/tags', async ({ page }) => {
-    // Metric cards have labels: Latest, Topics, Tags
-    // Use first() to handle multiple "Latest" matches on page
-    await expect(page.getByText('Latest', { exact: true }).first()).toBeVisible()
-    await expect(page.getByText('Topics', { exact: true })).toBeVisible()
-    await expect(page.getByText('Tags', { exact: true })).toBeVisible()
+    const metricsSection = page.locator('section', { hasText: 'Latest insights' })
 
-    // MetricCard values have specific font styling - check for large numbers
-    const metricValues = page.locator('article.card-hover p.text-\\[1\\.65rem\\], article.card-hover p.text-foreground')
-    const count = await metricValues.count()
-    expect(count).toBeGreaterThanOrEqual(3)
+    await expect(metricsSection.getByText('Latest', { exact: true })).toBeVisible()
+    await expect(metricsSection.getByText('Topics', { exact: true })).toBeVisible()
+    await expect(metricsSection.getByText('Tags', { exact: true })).toBeVisible()
+
+    await expect(metricsSection.getByText(/\d+ posts/)).toBeVisible()
+    await expect(metricsSection.getByText(/\d+ areas/)).toBeVisible()
+    await expect(metricsSection.getByText(/\d+ tags/)).toBeVisible()
   })
 
   test('featured work section displays', async ({ page }) => {
