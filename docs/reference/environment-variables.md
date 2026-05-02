@@ -1,6 +1,6 @@
 # Environment Variables Reference
 
-All environment variables are defined in `.env` (gitignored). Use `.env.demo` as a template. The web app primarily needs public site metadata, while the CMS app also needs database and authentication settings.
+Each app has its own `.env` at `apps/web/.env` (web) and `apps/cms/.env` (CMS). The root `.env` serves as a combined reference. The web app primarily needs public site metadata, while the CMS app also needs database and authentication settings.
 
 ## Dotenv Vault
 

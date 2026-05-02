@@ -7,6 +7,7 @@ export default defineConfig({
 	site: process.env.NODE_ENV === 'production' ? 'https://change.me' : 'http://localhost:4321',
 	output: 'server',
 	adapter: node({ mode: 'standalone' }),
+	vite: {},
 	security: {
 		checkOrigin: false, // This depends on your hosting provider
 	},

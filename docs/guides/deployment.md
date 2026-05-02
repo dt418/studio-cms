@@ -12,10 +12,11 @@ This guide covers deploying the monorepo to production. The public blog and CMS 
 
 ## Step 1: Configure Environment Variables
 
-Copy the `.env.demo` template and update values for production:
+Copy the `.env` templates and update values for production:
 
 ```bash
-cp .env.demo .env
+cp apps/web/.env.example apps/web/.env
+cp apps/cms/.env.example apps/cms/.env
 ```
 
 Update the following variables:

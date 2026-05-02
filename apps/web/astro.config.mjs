@@ -16,7 +16,6 @@ export default defineConfig({
   devToolbar: { enabled: false },
 
   vite: {
-    envDir: '../..',
     resolve: {
       alias: {
         '@': '/src',

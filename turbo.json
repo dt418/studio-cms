@@ -1,6 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalEnv": ["CMS_*", "PUBLIC_*", "LIBSQL_URL", "LIBSQL_AUTH_TOKEN"],
+  "globalEnv": ["CMS_*", "PUBLIC_*", "LIBSQL_URL", "LIBSQL_AUTH_TOKEN", "CLOUDFLARE_*"],
+  "envMode": "loose",
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

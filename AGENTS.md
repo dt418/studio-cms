@@ -6,12 +6,12 @@
 - Main content comes from `src/content/posts/**/*.{md,mdx}` via `src/content.config.ts`; CMS/admin lives at `/studiocms` and needs libSQL env vars.
 - `@` is the repo alias for `src/*` in both `tsconfig.json` and `astro.config.mjs`; prefer it over deep relative imports.
 - Tailwind v4 in web enters through `src/styles/app.css`, which imports `tokens.css`, `semantic.css`, `base.css`, and `components.css`; keep token/theme changes in those modules instead of adding new global CSS entrypoints.
-- All root scripts use `dotenv-cli` to load `.env` automatically; run `pnpm dev` without manual `.env` setup.
+- Each app has its own `.env` at `apps/web/.env` and `apps/cms/.env`. App scripts run directly — Astro/Vite loads `.env` automatically. Root `.env` serves as a combined template/reference.
 
 ## Commands
 - Install with `pnpm install`; `postinstall` runs `patch-package`.
-- Local setup: `pnpm dev` loads `.env` automatically via dotenv-cli. If no `.env` exists, copy `.env.demo` first.
-- `pnpm build` runs `turbo run build` (dotenv-prefixed); web build generates OG image, runs Astro build, generates search index, then Pagefind.
+- Local setup: copy `.env.example` from each app to `apps/web/.env` and `apps/cms/.env`. `pnpm dev` loads per-app `.env` automatically.
+- `pnpm build` runs `turbo run build`; each app's Astro/Vite loads `.env` from its own directory automatically.
 - `pnpm check` runs `pnpm lint:patterns && pnpm lint && pnpm format:check && pnpm test && pnpm typecheck`.
 - Focused unit tests: `pnpm test -- src/lib/filter.test.ts` or another `src/**/*.test.{ts,tsx}` file.
 - E2E tests: `pnpm test:e2e`; Playwright config starts the dev server on port 4321 and tests Chromium, Firefox, and WebKit.
@@ -35,7 +35,7 @@
 - Search depends on generated `dist/client/search-index.html` plus Pagefind output under `dist/client/pagefind`; changing post metadata/search fields requires a full `pnpm build` to verify.
 - `astro.config.mjs` (web) contains a Vite transform named `studiocms-layout-overrides` that patches StudioCMS dashboard/auth CSS before downstream transforms; preserve this instead of patching `node_modules`.
 - Rollup visualizer writes `dist/stats.html` during build.
-- `.env.vault` contains encrypted dotenv configs for all environments; team members decrypt with `npx dotenv-vault@latest pull`.
+- `.env.vault` contains encrypted dotenv configs for all environments; team members decrypt with `pnpm vault:pull` (pulls root `.env`, then syncs to per-app `.env` files). Use `pnpm vault:push` to merge per-app `.env` changes back and push upstream.
 
 ## OpenCode And Local Tooling
 - `opencode.json` enables Astro docs and shadcn MCP servers; use current docs for Astro/shadcn/library API questions instead of relying on memory.
