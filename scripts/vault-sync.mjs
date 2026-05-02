@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = resolve(__dirname, '..')
 
-const webVars = ['PUBLIC_SITE_URL', 'CF_PAGES_URL']
+const webVars = ['SITE_URL', 'CF_PAGES_URL']
 const cmsVars = [
   'CMS_LIBSQL_URL',
   'LIBSQL_URL',
@@ -19,10 +19,8 @@ const cmsVars = [
   'CMS_GOOGLE_CLIENT_SECRET',
   'CMS_GOOGLE_REDIRECT_URI',
   'CMS_SITE_URL',
-  'PUBLIC_CMS_SITE_URL',
   'CLOUDFLARE_ACCOUNT_ID',
   'CLOUDFLARE_API_TOKEN',
-  'PUBLIC_SITE_URL',
 ]
 
 function parseEnv(path) {

@@ -1,14 +1,14 @@
 {
-  "name": "studio-cms-cms",
+  "name": "cms",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
     "astro": "astro",
     "studiocms": "studiocms",
-    "migrate": "studiocms migrate",
+    "migrate": "studiocms migrate --latest",
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "node dist/server/entry.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.13.5",
@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "@astrojs/node": "^9.5.4",
-    "@effect/platform": "^0.95.0",
-    "@effect/platform-node": "^0.105.0",
+    "@effect/platform": "0.94.5",
+    "@effect/platform-node": "0.104.1",
     "@libsql/client": "^0.15.15",
     "@studiocms/blog": "^0.3.0",
     "@studiocms/md": "^0.3.0",

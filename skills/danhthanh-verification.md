@@ -46,7 +46,7 @@ Remember that `pnpm build` runs OG generation, `astro build`, search index gener
 ## E2E Notes
 
 - `pnpm test:e2e` uses Playwright and starts the dev server on port `4321`.
-- CI-like E2E setup needs `CMS_LIBSQL_URL=file:./libsql.db`, a valid `CMS_ENCRYPTION_KEY`, and `PUBLIC_SITE_URL=http://localhost:4321`.
+- CI-like E2E setup needs `CMS_LIBSQL_URL=file:./libsql.db`, a valid `CMS_ENCRYPTION_KEY`, and `SITE_URL=http://localhost:4321`.
 - ESLint ignores `e2e`, so do not assume E2E files are covered by `pnpm lint`.
 
 ## Git Hooks

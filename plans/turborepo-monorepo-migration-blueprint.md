@@ -687,7 +687,7 @@ Use separate deployments for `apps/web` and `apps/cms`.
 - Build command: `pnpm --filter studio-cms-web build`.
 - Output directory: `apps/web/dist`.
 - Environment:
-  - `PUBLIC_SITE_URL`
+  - `SITE_URL`
   - Optional `PUBLIC_CMS_API_URL` only if public web fetches CMS metadata at build time.
 
 `apps/cms`:

@@ -2,14 +2,40 @@ import node from '@astrojs/node';
 import { defineConfig } from 'astro/config';
 import studioCMS from 'studiocms';
 
-// https://astro.build/config
 export default defineConfig({
-	site: process.env.NODE_ENV === 'production' ? 'https://change.me' : 'http://localhost:4321',
-	output: 'server',
-	adapter: node({ mode: 'standalone' }),
-	vite: {},
-	security: {
-		checkOrigin: false, // This depends on your hosting provider
-	},
-	integrations: [studioCMS()],
+  site: process.env.CMS_SITE_URL || 'http://localhost:4322',
+
+  output: 'server',
+
+  adapter: node({
+    mode: 'standalone',
+  }),
+
+  vite: {
+    build: {
+      target: 'esnext', // 🔥 fix top-level await
+    },
+
+    optimizeDeps: {
+      exclude: [
+        'studiocms',
+        '@studiocms/blog',
+      ],
+    },
+
+    ssr: {
+      noExternal: [
+        'studiocms',
+        '@studiocms/blog',
+      ],
+    },
+  },
+
+  security: {
+    checkOrigin: false,
+  },
+
+  integrations: [
+    studioCMS(),
+  ],
 });

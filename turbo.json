@@ -1,14 +1,15 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalEnv": ["CMS_*", "PUBLIC_*", "LIBSQL_URL", "LIBSQL_AUTH_TOKEN", "CLOUDFLARE_*"],
-  "envMode": "loose",
+  "globalEnv": ["NODE_ENV", "CI", "SITE_URL", "CMS_*", "LIBSQL_URL", "LIBSQL_AUTH_TOKEN", "CLOUDFLARE_*"],
+  "envMode": "strict",
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": [],
       "inputs": [
         "$TURBO_DEFAULT$",
         ".env*",
         "src/content/**/*",
+        "astro.config.*",
         "src/styles/**/*",
         "public/**/*",
         "scripts/**/*"

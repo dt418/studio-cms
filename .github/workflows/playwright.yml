@@ -31,13 +31,13 @@ jobs:
         env:
           CMS_LIBSQL_URL: file:./libsql.db
           CMS_ENCRYPTION_KEY: ${{ secrets.CMS_ENCRYPTION_KEY }}
-          PUBLIC_SITE_URL: http://localhost:4321
+          SITE_URL: http://localhost:4321
       - name: Run Playwright tests
         run: pnpm test:e2e
         env:
           CMS_LIBSQL_URL: file:./libsql.db
           CMS_ENCRYPTION_KEY: ${{ secrets.CMS_ENCRYPTION_KEY }}
-          PUBLIC_SITE_URL: http://localhost:4321
+          SITE_URL: http://localhost:4321
       - uses: actions/upload-artifact@v7
         if: always()
         with:
