@@ -2,6 +2,16 @@
 
 All environment variables are defined in `.env` (gitignored). Use `.env.demo` as a template. The web app primarily needs public site metadata, while the CMS app also needs database and authentication settings.
 
+## Dotenv Vault
+
+Encrypted environment configs are stored in `.env.vault` (committed). Team members with access can decrypt and pull the latest configs using:
+
+```bash
+npx dotenv-vault@latest pull
+```
+
+See the [dotenv vault docs](https://dotenv.org/env-vault) for more.
+
 ## Required Variables
 
 | Variable             | Description                 | Example                                           |

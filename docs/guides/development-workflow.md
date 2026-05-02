@@ -18,7 +18,7 @@ cd danhthanh.dev
 # Install dependencies
 pnpm install
 
-# Set up environment variables
+# Set up environment variables (if no .env exists)
 cp .env.demo .env
 
 # Run CMS database migrations
@@ -28,7 +28,7 @@ pnpm cms:migrate
 pnpm dev
 ```
 
-Open `http://localhost:4321` for the public web app. Run `pnpm cms:dev` and open `http://localhost:4322/studiocms` for the CMS dashboard.
+All root scripts use `dotenv-cli` to load `.env` automatically, so you don't need to pass env vars manually. Open `http://localhost:4321` for the public web app. Run `pnpm cms:dev` and open `http://localhost:4322/studiocms` for the CMS dashboard.
 
 ## Development Commands
 

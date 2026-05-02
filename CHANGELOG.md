@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Refactors
 
+- refactor: simplify apps/cms to bare StudioCMS integration (md + blog plugins only) and adopt dotenv-cli for all root scripts (0930788)
 - refactor: migrate site to Turborepo monorepo with separate web and CMS workspaces (220a9fe)
 - refactor: compact repository agent instructions for OpenCode sessions (uncommitted)
 - refactor: align shadcn and Prettier Tailwind configuration with `src/styles/app.css` (uncommitted)

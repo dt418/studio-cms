@@ -75,6 +75,7 @@ session-ses_*
 # wrangler
 .wrangler/
 env.vars
+
 .env*
 .flaskenv*
 !.env.project

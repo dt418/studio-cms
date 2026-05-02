@@ -47,10 +47,10 @@ Open `http://localhost:4321` in your browser for the public site. Run `pnpm cms:
 | Layer           | Technology                                                               |
 | --------------- | ------------------------------------------------------------------------ |
 | **Monorepo**    | pnpm workspaces + Turborepo                                              |
-| **Web**         | Astro 5 static build                                                     |
-| **CMS**         | StudioCMS 0.4 on Astro SSR + Node adapter                                |
+| **Web**         | Astro 6 static build                                                     |
+| **CMS**         | StudioCMS 0.4 on Astro SSR + Node adapter (md + blog plugins only)       |
 | **Database**    | libSQL (local file or Turso remote)                                      |
-| **Styling**     | Tailwind CSS 4 + @studiocms/ui                                           |
+| **Styling**     | Tailwind CSS 4 + shadcn/ui (web only)                                    |
 | **Search**      | Pagefind (build-time) + Fuse.js (client-side)                            |
 | **Testing**     | Vitest (unit) + Playwright (E2E)                                         |
 | **Linting**     | ESLint (flat config) + Prettier                                          |
@@ -139,15 +139,7 @@ Open `http://localhost:4321` in your browser for the public site. Run `pnpm cms:
 
 ## Content Management
 
-StudioCMS supports multiple content formats out of the box:
-
-| Format   | Use Case                                |
-| -------- | --------------------------------------- |
-| Markdown | Standard blog posts                     |
-| HTML     | Rich formatted content                  |
-| MDX      | Interactive posts with React components |
-| Markdoc  | Structured content                      |
-| WYSIWYG  | Visual editor for non-technical users   |
+StudioCMS supports Markdown blog posts via the `@studiocms/md` and `@studiocms/blog` plugins.
 
 Public blog posts live in `apps/web/src/content/posts`. StudioCMS content is created and managed via the CMS app dashboard at `/studiocms`.
 
