@@ -71,3 +71,7 @@ session-ses_*
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# wrangler
+.wrangler/
+env.vars

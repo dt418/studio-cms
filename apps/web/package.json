@@ -1,5 +1,5 @@
 {
-  "name": "@danhthanh/web",
+  "name": "web",
   "private": true,
   "type": "module",
   "version": "0.0.1",
@@ -15,7 +15,8 @@
     "lint:fix": "eslint \"src/**/*.{ts,tsx,astro}\" --config ../../eslint.config.js --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,astro,css,json,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,astro,css,json,md}\"",
-    "typecheck": "astro check && tsc --noEmit"
+    "typecheck": "astro check && tsc --noEmit",
+    "generate-types": "wrangler types"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.4",
@@ -52,6 +53,10 @@
     "pagefind": "^1.5.2",
     "rollup-plugin-visualizer": "^7.0.1",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.5"
+    "vitest": "^4.1.5",
+    "wrangler": "^4.87.0"
+  },
+  "overrides": {
+    "vite": "^7"
   }
 }
