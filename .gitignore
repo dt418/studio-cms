@@ -32,6 +32,10 @@ pnpm-debug.log*
 # claude config (private)
 .claude/
 
+# database files
+*.db*
+*.sql
+
 # libsql credentials
 libsql.db
 libsql.pem
