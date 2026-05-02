@@ -1,11 +1,5 @@
 {
-  "extends": ["astro/tsconfigs/strict", "../../tsconfig.base.json"],
-  "include": [".astro/types.d.ts", "src", "astro.config.mjs", "studiocms.config.mjs"],
-  "exclude": ["dist", "node_modules"],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
-  }
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
 }
