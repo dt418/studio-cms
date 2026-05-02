@@ -43,8 +43,8 @@
     "test:turbo": "turbo run test --filter='web'",
     "typecheck": "pnpm web:typecheck",
     "commitlint": "commitlint",
-    "vault:pull": "pnpm dotenv-vault@latest pull && node scripts/vault-sync.mjs",
-    "vault:push": "node scripts/vault-sync.mjs --reverse && pnpm dotenv-vault@latest push",
+    "vault:pull": "pnpm dlx dotenv-vault@latest pull && node scripts/vault-sync.mjs",
+    "vault:push": "node scripts/vault-sync.mjs --reverse && pnpm dlx dotenv-vault@latest push",
     "postinstall": "patch-package"
   },
   "devDependencies": {
