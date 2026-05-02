@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalEnv": ["CMS_*", "SITE_URL"],
+  "globalEnv": ["CMS_*", "SITE_URL", "PUBLIC_SITE_URL"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

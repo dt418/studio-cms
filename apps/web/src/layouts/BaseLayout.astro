@@ -28,7 +28,7 @@ const {
   jsonLd,
 } = Astro.props
 
-const siteUrl = Astro.site?.origin ?? ''
+const siteUrl = (Astro.site ?? Astro.url).origin || 'http://localhost:4321'
 const defaultImage = `${siteUrl}/og-image.png`
 const ogImageUrl = image ?? defaultImage
 const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
