@@ -11,7 +11,7 @@ import ecTwoSlash from 'expressive-code-twoslash'
 import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
-  site: process.env['PUBLIC_SITE_URL'] ?? 'http://localhost:4321',
+  site: process.env['CF_PAGES_URL'] ?? process.env['PUBLIC_SITE_URL'] ?? 'http://localhost:4321',
   output: 'static',
   devToolbar: { enabled: false },
 
