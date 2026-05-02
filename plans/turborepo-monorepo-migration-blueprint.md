@@ -5,7 +5,7 @@
 Current repository shape:
 
 - Root app is a single Astro 5 project in `/home/thanh/danhthanh.dev`.
-- `package.json` contains one app package named `danhthanh-dev` with combined web, CMS, test, lint, build, and migration scripts.
+- `package.json` contains one app package named `studio-cms` with combined web, CMS, test, lint, build, and migration scripts.
 - No `pnpm-workspace.yaml` exists.
 - `astro.config.mjs` is configured as SSR with `output: 'server'` and `@astrojs/node` standalone adapter.
 - StudioCMS is mounted in the same Astro runtime through `studioCMS()`, `studiocmsUi()`, and `studiocmsCfetch()` integrations in `astro.config.mjs`.
@@ -228,7 +228,7 @@ Root `package.json` should become private and orchestration-only:
 
 ```json
 {
-  "name": "danhthanh-dev-monorepo",
+  "name": "studio-cms-monorepo",
   "private": true,
   "type": "module",
   "scripts": {
@@ -684,7 +684,7 @@ Use separate deployments for `apps/web` and `apps/cms`.
 
 - Static output only.
 - Cloudflare Pages, Vercel static, or VPS static hosting are all valid.
-- Build command: `pnpm --filter studio-cms-web build`.
+- Build command: `pnpm --filter web build`.
 - Output directory: `apps/web/dist`.
 - Environment:
   - `SITE_URL`
@@ -728,14 +728,14 @@ After workspace scaffolding:
 
 After web split:
 
-- `pnpm --filter studio-cms-web build`
+- `pnpm --filter web build`
 - Confirm static output.
 - Confirm no StudioCMS dependencies in `apps/web/package.json`.
 
 After CMS split:
 
-- `pnpm --filter studio-cms-cms build`
-- `pnpm --filter studio-cms-cms migrate` with local libSQL env.
+- `pnpm --filter cms build`
+- `pnpm --filter cms migrate` with local libSQL env.
 - `/studiocms` smoke test.
 
 After shared packages:
