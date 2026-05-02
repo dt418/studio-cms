@@ -2,6 +2,7 @@
 
 ## Project Shape
 - Monorepo with two apps: `apps/web` (Astro 6 static build) and `apps/cms` (StudioCMS SSR app on Astro 5 + `@astrojs/node` standalone adapter; production starts from `node dist/server/entry.mjs` after `pnpm build`).
+- Web build uses `@playform/compress` (placed last in integrations) with lightningcss CSS, terser JS, html-minifier-terser HTML, and svgo SVG to minify static output.
 - StudioCMS in cms uses only `md()` and `blog()` plugins: `studiocms.config.mjs` sets `dbStartPage: false` with those two plugins.
 - Main content comes from `src/content/posts/**/*.{md,mdx}` via `src/content.config.ts`; CMS/admin lives at `/studiocms` and needs libSQL env vars.
 - `@` is the repo alias for `src/*` in both `tsconfig.json` and `astro.config.mjs`; prefer it over deep relative imports.

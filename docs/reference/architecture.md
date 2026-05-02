@@ -53,6 +53,7 @@ The workspaces are coordinated by `pnpm-workspace.yaml` and `turbo.json`. Root s
 - **Route helpers**: `apps/web/src/lib/routes.ts` encodes dynamic path segments consistently.
 - **Visibility rules**: `apps/web/src/lib/post-visibility.ts` keeps draft and `noindex` posts out of public listings by default.
 - **RSS**: Generated at `/rss.xml` using the same route helpers as the page routes.
+- **Build optimization**: `@playform/compress` with lightningcss (CSS), terser (JS), svgo multipass (SVG), and html-minifier-terser (HTML) runs as the last Astro integration to minify static output.
 
 ## CMS App
 
