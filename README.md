@@ -61,6 +61,44 @@ Open `http://localhost:4321` in your browser for the public site. Run `pnpm cms:
 
 ---
 
+## Architecture At A Glance
+
+```mermaid
+graph TB
+    subgraph Apps["pnpm Workspaces"]
+        WEB["apps/web<br/>Astro 6 static<br/>Public blog + search"]
+        CMS["apps/cms<br/>Astro 5 SSR<br/>StudioCMS dashboard"]
+    end
+
+    subgraph Data["Data Layer"]
+        DB[("libSQL / Turso<br/>CMS content + auth")]
+    end
+
+    subgraph Build["Build Output"]
+        DIST["apps/web/dist<br/>Static HTML/CSS/JS<br/>+ Pagefind index"]
+        SERVER["apps/cms/dist/server/entry.mjs<br/>Node.js standalone"]
+    end
+
+    subgraph Deploy["Deployment Targets"]
+        CDN["Static Hosting (CDN)"]
+        NODE["Node.js Server"]
+    end
+
+    WEB --> DIST
+    CMS --> DB
+    CMS --> SERVER
+    DIST --> CDN
+    SERVER --> NODE
+
+    style WEB fill:#a5d6a7,stroke:#2e7d32
+    style CMS fill:#90caf9,stroke:#1565c0
+    style DB fill:#ffcc80,stroke:#ef6c00
+    style CDN fill:#c8e6c9,stroke:#388e3c
+    style NODE fill:#bbdefb,stroke:#1565c0
+```
+
+---
+
 ## Available Routes
 
 | Route             | Description                            |

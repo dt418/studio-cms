@@ -53,6 +53,7 @@
     "@commitlint/config-conventional": "^20.5.0",
     "@eslint/js": "^9.39.4",
     "@playwright/test": "^1.59.1",
+    "@probelabs/maid": "^0.0.29",
     "@types/node": "^22.19.17",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
@@ -102,6 +103,5 @@
     "apps/*",
     "packages/*",
     "!tender-series"
-  ],
-  "dependencies": {}
+  ]
 }

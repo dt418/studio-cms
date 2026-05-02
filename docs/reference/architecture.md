@@ -4,35 +4,46 @@ This document describes the technical architecture of the danhthanh.dev monorepo
 
 ## System Architecture
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                         Browser                              │
-└──────────────────────────────┬──────────────────────────────┘
-                               │
-             ┌─────────────────┴─────────────────┐
-             ▼                                   ▼
-┌─────────────────────────────┐     ┌─────────────────────────┐
-│ apps/web                    │     │ apps/cms                │
-│ Astro 5 static public site  │     │ StudioCMS Astro SSR app │
-│                             │     │                         │
-│ /                           │     │ /studiocms              │
-│ /blog                       │     │ /studiocms_api          │
-│ /blog/:slug                 │     │ /studiocms-blog         │
-│ /search                     │     │                         │
-│ /rss.xml                    │     │ Node standalone server  │
-└──────────────┬──────────────┘     └────────────┬────────────┘
-               │                                 │
-               │                                 ▼
-               │                    ┌─────────────────────────┐
-               │                    │ libSQL / Turso          │
-               │                    │ CMS data and auth       │
-               │                    └─────────────────────────┘
-               ▼
-┌─────────────────────────────┐
-│ Pagefind static index       │
-│ apps/web/dist/pagefind      │
-└─────────────────────────────┘
+```mermaid
+graph TB
+    Browser["Browser"]
+
+    subgraph Web["Static Hosting (CDN)"]
+        WEB_APP["apps/web<br/>Astro static site"]
+        WEB_INDEX["Pagefind<br/>search index"]
+    end
+
+    subgraph CMS["Node.js Server"]
+        CMS_APP["apps/cms<br/>StudioCMS SSR"]
+    end
+
+    subgraph Data["Persistence"]
+        DB["libSQL / Turso<br/>CMS data + auth"]
+    end
+
+    Browser -->|&#34;GET /...&#34;| WEB_APP
+    Browser -->|&#34;/studiocms/*&#34;| CMS_APP
+    CMS_APP --> DB
+    WEB_APP --- WEB_INDEX
+
+    style WEB_APP fill:#a5d6a7,stroke:#2e7d32
+    style CMS_APP fill:#90caf9,stroke:#1565c0
+    style DB fill:#ffcc80,stroke:#ef6c00
+    style WEB_INDEX fill:#c8e6c9,stroke:#388e3c
 ```
+
+| Route              | App     | Purpose                            |
+| ------------------ | ------- | ---------------------------------- |
+| `/`                | web     | Homepage                           |
+| `/blog`            | web     | Blog listing                       |
+| `/blog/:slug`      | web     | Individual post                    |
+| `/categories/:cat` | web     | Posts by category                  |
+| `/tags/:tag`       | web     | Posts by tag                       |
+| `/search`          | web     | Client-side search (Pagefind)      |
+| `/rss.xml`         | web     | RSS feed                           |
+| `/studiocms`       | cms     | StudioCMS dashboard (auth gated)   |
+| `/studiocms_api`   | cms     | StudioCMS REST API                 |
+| `/studiocms-blog`  | cms     | StudioCMS blog plugin routes       |
 
 ## Workspace Responsibilities
 
@@ -86,6 +97,53 @@ generate-og-image.mjs → astro build → generate-search-index.mjs → pagefind
 - **UI components**: Astro components plus selected React/shadcn components under `apps/web/src/components`.
 - **Design tokens**: CSS custom properties mapped into Tailwind utilities with `@theme inline`.
 
+### Web App Source Layout
+
+```mermaid
+graph TB
+    subgraph Pages["src/pages/"]
+        HOME["index.astro"]
+        BLOG["blog/index.astro"]
+        POST["blog/[...slug].astro"]
+        SEARCH["search.astro"]
+        RSS["rss.xml.js"]
+    end
+
+    subgraph Lib["src/lib/"]
+        ROUTES["routes.ts<br/>URL helpers"]
+        FILTER["filter.ts<br/>post filtering"]
+        SEARCHLIB["search.ts<br/>Fuse.js client"]
+        VISIBILITY["post-visibility.ts<br/>draft/noindex"]
+    end
+
+    subgraph Components["src/components/"]
+        BLOGPOST["BlogPost.astro"]
+        CARDS["Card components"]
+        LAYOUTS["Layout components"]
+        UI["shadcn/ui (React)"]
+    end
+
+    subgraph Content["src/content/"]
+        POSTS["posts/**/*.&#123;md,mdx&#125;"]
+    end
+
+    subgraph Styles["src/styles/"]
+        APP_CSS["app.css"]
+        TOKENS["tokens.css"]
+    end
+
+    Pages --> Lib
+    Pages --> Components
+    Components --> Styles
+    Content --> Pages
+
+    style Pages fill:#e3f2fd,stroke:#1565c0
+    style Lib fill:#fff3e0,stroke:#ef6c00
+    style Components fill:#e8f5e9,stroke:#2e7d32
+    style Content fill:#fce4ec,stroke:#c62828
+    style Styles fill:#f3e5f5,stroke:#7b1fa2
+```
+
 ## Configuration Files
 
 | File                            | Purpose                                |
@@ -104,9 +162,98 @@ generate-og-image.mjs → astro build → generate-search-index.mjs → pagefind
 
 Root `pnpm build` runs the Turborepo build graph for both deployable apps.
 
-1. `apps/web` builds static public output and Pagefind assets.
-2. `apps/cms` builds the Node SSR server bundle.
+```mermaid
+flowchart LR
+    A["generate-og-image.mjs"] --> B["astro build"]
+    B --> C["generate-search-index.mjs"]
+    C --> D["pagefind --site dist"]
+    B --> E["@playform/compress"]
+    E --> F["dist/ <br/>static output"]
+
+    G["astro build (SSR)"] --> H["dist/server/entry.mjs"]
+
+    subgraph Web["apps/web build chain"]
+        A
+        B
+        C
+        D
+        E
+        F
+    end
+
+    subgraph CMS["apps/cms build"]
+        G
+        H
+    end
+
+    style F fill:#c8e6c9,stroke:#388e3c
+    style H fill:#bbdefb,stroke:#1565c0
+```
+
+1. `apps/web`: OG image generation → Astro static build → search HTML → Pagefind indexing → asset compression.
+2. `apps/cms`: Astro SSR build producing `dist/server/entry.mjs`.
 3. Deployment publishes `apps/web/dist` to static hosting and runs `node apps/cms/dist/server/entry.mjs` for CMS.
+
+### Content Creation To Publication Flow
+
+```mermaid
+sequenceDiagram
+    participant CMS as CMS Dashboard<br/>(studiocms)
+    participant DB as libSQL Database
+    participant Content as src/content/posts
+    participant Astro as Astro Build
+    participant Compress as @playform/compress
+    participant Pagefind as Pagefind Index
+    participant CDN as Static Hosting
+    participant User as Site Visitor
+
+    CMS->>DB: Write/update post
+    CMS->>Content: MD/MDX file generated
+    activate Content
+    Content->>Astro: Build: validate frontmatter + render
+    deactivate Content
+    Astro->>Compress: Minify HTML/CSS/JS/SVG
+    deactivate Astro
+    Compress->>Pagefind: Index static output
+    Pagefind->>CDN: Deploy dist/
+    User->>CDN: Visit site
+    User->>Pagefind: Search
+```
+
+### Quality Gates
+
+```mermaid
+flowchart TB
+    subgraph Commit["On Commit"]
+        CO["commitlint<br/>message format"]
+        PC["lint + typecheck + format:check<br/>staged files only"]
+    end
+
+    subgraph Push["On Push"]
+        PS["pnpm test<br/>Vitest unit tests"]
+        PB["pnpm build<br/>full build"]
+    end
+
+    subgraph PR["Pull Request"]
+        CI["CI runs<br/>lint + test + typecheck + build"]
+    end
+
+    Commit --> Push
+    Push --> PR
+
+    style CO fill:#fff9c4,stroke:#f9a825
+    style PC fill:#fff9c4,stroke:#f9a825
+    style PS fill:#e1bee7,stroke:#8e24aa
+    style PB fill:#e1bee7,stroke:#8e24aa
+    style CI fill:#b3e5fc,stroke:#0288d1
+```
+
+Quality is enforced at three stages:
+- **Commit**: Conventional commit messages validated by commitlint. Staged files checked by lefthook (lint, typecheck, format).
+- **Push**: Full vitest suite + production build must pass.
+- **CI**: GitHub Actions repeats the full check pipeline on PRs.
+
+See [Testing And Quality](#testing-and-quality) for details on the underlying tools.
 
 ## Testing And Quality
 
