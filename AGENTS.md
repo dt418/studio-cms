@@ -14,7 +14,7 @@
 - `pnpm check` runs `pnpm lint && pnpm format:check && pnpm test && pnpm typecheck`.
 - Focused unit tests: `pnpm test -- src/lib/filter.test.ts` or another `src/**/*.test.{ts,tsx}` file.
 - E2E tests: `pnpm test:e2e`; Playwright config starts `npm run dev` on port 4321 and tests Chromium, Firefox, and WebKit.
-- For CI-like E2E setup, run migrations and build with `CMS_LIBSQL_URL=file:./libsql.db`, a valid `CMS_ENCRYPTION_KEY`, and `SITE_URL=http://localhost:4321` before `pnpm test:e2e`.
+- For CI-like E2E setup, run migrations and build with `CMS_LIBSQL_URL=file:./libsql.db`, a valid `CMS_ENCRYPTION_KEY`, and `PUBLIC_SITE_URL=http://localhost:4321` before `pnpm test:e2e`.
 
 ## Verification And Hooks
 - Lefthook pre-commit runs lint, typecheck, and `format:check` in parallel for staged TS/TSX/Astro/CSS/JSON/MD files.

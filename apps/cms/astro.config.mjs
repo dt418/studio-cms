@@ -45,7 +45,7 @@ main {
 })
 
 export default defineConfig({
-  site: process.env['CMS_SITE_URL'] ?? process.env['SITE_URL'] ?? 'http://localhost:4322',
+  site: process.env['CMS_SITE_URL'] ?? 'http://localhost:4322',
   output: 'server',
 
   vite: {

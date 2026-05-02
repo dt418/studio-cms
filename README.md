@@ -178,10 +178,10 @@ See `.env.demo` for a template. Required variables:
 | -------------------- | ------------------------------------ |
 | `CMS_LIBSQL_URL`     | `file:./libsql.db` or Turso URL      |
 | `CMS_ENCRYPTION_KEY` | Generate: `openssl rand --base64 16` |
-| `SITE_URL`           | Public web URL                       |
+| `PUBLIC_SITE_URL`    | Public web URL                       |
 | `CMS_SITE_URL`       | CMS/admin app URL                    |
 
-For production, configure OAuth credentials and set `SITE_URL` to your domain.
+For production, configure OAuth credentials and set `PUBLIC_SITE_URL` to your domain.
 
 See the [Deployment Guide](docs/guides/deployment.md) for full instructions.
 

@@ -38,7 +38,7 @@ All environment variables are defined in `.env` (gitignored). Use `.env.demo` as
 | Variable                | Description                               | Default                 |
 | ----------------------- | ----------------------------------------- | ----------------------- |
 | `CMS_LIBSQL_AUTH_TOKEN` | Turso auth token (required for remote DB) | Empty (local only)      |
-| `SITE_URL`              | Public web URL                            | `http://localhost:4321` |
+| `PUBLIC_SITE_URL`       | Public web URL                            | `http://localhost:4321` |
 | `CMS_SITE_URL`          | CMS/admin app URL                         | `http://localhost:4322` |
 
 ## Local vs Production
@@ -48,7 +48,7 @@ All environment variables are defined in `.env` (gitignored). Use `.env.demo` as
 ```env
 CMS_LIBSQL_URL=file:./libsql.db
 CMS_LIBSQL_AUTH_TOKEN=
-SITE_URL=http://localhost:4321
+PUBLIC_SITE_URL=http://localhost:4321
 CMS_SITE_URL=http://localhost:4322
 ```
 
@@ -57,7 +57,7 @@ CMS_SITE_URL=http://localhost:4322
 ```env
 CMS_LIBSQL_URL=libsql://your-database.turso.io
 CMS_LIBSQL_AUTH_TOKEN=your-turso-auth-token
-SITE_URL=https://yourdomain.com
+PUBLIC_SITE_URL=https://yourdomain.com
 CMS_SITE_URL=https://cms.yourdomain.com
 ```
 

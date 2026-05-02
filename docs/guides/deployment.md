@@ -29,7 +29,7 @@ Update the following variables:
 | `CMS_GITHUB_CLIENT_SECRET` | Production GitHub OAuth app secret       |
 | `CMS_GOOGLE_CLIENT_ID`     | Production Google OAuth client ID        |
 | `CMS_GOOGLE_CLIENT_SECRET` | Production Google OAuth client secret    |
-| `SITE_URL`                 | `https://yourdomain.com`                 |
+| `PUBLIC_SITE_URL`          | `https://yourdomain.com`                 |
 | `CMS_SITE_URL`             | `https://cms.yourdomain.com`             |
 
 ## Step 2: Update OAuth Redirect URIs
@@ -65,10 +65,10 @@ The public web app is static.
 | Setting          | Value                                |
 | ---------------- | ------------------------------------ |
 | Workspace        | `apps/web`                           |
-| Build command    | `pnpm --filter @danhthanh/web build` |
+| Build command    | `pnpm --filter studio-cms-web build` |
 | Output directory | `apps/web/dist`                      |
 | Runtime          | Static hosting                       |
-| Required env     | `SITE_URL`                           |
+| Required env     | `PUBLIC_SITE_URL`                           |
 
 Use this target for Cloudflare Pages, Vercel static output, Netlify, or a VPS static file server.
 
@@ -79,8 +79,8 @@ The CMS app is SSR and should be deployed separately from the static web app.
 | Setting           | Value                                                  |
 | ----------------- | ------------------------------------------------------ |
 | Workspace         | `apps/cms`                                             |
-| Migration command | `pnpm --filter @danhthanh/cms migrate --latest`        |
-| Build command     | `pnpm --filter @danhthanh/cms build`                   |
+| Migration command | `pnpm --filter studio-cms-cms migrate --latest`        |
+| Build command     | `pnpm --filter studio-cms-cms build`                   |
 | Start command     | `node apps/cms/dist/server/entry.mjs`                  |
 | Runtime           | Node.js SSR                                            |
 | Required env      | `CMS_LIBSQL_URL`, `CMS_ENCRYPTION_KEY`, `CMS_SITE_URL` |
@@ -117,24 +117,24 @@ pm2 startup
 
 Use Cloudflare Pages for `apps/web` only unless the CMS is migrated to a Cloudflare-compatible adapter.
 
-- Build command: `pnpm --filter @danhthanh/web build`
+- Build command: `pnpm --filter studio-cms-web build`
 - Build output: `apps/web/dist`
-- Environment: `SITE_URL=https://yourdomain.com`
+- Environment: `PUBLIC_SITE_URL=https://yourdomain.com`
 
 ### Vercel
 
 Use separate projects for web and CMS.
 
-- Web project root: repository root or `apps/web`, with build `pnpm --filter @danhthanh/web build` and output `apps/web/dist`.
+- Web project root: repository root or `apps/web`, with build `pnpm --filter studio-cms-web build` and output `apps/web/dist`.
 - CMS on Vercel requires adapter review because the current CMS build targets `@astrojs/node` standalone output.
 
 ### VPS
 
 Use static file serving for `apps/web/dist` and PM2/systemd for the CMS Node process.
 
-- Web build: `pnpm --filter @danhthanh/web build`
-- CMS migration: `pnpm --filter @danhthanh/cms migrate --latest`
-- CMS build: `pnpm --filter @danhthanh/cms build`
+- Web build: `pnpm --filter studio-cms-web build`
+- CMS migration: `pnpm --filter studio-cms-cms migrate --latest`
+- CMS build: `pnpm --filter studio-cms-cms build`
 - CMS start: `node apps/cms/dist/server/entry.mjs`
 
 Keep CMS database files, if using `file:`, outside release directories so deployments do not overwrite them.

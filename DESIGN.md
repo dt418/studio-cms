@@ -169,7 +169,7 @@ All identity strings live in `src/lib/site.ts` (`SITE` object):
 | `email` | Contact email (footer) |
 | `social.*` | GitHub, LinkedIn, Twitter handles |
 
-**URLs** come from `astro.config.mjs` `site` property (env-overridable via `SITE_URL`). In `.astro` files use `Astro.site`, in API routes use `context.site`. Never hardcode `https://...` in page code.
+**URLs** come from `astro.config.mjs` `site` property (env-overridable via `PUBLIC_SITE_URL`). In `.astro` files use `Astro.site`, in API routes use `context.site`. Never hardcode `https://...` in page code.
 
 ## File Reference
 

@@ -684,10 +684,10 @@ Use separate deployments for `apps/web` and `apps/cms`.
 
 - Static output only.
 - Cloudflare Pages, Vercel static, or VPS static hosting are all valid.
-- Build command: `pnpm --filter @danhthanh/web build`.
+- Build command: `pnpm --filter studio-cms-web build`.
 - Output directory: `apps/web/dist`.
 - Environment:
-  - `SITE_URL`
+  - `PUBLIC_SITE_URL`
   - Optional `PUBLIC_CMS_API_URL` only if public web fetches CMS metadata at build time.
 
 `apps/cms`:
@@ -728,14 +728,14 @@ After workspace scaffolding:
 
 After web split:
 
-- `pnpm --filter @danhthanh/web build`
+- `pnpm --filter studio-cms-web build`
 - Confirm static output.
 - Confirm no StudioCMS dependencies in `apps/web/package.json`.
 
 After CMS split:
 
-- `pnpm --filter @danhthanh/cms build`
-- `pnpm --filter @danhthanh/cms migrate` with local libSQL env.
+- `pnpm --filter studio-cms-cms build`
+- `pnpm --filter studio-cms-cms migrate` with local libSQL env.
 - `/studiocms` smoke test.
 
 After shared packages:
