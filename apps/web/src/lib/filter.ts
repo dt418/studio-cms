@@ -1,17 +1,33 @@
-import type { Post } from '../types/post'
-
 export type SortField = 'date' | 'title' | 'readingTime'
 export type SortOrder = 'asc' | 'desc'
 
 export interface FilterOptions {
   query: string
-  category: string | null
-  tag: string | null
+  category: string
+  tag: string
   sortField: SortField
   sortOrder: SortOrder
 }
 
-export function filterPosts(posts: Post[], options: Partial<FilterOptions>): Post[] {
+export interface FilterablePost {
+  data: {
+    title: string
+    excerpt: string
+    tags: string[]
+    category: string
+    publishedAt: string | Date
+  }
+  body?: string
+}
+
+function getPublishedAtMs(value: string | Date): number {
+  return typeof value === 'string' ? new Date(value).valueOf() : value.valueOf()
+}
+
+export function filterPosts<T extends FilterablePost>(
+  posts: T[],
+  options: Partial<FilterOptions>
+): T[] {
   let result = [...posts]
 
   if (options.query) {
@@ -40,7 +56,10 @@ export function filterPosts(posts: Post[], options: Partial<FilterOptions>): Pos
   result.sort((postA, postB) => {
     switch (field) {
       case 'date':
-        return multiplier * (postA.data.publishedAt.valueOf() - postB.data.publishedAt.valueOf())
+        return (
+          multiplier *
+          (getPublishedAtMs(postA.data.publishedAt) - getPublishedAtMs(postB.data.publishedAt))
+        )
       case 'title':
         return multiplier * postA.data.title.localeCompare(postB.data.title)
       case 'readingTime': {

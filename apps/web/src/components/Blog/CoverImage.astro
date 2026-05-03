@@ -14,7 +14,8 @@ const { coverImage, title } = Astro.props
     class="h-auto w-full object-cover"
     width="1200"
     height="630"
-    loading="lazy"
-    decoding="async"
+    fetchpriority="high"
+    loading="eager"
+    decoding="sync"
   />
 </div>

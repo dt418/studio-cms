@@ -2,15 +2,25 @@
 interface Props {
   src: string
   alt: string
+  width: number
+  height: number
   caption?: string
 }
 
-const { src, alt, caption } = Astro.props
+const { src, alt, width, height, caption } = Astro.props
 ---
 
 <figure class="my-8">
   <div class="border-border overflow-hidden rounded-xl border">
-    <img src={src} alt={alt} class="h-auto w-full object-cover" loading="lazy" decoding="async" />
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      class="h-auto w-full object-cover"
+      loading="lazy"
+      decoding="async"
+    />
   </div>
   {
     caption && (
