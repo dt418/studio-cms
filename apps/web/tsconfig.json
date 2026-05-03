@@ -9,13 +9,14 @@
     "*.config.ts",
     "*.config.js",
     "*.config.mjs",
-    "./worker-configuration.d.ts"
   ],
   "exclude": [
     "dist",
     "node_modules"
   ],
   "compilerOptions": {
+    "moduleResolution": "bundler",
+    "resolvePackageJsonImports": true,
     "baseUrl": ".",
     "paths": {
       "@/*": [

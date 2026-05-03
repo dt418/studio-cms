@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { cn, getAuthorInitials, getImageUrl, getAdjacentPosts } from './utils'
+import { cn } from './utils'
+import { getAuthorInitials, getImageUrl, getAdjacentPosts } from './post'
 import { makePost } from '../test-helpers'
 
 describe('cn', () => {
