@@ -9,7 +9,7 @@ import rehypePrettyCode from 'rehype-pretty-code'
 import astroExpressiveCode from 'astro-expressive-code'
 import ecTwoSlash from 'expressive-code-twoslash'
 import { visualizer } from 'rollup-plugin-visualizer'
-// import compress from '@playform/compress'
+import compress from '@playform/compress'
 
 export default defineConfig({
   site: process.env['CF_PAGES_URL'] ?? process.env['SITE_URL'] ?? 'http://localhost:4321',
@@ -48,28 +48,27 @@ export default defineConfig({
     sitemap({
       filter: (page) => !page.includes('/api/'),
     }),
-    // compress({
-    //   CSS: { lightningcss: { minify: true } },
-    //   HTML: {
-    //     'html-minifier-terser': {
-    //       collapseWhitespace: true,
-    //       removeComments: true,
-    //       removeRedundantAttributes: true,
-    //       removeEmptyAttributes: true,
-    //       minifyCSS: true,
-    //       minifyJS: true,
-    //       sortAttributes: true,
-    //       sortClassName: true,
-    //     },
-    //   },
-    //   JavaScript: {
-    //     terser: {
-    //       compress: { drop_console: true, drop_debugger: true },
-    //       ecma: 2020,
-    //     },
-    //   },
-    //   SVG: { svgo: { multipass: true } },
-    // }),
+    compress({
+      HTML: {
+        'html-minifier-terser': {
+          collapseWhitespace: true,
+          removeComments: true,
+          removeRedundantAttributes: true,
+          removeEmptyAttributes: true,
+          minifyCSS: true,
+          minifyJS: true,
+          sortAttributes: true,
+          sortClassName: true,
+        },
+      },
+      JavaScript: {
+        terser: {
+          compress: { drop_console: true, drop_debugger: true },
+          ecma: 2020,
+        },
+      },
+      SVG: { svgo: { multipass: true } },
+    }),
   ],
 
   markdown: {

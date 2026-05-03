@@ -31,7 +31,7 @@
 - Prettier uses no semicolons, single quotes, 100-column width, and the Astro + Tailwind plugins; let it sort Tailwind classes.
 - Do not create React-style JSX-returning helper functions in Astro frontmatter; extract a `.astro` component or render inline.
 - **Images**: Every `<img>` in `.astro` or `.ts` must include `width`/`height` attributes to prevent CLS. Non-hero images add `loading="lazy"` and `decoding="async"`. Always use descriptive `alt` text (never empty on content images).
-- **Fonts**: Google Fonts links in `<head>` must use standard blocking `<link rel="stylesheet">`. Do NOT use `media="print"` — it causes full layout breakage (flex/grid utilities fail to apply). The `display=swap` query param already handles FOIT.
+- **Fonts**: Google Fonts links in `<head>` use `media="print" onload="this.media='all'"` with `<noscript>` fallback to eliminate render-blocking. Always include `display=swap` in the font URL.
 - **Titles**: Page titles follow the pattern `${title} | ${SITE.name}`. Do not use `-` as separator.
 - **JSON-LD**: Every index/list page (blog index, categories, tags) requires `BreadcrumbList` and/or `CollectionPage` structured data. Post pages need `Article` schema.
 - **No meta generator**: Do not add `<meta name="generator">` — it leaks version info to scrapers.
