@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Features
+
+- feat: add SEO performance skill covering Core Web Vitals ranking impact, crawl budget, Astro-specific optimization, and PageSpeed Insights audit workflows
+
+### Fixes
+
+- fix: correct tag page e2e title assertions to match new `${tag} | DanhThanh.dev` format
+- fix: add `test.slow()` to Axe accessibility scans to prevent Firefox timeout (>30s on large pages)
+
 ### Refactors
 
 - refactor: simplify apps/cms to bare StudioCMS integration (md + blog plugins only) and adopt dotenv-cli for all root scripts (0930788)

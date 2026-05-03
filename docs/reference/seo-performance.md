@@ -9,7 +9,7 @@ Run before every `pnpm build`:
 - [ ] All `<img>` tags have `width`/`height` attributes — prevents Cumulative Layout Shift (CLS)
 - [ ] Non-hero images have `loading="lazy"` and `decoding="async"`
 - [ ] All images have descriptive `alt` text (no `alt=""` on content images)
-- [ ] Google Fonts in `<head>` use standard blocking `<link rel="stylesheet">` (do NOT use `media="print"` — it breaks layout rendering)
+- [ ] Google Fonts in `<head>` use `media="print" onload="this.media='all'"` with `<noscript>` fallback
 - [ ] No `<meta name="generator">` tag present
 - [ ] `<meta name="theme-color">` present for dark and light modes
 - [ ] Page titles use `${title} | ${SITE.name}` format (not `-` separator)
@@ -57,15 +57,35 @@ Run before every `pnpm build`:
 **Current pattern** (in `BaseLayout.astro`):
 
 ```html
-<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
+  rel="preload"
+  as="style"
   href="https://fonts.googleapis.com/css2?family=Inter:...family=JetBrains+Mono:...&display=swap"
-  rel="stylesheet"
 />
+<link
+  rel="stylesheet"
+  media="print"
+  onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=Inter:...family=JetBrains+Mono:...&display=swap"
+/>
+<noscript>
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:...family=JetBrains+Mono:...&display=swap"
+  />
+</noscript>
 ```
 
-> **IMPORTANT**: Do NOT use `media="print" onload="this.media='all'"` for font loading. This non-blocking pattern was tested and caused severe layout breakage — CSS utilities (flex, grid, etc.) failed to apply correctly, making the entire page render as a vertical stack. Use standard blocking `<link rel="stylesheet">` instead. The `display=swap` parameter already handles FOIT gracefully.
+**Why this pattern:**
+- `rel="preload"` starts downloading font CSS early (parallel with HTML parse)
+- `media="print"` makes the stylesheet non-render-blocking initially
+- `onload="this.media='all'"` switches to active stylesheet once loaded
+- `<noscript>` fallback ensures fonts load for users without JavaScript
+- `display=swap` shows fallback fonts immediately, swaps when custom fonts load
+
+This eliminates render-blocking while maintaining layout stability.
 
 ## RSS Feed
 
@@ -85,7 +105,7 @@ If `@astrojs/rss` adds native namespace support, remove the post-process workaro
 **File**: `apps/web/astro.config.mjs`
 
 `@playform/compress` runs as the last integration:
-- **CSS**: lightningcss (`minify: true`)
+- **CSS**: Disabled (Tailwind CSS v4 has built-in minification via Vite; lightningcss was incompatible with `@theme inline` syntax)
 - **HTML**: html-minifier-terser (`collapseWhitespace`, `removeComments`, `removeRedundantAttributes`, `sortAttributes`, `sortClassName`)
 - **JS**: terser (`drop_console: true`, `drop_debugger: true`, `ecma: 2020`)
 - **SVG**: svgo (`multipass: true`)
@@ -118,6 +138,7 @@ pnpm web:build && head -1 apps/web/dist/rss.xml
 
 ## Related Topics
 
+- [SEO Performance Skill](../skills/seo-performance.md) — agent skill covering Core Web Vitals ranking impact, crawl budget, Astro-specific optimization
 - [Architecture Overview](./architecture.md)
 - [Development Workflow](../guides/development-workflow.md)
 - [Deployment Guide](../guides/deployment.md)

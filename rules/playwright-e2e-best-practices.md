@@ -54,6 +54,8 @@ Ensure Playwright E2E tests follow established best practices for the StudioCMS 
 - **DO** Test keyboard navigation
 - **DO** Verify images have alt text
 - **DO NOT** Skip accessibility testing for user-facing pages
+- **DO** Add `test.slow()` to Axe-based accessibility scans — Firefox can exceed 30s timeout on large pages
+- **DO NOT** Add fixed `waitForTimeout()` — use `test.slow()` which triples timeouts while preserving auto-waiting
 
 ### Configuration
 

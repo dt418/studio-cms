@@ -53,7 +53,11 @@ test.describe('Tags Page', () => {
 
     await page.goto(href!)
     const title = await page.title()
-    expect(title).toMatch(/Posts tagged:/)
+
+    // Title format: "${tag} | DanhThanh.dev"
+    const tagFromPath = decodeURIComponent(href!.split('/tags/')[1]!)
+    expect(title).toContain(tagFromPath)
+    expect(title).toContain('| DanhThanh.dev')
   })
 
   test('tag page has back link to blog', async ({ page }) => {

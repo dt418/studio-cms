@@ -3,6 +3,7 @@ import AxeBuilder from '@axe-core/playwright'
 
 test.describe('Accessibility Tests', () => {
   test('home page should not have critical accessibility violations', async ({ page }) => {
+    test.slow() // Axe scans can be slow, especially in Firefox
     await page.goto('/')
     await expect(page.locator('h1')).toBeVisible()
 
@@ -21,6 +22,7 @@ test.describe('Accessibility Tests', () => {
   })
 
   test('blog page should not have critical accessibility violations', async ({ page }) => {
+    test.slow() // Axe scans can be slow, especially in Firefox
     await page.goto('/blog')
     await expect(page.locator('h1')).toContainText('Blog')
 
