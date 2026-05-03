@@ -263,8 +263,52 @@ See [Testing And Quality](#testing-and-quality) for details on the underlying to
 - **Formatting**: Prettier with Astro and Tailwind plugins.
 - **Hooks**: Lefthook runs commit message checks, pre-commit checks, and pre-push tests/build.
 
+## SEO & Performance
+
+```mermaid
+graph TB
+    subgraph Images["Image Best Practices"]
+        IMG1["width/height attributes<br/>prevent CLS"]
+        IMG2["loading=lazy<br/>below-fold images"]
+        IMG3["decoding=async<br/>non-critical images"]
+        IMG4["descriptive alt text<br/>accessibility + SEO"]
+    end
+
+    subgraph Fonts["Font Loading"]
+        FONT1["media=print onload swap<br/>non-blocking Google Fonts"]
+        FONT2["&lt;noscript&gt; fallback<br/>JS-disabled users"]
+        FONT3["font-display: swap<br/>prevent FOIT"]
+    end
+
+    subgraph SEO["On-Page SEO"]
+        SEO1["JSON-LD structured data<br/>BreadcrumbList, CollectionPage, Article"]
+        SEO2["Title: &quot;Page \| SITE.name&quot;<br/>consistent format"]
+        SEO3["&lt;meta name=theme-color&gt;<br/>mobile browser chrome"]
+        SEO4["No &lt;meta name=generator&gt;<br/>version leak removed"]
+    end
+
+    subgraph RSS["RSS Feed"]
+        RSS1["content:encoded<br/>full HTML content"]
+        RSS2["categories + author<br/>per-item metadata"]
+        RSS3["language en<br/>channel-level"]
+        RSS4["xmlns:content namespace<br/>RSS 2.0 compliant"]
+    end
+```
+
+| Area | Convention | File |
+|------|-----------|------|
+| Images | Every `<img>` must have `width`/`height`; use `loading="lazy"` + `decoding="async"` for non-hero images | `CoverImage.astro`, `BlogCard.astro`, `search.ts` |
+| Fonts | Google Fonts loaded with `media="print" onload="this.media='all'"` + `<noscript>` fallback | `BaseLayout.astro` |
+| Titles | `${title} \| ${SITE.name}` on every page | All page components |
+| JSON-LD | `BreadcrumbList` on blog index; `CollectionPage` on category/tag; `Article` on posts | Blog/tag/category pages |
+| RSS | Full `content:encoded` with image + excerpt; per-item `categories`/`author`; channel `<language>` | `rss.xml.ts` |
+| Meta | No `<meta name="generator">`; `theme-color` set for dark (#0a0a0a) and light (#ffffff) | `BaseLayout.astro` |
+
+See [SEO & Performance Checklist](./seo-performance.md) for the full audit and maintenance guide.
+
 ## Related Topics
 
 - [Environment Variables Reference](./environment-variables.md)
 - [Development Workflow](../guides/development-workflow.md)
 - [Deployment Guide](../guides/deployment.md)
+- [SEO & Performance Checklist](./seo-performance.md)

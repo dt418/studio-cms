@@ -5,6 +5,7 @@ import BlogCard from '@/components/BlogCard.astro'
 import BackLink from '@/components/Blog/BackLink.astro'
 import TagCloud from '@/components/Blog/TagCloud.astro'
 import { getPostsByTag, getAllTags, getAllCategories } from '@/lib/cms'
+import { SITE } from '@/lib/site'
 
 export const prerender = true
 
@@ -30,9 +31,27 @@ const tag =
 const posts = await getPostsByTag(tag)
 const allTags = await getAllTags()
 const allCategories = await getAllCategories()
+const canonicalUrl = new URL(`/tags/${encodeURIComponent(tag)}`, Astro.site).href
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `Posts tagged: ${tag}`,
+  description: `All posts tagged with ${tag}`,
+  url: canonicalUrl,
+  isPartOf: {
+    '@type': 'WebSite',
+    name: SITE.name,
+    url: Astro.site?.origin,
+  },
+}
 ---
 
-<BaseLayout title={`Posts tagged: ${tag}`} description={`All posts tagged with ${tag}`}>
+<BaseLayout
+  title={`${tag} | ${SITE.name}`}
+  description={`All posts tagged with ${tag}`}
+  canonicalUrl={canonicalUrl}
+  jsonLd={jsonLd}
+>
   <section class="container py-16">
     <div class="mb-12">
       <BackLink href="/blog" />

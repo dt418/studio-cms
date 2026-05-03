@@ -14,7 +14,8 @@ docs/
 ├── reference/      # Information-oriented reference docs
 │   ├── architecture.md
 │   ├── design-system.md
-│   └── environment-variables.md
+│   ├── environment-variables.md
+│   └── seo-performance.md
 └── contributing/   # Contributor guidelines
     └── conventions.md
 ```
@@ -47,6 +48,7 @@ docs/
 - [Architecture](./reference/architecture.md)
 - [Design System](./reference/design-system.md)
 - [Environment Variables](./reference/environment-variables.md)
+- [SEO & Performance](./reference/seo-performance.md)
 
 ## Contributing
 

@@ -8,5 +8,13 @@ const { coverImage, title } = Astro.props
 ---
 
 <div class="border-border mt-8 overflow-hidden rounded-xl border">
-  <img src={coverImage} alt={title} class="h-auto w-full object-cover" />
+  <img
+    src={coverImage}
+    alt={title}
+    class="h-auto w-full object-cover"
+    width="1200"
+    height="630"
+    loading="lazy"
+    decoding="async"
+  />
 </div>

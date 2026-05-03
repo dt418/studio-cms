@@ -140,7 +140,7 @@ function renderResults(results: SearchResult[], query: string): void {
       const modifier = hasImage ? 'search-result search-result--with-image' : 'search-result'
 
       const imageHtml = hasImage
-        ? `<div class="search-result__image"><img src="${escapeHtml(result.coverImage)}" alt="" loading="lazy" /></div>`
+        ? `<div class="search-result__image"><img src="${escapeHtml(result.coverImage)}" alt="${escapeHtml(result.title)} cover image" loading="lazy" width="200" height="113" /></div>`
         : ''
 
       const tagsHtml = result.tags

@@ -21,20 +21,40 @@ const stats = [
 ---
 
 <BaseLayout
-  title="Blog - Danh Thanh"
+  title="Blog | DanhThanh.dev"
   description="Build logs, hackathon writeups, and technical notes."
-  jsonLd={{
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name: 'Blog Archive',
-    description: 'Build logs, hackathon writeups, and technical notes.',
-    url: new URL('/blog', Astro.site).href,
-    isPartOf: {
-      '@type': 'WebSite',
-      name: SITE.name,
-      url: Astro.site?.origin,
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'Blog Archive',
+      description: 'Build logs, hackathon writeups, and technical notes.',
+      url: new URL('/blog', Astro.site).href,
+      isPartOf: {
+        '@type': 'WebSite',
+        name: SITE.name,
+        url: Astro.site?.origin,
+      },
     },
-  }}
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: Astro.site?.origin,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Blog',
+          item: new URL('/blog', Astro.site).href,
+        },
+      ],
+    },
+  ]}
 >
   <BlogHeader title="Blog" description="Build logs, hackathon writeups, and technical notes." />
 

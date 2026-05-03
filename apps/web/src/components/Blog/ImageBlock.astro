@@ -10,7 +10,7 @@ const { src, alt, caption } = Astro.props
 
 <figure class="my-8">
   <div class="border-border overflow-hidden rounded-xl border">
-    <img src={src} alt={alt} class="h-auto w-full object-cover" />
+    <img src={src} alt={alt} class="h-auto w-full object-cover" loading="lazy" decoding="async" />
   </div>
   {
     caption && (
