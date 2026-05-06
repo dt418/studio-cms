@@ -24,7 +24,7 @@ interface Props {
 const { post, variant = 'default' } = Astro.props
 ---
 
-<article class="card group animate-on-scroll">
+<article class="card group">
   <!-- Use design token classes -->
   <div class="bg-card border-border rounded-md border p-4">
     <h3 class="text-foreground">{post.data.title}</h3>
@@ -158,14 +158,6 @@ import SpotlightCard from '@/components/SpotlightCard.astro'
 </aside>
 ```
 
-### Scroll Animation
-
-```html
-<div class="animate-on-scroll">
-  <!-- fades in on scroll -->
-</div>
-```
-
 ## CSS Class Reference
 
 ### Layout
@@ -220,7 +212,6 @@ import SpotlightCard from '@/components/SpotlightCard.astro'
 
 1. Check `apps/web/src/components/` for similar patterns
 2. Use existing design tokens (no hardcoded colors)
-3. Add `animate-on-scroll` class if appropriate
-4. Use `.card` wrapper for card-like components
-5. Follow the Astro/React template above
-6. Add to this documentation
+3. Use `.card` wrapper for card-like components
+4. Follow the Astro/React template above
+5. Add to this documentation
