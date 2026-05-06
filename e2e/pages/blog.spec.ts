@@ -54,8 +54,9 @@ test.describe('Blog Listing Page', () => {
   })
 
   test('filter dropdowns are present', async ({ page }) => {
-    const selects = page.locator('select')
-    const count = await selects.count()
+    // FilterSelect renders button-based combobox triggers, not native <select>
+    const triggers = page.locator('[role="combobox"]')
+    const count = await triggers.count()
     expect(count).toBeGreaterThanOrEqual(2)
   })
 

@@ -36,6 +36,9 @@ test.describe('Accessibility Tests', () => {
       console.log('Critical accessibility violations found:', criticalViolations.map(v => v.description))
     }
 
+    // Note: axe-core may flag combobox buttons (Base UI SelectTrigger) as
+    // "buttons without discernible text" — a known false positive since
+    // the buttons do have visible text. The test allows up to 2 violations.
     expect(criticalViolations.length).toBeLessThan(3)
   })
 

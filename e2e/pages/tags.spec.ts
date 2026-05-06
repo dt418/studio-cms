@@ -4,14 +4,22 @@ test.describe('Tags Page', () => {
   async function getFirstTagUrl(page: any): Promise<string | null> {
     await page.goto('/blog')
 
-    const tagOption = page.locator('#filter-tag option').filter({ hasNotText: 'All Tags' }).first()
-    const count = await tagOption.count()
-    if (count === 0) {
+    // Parse server-rendered JSON data island for tag extraction (no JS/combobox needed)
+    const jsonText = await page.locator('#filter-data').textContent()
+    if (!jsonText) return null
+
+    try {
+      const posts: { data: { tags: string[] } }[] = JSON.parse(jsonText)
+      for (const post of posts) {
+        if (post.data.tags.length > 0) {
+          const tag = post.data.tags[0]!
+          return `/tags/${encodeURIComponent(tag)}`
+        }
+      }
+      return null
+    } catch {
       return null
     }
-
-    const tag = await tagOption.getAttribute('value')
-    return tag ? `/tags/${encodeURIComponent(tag)}` : null
   }
 
   test('404 for non-existent tag', async ({ page }) => {
@@ -41,9 +49,22 @@ test.describe('Tags Page', () => {
   })
 
   test('tag cloud displays on blog page', async ({ page }) => {
+    test.setTimeout(15000)
     await page.goto('/blog')
-    const tagFilter = page.locator('#filter-tag option').filter({ hasNotText: 'All Tags' })
-    const count = await tagFilter.count()
+
+    // FilterSelect renders button-based combobox triggers (not native <select>)
+    const triggers = page.locator('[role="combobox"]')
+    await expect(triggers.nth(1)).toBeVisible({ timeout: 10000 })
+
+    // Click the tag filter trigger (second combobox: category, tag, sort)
+    await triggers.nth(1).click({ force: true })
+
+    // Verify popover opens with tag options
+    const popover = page.locator('[role="listbox"]')
+    await expect(popover).toBeVisible({ timeout: 5000 })
+
+    const tagOptions = page.locator('[role="option"]').filter({ hasNotText: 'All Tags' })
+    const count = await tagOptions.count()
     expect(count).toBeGreaterThan(0)
   })
 
@@ -76,8 +97,8 @@ test.describe('Tags Page', () => {
 
     await page.goto(href!)
 
-    // Should show "X posts tagged with..."
-    const postCount = page.locator('p:has-text("posts tagged with")')
+    // Shows "X post(s) tagged with ..." — singular or plural
+    const postCount = page.locator('p:has-text("tagged with")')
     await expect(postCount).toBeVisible()
   })
 

@@ -4,15 +4,17 @@ test.describe('Blog Post Page', () => {
   async function getFirstPostUrl(page: any): Promise<string | null> {
     await page.goto('/blog')
 
-    // Find first post link (excluding header navigation)
-    const postLink = page.locator('#filter-results a[href^="/blog/"]').first()
-    const isVisible = await postLink.isVisible({ timeout: 5000 }).catch(() => false)
-    if (!isVisible) {
+    // Parse server-rendered JSON data island (always present, no JS needed)
+    const jsonText = await page.locator('#filter-data').textContent()
+    if (!jsonText) return null
+
+    try {
+      const posts: { data: { path: string } }[] = JSON.parse(jsonText)
+      if (posts.length === 0) return null
+      return posts[0]!.data.path
+    } catch {
       return null
     }
-
-    const href = await postLink.getAttribute('href')
-    return href
   }
 
   test('404 for non-existent post', async ({ page }) => {
