@@ -79,36 +79,36 @@ function renderCard(post: SerializedPost): string {
   `
 }
 
+let listenersRegistered = false
+
 export function initBlogFilter(): void {
   const postsData: SerializedPost[] = JSON.parse(
     document.getElementById('filter-data')?.textContent?.trim() || '[]'
   )
 
   const searchInput = document.getElementById('filter-search') as HTMLInputElement | null
-  const categorySelect = document.getElementById('filter-category') as HTMLSelectElement | null
-  const tagSelect = document.getElementById('filter-tag') as HTMLSelectElement | null
-  const sortSelect = document.getElementById('filter-sort') as HTMLSelectElement | null
+  const categoryInput = document.getElementById('filter-category') as HTMLInputElement | null
+  const tagInput = document.getElementById('filter-tag') as HTMLInputElement | null
+  const sortInput = document.getElementById('filter-sort') as HTMLInputElement | null
   const resultsContainer = document.getElementById('filter-results')
   const resultsCount = document.getElementById('filter-results-count')
-  const resetButton = document.getElementById('filter-reset')
 
   if (
     !searchInput ||
-    !categorySelect ||
-    !tagSelect ||
-    !sortSelect ||
+    !categoryInput ||
+    !tagInput ||
+    !sortInput ||
     !resultsContainer ||
-    !resultsCount ||
-    !resetButton
+    !resultsCount
   ) {
     return
   }
 
   function applyFilters(): void {
     const query = searchInput!.value.toLowerCase().trim()
-    const category = categorySelect!.value || ''
-    const tag = tagSelect!.value || ''
-    const sortValue = sortSelect!.value
+    const category = categoryInput!.value || ''
+    const tag = tagInput!.value || ''
+    const sortValue = sortInput!.value
     const [sortField, sortOrder] = sortValue.split('-') as [
       'date' | 'title' | 'readingTime',
       'asc' | 'desc',
@@ -136,19 +136,13 @@ export function initBlogFilter(): void {
     resultsContainer!.innerHTML = result.map(renderCard).join('')
   }
 
-  function resetFilters(): void {
-    searchInput!.value = ''
-    categorySelect!.value = ''
-    tagSelect!.value = ''
-    sortSelect!.value = 'date-desc'
-    applyFilters()
+  if (!listenersRegistered) {
+    listenersRegistered = true
+    searchInput!.addEventListener('input', applyFilters)
+    categoryInput!.addEventListener('change', applyFilters)
+    tagInput!.addEventListener('change', applyFilters)
+    sortInput!.addEventListener('change', applyFilters)
   }
-
-  resetButton!.addEventListener('click', resetFilters)
-  searchInput!.addEventListener('input', applyFilters)
-  categorySelect!.addEventListener('change', applyFilters)
-  tagSelect!.addEventListener('change', applyFilters)
-  sortSelect!.addEventListener('change', applyFilters)
 
   applyFilters()
 }
