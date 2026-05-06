@@ -107,7 +107,8 @@ getPostsByCategory(category) → Post[]
 
 | File                               | Purpose                                                                      |
 | ---------------------------------- | ---------------------------------------------------------------------------- |
-| `apps/web/src/lib/utils.ts`        | Centralized utilities: cn(), getAuthorInitials, getAuthorAvatar, getImageUrl |
+| `apps/web/src/lib/utils.ts`        | Centralized utilities: cn()                                                  |
+| `apps/web/src/lib/post.ts`         | Post-related utilities: getAuthorInitials, getImageUrl, getAdjacentPosts     |
 | `apps/web/src/lib/date.ts`         | Date formatting (formatDate)                                                 |
 | `apps/web/src/lib/reading-time.ts` | Reading time calculation                                                     |
 | `apps/web/src/lib/search.ts`       | Search types and helpers                                                     |
