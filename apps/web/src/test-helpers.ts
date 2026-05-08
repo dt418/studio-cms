@@ -20,6 +20,9 @@ export function makePost(overrides: Partial<Post['data']> & { body?: string } = 
       authorAvatar: overrides.authorAvatar,
       draft: overrides.draft,
       noindex: overrides.noindex,
+      series: overrides.series,
+      orderInSeries: overrides.orderInSeries,
+      language: overrides.language ?? 'vi',
     },
     body: overrides.body ?? 'Test post body content here',
   } as Post

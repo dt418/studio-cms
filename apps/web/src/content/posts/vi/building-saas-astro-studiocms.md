@@ -1,39 +1,41 @@
 ---
-title: 'Building a SaaS with Astro and StudioCMS'
-# slug: 'building-saas-astro-studiocms'
-excerpt: 'A comprehensive guide to building a SaaS application using Astro and StudioCMS for content management.'
+title: 'Xây dựng SaaS với Astro và StudioCMS'
+slug: 'building-saas-astro-studiocms'
+excerpt: 'Hướng dẫn toàn diện về việc xây dựng ứng dụng SaaS sử dụng Astro cho frontend và StudioCMS để quản lý nội dung.'
 coverImage: 'https://picsum.photos/seed/saas/1200/630'
-publishedAt: 2025-03-05
+publishedAt: 2026-04-05
+updatedAt: 2026-04-05
 tags: ['astro', 'saas', 'studiocms', 'web-development']
+language: 'vi'
 category: 'guides'
 ---
 
-# Building a SaaS with Astro and StudioCMS
+# Xây dựng SaaS với Astro và StudioCMS
 
-In this guide, we'll walk through building a production-ready SaaS application using Astro for the frontend and StudioCMS for content management.
+Trong hướng dẫn này, chúng ta sẽ đi qua việc xây dựng một ứng dụng SaaS production-ready sử dụng Astro cho frontend và StudioCMS để quản lý nội dung.
 
-## Why Astro + StudioCMS?
+## Tại sao nên dùng Astro + StudioCMS?
 
-Astro provides excellent performance with its server-first approach, while StudioCMS offers a robust content management system built specifically for Astro.
+Astro cung cấp hiệu năng xuất sắc với cách tiếp cận server-first, trong khi StudioCMS cung cấp hệ thống quản lý nội dung mạnh mẽ được xây dựng riêng cho Astro.
 
-## Project Setup
+## Setup Project
 
-Start by creating a new Astro project:
+Bắt đầu bằng việc tạo project Astro mới:
 
 ```bash
 npm create astro@latest my-saas-app
 cd my-saas-app
 ```
 
-Install StudioCMS:
+Cài đặt StudioCMS:
 
 ```bash
 npm install studiocms @astrojs/db @astrojs/node
 ```
 
-## Configuration
+## Cấu hình
 
-Set up your `astro.config.mjs`:
+Thiết lập `astro.config.mjs`:
 
 ```javascript
 import { defineConfig } from 'astro/config'
@@ -51,7 +53,7 @@ export default defineConfig({
 
 ## Content Collections
 
-Define your content schema in `src/content.config.ts`:
+Định nghĩa content schema trong `src/content.config.ts`:
 
 ```typescript
 import { defineCollection } from 'astro:content'
@@ -73,9 +75,9 @@ const posts = defineCollection({
 export const collections = { posts }
 ```
 
-## SEO Implementation
+## Implement SEO
 
-Create a reusable SEO component for consistent meta tags across all pages:
+Tạo một component SEO có thể tái sử dụng để đảm bảo meta tags nhất quán trên tất cả các trang:
 
 ```astro
 ---
@@ -97,7 +99,7 @@ const { title, description, image } = Astro.props
 
 ## RSS Feed
 
-Add an RSS feed using `@astrojs/rss`:
+Thêm RSS feed sử dụng `@astrojs/rss`:
 
 ```typescript
 import rss from '@astrojs/rss'
@@ -120,9 +122,9 @@ export async function GET(context: { site: URL }) {
 }
 ```
 
-## Search with Fuse.js
+## Search với Fuse.js
 
-Implement client-side search using Fuse.js:
+Implement client-side search sử dụng Fuse.js:
 
 ```typescript
 import Fuse from 'fuse.js'
@@ -142,6 +144,6 @@ export function createSearchIndex(posts: PostData[]) {
 }
 ```
 
-## Conclusion
+## Kết luận
 
-With Astro and StudioCMS, you can build a performant, scalable SaaS application with excellent content management capabilities. The combination of static-first rendering and server-side capabilities gives you the best of both worlds.
+Với Astro và StudioCMS, bạn có thể xây dựng một ứng dụng SaaS hiệu năng cao, scalable với khả năng quản lý nội dung xuất sắc. Sự kết hợp giữa static-first rendering và server-side capabilities mang lại cho bạn điều tốt nhất của cả hai thế giới.

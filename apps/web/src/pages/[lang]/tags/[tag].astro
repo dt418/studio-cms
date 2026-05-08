@@ -1,0 +1,126 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import BlogFilter from '@/components/BlogFilter.astro'
+import BlogCard from '@/components/BlogCard.astro'
+import BackLink from '@/components/Blog/BackLink.astro'
+import TagCloud from '@/components/Blog/TagCloud.astro'
+import { getPostsByTag, getAllTags, getAllCategories, type SupportedLocale } from '@/lib/cms'
+import { SITE } from '@/lib/site'
+import { getTranslations } from '@/lib/i18n'
+import { getTagPath, getBlogPath } from '@/lib/routes'
+import { getCanonicalUrl, isValidLocale } from '@/lib/content-utils'
+
+export const prerender = true
+
+export async function getStaticPaths() {
+  const tags = await getAllTags()
+  const locales: SupportedLocale[] = ['vi', 'en']
+  const paths: {
+    params: { lang: SupportedLocale; tag: string }
+    props: { tag: string; locale: SupportedLocale }
+  }[] = []
+
+  for (const locale of locales) {
+    for (const tag of tags) {
+      paths.push({
+        params: { lang: locale, tag },
+        props: { tag, locale },
+      })
+    }
+  }
+
+  return paths
+}
+
+const langParam = Astro.params.lang ?? 'vi'
+const lang = isValidLocale(langParam) ? langParam : 'vi'
+const siteUrl = Astro.site?.origin ?? ''
+
+const i18n = getTranslations(lang)
+
+const rawTag = Astro.params.tag ?? ''
+const tag =
+  Astro.props.tag ??
+  (() => {
+    try {
+      return decodeURIComponent(rawTag)
+    } catch {
+      return rawTag
+    }
+  })()
+
+const posts = await getPostsByTag(tag, lang)
+const allTags = await getAllTags(lang)
+const allCategories = await getAllCategories(lang)
+
+const canonicalUrl = getCanonicalUrl(lang, `/tags/${encodeURIComponent(tag)}`, siteUrl)
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `Posts tagged: ${tag}`,
+    description: `All posts tagged with ${tag}`,
+    url: canonicalUrl,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: SITE.name,
+      url: siteUrl,
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: getBlogPath(lang),
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: tag,
+      },
+    ],
+  },
+]
+---
+
+<BaseLayout
+  title={`${tag} | ${SITE.name}`}
+  description={`All posts tagged with ${tag}`}
+  canonicalUrl={canonicalUrl}
+  jsonLd={jsonLd}
+  lang={lang}
+  currentPath={getTagPath(tag, lang)}
+>
+  <section class="container py-16">
+    <div class="mb-12">
+      <BackLink href={getBlogPath(lang)} />
+      <h1 class="mb-2 text-4xl font-bold tracking-tight">{i18n.tags.title} {tag}</h1>
+      <p class="text-muted-foreground text-lg">
+        {posts.length}
+        {i18n.tags.postsTaggedWith} "{tag}"
+      </p>
+    </div>
+
+    <TagCloud tags={allTags} currentTag={tag} locale={lang} />
+
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post) => <BlogCard post={post} />)}
+    </div>
+
+    <div class="mt-12">
+      <h2 class="text-muted-foreground mb-4 text-sm font-medium">{i18n.tags.searchFilter}</h2>
+      <BlogFilter posts={posts} categories={allCategories} tags={allTags} initialTag={tag} />
+    </div>
+  </section>
+</BaseLayout>

@@ -9,7 +9,7 @@ describe('formatDate', () => {
   })
 
   it('formats different months correctly', () => {
-    expect(formatDate(new Date('2025-03-10'))).toBe('Mar 10, 2025')
+    expect(formatDate(new Date('2026-04-10'))).toBe('Mar 10, 2025')
     expect(formatDate(new Date('2025-06-20'))).toBe('Jun 20, 2025')
     expect(formatDate(new Date('2025-12-25'))).toBe('Dec 25, 2025')
   })

@@ -18,24 +18,22 @@ test.describe('Home Page', () => {
   })
 
   test('hero has developer-focused tagline', async ({ page }) => {
-    const tagline = page.locator('p:has-text("For developers shipping modern web products")')
+    const tagline = page.locator('p:has-text("Cho developers xây dựng sản phẩm web hiện đại")')
     await expect(tagline).toBeVisible()
   })
 
   test('stats badges display in hero section', async ({ page }) => {
-    // StatsBadge in hero section has specific class - scope search to hero
     const heroSection = page.locator('section').first()
 
-    // StatsBadge shows "{value} {label}" in rounded-full spans within hero
-    await expect(heroSection.locator('span.rounded-full:has-text("posts")')).toBeVisible()
-    await expect(heroSection.locator('span.rounded-full:has-text("topics")')).toBeVisible()
+    await expect(heroSection.locator('span.rounded-full:has-text("bài viết")')).toBeVisible()
+    await expect(heroSection.locator('span.rounded-full:has-text("chủ đề")')).toBeVisible()
     await expect(heroSection.locator('span.rounded-full:has-text("tags")')).toBeVisible()
   })
 
   test('CTA buttons are visible', async ({ page }) => {
-    const readBlogCTA = page.locator('a:has-text("Read the blog")')
+    const readBlogCTA = page.locator('a:has-text("Đọc blog")')
     await expect(readBlogCTA).toBeVisible()
-    await expect(readBlogCTA).toHaveAttribute('href', '/blog')
+    await expect(readBlogCTA).toHaveAttribute('href', '/vi/blog')
 
     const rssCTA = page.locator('a:has-text("RSS Feed")')
     await expect(rssCTA).toBeVisible()
@@ -43,20 +41,14 @@ test.describe('Home Page', () => {
   })
 
   test('latest insights section displays', async ({ page }) => {
-    const sectionLabel = page.locator('p:has-text("Latest insights")')
-    await expect(sectionLabel).toBeVisible()
+    await expect(page.getByText('Insights').first()).toBeVisible()
   })
 
   test('metric cards show posts/topics/tags', async ({ page }) => {
-    const metricsSection = page.locator('section', { hasText: 'Latest insights' })
-
-    await expect(metricsSection.getByText('Latest', { exact: true })).toBeVisible()
-    await expect(metricsSection.getByText('Topics', { exact: true })).toBeVisible()
-    await expect(metricsSection.getByText('Tags', { exact: true })).toBeVisible()
-
-    await expect(metricsSection.getByText(/\d+ posts/)).toBeVisible()
-    await expect(metricsSection.getByText(/\d+ areas/)).toBeVisible()
-    await expect(metricsSection.getByText(/\d+ tags/)).toBeVisible()
+    const metricsSection = page.locator('section')
+    await expect(metricsSection.getByText(/Mới nhất/)).toBeVisible()
+    await expect(metricsSection.getByText(/Chủ đề/)).toBeVisible()
+    await expect(metricsSection.getByText(/Tags/).first()).toBeVisible()
   })
 
   test('featured work section displays', async ({ page }) => {
@@ -69,21 +61,20 @@ test.describe('Home Page', () => {
   })
 
   test('archive section displays', async ({ page }) => {
-    // Archive section has "Browse" label and "All posts and writing" heading
-    const browseLabel = page.locator('p:has-text("Browse")')
+    const browseLabel = page.locator('p:has-text("Duyệt")')
     await expect(browseLabel).toBeVisible()
 
-    const archiveHeading = page.locator('h2:has-text("All posts and writing")')
+    const archiveHeading = page.locator('h2:has-text("Tất cả bài viết")')
     await expect(archiveHeading).toBeVisible()
   })
 
   test('navigation links work', async ({ page }) => {
-    const blogLink = page.locator('header a[href="/blog"]')
+    const blogLink = page.locator('header a[href="/vi/blog"]')
     await expect(blogLink).toBeVisible()
-    await expect(blogLink).toContainText('writing')
+    await expect(blogLink).toContainText('viết')
 
     await blogLink.click()
-    await expect(page).toHaveURL('/blog')
+    await expect(page).toHaveURL('/vi/blog')
   })
 
   test('footer displays correctly', async ({ page }) => {

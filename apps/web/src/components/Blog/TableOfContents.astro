@@ -1,9 +1,12 @@
 ---
 export interface Props {
   headings: { depth: number; slug: string; text: string }[]
+  i18n?: {
+    onThisPage: string
+  }
 }
 
-const { headings } = Astro.props
+const { headings, i18n = { onThisPage: 'On this page' } } = Astro.props
 const filteredHeadings = headings.filter((heading) => heading.depth <= 3)
 ---
 
@@ -11,7 +14,7 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 3)
   filteredHeadings.length > 0 && (
     <nav id="toc" class="sticky top-24 hidden lg:block" aria-label="Table of contents">
       <p class="text-muted-foreground/60 mb-4 text-xs font-semibold tracking-wider uppercase">
-        On this page
+        {i18n.onThisPage}
       </p>
       <ul class="border-border space-y-1 border-l p-4">
         {filteredHeadings.map((heading) => (

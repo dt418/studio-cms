@@ -1,0 +1,57 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import BlogHeader from '@/components/Blog/BlogHeader.astro'
+import SearchComponent from '@/components/Search.astro'
+import { getTranslations } from '@/lib/i18n'
+import { getSearchPath } from '@/lib/routes'
+import { getCanonicalUrl, getAlternateUrls, isValidLocale } from '@/lib/content-utils'
+import type { SupportedLocale } from '@/lib/content-utils'
+
+export const prerender = true
+
+export async function getStaticPaths() {
+  const locales: SupportedLocale[] = ['vi', 'en']
+  return locales.map((locale) => ({
+    params: { lang: locale },
+    props: { locale },
+  }))
+}
+
+const langParam = Astro.params.lang ?? 'vi'
+const lang = isValidLocale(langParam) ? langParam : 'vi'
+const siteUrl = Astro.site?.origin ?? ''
+
+const i18n = getTranslations(lang)
+
+const searchPath = getSearchPath(lang)
+const canonicalUrl = getCanonicalUrl(lang, '/search', siteUrl)
+const alternateUrls = getAlternateUrls('/search', siteUrl)
+---
+
+<BaseLayout
+  title={`${i18n.search.title} | DanhThanh.dev`}
+  description={i18n.search.description}
+  noindex
+  lang={lang}
+  currentPath={searchPath}
+  alternateUrls={alternateUrls}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: i18n.search.title,
+    description: i18n.search.description,
+    url: canonicalUrl,
+  }}
+>
+  <BlogHeader
+    title={i18n.search.title}
+    description={i18n.search.description}
+    badge={i18n.search.title}
+  />
+
+  <section class="container py-10">
+    <div class="max-w-3xl">
+      <SearchComponent placeholder={i18n.search.placeholder} />
+    </div>
+  </section>
+</BaseLayout>

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Blog Post Page', () => {
   async function getFirstPostUrl(page: any): Promise<string | null> {
-    await page.goto('/blog')
+    await page.goto('/vi/blog')
 
     // Parse server-rendered JSON data island (always present, no JS needed)
     const jsonText = await page.locator('#filter-data').textContent()
@@ -18,7 +18,7 @@ test.describe('Blog Post Page', () => {
   }
 
   test('404 for non-existent post', async ({ page }) => {
-    const response = await page.goto('/blog/non-existent-post-xyz123')
+    const response = await page.goto('/vi/blog/non-existent-post-xyz123')
     expect(response?.status()).toBe(404)
   })
 

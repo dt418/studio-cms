@@ -1,0 +1,133 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import BlogFilter from '@/components/BlogFilter.astro'
+import BlogCard from '@/components/BlogCard.astro'
+import BackLink from '@/components/Blog/BackLink.astro'
+import CategoryCloud from '@/components/Blog/CategoryCloud.astro'
+import { getPostsByCategory, getAllCategories, getAllTags, type SupportedLocale } from '@/lib/cms'
+import { SITE } from '@/lib/site'
+import { getTranslations } from '@/lib/i18n'
+import { getCategoryPath, getBlogPath } from '@/lib/routes'
+import { getCanonicalUrl, getAlternateUrls, isValidLocale } from '@/lib/content-utils'
+
+export const prerender = true
+
+export async function getStaticPaths() {
+  const categories = await getAllCategories()
+  const locales: SupportedLocale[] = ['vi', 'en']
+  const paths: {
+    params: { lang: SupportedLocale; category: string }
+    props: { category: string; locale: SupportedLocale }
+  }[] = []
+
+  for (const locale of locales) {
+    for (const category of categories) {
+      paths.push({
+        params: { lang: locale, category },
+        props: { category, locale },
+      })
+    }
+  }
+
+  return paths
+}
+
+const langParam = Astro.params.lang ?? 'vi'
+const lang = isValidLocale(langParam) ? langParam : 'vi'
+const siteUrl = Astro.site?.origin ?? ''
+
+const i18n = getTranslations(lang)
+
+const rawCategory = Astro.params.category ?? ''
+const category =
+  Astro.props.category ??
+  (() => {
+    try {
+      return decodeURIComponent(rawCategory)
+    } catch {
+      return rawCategory
+    }
+  })()
+
+const posts = await getPostsByCategory(category, lang)
+const allCategories = await getAllCategories(lang)
+const allTags = await getAllTags(lang)
+
+const canonicalUrl = getCanonicalUrl(lang, `/categories/${encodeURIComponent(category)}`, siteUrl)
+const alternateUrls = getAlternateUrls(`/categories/${encodeURIComponent(category)}`, siteUrl)
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `Posts in ${category}`,
+    description: `All posts in category ${category}`,
+    url: canonicalUrl,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: SITE.name,
+      url: siteUrl,
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: getBlogPath(lang),
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: category,
+      },
+    ],
+  },
+]
+---
+
+<BaseLayout
+  title={`${category} | ${SITE.name}`}
+  description={`All posts in category ${category}`}
+  canonicalUrl={canonicalUrl}
+  jsonLd={jsonLd}
+  lang={lang}
+  currentPath={getCategoryPath(category, lang)}
+  alternateUrls={alternateUrls}
+>
+  <section class="container py-16">
+    <div class="mb-12">
+      <BackLink href={getBlogPath(lang)} />
+      <h1 class="mb-2 text-4xl font-bold tracking-tight">{i18n.categories.title} {category}</h1>
+      <p class="text-muted-foreground text-lg">
+        {posts.length}
+        {i18n.categories.postsIn} "{category}"
+      </p>
+    </div>
+
+    <CategoryCloud categories={allCategories} currentCategory={category} locale={lang} />
+
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post) => <BlogCard post={post} />)}
+    </div>
+
+    <div class="mt-12">
+      <h2 class="text-muted-foreground mb-4 text-sm font-medium">{i18n.categories.searchFilter}</h2>
+      <BlogFilter
+        posts={posts}
+        categories={allCategories}
+        tags={allTags}
+        initialCategory={category}
+      />
+    </div>
+  </section>
+</BaseLayout>

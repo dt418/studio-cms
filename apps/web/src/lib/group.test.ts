@@ -7,7 +7,7 @@ describe('groupByYear', () => {
     const posts = [
       makePost({ slug: 'post-1', publishedAt: new Date('2024-01-15') }),
       makePost({ slug: 'post-2', publishedAt: new Date('2024-06-20') }),
-      makePost({ slug: 'post-3', publishedAt: new Date('2025-03-10') }),
+      makePost({ slug: 'post-3', publishedAt: new Date('2026-04-10') }),
     ]
 
     const groups = groupByYear(posts)

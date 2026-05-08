@@ -1,12 +1,17 @@
 ---
+import type { CollectionEntry } from 'astro:content'
+import { getCategoryPath } from '@/lib/routes'
+import { getPostLocale } from '@/lib/content-utils'
+
 interface Props {
   categories: string[]
   currentCategory?: string
+  locale?: string
+  post?: CollectionEntry<'posts'>
 }
 
-import { getCategoryPath } from '@/lib/routes'
-
-const { categories, currentCategory } = Astro.props
+const { categories, currentCategory, locale, post } = Astro.props
+const postLocale = locale ?? (post ? getPostLocale(post) : 'vi')
 ---
 
 <div class="mb-8">
@@ -15,7 +20,7 @@ const { categories, currentCategory } = Astro.props
     {
       categories.map((cat) => (
         <a
-          href={getCategoryPath(cat)}
+          href={getCategoryPath(cat, postLocale as 'vi' | 'en')}
           class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors"
           class:list={[
             cat === currentCategory

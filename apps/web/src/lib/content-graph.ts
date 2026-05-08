@@ -1,5 +1,5 @@
-import { getCollection } from 'astro:content'
-import type { CollectionEntry } from 'astro:content'
+import { getCollection, type CollectionEntry } from 'astro:content'
+import { getPostSlug, getPostLocale, type SupportedLocale } from './content-utils'
 
 export type Post = CollectionEntry<'posts'>
 
@@ -10,36 +10,37 @@ export interface ContentGraph {
   bySeries: Map<string, Post[]>
 }
 
-function normalizeSlug(post: Post): string {
-  return post.data?.slug ?? post.id
-}
-
 function isPublished(post: Post): boolean {
   return !post.data.draft && !post.data.noindex
 }
 
-export async function buildContentGraph(): Promise<ContentGraph> {
+export async function buildContentGraph(locale?: SupportedLocale): Promise<ContentGraph> {
   const raw = await getCollection('posts')
 
-  const posts = raw.filter(isPublished)
+  let posts = raw.filter(isPublished)
+
+  if (locale) {
+    posts = posts.filter((post) => getPostLocale(post) === locale)
+  }
 
   const bySlug = new Map<string, Post>()
   const byTag = new Map<string, Post[]>()
   const bySeries = new Map<string, Post[]>()
+  const seenSlugs = new Set<string>()
 
   for (const post of posts) {
-    const slug = normalizeSlug(post)
+    const slug = getPostSlug(post)
 
+    if (seenSlugs.has(slug)) continue
+    seenSlugs.add(slug)
     bySlug.set(slug, post)
 
-    // 🏷 tags index
     for (const tag of post.data.tags) {
       const list = byTag.get(tag) ?? []
       list.push(post)
       byTag.set(tag, list)
     }
 
-    // 📚 series index
     const series = post.data.series
     if (series) {
       const list = bySeries.get(series) ?? []
@@ -48,23 +49,16 @@ export async function buildContentGraph(): Promise<ContentGraph> {
     }
   }
 
-  return {
-    posts,
-    bySlug,
-    byTag,
-    bySeries,
-  }
+  return { posts, bySlug, byTag, bySeries }
 }
 
-export function getPost(graph: ContentGraph, slug: string) {
+export function getPost(graph: ContentGraph, slug: string): Post | null {
   return graph.bySlug.get(slug) ?? null
 }
 
 export function getPrevNext(graph: ContentGraph, slug: string) {
   const posts = graph.posts
-
-  const index = posts.findIndex((post) => (post.data.slug ?? post.id) === slug)
-
+  const index = posts.findIndex((post) => getPostSlug(post) === slug)
   if (index < 0) return { prev: null, next: null }
 
   return {
@@ -81,10 +75,8 @@ export function getRelated(graph: ContentGraph, slug: string) {
 
   for (const tag of post.data.tags) {
     const relatedPosts = graph.byTag.get(tag) ?? []
-
     for (const relatedPost of relatedPosts) {
       if (relatedPost === post) continue
-
       scores.set(relatedPost, (scores.get(relatedPost) ?? 0) + 1)
     }
   }
@@ -100,14 +92,10 @@ export function getSeries(graph: ContentGraph, slug: string) {
   if (!post || !post.data.series) return null
 
   const seriesPosts = graph.bySeries.get(post.data.series) ?? []
-
   const sorted = [...seriesPosts].sort(
-    (seriesPostA, seriesPostB) =>
-      (seriesPostA.data.orderInSeries ?? 0) - (seriesPostB.data.orderInSeries ?? 0)
+    (postA, postB) => (postA.data.orderInSeries ?? 0) - (postB.data.orderInSeries ?? 0)
   )
-
-  const index = sorted.findIndex((seriesPost) => (seriesPost.data.slug ?? seriesPost.id) === slug)
-
+  const index = sorted.findIndex((post) => getPostSlug(post) === slug)
   if (index < 0) return null
 
   return {

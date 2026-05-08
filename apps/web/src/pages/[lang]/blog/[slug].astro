@@ -5,26 +5,39 @@ import TableOfContents from '@/components/Blog/TableOfContents.astro'
 import PostHero from '@/components/Blog/PostHero.astro'
 import ArticleContent from '@/components/Blog/ArticleContent.astro'
 import RelatedPosts from '@/components/Blog/RelatedPosts.astro'
-import { getAllPosts } from '@/lib/cms'
+import { getLocalizedPosts, getPostSlug, type SupportedLocale } from '@/lib/cms'
 import { readingTime } from '@/lib/reading-time'
-import { getSlug } from '@/lib/content-graph'
 import { render } from 'astro:content'
 import { SITE } from '@/lib/site'
 import { getImageUrl, getAdjacentPosts } from '@/lib/post'
 import { formatDate } from '@/lib/date'
-import { getPostPath } from '@/lib/routes'
+import { getBlogPath } from '@/lib/routes'
+import { getTranslations } from '@/lib/i18n'
+import { getCanonicalUrl, getAlternateUrls, isValidLocale } from '@/lib/content-utils'
 import type { CollectionEntry } from 'astro:content'
 
 export const prerender = true
 
 export async function getStaticPaths() {
-  const routePosts = await getAllPosts({ includeNoindex: true })
-  const publicPosts = await getAllPosts()
+  const locales: SupportedLocale[] = ['vi', 'en']
+  const paths: {
+    params: { lang: SupportedLocale; slug: string }
+    props: { post: CollectionEntry<'posts'>; allPosts: CollectionEntry<'posts'>[] }
+  }[] = []
 
-  return routePosts.map((post) => ({
-    params: { slug: getSlug(post) },
-    props: { post, allPosts: publicPosts },
-  }))
+  for (const locale of locales) {
+    const posts = await getLocalizedPosts(locale, { includeNoindex: true })
+    const visiblePosts = posts.filter((post) => !post.data.noindex)
+
+    for (const post of visiblePosts) {
+      paths.push({
+        params: { lang: locale, slug: getPostSlug(post) },
+        props: { post, allPosts: visiblePosts },
+      })
+    }
+  }
+
+  return paths
 }
 
 interface Props {
@@ -32,20 +45,13 @@ interface Props {
   allPosts: CollectionEntry<'posts'>[]
 }
 
-// ============================================================================
-// Data Fetching
-// ============================================================================
-
 const siteUrl = Astro.site?.origin ?? ''
+const langParam = Astro.params.lang ?? 'vi'
+const lang = isValidLocale(langParam) ? langParam : 'vi'
 const slug = Astro.params.slug
 const { post, allPosts } = Astro.props as Props
-const isPreview = Astro.url.searchParams.get('preview') === 'true'
 
 const { Content, headings } = await render(post)
-
-// ============================================================================
-// Post Data
-// ============================================================================
 
 const {
   title,
@@ -61,29 +67,23 @@ const {
 const formattedDate = formatDate(publishedAt)
 const updatedDate = updatedAt ? formatDate(updatedAt) : null
 
-// Content metrics
 const bodyText = post.body ?? ''
 const wordCount = bodyText.trim().split(/\s+/).filter(Boolean).length
 const readingTimeMin = readingTime(bodyText)
 
-// ============================================================================
-// Navigation & Related Posts
-// ============================================================================
+const i18n = getTranslations(lang)
 
-const currentIndex = allPosts.findIndex((entry) => getSlug(entry) === slug)
+const currentIndex = allPosts.findIndex((entry) => getPostSlug(entry) === slug)
 const { prev: prevPost, next: nextPost } = getAdjacentPosts(allPosts, currentIndex)
 
 const relatedPosts = allPosts
-  .filter((entry) => getSlug(entry) !== slug && entry.data.category === category)
+  .filter((entry) => getPostSlug(entry) !== slug && entry.data.category === category)
   .slice(0, 3)
 
-// ============================================================================
-// SEO & Metadata
-// ============================================================================
-
-const canonicalUrl = new URL(getPostPath(post), siteUrl || Astro.url.origin).href
+const canonicalUrl = getCanonicalUrl(lang, `/blog/${slug}`, siteUrl || Astro.url.origin)
 const publishedTime = publishedAt.toISOString()
 const modifiedTime = updatedAt?.toISOString() ?? publishedTime
+const alternateUrls = getAlternateUrls(`/blog/${slug}`, siteUrl)
 
 const articleJsonLd = {
   '@context': 'https://schema.org',
@@ -109,6 +109,30 @@ const articleJsonLd = {
   },
   keywords: [...tags, category],
 } as const
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: `${siteUrl}/${lang}`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Blog',
+      item: getBlogPath(lang),
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: title,
+    },
+  ],
+} as const
 ---
 
 <BaseLayout
@@ -119,19 +143,14 @@ const articleJsonLd = {
   modifiedTime={modifiedTime}
   author={author}
   type="article"
-  jsonLd={articleJsonLd}
-  noindex={isPreview || post.data.noindex}
+  jsonLd={[articleJsonLd, breadcrumbJsonLd]}
+  noindex={post.data.noindex}
+  lang={lang}
+  currentPath={`/${lang}/blog/${slug}`}
+  alternateUrls={alternateUrls}
   {...coverImage && { image: coverImage }}
 >
   <article class="min-h-screen" transition:name="post-detail">
-    {
-      isPreview && (
-        <div class="border-b border-amber-500/30 bg-amber-500/10 px-4 py-3 text-center font-mono text-xs tracking-[0.22em] text-amber-200 uppercase">
-          Preview mode
-        </div>
-      )
-    }
-    <!-- Hero Section -->
     <PostHero
       category={category}
       title={title}
@@ -142,17 +161,14 @@ const articleJsonLd = {
       {...coverImage && { coverImage }}
     />
 
-    <!-- 3-Column Layout -->
     <div class="container py-8 lg:py-12">
       <div
         class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-[200px_1fr_240px] lg:gap-12"
       >
-        <!-- Left Sidebar: Table of Contents -->
         <aside class="order-2 lg:order-1">
-          <TableOfContents headings={headings} />
+          <TableOfContents headings={headings} i18n={i18n.post} />
         </aside>
 
-        <!-- Center: Article Content -->
         <ArticleContent
           tags={tags}
           author={author}
@@ -162,20 +178,19 @@ const articleJsonLd = {
           <Content />
         </ArticleContent>
 
-        <!-- Right Sidebar: Post Meta Card -->
         <aside class="order-3 hidden lg:block">
           <PostMetaCard
             author={author}
             publishedAt={formattedDate}
             readingTime={readingTimeMin}
             wordCount={wordCount}
+            i18n={i18n.post}
             {...updatedDate && { updatedAt: updatedDate }}
           />
         </aside>
       </div>
     </div>
 
-    <!-- Related Posts -->
-    <RelatedPosts relatedPosts={relatedPosts} />
+    <RelatedPosts relatedPosts={relatedPosts} i18n={i18n.post} />
   </article>
 </BaseLayout>

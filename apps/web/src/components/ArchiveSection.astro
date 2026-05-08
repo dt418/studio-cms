@@ -5,9 +5,27 @@ import { getPostPath } from '@/lib/routes'
 
 interface Props {
   posts: Post[]
+  translations?: {
+    browse: string
+    allPosts: string
+    fullArchive: string
+    openFullArchive: string
+    noArchivedPosts: string
+  }
+  lang?: 'vi' | 'en'
 }
 
-const { posts } = Astro.props
+const { posts, translations, lang = 'vi' } = Astro.props
+
+const labels = translations ?? {
+  browse: 'Browse',
+  allPosts: 'All posts and writing.',
+  fullArchive: 'The full archive of tutorials, guides, and notes.',
+  openFullArchive: 'Open full archive',
+  noArchivedPosts: 'No archived posts yet — see the latest above.',
+}
+
+const archivePath = lang === 'en' ? '/en/blog' : '/blog'
 ---
 
 <section class="border-border border-b">
@@ -15,27 +33,25 @@ const { posts } = Astro.props
     <div class="flex flex-col gap-4 pb-6 lg:flex-row lg:items-end lg:justify-between">
       <div class="max-w-2xl">
         <p class="text-muted-foreground/50 font-mono text-[0.62rem] tracking-[0.28em] uppercase">
-          Browse
+          {labels.browse}
         </p>
         <h2 class="mt-4 max-w-2xl text-2xl font-semibold tracking-tight lg:text-3xl">
-          All posts and writing.
+          {labels.allPosts}
         </h2>
         <p class="text-muted-foreground/70 mt-4 max-w-2xl text-base leading-7 sm:text-lg">
-          The full archive of tutorials, guides, and notes.
+          {labels.fullArchive}
         </p>
       </div>
       <a
-        href="/blog"
+        href={archivePath}
         class="text-muted-foreground/50 hover:text-foreground font-mono text-[0.72rem] tracking-[0.26em] uppercase transition-colors"
       >
-        Open full archive →
+        {labels.openFullArchive} →
       </a>
     </div>
     {
       posts.length === 0 ? (
-        <p class="text-muted-foreground/60 mt-8 text-sm">
-          No archived posts yet — see the latest above.
-        </p>
+        <p class="text-muted-foreground/60 mt-8 text-sm">{labels.noArchivedPosts}</p>
       ) : (
         <ul class="divide-border border-border mt-8 divide-y border-y">
           {posts.map((post) => (

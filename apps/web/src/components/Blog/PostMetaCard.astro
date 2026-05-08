@@ -5,15 +5,39 @@ interface Props {
   updatedAt?: string
   readingTime: number
   wordCount: number
+  i18n?: {
+    readingDetails: string
+    author: string
+    published: string
+    updated: string
+    minRead: string
+    words: string
+    share: string
+  }
 }
 
-const { author, publishedAt, updatedAt, readingTime, wordCount } = Astro.props
+const {
+  author,
+  publishedAt,
+  updatedAt,
+  readingTime,
+  wordCount,
+  i18n = {
+    readingDetails: 'Reading Details',
+    author: 'Author',
+    published: 'Published',
+    updated: 'Updated',
+    minRead: 'Min read',
+    words: 'Words',
+    share: 'Share',
+  },
+} = Astro.props
 ---
 
 <div class="sticky top-24 hidden xl:block">
   <article class="card-hover space-y-5">
     <h3 class="text-muted-foreground/50 font-mono text-[0.62rem] tracking-[0.28em] uppercase">
-      Reading Details
+      {i18n.readingDetails}
     </h3>
 
     <div class="space-y-4">
@@ -21,7 +45,7 @@ const { author, publishedAt, updatedAt, readingTime, wordCount } = Astro.props
         <p
           class="text-muted-foreground/50 mb-1 font-mono text-[0.62rem] tracking-[0.22em] uppercase"
         >
-          Author
+          {i18n.author}
         </p>
         <p class="text-foreground text-sm font-medium">{author}</p>
       </div>
@@ -30,7 +54,7 @@ const { author, publishedAt, updatedAt, readingTime, wordCount } = Astro.props
         <p
           class="text-muted-foreground/50 mb-1 font-mono text-[0.62rem] tracking-[0.22em] uppercase"
         >
-          Published
+          {i18n.published}
         </p>
         <time class="text-foreground text-sm" datetime={publishedAt}>{publishedAt}</time>
       </div>
@@ -39,7 +63,7 @@ const { author, publishedAt, updatedAt, readingTime, wordCount } = Astro.props
         updatedAt && (
           <div>
             <p class="text-muted-foreground/50 mb-1 font-mono text-[0.62rem] tracking-[0.22em] uppercase">
-              Updated
+              {i18n.updated}
             </p>
             <time class="text-foreground text-sm" datetime={updatedAt}>
               {updatedAt}
@@ -53,13 +77,13 @@ const { author, publishedAt, updatedAt, readingTime, wordCount } = Astro.props
       <div class="grid grid-cols-2 gap-4">
         <div>
           <p class="text-foreground text-2xl font-bold tabular-nums">{readingTime}</p>
-          <p class="text-muted-foreground/60 mt-0.5 text-xs">Min read</p>
+          <p class="text-muted-foreground/60 mt-0.5 text-xs">{i18n.minRead}</p>
         </div>
         <div>
           <p class="text-foreground text-2xl font-bold tabular-nums">
             {wordCount.toLocaleString()}
           </p>
-          <p class="text-muted-foreground/60 mt-0.5 text-xs">Words</p>
+          <p class="text-muted-foreground/60 mt-0.5 text-xs">{i18n.words}</p>
         </div>
       </div>
     </div>
@@ -67,7 +91,7 @@ const { author, publishedAt, updatedAt, readingTime, wordCount } = Astro.props
     <div class="bg-border h-px"></div>
     <div>
       <p class="text-muted-foreground/50 mb-3 font-mono text-[0.62rem] tracking-[0.22em] uppercase">
-        Share
+        {i18n.share}
       </p>
       <div class="flex gap-2">
         <button

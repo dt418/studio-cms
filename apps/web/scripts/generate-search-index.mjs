@@ -1,9 +1,21 @@
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 
-const POSTS_DIR = './src/content/posts'
-const OUTPUT_DIR = './dist'
+const POSTS_DIR = resolve('./src/content/posts')
+const OUTPUT_DIR = resolve('./dist')
 const OUTPUT_FILE = join(OUTPUT_DIR, 'search-index.html')
+
+function walkDirectory(dir, files = []) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const fullPath = join(dir, entry.name)
+    if (entry.isDirectory()) {
+      walkDirectory(fullPath, files)
+    } else if (entry.name.match(/\.(md|mdx)$/)) {
+      files.push(fullPath)
+    }
+  }
+  return files
+}
 
 function parseFrontmatter(fileContent) {
   const match = fileContent.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/)
@@ -61,14 +73,64 @@ function htmlEscape(str) {
     .replace(/"/g, '&quot;')
 }
 
-const files = readdirSync(POSTS_DIR).filter((file) => file.endsWith('.md') || file.endsWith('.mdx'))
+const files = walkDirectory(POSTS_DIR)
+
+function groupPostsByLocale(posts) {
+  const groups = {}
+  for (const post of posts) {
+    // Determine locale from file path: en/ or vi/ prefix
+    const localeMatch = post.file.match(/^(en|vi)\//)
+    const locale = localeMatch ? localeMatch[1] : 'vi'
+    if (!groups[locale]) groups[locale] = []
+    groups[locale].push(post)
+  }
+  return groups
+}
+
+function generateHtmlForLocale(posts, locale) {
+  const htmlParts = posts.map((post) => {
+    const categoryFilter = post.category
+      ? `<span data-pagefind-filter="category" hidden>${htmlEscape(post.category)}</span>`
+      : ''
+    const tagFilters = post.tags
+      .map((tag) => `<span data-pagefind-filter="tag" hidden>${htmlEscape(tag)}</span>`)
+      .join('')
+
+    return `
+<article data-pagefind-body${locale ? ` lang="${locale}"` : ''}>
+  ${categoryFilter}${tagFilters}
+  <h1 data-pagefind-meta="title">${htmlEscape(post.title)}</h1>
+  <p data-pagefind-meta="excerpt">${htmlEscape(post.excerpt)}</p>
+  <p data-pagefind-meta="coverImage">${htmlEscape(post.coverImage)}</p>
+  <p data-pagefind-meta="category">${htmlEscape(post.category)}</p>
+  <p data-pagefind-meta="tags">${post.tags.map((tag) => htmlEscape(tag)).join(', ')}</p>
+  <p data-pagefind-meta="slug">${htmlEscape(post.slug)}</p>
+  <p data-pagefind-meta="publishedAt">${htmlEscape(post.publishedAt)}</p>
+  <div>${htmlEscape(post.body)}</div>
+</article>`
+  })
+
+  const langAttr = locale ? ` lang="${locale}"` : ''
+  return `<!DOCTYPE html>
+<html${langAttr}>
+<head>
+  <meta charset="UTF-8">
+  <title>Search Index${locale ? ` - ${locale.toUpperCase()}` : ''}</title>
+  <meta name="robots" content="noindex">
+</head>
+<body>
+${htmlParts.join('\n')}
+</body>
+</html>`
+}
 
 const posts = files.map((file) => {
-  const content = readFileSync(join(POSTS_DIR, file), 'utf-8')
+  const content = readFileSync(file, 'utf-8')
   const { data, body } = parseFrontmatter(content)
+  const relativePath = file.replace(POSTS_DIR + '/', '')
   return {
-    file,
-    slug: data.slug || file.replace(/\.(md|mdx)$/, ''),
+    file: relativePath,
+    slug: data.slug || relativePath.replace(/\.(md|mdx)$/, '').replace(/^[^\/]+\//, ''),
     title: data.title || 'Untitled',
     excerpt: data.excerpt || '',
     coverImage: data.coverImage || '',
@@ -85,43 +147,12 @@ posts.sort((nameA, nameB) => {
   return new Date(nameB.publishedAt) - new Date(nameA.publishedAt)
 })
 
-const htmlParts = posts.map((post) => {
-  const categoryFilter = post.category
-    ? `<span data-pagefind-filter="category" hidden>${htmlEscape(post.category)}</span>`
-    : ''
-  const tagFilters = post.tags
-    .map((tag) => `<span data-pagefind-filter="tag" hidden>${htmlEscape(tag)}</span>`)
-    .join('')
+// Generate separate index file per locale
+const postsByLocale = groupPostsByLocale(posts)
 
-  return `
-<article data-pagefind-body>
-  ${categoryFilter}${tagFilters}
-  <h1 data-pagefind-meta="title">${htmlEscape(post.title)}</h1>
-  <p data-pagefind-meta="excerpt">${htmlEscape(post.excerpt)}</p>
-  <p data-pagefind-meta="coverImage">${htmlEscape(post.coverImage)}</p>
-  <p data-pagefind-meta="category">${htmlEscape(post.category)}</p>
-  <p data-pagefind-meta="tags">${post.tags.map((tag) => htmlEscape(tag)).join(', ')}</p>
-  <p data-pagefind-meta="slug">${htmlEscape(post.slug)}</p>
-  <p data-pagefind-meta="publishedAt">${htmlEscape(post.publishedAt)}</p>
-  <div>${htmlEscape(post.body)}</div>
-</article>`
-})
-
-const fullHtml = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Search Index</title>
-  <meta name="robots" content="noindex">
-</head>
-<body>
-${htmlParts.join('\n')}
-</body>
-</html>`
-
-if (!existsSync(OUTPUT_DIR)) {
-  mkdirSync(OUTPUT_DIR, { recursive: true })
+for (const [locale, localePosts] of Object.entries(postsByLocale)) {
+  const outputFile = join(OUTPUT_DIR, `search-index-${locale}.html`)
+  const fullHtml = generateHtmlForLocale(localePosts, locale)
+  writeFileSync(outputFile, fullHtml, 'utf-8')
+  console.log(`[search-index] Generated ${outputFile} with ${localePosts.length} posts`)
 }
-
-writeFileSync(OUTPUT_FILE, fullHtml, 'utf-8')
-console.log(`[search-index] Generated ${OUTPUT_FILE} with ${posts.length} posts`)

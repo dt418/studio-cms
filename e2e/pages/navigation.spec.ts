@@ -9,14 +9,14 @@ test.describe('Navigation', () => {
     await expect(branding).toBeVisible()
     await expect(branding).toContainText('DT')
 
-    // Should have blog link with "writing" text
-    const blogLink = page.locator('header a[href="/blog"]')
+    // Should have blog link with "viết" text
+    const blogLink = page.locator('header a[href="/vi/blog"]')
     await expect(blogLink).toBeVisible()
-    await expect(blogLink).toContainText('writing')
+    await expect(blogLink).toContainText('viết')
 
     // Navigate to blog
     await blogLink.click()
-    await expect(page).toHaveURL('/blog')
+    await expect(page).toHaveURL('/vi/blog')
   })
 
   test('header has RSS link', async ({ page }) => {
@@ -82,7 +82,7 @@ test.describe('Navigation', () => {
   })
 
   test('navigation from blog to home works', async ({ page }) => {
-    await page.goto('/blog')
+    await page.goto('/vi/blog')
 
     const homeLink = page.locator('header a[href="/"]')
     await expect(homeLink).toBeVisible()

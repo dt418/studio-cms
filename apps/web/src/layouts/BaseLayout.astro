@@ -1,8 +1,13 @@
 ---
 import '../styles/app.css'
 import { SITE } from '@/lib/site'
+import { resolveOgImage } from '@/lib/og-image'
+import LanguageSwitcher from '@/components/LanguageSwitcher.astro'
+import { getTranslations } from '@/lib/i18n'
 import '@fontsource-variable/inter'
 import '@fontsource-variable/jetbrains-mono'
+
+import type { SupportedLocale } from '@/lib/content-utils'
 
 export interface Props {
   title: string
@@ -15,6 +20,9 @@ export interface Props {
   type?: 'website' | 'article'
   noindex?: boolean
   jsonLd?: Record<string, unknown> | Record<string, unknown>[]
+  lang?: SupportedLocale
+  currentPath?: string
+  alternateUrls?: Record<SupportedLocale, string>
 }
 
 const {
@@ -28,20 +36,31 @@ const {
   type = 'website',
   noindex = false,
   jsonLd,
+  lang = 'vi',
+  currentPath = Astro.url.pathname,
+  alternateUrls,
 } = Astro.props
 
 const siteUrl = (Astro.site ?? Astro.url).origin || 'http://localhost:4321'
 const defaultImage = `${siteUrl}/og-image.png`
-const ogImageUrl = image ?? defaultImage
+const ogImageUrl = resolveOgImage(image, siteUrl, defaultImage)
+
 const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
+const i18n = getTranslations(lang)
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang={lang} class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${SITE.name} Blog RSS Feed`}
+      href="/rss.xml"
+    />
     <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <script is:inline>
@@ -71,6 +90,13 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
     <meta name="description" content={description} />
     <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
     <link rel="canonical" href={canonical} />
+    {
+      alternateUrls &&
+        Object.entries(alternateUrls).map(([locale, url]) => (
+          <link rel="alternate" hreflang={locale} href={url} />
+        ))
+    }
+    {alternateUrls && <link rel="alternate" hreflang="x-default" href={alternateUrls['vi']} />}
 
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title} />
@@ -78,17 +104,22 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:site_name" content={SITE.name} />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'vi_VN'} />
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
     {author && <meta property="article:author" content={author} />}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={SITE.social.twitter} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
+    {author && <meta name="twitter:creator" content={SITE.social.twitter} />}
 
     <!-- Author -->
     {author && <meta name="author" content={author} />}
@@ -102,18 +133,22 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
     <!-- Header (CPZ style, DT branding kept) -->
     <header class="border-border bg-background/80 sticky top-0 z-50 border-b backdrop-blur-xl">
       <div class="container flex h-14 items-center">
-        <a href="/" class="flex items-center gap-2 font-semibold tracking-tight">
+        <a href={`/${lang}`} class="flex items-center gap-2 font-semibold tracking-tight">
           <span class="text-lg">DT</span>
         </a>
         <nav
           class="ml-auto flex items-center gap-4 font-mono text-[0.62rem] tracking-[0.24em] uppercase"
         >
-          <a href="/blog" class="text-muted-foreground hover:text-foreground transition-colors">
-            writing
+          <a
+            href={`/${lang}/blog`}
+            class="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {i18n.nav.writing}
           </a>
           <a href="/rss.xml" class="text-muted-foreground hover:text-foreground transition-colors">
-            rss
+            {i18n.nav.rss}
           </a>
+          <LanguageSwitcher currentLang={lang} currentPath={currentPath} />
         </nav>
       </div>
     </header>
@@ -125,18 +160,17 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
         <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
           <div>
             <h2 class="mb-4 text-2xl font-bold tracking-tight">
-              Building onboarding, internal tooling, and operational systems with clear proof.
+              {i18n.footer.buildingOn}
             </h2>
             <p class="text-muted-foreground max-w-lg text-sm leading-relaxed">
-              Software engineer building systems that make complex products easier to adopt and
-              trust.
+              {i18n.footer.softwareEngineer}
             </p>
           </div>
           <div class="lg:flex lg:flex-col lg:items-end lg:text-right">
             <h3
               class="text-muted-foreground/60 mb-4 text-xs font-semibold tracking-wider uppercase"
             >
-              links
+              {i18n.footer.links}
             </h3>
             <ul class="space-y-3">
               <li>
@@ -144,7 +178,7 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
                   href={`mailto:${SITE.email}`}
                   class="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  email →
+                  {i18n.footer.email} →
                 </a>
               </li>
               <li>
@@ -154,7 +188,7 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
                   rel="noopener noreferrer"
                   class="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  github →
+                  {i18n.footer.github} →
                 </a>
               </li>
               <li>
@@ -162,7 +196,7 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
                   href="/rss.xml"
                   class="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  rss →
+                  {i18n.footer.rss} →
                 </a>
               </li>
               <li>
@@ -172,14 +206,17 @@ const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
                   rel="noopener noreferrer"
                   class="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  linkedin →
+                  {i18n.footer.linkedin} →
                 </a>
               </li>
             </ul>
           </div>
         </div>
         <div class="border-border text-muted-foreground/50 mt-16 border-t pt-6">
-          <p>{SITE.name} / {new Date().getFullYear()}</p>
+          <div class="flex items-center justify-between">
+            <p>{SITE.name} / {new Date().getFullYear()}</p>
+            <LanguageSwitcher currentLang={lang} currentPath={currentPath} />
+          </div>
         </div>
       </div>
     </footer>

@@ -25,6 +25,7 @@
     "effect": "^3.20.0",
     "kysely-turso": "^0.1.1",
     "sharp": "^0.34.3",
-    "studiocms": "^0.4.4"
+    "studiocms": "^0.4.4",
+    "vite": "6.3.4"
   }
 }

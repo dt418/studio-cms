@@ -23,7 +23,7 @@ test.describe('Accessibility Tests', () => {
 
   test('blog page should not have critical accessibility violations', async ({ page }) => {
     test.slow() // Axe scans can be slow, especially in Firefox
-    await page.goto('/blog')
+    await page.goto('/vi/blog')
     await expect(page.locator('h1')).toContainText('Blog')
 
     const accessibilityScanResults = await new AxeBuilder({ page })
@@ -59,7 +59,7 @@ test.describe('Accessibility Tests', () => {
   })
 
   test('keyboard navigation works on blog page', async ({ page }) => {
-    await page.goto('/blog')
+    await page.goto('/vi/blog')
 
     // Test tab navigation reaches filter inputs
     await page.keyboard.press('Tab')
@@ -139,7 +139,7 @@ test.describe('Accessibility Tests', () => {
   })
 
   test('blog page has proper heading hierarchy', async ({ page }) => {
-    await page.goto('/blog')
+    await page.goto('/vi/blog')
 
     const h1Count = await page.locator('h1').count()
     expect(h1Count).toBe(1)

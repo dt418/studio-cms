@@ -3,7 +3,11 @@ import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
 
 export const posts = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' }),
+  loader: glob({
+    pattern: '**/*.{md,mdx}',
+    base: import.meta.url.replace(/content\.config\.ts$/, 'content/posts'),
+    generateId: ({ entry }) => entry.replace(/\.(md|mdx)$/, ''),
+  }),
 
   schema: z.object({
     // 🧠 Core
@@ -40,6 +44,9 @@ export const posts = defineCollection({
     // 📚 Series (rất mạnh cho SEO)
     series: z.string().optional(),
     orderInSeries: z.number().int().positive().optional(),
+
+    // 🌐 Language
+    language: z.enum(['vi', 'en']).default('vi'),
 
     // ⚡ Optional nhưng hữu ích
     readingTime: z.number().optional(),

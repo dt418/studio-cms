@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Blog Listing Page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/blog')
+    await page.goto('/vi/blog')
   })
 
   test('page loads successfully', async ({ page }) => {
@@ -17,7 +17,7 @@ test.describe('Blog Listing Page', () => {
   })
 
   test('displays blog description', async ({ page }) => {
-    const description = page.locator('p:has-text("Build logs, hackathon writeups, and technical notes")')
+    const description = page.locator('p:has-text("Bài viết về lập trình")')
     await expect(description).toBeVisible()
   })
 
@@ -30,8 +30,8 @@ test.describe('Blog Listing Page', () => {
     expect(count).toBe(4)
 
     // Check for expected labels
-    await expect(statsGrid.getByText('Published notes')).toBeVisible()
-    await expect(statsGrid.getByText('Categories')).toBeVisible()
+    await expect(statsGrid.getByText('Bài đã xuất bản')).toBeVisible()
+    await expect(statsGrid.getByText('Chủ đề')).toBeVisible()
     await expect(statsGrid.getByText('Tags')).toBeVisible()
     await expect(statsGrid.getByText('Archive snapshot')).toBeVisible()
   })
@@ -67,9 +67,9 @@ test.describe('Blog Listing Page', () => {
 
   test('navigation from home page works', async ({ page }) => {
     await page.goto('/')
-    const blogLink = page.locator('header a[href="/blog"]')
+    const blogLink = page.locator('header a[href="/vi/blog"]')
     await blogLink.click()
-    await expect(page).toHaveURL('/blog')
+    await expect(page).toHaveURL('/vi/blog')
   })
 
   test('back to home navigation via header', async ({ page }) => {

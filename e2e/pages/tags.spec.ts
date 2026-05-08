@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Tags Page', () => {
   async function getFirstTagUrl(page: any): Promise<string | null> {
-    await page.goto('/blog')
+    await page.goto('/vi/blog')
 
     // Parse server-rendered JSON data island for tag extraction (no JS/combobox needed)
     const jsonText = await page.locator('#filter-data').textContent()
@@ -50,7 +50,7 @@ test.describe('Tags Page', () => {
 
   test('tag cloud displays on blog page', async ({ page }) => {
     test.setTimeout(15000)
-    await page.goto('/blog')
+    await page.goto('/vi/blog')
 
     // FilterSelect renders button-based combobox triggers (not native <select>)
     const triggers = page.locator('[role="combobox"]')
@@ -121,6 +121,6 @@ test.describe('Tags Page', () => {
 
     const blogLink = page.getByRole('link', { name: /Back to Blog/i })
     await blogLink.click()
-    await expect(page).toHaveURL('/blog')
+    await expect(page).toHaveURL('/vi/blog')
   })
 })

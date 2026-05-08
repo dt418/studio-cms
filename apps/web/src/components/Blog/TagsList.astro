@@ -1,18 +1,23 @@
 ---
+import type { CollectionEntry } from 'astro:content'
+import { getTagPath } from '@/lib/routes'
+import { getPostLocale } from '@/lib/content-utils'
+
 interface Props {
   tags: string[]
+  post?: CollectionEntry<'posts'>
+  locale?: string
 }
 
-import { getTagPath } from '@/lib/routes'
-
-const { tags } = Astro.props
+const { tags, post, locale } = Astro.props
+const postLocale = locale ?? (post ? getPostLocale(post) : 'vi')
 ---
 
 <div class="flex flex-wrap gap-2">
   {
     tags.map((tag) => (
       <a
-        href={getTagPath(tag)}
+        href={getTagPath(tag, postLocale as 'vi' | 'en')}
         class="border-border text-muted-foreground hover:text-foreground hover:bg-accent inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition-colors"
       >
         #{tag}

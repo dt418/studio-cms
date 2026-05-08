@@ -4,8 +4,9 @@ slug: 'mastering-typescript-generics'
 excerpt: 'Deep dive into TypeScript generics and learn how to write reusable, type-safe code.'
 coverImage: 'https://picsum.photos/seed/typescript/1200/630'
 publishedAt: 2025-02-10
-updatedAt: 2025-02-12
+updatedAt: 2025-02-10
 tags: ['typescript', 'programming', 'generics']
+language: 'en'
 category: 'tutorials'
 ---
 

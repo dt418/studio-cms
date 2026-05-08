@@ -28,7 +28,7 @@ describe('filterPosts', () => {
       excerpt: 'Complete guide to building SaaS products',
       category: 'guides',
       tags: ['astro', 'saas', 'business'],
-      publishedAt: new Date('2025-03-05'),
+      publishedAt: new Date('2026-04-05'),
       body: 'saas business model guide',
     }),
   ]
@@ -116,14 +116,14 @@ describe('filterPosts', () => {
   describe('sorting', () => {
     it('sorts by date descending by default', () => {
       const result = filterPosts(posts, {})
-      expect(result[0]?.data.publishedAt).toEqual(new Date('2025-03-05'))
+      expect(result[0]?.data.publishedAt).toEqual(new Date('2026-04-05'))
       expect(result[2]?.data.publishedAt).toEqual(new Date('2025-01-15'))
     })
 
     it('sorts by date ascending', () => {
       const result = filterPosts(posts, { sortField: 'date', sortOrder: 'asc' })
       expect(result[0]?.data.publishedAt).toEqual(new Date('2025-01-15'))
-      expect(result[2]?.data.publishedAt).toEqual(new Date('2025-03-05'))
+      expect(result[2]?.data.publishedAt).toEqual(new Date('2026-04-05'))
     })
 
     it('sorts by title ascending', () => {

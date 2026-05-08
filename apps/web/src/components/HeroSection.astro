@@ -1,14 +1,16 @@
 ---
 import StatsBadge from './StatsBadge.astro'
 import CTAButtons from './CTAButtons.astro'
+import type { Translations } from '@/lib/i18n'
 
 export interface Props {
   posts: number
   categories: number
   allTags: number
+  i18n: Translations['hero']
 }
 
-const { posts, categories, allTags } = Astro.props
+const { posts, categories, allTags, i18n } = Astro.props
 ---
 
 <section class="border-border bg-background border-b">
@@ -20,7 +22,7 @@ const { posts, categories, allTags } = Astro.props
           <p
             class="text-muted-foreground/50 mb-6 font-mono text-[0.62rem] tracking-[0.28em] uppercase"
           >
-            For developers shipping modern web products
+            {i18n.tagline}
           </p>
           <h1
             class="mb-6 text-[clamp(2.5rem,12vw,7rem)] leading-[0.84] font-semibold tracking-[-0.09em] uppercase"
@@ -31,18 +33,17 @@ const { posts, categories, allTags } = Astro.props
           <p
             class="text-muted-foreground/70 max-w-xl text-[0.98rem] leading-7 sm:text-lg sm:leading-8"
           >
-            Software engineer sharing practical insights on designing, developing, launching, and
-            growing modern web products.
+            {i18n.description}
           </p>
         </div>
         <div class="max-w-xl space-y-4">
-          <CTAButtons />
+          <CTAButtons i18n={i18n.cta} />
           <div
             class="hidden flex-wrap items-center gap-3 text-[0.72rem] tracking-[0.26em] uppercase sm:flex"
           >
-            <StatsBadge label="posts" value={posts} />
-            <StatsBadge label="topics" value={categories} />
-            <StatsBadge label="tags" value={allTags} />
+            <StatsBadge label={i18n.posts} value={posts} />
+            <StatsBadge label={i18n.topics} value={categories} />
+            <StatsBadge label={i18n.tags} value={allTags} />
           </div>
         </div>
       </div>

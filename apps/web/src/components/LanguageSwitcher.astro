@@ -1,0 +1,36 @@
+---
+import type { SupportedLocale } from '@/lib/content-utils'
+import { SUPPORTED_LOCALES } from '@/lib/content-utils'
+
+interface Props {
+  currentLang: SupportedLocale
+  currentPath: string
+}
+
+const { currentLang, currentPath } = Astro.props
+
+function switchLocale(targetLang: SupportedLocale): string {
+  const pathWithoutLang = currentPath.replace(/^\/(vi|en)/, '')
+  return `/${targetLang}${pathWithoutLang || '/blog'}`
+}
+---
+
+<div class="flex items-center gap-1">
+  {
+    SUPPORTED_LOCALES.map((locale) => (
+      <a
+        href={switchLocale(locale)}
+        class:list={[
+          'rounded px-2 py-1 font-mono text-xs tracking-wider uppercase transition-colors',
+          currentLang === locale
+            ? 'bg-foreground text-background'
+            : 'text-muted-foreground hover:text-foreground',
+        ]}
+        hreflang={locale}
+      >
+        {locale.toUpperCase()}
+      </a>
+    ))
+  }
+  {currentLang !== SUPPORTED_LOCALES[0] && <span class="text-muted-foreground/30">/</span>}
+</div>

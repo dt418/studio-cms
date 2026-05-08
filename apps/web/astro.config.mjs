@@ -1,6 +1,5 @@
 import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
-import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
@@ -15,6 +14,18 @@ export default defineConfig({
   site: process.env['CF_PAGES_URL'] ?? process.env['SITE_URL'] ?? 'http://localhost:4321',
   output: 'static',
   devToolbar: { enabled: false },
+
+  i18n: {
+    locales: ['vi', 'en'],
+    defaultLocale: 'vi',
+    routing: {
+      prefixDefaultLocale: true,
+      fallbackType: 'rewrite',
+    },
+    fallback: {
+      en: 'vi',
+    },
+  },
 
   vite: {
     resolve: {
@@ -44,9 +55,6 @@ export default defineConfig({
         },
       },
       plugins: [ecTwoSlash()],
-    }),
-    sitemap({
-      filter: (page) => !page.includes('/api/'),
     }),
     compress({
       HTML: {

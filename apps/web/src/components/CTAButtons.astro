@@ -1,8 +1,16 @@
 ---
+interface Props {
+  i18n?: {
+    readBlog: string
+    rssFeed: string
+  }
+}
 
+const { i18n } = Astro.props
+const labels = i18n ?? { readBlog: 'Read the blog', rssFeed: 'RSS Feed' }
 ---
 
 <div class="flex flex-col gap-3 sm:flex-row">
-  <a href="/blog" class="btn btn-primary btn-lg"> Read the blog </a>
-  <a href="/rss.xml" class="btn btn-outline btn-lg"> RSS Feed </a>
+  <a href="/vi/blog" class="btn btn-primary btn-lg"> {labels.readBlog} </a>
+  <a href="/rss.xml" class="btn btn-outline btn-lg"> {labels.rssFeed} </a>
 </div>

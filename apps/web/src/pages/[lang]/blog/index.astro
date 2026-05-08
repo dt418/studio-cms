@@ -1,0 +1,87 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import BlogFilter from '@/components/BlogFilter.astro'
+import BlogHeader from '@/components/Blog/BlogHeader.astro'
+import StatsGrid from '@/components/Blog/StatsGrid.astro'
+import { getLocalizedPosts, getAllTags, getAllCategories, type SupportedLocale } from '@/lib/cms'
+import { SITE } from '@/lib/site'
+import { getTranslations } from '@/lib/i18n'
+import { getBlogPath } from '@/lib/routes'
+import { getCanonicalUrl, isValidLocale } from '@/lib/content-utils'
+
+export const prerender = true
+
+export async function getStaticPaths() {
+  const locales: SupportedLocale[] = ['vi', 'en']
+  return locales.map((locale) => ({
+    params: { lang: locale },
+    props: { locale },
+  }))
+}
+
+const langParam = Astro.params.lang ?? 'vi'
+const lang = isValidLocale(langParam) ? langParam : 'vi'
+const siteUrl = Astro.site?.origin ?? ''
+
+const i18n = getTranslations(lang)
+const posts = await getLocalizedPosts(lang)
+const categories = await getAllCategories(lang)
+const tags = await getAllTags(lang)
+
+const stats = [
+  { value: posts.length, label: i18n.blog.stats.publishedNotes },
+  { value: categories.length, label: i18n.blog.stats.categories },
+  { value: tags.length, label: i18n.blog.stats.tags },
+  { value: new Date().getFullYear(), label: i18n.blog.stats.archiveSnapshot },
+]
+
+const blogPath = getBlogPath(lang)
+const canonicalUrl = getCanonicalUrl(lang, '/blog', siteUrl)
+---
+
+<BaseLayout
+  title={`${i18n.blog.archive} | ${SITE.name}`}
+  description={i18n.blog.description}
+  canonicalUrl={canonicalUrl}
+  lang={lang}
+  currentPath={blogPath}
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: `${SITE.name} - ${i18n.blog.archive}`,
+      description: i18n.blog.description,
+      url: canonicalUrl,
+      isPartOf: {
+        '@type': 'WebSite',
+        name: SITE.name,
+        url: siteUrl,
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: siteUrl,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Blog',
+          item: canonicalUrl,
+        },
+      ],
+    },
+  ]}
+>
+  <BlogHeader title={i18n.blog.archive} description={i18n.blog.description} />
+
+  <section class="container py-10">
+    <StatsGrid stats={stats} />
+    <BlogFilter posts={posts} categories={categories} tags={tags} />
+  </section>
+</BaseLayout>

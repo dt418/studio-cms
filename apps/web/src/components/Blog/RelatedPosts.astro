@@ -4,9 +4,12 @@ import type { CollectionEntry } from 'astro:content'
 
 interface Props {
   relatedPosts: CollectionEntry<'posts'>[]
+  i18n?: {
+    relatedPosts: string
+  }
 }
 
-const { relatedPosts } = Astro.props
+const { relatedPosts, i18n = { relatedPosts: 'Related Posts' } } = Astro.props
 ---
 
 {
@@ -14,7 +17,7 @@ const { relatedPosts } = Astro.props
     <section class="border-border border-t">
       <div class="container py-16">
         <div class="mb-8 flex items-center justify-between">
-          <h2 class="text-foreground text-2xl font-bold tracking-tight">Related Posts</h2>
+          <h2 class="text-foreground text-2xl font-bold tracking-tight">{i18n.relatedPosts}</h2>
           <span class="text-muted-foreground/50 border-border rounded-full border px-3 py-1 font-mono text-xs">
             {relatedPosts.length}
           </span>

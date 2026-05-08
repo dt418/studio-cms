@@ -1,0 +1,153 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import HeroSection from '@/components/HeroSection.astro'
+import SectionHeader from '@/components/SectionHeader.astro'
+import MetricCard from '@/components/MetricCard.astro'
+import MarqueeSection from '@/components/MarqueeSection.astro'
+import FeaturedWork from '@/components/FeaturedWork.astro'
+import ArchiveSection from '@/components/ArchiveSection.astro'
+import { getLocalizedPosts, getAllCategories, getAllTags, type SupportedLocale } from '@/lib/cms'
+import { getTranslations } from '@/lib/i18n'
+import { SITE } from '@/lib/site'
+import { getHomePath } from '@/lib/routes'
+import { getCanonicalUrl, isValidLocale } from '@/lib/content-utils'
+
+export const prerender = true
+
+export async function getStaticPaths() {
+  const locales: SupportedLocale[] = ['vi', 'en']
+  return locales.map((locale) => ({
+    params: { lang: locale },
+    props: { locale },
+  }))
+}
+
+const langParam = Astro.params.lang ?? 'vi'
+const lang = isValidLocale(langParam) ? langParam : 'vi'
+const siteUrl = Astro.site?.origin ?? ''
+
+const i18n = getTranslations(lang)
+const posts = await getLocalizedPosts(lang)
+const categories = await getAllCategories(lang)
+const allTags = await getAllTags(lang)
+
+const featuredPost = posts[0] ?? null
+const recentPosts = posts.slice(1, 4)
+const archivePosts = posts.slice(4)
+
+const metrics = [
+  {
+    label: i18n.blog.stats.publishedNotes,
+    value: `${posts.length} ${i18n.blog.stats.publishedNotes.toLowerCase()}`,
+    category: i18n.blog.stats.categories,
+    description: i18n.hero.description,
+  },
+  {
+    label: i18n.blog.stats.categories,
+    value: `${categories.length} ${i18n.blog.stats.categories.toLowerCase()}`,
+    category: i18n.blog.stats.tags,
+    description: i18n.hero.description,
+  },
+  {
+    label: i18n.blog.stats.tags,
+    value: `${allTags.length} tags`,
+    category: i18n.blog.stats.archiveSnapshot,
+    description: i18n.hero.description,
+  },
+]
+
+const homePath = getHomePath(lang)
+const canonicalUrl = getCanonicalUrl(lang, '/', siteUrl)
+---
+
+<BaseLayout
+  title={`${SITE.name} | ${lang === 'en' ? 'Engineering Blog' : 'Blog Lập Trình'}`}
+  description={SITE.description}
+  canonicalUrl={canonicalUrl}
+  lang={lang}
+  currentPath={homePath}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE.name,
+    url: siteUrl,
+    description: SITE.description,
+    author: {
+      '@type': 'Person',
+      name: SITE.author,
+      url: siteUrl,
+      sameAs: [SITE.social.github, SITE.social.linkedin],
+    },
+  }}
+>
+  <HeroSection
+    posts={posts.length}
+    categories={categories.length}
+    allTags={allTags.length}
+    i18n={i18n.hero}
+  >
+    <div slot="terminal" class="hidden items-end justify-end lg:flex">
+      <div class="border-border bg-card/30 w-full max-w-lg border p-6">
+        <div class="border-border mb-6 space-y-3 border-b pb-4">
+          <p class="text-muted-foreground/50 font-mono text-[0.68rem] tracking-[0.28em] uppercase">
+            {i18n.hero.tagline}
+          </p>
+          <div class="text-muted-foreground/80 space-y-2 text-sm">
+            <p>{i18n.hero.description}</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div class="space-y-1">
+            <p
+              class="text-muted-foreground/40 font-mono text-[0.66rem] tracking-[0.28em] uppercase"
+            >
+              01
+            </p>
+            <p class="text-lg leading-none font-medium">{i18n.hero.posts}</p>
+          </div>
+          <div class="space-y-1">
+            <p
+              class="text-muted-foreground/40 font-mono text-[0.66rem] tracking-[0.28em] uppercase"
+            >
+              02
+            </p>
+            <p class="text-lg leading-none font-medium">{i18n.hero.topics}</p>
+          </div>
+          <div class="space-y-1">
+            <p
+              class="text-muted-foreground/40 font-mono text-[0.66rem] tracking-[0.28em] uppercase"
+            >
+              03
+            </p>
+            <p class="text-lg leading-none font-medium">{i18n.hero.tags}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </HeroSection>
+
+  <SectionHeader title={i18n.section.latestInsights}>
+    <h2 slot="header" class="mt-4 max-w-xl text-2xl font-semibold tracking-tight lg:text-3xl">
+      {i18n.section.practicalKnowledge}
+    </h2>
+    <div class="mt-6 grid gap-4 sm:mt-8 sm:gap-5 lg:grid-cols-3">
+      {
+        metrics.map((item) => (
+          <MetricCard
+            label={item.label}
+            value={item.value}
+            category={item.category}
+            description={item.description}
+            spotlight
+          />
+        ))
+      }
+    </div>
+  </SectionHeader>
+
+  <MarqueeSection items={categories} />
+
+  <FeaturedWork featuredPost={featuredPost} recentPosts={recentPosts} />
+
+  <ArchiveSection posts={archivePosts} translations={i18n.archive} lang={lang} />
+</BaseLayout>
