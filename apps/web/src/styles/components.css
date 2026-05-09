@@ -41,20 +41,22 @@
 
   .card-hover::before {
     content: '';
-    @apply absolute inset-0 opacity-0 transition-opacity duration-500;
+    @apply pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-in-out;
     background: radial-gradient(
       circle at 50% 50%,
       color-mix(in oklch, var(--foreground) 12%, transparent) 0%,
-      transparent 70%
+      transparent 80%
     );
   }
 
-  .card-hover:hover {
+  .card-hover:focus-within,
+  .card-hover:active {
     border-color: color-mix(in oklch, var(--foreground) 15%, transparent);
   }
 
-  .card-hover:hover::before {
-    @apply opacity-100;
+  .card-hover:focus-within::before,
+  .card-hover:active::before {
+    @apply opacity-60;
   }
 
   .prose {
@@ -65,7 +67,7 @@
   .prose h2,
   .prose h3,
   .prose h4 {
-    @apply text-foreground mt-10 mb-4 font-semibold tracking-tight;
+    @apply text-foreground mt-10 mb-4 scroll-mt-28 font-semibold tracking-tight;
   }
 
   .prose h1 {

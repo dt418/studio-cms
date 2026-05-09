@@ -6,13 +6,18 @@ import { DEFAULT_LOCALE, getTranslations, type Language } from '@/lib/i18n'
 import { getBlogPath, getHomePath } from '@/lib/routes'
 import { SITE } from '@/lib/site'
 
-const pathname = Astro.url.pathname
-const firstSegment = pathname.split('/')[1]
-const lang: Language = firstSegment && isValidLocale(firstSegment) ? firstSegment : DEFAULT_LOCALE
+export const prerender = true
+
+export function getStaticPaths() {
+  return ['vi', 'en'].map((lang) => ({ params: { lang } }))
+}
+
+const langParam = Astro.params.lang
+const lang: Language = langParam && isValidLocale(langParam) ? langParam : DEFAULT_LOCALE
 const i18n = getTranslations(lang)
 const homePath = lang === 'vi' ? '/vi/' : getHomePath(lang)
 const blogPath = getBlogPath(lang)
-const tracePath = `${Astro.url.host}${pathname}`
+const tracePath = `${Astro.url.host}${Astro.url.pathname}`
 const copy = {
   allPosts: i18n.errors.allPosts,
   description: i18n.errors.description404,

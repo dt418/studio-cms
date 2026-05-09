@@ -2,7 +2,7 @@
 title: 'TailwindCSS 4 Migration Guide'
 slug: 'tailwindcss-4-migration-guide'
 excerpt: 'Everything you need to know about migrating to TailwindCSS 4, including breaking changes and new features.'
-coverImage: 'https://picsum.photos/seed/tailwind/1200/630'
+coverImage: '/og/tailwindcss-4-migration-guide.webp'
 publishedAt: 2026-04-20
 updatedAt: 2026-04-20
 tags: ['tailwindcss', 'css', 'frontend']

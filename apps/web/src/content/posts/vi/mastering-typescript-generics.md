@@ -2,7 +2,7 @@
 title: 'Mastering TypeScript Generics'
 slug: 'mastering-typescript-generics'
 excerpt: 'Deep dive vào TypeScript generics và học cách viết code reusable, type-safe.'
-coverImage: 'https://picsum.photos/seed/typescript/1200/630'
+coverImage: '/og/mastering-typescript-generics.webp'
 publishedAt: 2025-02-10
 updatedAt: 2025-02-10
 tags: ['typescript', 'programming', 'generics']

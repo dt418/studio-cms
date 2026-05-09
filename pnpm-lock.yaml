@@ -134,6 +134,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@astrojs/markdown-remark':
+        specifier: 7.1.1
+        version: 7.1.1
       '@astrojs/react':
         specifier: ^5.0.4
         version: 5.0.4(@types/node@22.19.17)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(jiti@2.6.1)(lightningcss@1.32.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(terser@5.46.1)(yaml@2.8.3)

@@ -2,7 +2,7 @@
 title: 'Building a SaaS with Astro and StudioCMS'
 slug: 'building-saas-astro-studiocms'
 excerpt: 'A comprehensive guide to building a SaaS application using Astro and StudioCMS for content management.'
-coverImage: 'https://picsum.photos/seed/saas/1200/630'
+coverImage: '/og/building-saas-astro-studiocms.webp'
 publishedAt: 2026-04-05
 updatedAt: 2026-04-05
 tags: ['astro', 'saas', 'studiocms', 'web-development']

@@ -2,7 +2,7 @@
 title: 'Xây dựng SaaS với Astro và StudioCMS'
 slug: 'building-saas-astro-studiocms'
 excerpt: 'Hướng dẫn toàn diện về việc xây dựng ứng dụng SaaS sử dụng Astro cho frontend và StudioCMS để quản lý nội dung.'
-coverImage: 'https://picsum.photos/seed/saas/1200/630'
+coverImage: '/og/building-saas-astro-studiocms.webp'
 publishedAt: 2026-04-05
 updatedAt: 2026-04-05
 tags: ['astro', 'saas', 'studiocms', 'web-development']

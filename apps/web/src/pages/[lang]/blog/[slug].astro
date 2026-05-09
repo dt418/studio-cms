@@ -14,6 +14,7 @@ import { formatDate } from '@/lib/date'
 import { getBlogPath } from '@/lib/routes'
 import { getTranslations } from '@/lib/i18n'
 import { getCanonicalUrl, getAlternateUrls, isValidLocale } from '@/lib/content-utils'
+import { createSafeSlug, getUniqueId } from '../../../../rehype-vietnamese-slug.mjs'
 import type { CollectionEntry } from 'astro:content'
 
 export const prerender = true
@@ -52,6 +53,11 @@ const slug = Astro.params.slug
 const { post, allPosts } = Astro.props as Props
 
 const { Content, headings } = await render(post)
+const normalizedHeadingCounts = new Map<string, number>()
+const normalizedHeadings = headings.map((heading) => ({
+  ...heading,
+  slug: getUniqueId(createSafeSlug(heading.text), normalizedHeadingCounts),
+}))
 
 const {
   title,
@@ -185,7 +191,7 @@ const breadcrumbJsonLd = {
         class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-[200px_1fr_240px] lg:gap-12"
       >
         <aside class="order-2 lg:order-1">
-          <TableOfContents headings={headings} i18n={i18n.post} />
+          <TableOfContents headings={normalizedHeadings} i18n={i18n.post} />
         </aside>
 
         <ArticleContent

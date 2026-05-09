@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Tags Page', () => {
-  async function getFirstTagUrl(page: any): Promise<string | null> {
+  async function getFirstTagUrl(page: import('@playwright/test').Page): Promise<string | null> {
     await page.goto('/vi/blog')
 
     const jsonText = await page.locator('#filter-data').textContent()
@@ -50,15 +50,23 @@ test.describe('Tags Page', () => {
     test.setTimeout(15000)
     await page.goto('/vi/blog')
 
-    const triggers = page.locator('[role="combobox"]')
-    await expect(triggers.nth(1)).toBeVisible({ timeout: 10000 })
+    const tagTrigger = page.getByRole('combobox', { name: /tags/i })
+    await expect(tagTrigger).toBeVisible({ timeout: 10000 })
 
-    await triggers.nth(1).click({ force: true })
+    const popover = page.locator(`#${await tagTrigger.getAttribute('aria-controls')}`)
 
-    const popover = page.locator('[role="listbox"]')
-    await expect(popover).toBeVisible({ timeout: 5000 })
+    await expect
+      .poll(
+        async () => {
+          if (await popover.isVisible()) return true
+          await tagTrigger.click()
+          return popover.isVisible()
+        },
+        { timeout: 5000 }
+      )
+      .toBe(true)
 
-    const tagOptions = page.locator('[role="option"]').filter({ hasNotText: 'All Tags' })
+    const tagOptions = popover.getByRole('option').filter({ hasNotText: /All Tags|Tất cả tags/i })
     const count = await tagOptions.count()
     expect(count).toBeGreaterThan(0)
   })

@@ -2,9 +2,11 @@ import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
 import tailwindcss from '@tailwindcss/vite'
 import remarkGfm from 'remark-gfm'
-import rehypeSlug from 'rehype-slug'
+import rehypeVietnameseSlug from './rehype-vietnamese-slug.mjs'
+import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypePrettyCode from 'rehype-pretty-code'
+
 import astroExpressiveCode from 'astro-expressive-code'
 import ecTwoSlash from 'expressive-code-twoslash'
 import { visualizer } from 'rollup-plugin-visualizer'
@@ -82,7 +84,8 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
-      rehypeSlug,
+      rehypeVietnameseSlug,
+      rehypeHeadingIds,
       [rehypeAutolinkHeadings, { behavior: 'wrap' }],
       rehypePrettyCode,
     ],

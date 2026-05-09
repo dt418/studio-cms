@@ -124,6 +124,23 @@ export const en = {
   errors: {
     notFound: 'Page not found',
     goHome: 'Go back home',
+    subtitle404: 'This page is no longer here.',
+    description404:
+      'The URL might be wrong, the page may have moved, or it may never have existed. Check the URL or go back home.',
+    viewBlog: 'View blog',
+    status: 'HTTP 404 · NOT FOUND',
+    terminalLabel404: 'Terminal',
+    terminalTitle: 'bash — zsh',
+    terminalContentType: 'content-type: text/html',
+    terminalServer: 'server: cloudflare',
+    quickLinks404: 'Quick links',
+    maybeLookingFor: 'You might be looking for',
+    allPosts: 'All posts',
+    githubLabel: 'GitHub / dt418',
+    linkedinLabel: 'LinkedIn',
+    rssFeed: 'RSS feed',
+    tracePrefix: 'You are at: ',
+    footerRole: 'Software engineer · Web development · TypeScript',
   },
   redirect: {
     title: 'Redirecting...',

@@ -2,7 +2,7 @@ import { SITE } from '@/lib/site'
 
 export const vi = {
   nav: {
-    writing: 'viết',
+    writing: 'Bài viết',
     rss: 'rss',
   },
   hero: {
@@ -124,6 +124,23 @@ export const vi = {
   errors: {
     notFound: 'Không tìm thấy trang',
     goHome: 'Quay về trang chủ',
+    subtitle404: 'Trang này không còn ở đây nữa.',
+    description404:
+      'Có thể URL bị sai, trang đã được di chuyển, hoặc đơn giản là chưa bao giờ tồn tại. Thử kiểm tra lại đường dẫn hoặc quay về trang chủ.',
+    viewBlog: 'Xem blog',
+    status: 'HTTP 404 · NOT FOUND',
+    terminalLabel404: 'Terminal',
+    terminalTitle: 'bash — zsh',
+    terminalContentType: 'content-type: text/html',
+    terminalServer: 'server: cloudflare',
+    quickLinks404: 'Liên kết nhanh',
+    maybeLookingFor: 'Có thể bạn đang tìm',
+    allPosts: 'Tất cả bài viết',
+    githubLabel: 'GitHub / dt418',
+    linkedinLabel: 'LinkedIn',
+    rssFeed: 'RSS feed',
+    tracePrefix: 'Bạn đang ở: ',
+    footerRole: 'Software engineer · Web development · TypeScript',
   },
   redirect: {
     title: 'Đang chuyển hướng...',

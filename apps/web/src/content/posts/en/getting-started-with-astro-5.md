@@ -2,7 +2,7 @@
 title: 'Getting Started with Astro 5'
 slug: 'getting-started-with-astro-5'
 excerpt: 'Learn how to build fast, content-focused websites with Astro 5 and its islands architecture.'
-coverImage: 'https://picsum.photos/seed/astro5/1200/630'
+coverImage: '/og/getting-started-with-astro-5.webp'
 publishedAt: 2026-04-30
 updatedAt: 2026-04-30
 tags: ['astro', 'web-development', 'performance']

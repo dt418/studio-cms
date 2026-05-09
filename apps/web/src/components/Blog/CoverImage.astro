@@ -1,4 +1,6 @@
 ---
+import Image from 'astro/components/Image.astro'
+
 interface Props {
   coverImage: string
   title: string
@@ -8,7 +10,7 @@ const { coverImage, title } = Astro.props
 ---
 
 <div class="border-border mt-8 overflow-hidden rounded-xl border">
-  <img
+  <Image
     src={coverImage}
     alt={title}
     class="h-auto w-full object-cover"

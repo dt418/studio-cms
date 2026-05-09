@@ -2,7 +2,7 @@
 title: 'Hướng dẫn migrate lên TailwindCSS 4'
 slug: 'tailwindcss-4-migration-guide'
 excerpt: 'Tất cả những gì bạn cần biết về việc migrate lên TailwindCSS 4, bao gồm breaking changes và tính năng mới.'
-coverImage: 'https://picsum.photos/seed/tailwind/1200/630'
+coverImage: '/og/tailwindcss-4-migration-guide.webp'
 publishedAt: 2026-04-20
 updatedAt: 2026-04-20
 tags: ['tailwindcss', 'css', 'frontend']
