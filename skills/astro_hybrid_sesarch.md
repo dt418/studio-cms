@@ -1,19 +1,19 @@
-# Hybrid Search Skill (Astro + Pagefind + Fuse.js) — TypeScript
+# Pagefind Search Skill (Astro + Pagefind) — TypeScript
 
 ## Overview
 
-This skill integrates a hybrid search system into an existing Astro project using:
+This skill documents the search system using Pagefind for full-text search:
 
-- Pagefind → fast, build-time full-text search
-- Fuse.js → client-side fuzzy search and ranking refinement
+- Pagefind → fast, build-time indexed full-text search
+- Fuse.js → client-side fuzzy refinement (optional)
 - TypeScript-first architecture — all logic in `apps/web/src/lib/search.ts`
 
 ---
 
 ## Skill Metadata
 
-- Name: hybrid-search-astro
-- Version: 2.0.0
+- Name: pagefind-search-astro
+- Version: 3.0.0
 - Language: TypeScript
 
 ---
@@ -21,17 +21,23 @@ This skill integrates a hybrid search system into an existing Astro project usin
 ## Architecture
 
 ```
-apps/web/src/lib/search.ts           ← Search types and helper logic
-apps/web/src/components/Search.astro ← Minimal UI wrapper
-scripts/generate-search-index.mjs ← Build-time index generator
+apps/web/src/lib/search.ts           ← Search types, helpers, and UI rendering
+apps/web/src/components/Search.astro        ← Minimal UI wrapper
+apps/web/src/components/SearchFilters.astro  ← Filter dropdowns (category, tag, sort)
 ```
+
+### Blog Integration
+
+- `data-pagefind-filter` attributes on blog posts for category/tag filtering
+- `data-pagefind-sort` for date-based sorting
+- Locale-aware filtering (`/${locale}/blog/`)
 
 ### Build Pipeline
 
 ```json
 {
   "scripts": {
-    "build": "astro build && node scripts/generate-search-index.mjs && pagefind --site dist/client"
+    "build": "node scripts/generate-og-image.mjs && astro build && pagefind --site dist"
   }
 }
 ```
@@ -39,9 +45,10 @@ scripts/generate-search-index.mjs ← Build-time index generator
 ### Search Flow
 
 1. User types → debounced (200ms)
-2. Pagefind.search() returns top 20 results
-3. Fuse.js refines with weighted scoring (title: 0.5, excerpt: 0.3, tags: 0.2)
-4. Renders top 10 results with highlighting
+2. Pagefind.search() returns results
+3. Fuse.js refines with weighted scoring (title: 0.5, excerpt: 0.3, tags: 0.2) when multiple results
+4. Filter by locale prefix
+5. Renders top 10 results with highlighting
 
 ---
 

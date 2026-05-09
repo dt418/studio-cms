@@ -6,7 +6,7 @@ describe('route helpers', () => {
   it('encodes post slugs once for detail links - Vietnamese (default)', () => {
     const post = makePost({ slug: 'hello world/part 1', language: 'vi' })
 
-    expect(getPostPath(post)).toBe('/blog/hello%20world%2Fpart%201')
+    expect(getPostPath(post)).toBe('/vi/blog/hello%20world%2Fpart%201')
   })
 
   it('encodes post slugs once for detail links - English (prefixed)', () => {

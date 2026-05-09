@@ -8,9 +8,9 @@ export const LOCALE_CONFIG: Record<Locale, { lang: string; hreflang: string; lab
   en: { lang: 'en', hreflang: 'en', label: 'EN' },
 }
 
-export const LOCALE_ROUTES: Record<Locale, { home: string; blog: string, tags: string, categories: string, search: string }> = {
-  vi: { home: '/vi/', blog: '/vi/blog',tags :'/vi/tags',  categories: '/vi/categories', search: '/vi/search' },
-  en: { home: '/en/', blog: '/en/blog',tags :'/en/tags', categories: '/en/categories', search: '/en/search' },
+export const LOCALE_ROUTES: Record<Locale, { home: string; blog: string, tags: string, categories: string }> = {
+  vi: { home: '/vi/', blog: '/vi/blog', tags: '/vi/tags', categories: '/vi/categories' },
+  en: { home: '/en/', blog: '/en/blog', tags: '/en/tags', categories: '/en/categories' },
 }
 
 export async function expectLangAttribute(page: Page, locale: Locale) {

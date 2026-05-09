@@ -7,7 +7,7 @@
     "astro": "astro",
     "dev": "astro dev",
     "og:generate": "node scripts/generate-og-image.mjs",
-    "build": "node scripts/generate-og-image.mjs && astro build && node scripts/generate-search-index.mjs && pagefind --site dist",
+    "build": "node scripts/generate-og-image.mjs && astro build && pagefind --site dist",
     "preview": "astro preview",
     "test": "vitest run --config vitest.config.ts",
     "test:watch": "vitest --config vitest.config.ts",

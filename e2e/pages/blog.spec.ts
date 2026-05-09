@@ -6,8 +6,8 @@ test.describe('Blog Listing Page', () => {
   })
 
   test('page loads successfully', async ({ page }) => {
-    await expect(page).toHaveTitle(/Blog/)
-    await expect(page.locator('h1')).toContainText('Blog')
+    await expect(page).toHaveTitle(/Archive/)
+    await expect(page.locator('h1')).toContainText('Archive')
   })
 
   test('displays archive header with badge', async ({ page }) => {
@@ -73,11 +73,11 @@ test.describe('Blog Listing Page', () => {
   })
 
   test('back to home navigation via header', async ({ page }) => {
-    const homeLink = page.locator('header a[href="/"]')
+    const homeLink = page.locator('header a[href="/vi"]').first()
     await expect(homeLink).toBeVisible()
 
     await homeLink.click()
-    await expect(page).toHaveURL('/')
+    await expect(page).toHaveURL(/\/vi\/?$/)
   })
 
   test('responsive design - mobile', async ({ page }) => {
@@ -86,7 +86,7 @@ test.describe('Blog Listing Page', () => {
 
     const header = page.locator('h1')
     await expect(header).toBeVisible()
-    await expect(header).toContainText('Blog')
+    await expect(header).toContainText('Archive')
 
     // Stats should still be visible on mobile
     const statsGrid = page.getByTestId('blog-stats-grid')

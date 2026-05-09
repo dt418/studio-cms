@@ -3,8 +3,8 @@ title: 'Bắt đầu với Astro 5'
 slug: 'getting-started-with-astro-5'
 excerpt: 'Học cách xây dựng website nhanh, tập trung vào nội dung với Astro 5 và kiến trúc islands.'
 coverImage: 'https://picsum.photos/seed/astro5/1200/630'
-publishedAt: 2025-01-15
-updatedAt: 2025-01-15
+publishedAt: 2026-04-30
+updatedAt: 2026-04-30
 tags: ['astro', 'web-development', 'performance']
 language: 'vi'
 category: 'tutorials'

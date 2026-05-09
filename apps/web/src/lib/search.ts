@@ -223,13 +223,14 @@ function populateFilters(): void {
   }
 }
 
-async function initSearch(): Promise<void> {
+async function initSearch(locale: string): Promise<void> {
   const input = document.getElementById('search-input') as HTMLInputElement | null
   const clearBtn = document.getElementById('search-clear') as HTMLButtonElement | null
   const categoryFilter = document.getElementById(
     'search-category-filter'
   ) as HTMLSelectElement | null
   const tagFilter = document.getElementById('search-tag-filter') as HTMLSelectElement | null
+  const sortSelect = document.getElementById('search-sort') as HTMLSelectElement | null
 
   if (!input) {
     return
@@ -278,7 +279,7 @@ async function initSearch(): Promise<void> {
     await pagefind.init()
 
     const filterData = await pagefind.filters()
-    if (filterData.filters) {
+    if (filterData?.filters) {
       if (filterData.filters.category) {
         Object.keys(filterData.filters.category).forEach((cat) => allCategories.add(cat))
       }
@@ -322,7 +323,14 @@ async function initSearch(): Promise<void> {
           filters.tag = [tagFilter.value]
         }
 
-        const searchResult = await pagefind!.search(query, { filters })
+        const searchOptions: { filters?: Record<string, string[]>; sort?: { by: string } } = {
+          filters,
+        }
+        if (sortSelect && sortSelect.value) {
+          searchOptions.sort = { by: sortSelect.value }
+        }
+
+        const searchResult = await pagefind!.search(query, searchOptions)
 
         // Drop stale results — only the most recent request is allowed to render.
         if (requestId !== currentRequestId) {
@@ -359,6 +367,7 @@ async function initSearch(): Promise<void> {
             body: data.content ?? '',
           }))
           .filter((item) => item.title !== '')
+          .filter((item) => item.url.includes(`/${locale}/blog/`))
 
         if (Fuse !== null && normalized.length > 1) {
           const fuseInstance = new Fuse(normalized, {
@@ -405,6 +414,14 @@ async function initSearch(): Promise<void> {
 
     if (tagFilter) {
       tagFilter.addEventListener('change', () => {
+        if (input.value.trim()) {
+          doSearch()
+        }
+      })
+    }
+
+    if (sortSelect) {
+      sortSelect.addEventListener('change', () => {
         if (input.value.trim()) {
           doSearch()
         }

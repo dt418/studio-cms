@@ -10,7 +10,7 @@ import {
 export function getPostPath(post: Post): string {
   const locale = getPostLocale(post)
   const slug = getPostSlug(post)
-  return getLocalizedPath(locale, `/blog/${slug}`)
+  return getLocalizedPath(locale, `/blog/${encodeURIComponent(slug)}`)
 }
 
 export function getTagPath(tag: string, locale: SupportedLocale): string {

@@ -4,7 +4,6 @@ test.describe('Tags Page', () => {
   async function getFirstTagUrl(page: any): Promise<string | null> {
     await page.goto('/vi/blog')
 
-    // Parse server-rendered JSON data island for tag extraction (no JS/combobox needed)
     const jsonText = await page.locator('#filter-data').textContent()
     if (!jsonText) return null
 
@@ -13,7 +12,7 @@ test.describe('Tags Page', () => {
       for (const post of posts) {
         if (post.data.tags.length > 0) {
           const tag = post.data.tags[0]!
-          return `/tags/${encodeURIComponent(tag)}`
+          return `/vi/tags/${encodeURIComponent(tag)}`
         }
       }
       return null
@@ -23,7 +22,7 @@ test.describe('Tags Page', () => {
   }
 
   test('404 for non-existent tag', async ({ page }) => {
-    const response = await page.goto('/tags/non-existent-tag-xyz123')
+    const response = await page.goto('/vi/tags/non-existent-tag-xyz123')
     expect(response?.status()).toBe(404)
   })
 
@@ -32,8 +31,8 @@ test.describe('Tags Page', () => {
     test.skip(!href, 'No tags found - skipping test')
 
     await page.goto(href!)
-    await expect(page).toHaveURL(/\/tags\//)
-    await expect(page.getByRole('heading', { level: 1, name: /Tag:/ })).toBeVisible()
+    await expect(page).toHaveURL(/\/vi\/tags\//)
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   })
 
   test('tag page displays filtered posts', async ({ page }) => {
@@ -42,7 +41,6 @@ test.describe('Tags Page', () => {
 
     await page.goto(href!)
 
-    // Should have blog cards or post grid
     const posts = page.locator('article, .grid > div')
     const count = await posts.count()
     expect(count).toBeGreaterThanOrEqual(0)
@@ -52,14 +50,11 @@ test.describe('Tags Page', () => {
     test.setTimeout(15000)
     await page.goto('/vi/blog')
 
-    // FilterSelect renders button-based combobox triggers (not native <select>)
     const triggers = page.locator('[role="combobox"]')
     await expect(triggers.nth(1)).toBeVisible({ timeout: 10000 })
 
-    // Click the tag filter trigger (second combobox: category, tag, sort)
     await triggers.nth(1).click({ force: true })
 
-    // Verify popover opens with tag options
     const popover = page.locator('[role="listbox"]')
     await expect(popover).toBeVisible({ timeout: 5000 })
 
@@ -75,8 +70,7 @@ test.describe('Tags Page', () => {
     await page.goto(href!)
     const title = await page.title()
 
-    // Title format: "${tag} | DanhThanh.dev"
-    const tagFromPath = decodeURIComponent(href!.split('/tags/')[1]!)
+    const tagFromPath = decodeURIComponent(href!.split('/vi/tags/')[1]!)
     expect(title).toContain(tagFromPath)
     expect(title).toContain('| DanhThanh.dev')
   })
@@ -87,7 +81,7 @@ test.describe('Tags Page', () => {
 
     await page.goto(href!)
 
-    const backLink = page.getByRole('link', { name: /Back to Blog/i })
+    const backLink = page.getByRole('link', { name: /Quay lại Blog/i })
     await expect(backLink).toBeVisible()
   })
 
@@ -97,8 +91,7 @@ test.describe('Tags Page', () => {
 
     await page.goto(href!)
 
-    // Shows "X post(s) tagged with ..." — singular or plural
-    const postCount = page.locator('p:has-text("tagged with")')
+    const postCount = page.locator('p:has-text("bài viết gắn tag")')
     await expect(postCount).toBeVisible()
   })
 
@@ -108,7 +101,6 @@ test.describe('Tags Page', () => {
 
     await page.goto(href!)
 
-    // Should have BlogFilter with initial tag
     const searchInput = page.locator('input[type="search"]')
     await expect(searchInput).toBeVisible()
   })
@@ -119,7 +111,7 @@ test.describe('Tags Page', () => {
 
     await page.goto(href!)
 
-    const blogLink = page.getByRole('link', { name: /Back to Blog/i })
+    const blogLink = page.getByRole('link', { name: /Quay lại Blog/i })
     await blogLink.click()
     await expect(page).toHaveURL('/vi/blog')
   })

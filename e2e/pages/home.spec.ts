@@ -6,7 +6,7 @@ test.describe('Home Page', () => {
   })
 
   test('page loads successfully', async ({ page }) => {
-    await expect(page).toHaveTitle(/Danh Thanh/)
+    await expect(page).toHaveTitle(/DanhThanh\.dev/)
     await expect(page.locator('h1')).toBeVisible()
   })
 
@@ -18,7 +18,7 @@ test.describe('Home Page', () => {
   })
 
   test('hero has developer-focused tagline', async ({ page }) => {
-    const tagline = page.locator('p:has-text("Cho developers xây dựng sản phẩm web hiện đại")')
+    const tagline = page.locator('p:has-text("Cho developers xây dựng sản phẩm web hiện đại")').first()
     await expect(tagline).toBeVisible()
   })
 
@@ -45,10 +45,9 @@ test.describe('Home Page', () => {
   })
 
   test('metric cards show posts/topics/tags', async ({ page }) => {
-    const metricsSection = page.locator('section')
-    await expect(metricsSection.getByText(/Mới nhất/)).toBeVisible()
-    await expect(metricsSection.getByText(/Chủ đề/)).toBeVisible()
-    await expect(metricsSection.getByText(/Tags/).first()).toBeVisible()
+    await expect(page.getByText('bài viết', { exact: true })).toBeVisible()
+    await expect(page.getByText('chủ đề', { exact: true })).toBeVisible()
+    await expect(page.getByText('tags', { exact: true })).toBeVisible()
   })
 
   test('featured work section displays', async ({ page }) => {
@@ -93,8 +92,8 @@ test.describe('Home Page', () => {
   })
 
   test('responsive design - mobile', async ({ page }) => {
+    await page.goto('/vi/')
     await page.setViewportSize({ width: 375, height: 667 })
-    await page.reload()
 
     const heroSection = page.locator('section').first()
     await expect(heroSection).toBeVisible()
@@ -102,8 +101,8 @@ test.describe('Home Page', () => {
   })
 
   test('responsive design - tablet', async ({ page }) => {
+    await page.goto('/vi/')
     await page.setViewportSize({ width: 768, height: 1024 })
-    await page.reload()
 
     const heroSection = page.locator('section').first()
     await expect(heroSection).toBeVisible()

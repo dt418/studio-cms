@@ -37,7 +37,7 @@ test.describe('Blog Post Page', () => {
 
     await page.goto(href!)
     const title = await page.title()
-    expect(title).toMatch(/\| DanhThanh\.dev/)
+    expect(title).toMatch(/\| DanhThanh\.dev$/)
   })
 
   test('post hero displays category and title', async ({ page }) => {
@@ -90,8 +90,8 @@ test.describe('Blog Post Page', () => {
 
     await page.goto(href!)
 
-    // Should show reading time or date info
-    const metaInfo = page.locator('span:has-text("min read"), time').first()
+    // Should show reading time or date info (Vietnamese: "phút đọc")
+    const metaInfo = page.locator('span:has-text("phút đọc"), time').first()
     await expect(metaInfo).toBeVisible()
   })
 
@@ -101,7 +101,7 @@ test.describe('Blog Post Page', () => {
 
     await page.goto(href!)
 
-    const tagLinks = page.locator('a[href^="/tags/"]')
+    const tagLinks = page.locator('a[href*="/tags/"]')
     const count = await tagLinks.count()
 
     test.skip(count === 0, 'Post has no tags - skipping test')

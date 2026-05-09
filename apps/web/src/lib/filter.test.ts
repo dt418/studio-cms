@@ -10,7 +10,7 @@ describe('filterPosts', () => {
       excerpt: 'Learn how to build fast websites with Astro',
       category: 'tutorials',
       tags: ['astro', 'webdev'],
-      publishedAt: new Date('2025-01-15'),
+      publishedAt: new Date('2026-04-30'),
       body: 'astro framework tutorial content',
     }),
     makePost({
@@ -116,14 +116,14 @@ describe('filterPosts', () => {
   describe('sorting', () => {
     it('sorts by date descending by default', () => {
       const result = filterPosts(posts, {})
-      expect(result[0]?.data.publishedAt).toEqual(new Date('2026-04-05'))
-      expect(result[2]?.data.publishedAt).toEqual(new Date('2025-01-15'))
+      expect(result[0]?.data.publishedAt).toEqual(new Date('2026-04-30'))
+      expect(result[2]?.data.publishedAt).toEqual(new Date('2025-02-10'))
     })
 
     it('sorts by date ascending', () => {
       const result = filterPosts(posts, { sortField: 'date', sortOrder: 'asc' })
-      expect(result[0]?.data.publishedAt).toEqual(new Date('2025-01-15'))
-      expect(result[2]?.data.publishedAt).toEqual(new Date('2026-04-05'))
+      expect(result[0]?.data.publishedAt).toEqual(new Date('2025-02-10'))
+      expect(result[2]?.data.publishedAt).toEqual(new Date('2026-04-30'))
     })
 
     it('sorts by title ascending', () => {

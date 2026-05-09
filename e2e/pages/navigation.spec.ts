@@ -1,20 +1,17 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Navigation', () => {
-  test('header navigation works', async ({ page }) => {
+test('header navigation works', async ({ page }) => {
     await page.goto('/')
 
-    // Header should have DT branding
-    const branding = page.locator('header a[href="/"]')
+    const branding = page.locator('header a[href="/vi"]').first()
     await expect(branding).toBeVisible()
     await expect(branding).toContainText('DT')
 
-    // Should have blog link with "viết" text
     const blogLink = page.locator('header a[href="/vi/blog"]')
     await expect(blogLink).toBeVisible()
     await expect(blogLink).toContainText('viết')
 
-    // Navigate to blog
     await blogLink.click()
     await expect(page).toHaveURL('/vi/blog')
   })
@@ -84,11 +81,11 @@ test.describe('Navigation', () => {
   test('navigation from blog to home works', async ({ page }) => {
     await page.goto('/vi/blog')
 
-    const homeLink = page.locator('header a[href="/"]')
+    const homeLink = page.locator('header a[href="/vi"]').first()
     await expect(homeLink).toBeVisible()
 
     await homeLink.click()
-    await expect(page).toHaveURL('/')
+    await expect(page).toHaveURL(/\/vi\/?$/)
   })
 
   test('all footer links have proper text', async ({ page }) => {

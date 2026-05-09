@@ -130,21 +130,21 @@ test.describe('i18n: Language Switcher', () => {
 
   test('VI button navigates to vi home', async ({ page }) => {
     await page.goto('/en/')
-    await switchLanguage(page, 'en', 'vi')
+    await switchLanguage(page, 'vi')
     await expect(page).toHaveURL(/\/vi\//)
     await expectLangAttribute(page, 'vi')
   })
 
   test('EN button navigates to en home', async ({ page }) => {
     await page.goto('/vi/')
-    await switchLanguage(page, 'vi', 'en')
+    await switchLanguage(page, 'en')
     await expect(page).toHaveURL(/\/en\//)
     await expectLangAttribute(page, 'en')
   })
 
   test('switching language on blog listing preserves page type', async ({ page }) => {
     await page.goto('/vi/blog')
-    await switchLanguage(page, 'vi', 'en')
+    await switchLanguage(page, 'en')
     await expect(page).toHaveURL(/\/en\/blog/)
     await expectLangAttribute(page, 'en')
   })
@@ -161,19 +161,19 @@ test.describe('i18n: SEO Meta Tags', () => {
   test('vi pages have hreflang pointing to en equivalent', async ({ page }) => {
     await page.goto('/vi/')
     const enLink = page.locator('link[rel="alternate"][hreflang="en"]')
-    await expect(enLink).toHaveAttribute('href', 'http://localhost:4321/en/blog')
+    await expect(enLink).toHaveAttribute('href', 'http://localhost:4321/en/')
   })
 
   test('en pages have hreflang pointing to vi equivalent', async ({ page }) => {
     await page.goto('/en/')
     const viLink = page.locator('link[rel="alternate"][hreflang="vi"]')
-    await expect(viLink).toHaveAttribute('href', 'http://localhost:4321/vi/blog')
+    await expect(viLink).toHaveAttribute('href', 'http://localhost:4321/vi/')
   })
 
-  test('x-default points to vi blog', async ({ page }) => {
+  test('x-default points to vi home', async ({ page }) => {
     await page.goto('/vi/')
     const xDefault = page.locator('link[rel="alternate"][hreflang="x-default"]')
-    await expect(xDefault).toHaveAttribute('href', 'http://localhost:4321/vi/blog')
+    await expect(xDefault).toHaveAttribute('href', 'http://localhost:4321/vi/')
   })
 })
 

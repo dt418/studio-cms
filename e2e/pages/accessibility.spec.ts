@@ -24,7 +24,7 @@ test.describe('Accessibility Tests', () => {
   test('blog page should not have critical accessibility violations', async ({ page }) => {
     test.slow() // Axe scans can be slow, especially in Firefox
     await page.goto('/vi/blog')
-    await expect(page.locator('h1')).toContainText('Blog')
+    await expect(page.locator('h1')).toContainText('Archive')
 
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa'])
@@ -43,7 +43,7 @@ test.describe('Accessibility Tests', () => {
   })
 
   test('keyboard navigation works on home page', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/vi/')
 
     // Test tab navigation
     await page.keyboard.press('Tab')
@@ -132,7 +132,7 @@ test.describe('Accessibility Tests', () => {
   })
 
   test('page has proper heading hierarchy - single h1', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/vi/')
 
     const h1Count = await page.locator('h1').count()
     expect(h1Count).toBe(1)
@@ -145,47 +145,7 @@ test.describe('Accessibility Tests', () => {
     expect(h1Count).toBe(1)
 
     const h1 = page.locator('h1')
-    await expect(h1).toContainText('Blog')
-  })
-
-  test('search page has proper heading hierarchy', async ({ page }) => {
-    await page.goto('/search')
-
-    const h1Count = await page.locator('h1').count()
-    expect(h1Count).toBe(1)
-
-    const h1 = page.locator('h1')
-    await expect(h1).toContainText('Search')
-  })
-
-  test('form inputs have associated labels', async ({ page }) => {
-    await page.goto('/search')
-
-    const inputs = page.locator('input, select, textarea')
-    const count = await inputs.count()
-
-    for (let i = 0; i < count; i++) {
-      const input = inputs.nth(i)
-
-      // Skip hidden inputs
-      const type = await input.getAttribute('type')
-      const isHidden = type === 'hidden'
-      const isVisible = await input.isVisible().catch(() => false)
-
-      if (isHidden || !isVisible) continue
-
-      const id = await input.getAttribute('id')
-      const ariaLabel = await input.getAttribute('aria-label')
-      const ariaLabelledBy = await input.getAttribute('aria-labelledby')
-      const placeholder = await input.getAttribute('placeholder')
-
-      // Input should have label association or placeholder
-      const hasLabel = id && await page.locator(`label[for="${id}"]`).count() > 0
-      const hasAriaLabel = ariaLabel || ariaLabelledBy
-      const hasPlaceholder = placeholder
-
-      expect(hasLabel || hasAriaLabel || hasPlaceholder).toBeTruthy()
-    }
+    await expect(h1).toContainText('Archive')
   })
 
   test('focus indicators are visible on interactive elements', async ({ page }) => {

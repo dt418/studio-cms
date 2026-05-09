@@ -135,6 +135,19 @@ const breadcrumbJsonLd = {
 } as const
 ---
 
+<style is:global>
+  [data-pagefind-filter],
+  [data-pagefind-sort] {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+</style>
+
 <BaseLayout
   title={`${title} | ${SITE.name}`}
   description={excerpt}
@@ -150,7 +163,11 @@ const breadcrumbJsonLd = {
   alternateUrls={alternateUrls}
   {...coverImage && { image: coverImage }}
 >
-  <article class="min-h-screen" transition:name="post-detail">
+  <article class="min-h-screen" data-pagefind-body transition:name="post-detail">
+    <span data-pagefind-filter="category">{category}</span>
+    {tags.map((tag) => <span data-pagefind-filter="tag">{tag}</span>)}
+    <span data-pagefind-sort="date">{publishedAt.getTime()}</span>
+    <span data-pagefind-sort="title">{title}</span>
     <PostHero
       category={category}
       title={title}

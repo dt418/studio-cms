@@ -201,11 +201,10 @@ All development must follow the comprehensive standards defined in `CODING_RULES
 | Route                    | File                                             | Description      |
 | ------------------------ | ------------------------------------------------ | ---------------- |
 | `/`                      | `apps/web/src/pages/index.astro`                 | Homepage         |
-| `/blog`                  | `apps/web/src/pages/blog/index.astro`            | Blog archive     |
-| `/blog/[slug]`           | `apps/web/src/pages/blog/[slug].astro`           | Post detail      |
-| `/search`                | `apps/web/src/pages/search.astro`                | Search page      |
-| `/tags/[tag]`            | `apps/web/src/pages/tags/[tag].astro`            | Tag archive      |
-| `/categories/[category]` | `apps/web/src/pages/categories/[category].astro` | Category archive |
+| `/blog`                  | `apps/web/src/pages/[lang]/blog/index.astro`     | Blog archive     |
+| `/[lang]/blog/[slug]`    | `apps/web/src/pages/[lang]/blog/[slug].astro`    | Post detail      |
+| `/[lang]/tags/[tag]`     | `apps/web/src/pages/[lang]/tags/[tag].astro`     | Tag archive      |
+| `/[lang]/categories/[category]` | `apps/web/src/pages/[lang]/categories/[category].astro` | Category archive |
 | `/rss.xml`               | `apps/web/src/pages/rss.xml.ts`                  | RSS feed         |
 
 ## Commands
@@ -224,7 +223,7 @@ pnpm test:watch   # Vitest watch mode
 ## Build Pipeline
 
 ```
-generate-og-image.mjs → astro build → generate-search-index.mjs → pagefind --site dist/client
+generate-og-image.mjs → astro build → pagefind --site dist
 ```
 
 ## Key Rules

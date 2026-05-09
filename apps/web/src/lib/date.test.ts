@@ -3,13 +3,13 @@ import { formatDate } from './date'
 
 describe('formatDate', () => {
   it('formats date in English locale', () => {
-    const date = new Date('2025-01-15')
+    const date = new Date('2026-04-30')
     const result = formatDate(date)
-    expect(result).toBe('Jan 15, 2025')
+    expect(result).toBe('Apr 30, 2026')
   })
 
   it('formats different months correctly', () => {
-    expect(formatDate(new Date('2026-04-10'))).toBe('Mar 10, 2025')
+    expect(formatDate(new Date('2026-04-10'))).toBe('Apr 10, 2026')
     expect(formatDate(new Date('2025-06-20'))).toBe('Jun 20, 2025')
     expect(formatDate(new Date('2025-12-25'))).toBe('Dec 25, 2025')
   })

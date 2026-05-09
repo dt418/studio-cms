@@ -14,7 +14,7 @@ describe('groupByYear', () => {
 
     expect(Object.keys(groups)).toHaveLength(2)
     expect(groups[2024]).toHaveLength(2)
-    expect(groups[2025]).toHaveLength(1)
+    expect(groups[2026]).toHaveLength(1)
   })
 
   it('handles empty posts array', () => {

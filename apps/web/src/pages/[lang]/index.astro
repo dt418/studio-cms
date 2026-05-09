@@ -10,7 +10,7 @@ import { getLocalizedPosts, getAllCategories, getAllTags, type SupportedLocale }
 import { getTranslations } from '@/lib/i18n'
 import { SITE } from '@/lib/site'
 import { getHomePath } from '@/lib/routes'
-import { getCanonicalUrl, isValidLocale } from '@/lib/content-utils'
+import { getCanonicalUrl, isValidLocale, getAlternateUrls } from '@/lib/content-utils'
 
 export const prerender = true
 
@@ -66,6 +66,7 @@ const canonicalUrl = getCanonicalUrl(lang, '/', siteUrl)
   canonicalUrl={canonicalUrl}
   lang={lang}
   currentPath={homePath}
+  alternateUrls={getAlternateUrls('/', siteUrl)}
   jsonLd={{
     '@context': 'https://schema.org',
     '@type': 'WebSite',
