@@ -25,6 +25,15 @@ interface SerializedPost {
   data: SerializedPostData
 }
 
+interface FilterI18n {
+  enter: string
+  min: string
+  noMatch: string
+  single: string
+  plural: string
+  found: string
+}
+
 function escapeHtml(value: string | number | boolean): string {
   return String(value)
     .replace(/&/g, '&amp;')
@@ -34,7 +43,7 @@ function escapeHtml(value: string | number | boolean): string {
     .replace(/'/g, '&#39;')
 }
 
-function renderCard(post: SerializedPost): string {
+function renderCard(post: SerializedPost, i18n: FilterI18n): string {
   const words = post.body ? post.body.split(/\s+/).filter(Boolean).length : 0
   const minutes = Math.max(1, Math.ceil(words / 200))
   const pathAttr = escapeHtml(post.data.path)
@@ -67,13 +76,13 @@ function renderCard(post: SerializedPost): string {
       </a>
       <div class="pt-0.5 pl-4 flex flex-col items-end gap-1">
         <a href="${pathAttr}" class="group/enter inline-flex items-center gap-1 text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground/40 hover:text-foreground transition-colors">
-          <span>enter</span>
+          <span>${escapeHtml(i18n.enter)}</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/enter:translate-x-0.5">
             <path d="M5 12h14" />
             <path d="m12 5 7 7-7 7" />
           </svg>
         </a>
-        <span class="text-xs font-mono text-muted-foreground/30 tabular-nums">${minutes} min</span>
+        <span class="text-xs font-mono text-muted-foreground/30 tabular-nums">${minutes} ${escapeHtml(i18n.min)}</span>
       </div>
     </article>
   `
@@ -85,6 +94,18 @@ export function initBlogFilter(): void {
   const postsData: SerializedPost[] = JSON.parse(
     document.getElementById('filter-data')?.textContent?.trim() || '[]'
   )
+
+  const i18nEl = document.getElementById('filter-i18n')
+  const i18n: FilterI18n = i18nEl?.textContent
+    ? JSON.parse(i18nEl.textContent)
+    : {
+        enter: 'enter',
+        min: 'min',
+        noMatch: 'No posts match your filters.',
+        single: 'post',
+        plural: 'posts',
+        found: 'found',
+      }
 
   const searchInput = document.getElementById('filter-search') as HTMLInputElement | null
   const categoryInput = document.getElementById('filter-category') as HTMLInputElement | null
@@ -122,18 +143,18 @@ export function initBlogFilter(): void {
       sortOrder,
     })
 
-    resultsCount!.textContent = `${result.length} ${result.length === 1 ? 'post' : 'posts'} found`
+    resultsCount!.textContent = `${result.length} ${result.length === 1 ? i18n.single : i18n.plural} ${i18n.found}`
 
     if (result.length === 0) {
       resultsContainer!.innerHTML = `
         <div class="text-center py-12 border border-dashed border-border rounded-lg">
-          <p class="text-muted-foreground">No posts match your filters.</p>
+          <p class="text-muted-foreground">${escapeHtml(i18n.noMatch)}</p>
         </div>
       `
       return
     }
 
-    resultsContainer!.innerHTML = result.map(renderCard).join('')
+    resultsContainer!.innerHTML = result.map((post) => renderCard(post, i18n)).join('')
   }
 
   if (!listenersRegistered) {

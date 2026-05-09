@@ -4,22 +4,35 @@ import type { Post } from '@/lib/cms'
 interface Props {
   featuredPost: Post | null
   recentPosts: Post[]
+  i18n?: {
+    featured: string
+    latestFromBlog: string
+    recentDescription: string
+  }
 }
 
-const { featuredPost = null, recentPosts } = Astro.props
+const {
+  featuredPost = null,
+  recentPosts,
+  i18n = {
+    featured: 'Featured',
+    latestFromBlog: 'Latest from the blog.',
+    recentDescription: 'Recent tutorials, guides, and notes on web development.',
+  },
+} = Astro.props
 ---
 
 <section class="border-border border-b">
   <div class="container py-14 lg:py-24">
     <div class="mb-10 max-w-3xl">
       <p class="text-muted-foreground/50 font-mono text-[0.62rem] tracking-[0.28em] uppercase">
-        Featured
+        {i18n.featured}
       </p>
       <h2 class="mt-4 max-w-2xl text-2xl font-semibold tracking-tight lg:text-3xl">
-        Latest from the blog.
+        {i18n.latestFromBlog}
       </h2>
       <p class="text-muted-foreground/70 mt-4 max-w-2xl text-base leading-7 sm:text-lg">
-        Recent tutorials, guides, and notes on web development.
+        {i18n.recentDescription}
       </p>
     </div>
     <div class="grid gap-4 lg:grid-cols-12">

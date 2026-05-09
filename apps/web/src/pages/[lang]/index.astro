@@ -50,7 +50,7 @@ const metrics = [
   },
   {
     label: i18n.blog.stats.tags,
-    value: `${allTags.length} tags`,
+    value: `${allTags.length} ${i18n.hero.tags}`,
     category: i18n.blog.stats.archiveSnapshot,
     description: i18n.hero.description,
   },
@@ -61,7 +61,7 @@ const canonicalUrl = getCanonicalUrl(lang, '/', siteUrl)
 ---
 
 <BaseLayout
-  title={`${SITE.name} | ${lang === 'en' ? 'Engineering Blog' : 'Blog Lập Trình'}`}
+  title={`${SITE.name} | ${i18n.home.title}`}
   description={SITE.description}
   canonicalUrl={canonicalUrl}
   lang={lang}
@@ -148,7 +148,7 @@ const canonicalUrl = getCanonicalUrl(lang, '/', siteUrl)
 
   <MarqueeSection items={categories} />
 
-  <FeaturedWork featuredPost={featuredPost} recentPosts={recentPosts} />
+  <FeaturedWork featuredPost={featuredPost} recentPosts={recentPosts} i18n={i18n.home} />
 
   <ArchiveSection posts={archivePosts} translations={i18n.archive} lang={lang} />
 </BaseLayout>

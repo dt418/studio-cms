@@ -7,9 +7,13 @@ import { getPostPath } from '@/lib/routes'
 
 export interface Props {
   post: CollectionEntry<'posts'>
+  i18n?: {
+    enter: string
+    minRead: string
+  }
 }
 
-const { post } = Astro.props
+const { post, i18n = { enter: 'enter', minRead: 'min read' } } = Astro.props
 const { title, excerpt, publishedAt, tags } = post.data
 const date = formatDate(publishedAt)
 const minutes = readingTime(post.body ?? '')
@@ -42,7 +46,7 @@ const postPath = getPostPath(post)
       href={postPath}
       class="group/enter text-muted-foreground/40 hover:text-foreground inline-flex items-center gap-1 font-mono text-xs font-semibold tracking-wider uppercase transition-colors"
     >
-      <span>enter</span>
+      <span>{i18n.enter}</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="12"
@@ -59,6 +63,8 @@ const postPath = getPostPath(post)
         <path d="m12 5 7 7-7 7"></path>
       </svg>
     </a>
-    <span class="text-muted-foreground/30 font-mono text-xs tabular-nums">{minutes} min</span>
+    <span class="text-muted-foreground/30 font-mono text-xs tabular-nums"
+      >{minutes} {i18n.minRead}</span
+    >
   </div>
 </article>

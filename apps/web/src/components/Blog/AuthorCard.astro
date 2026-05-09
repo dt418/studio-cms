@@ -3,9 +3,12 @@ import { getAuthorInitials } from '@/lib/post'
 
 interface Props {
   author: string
+  i18n?: {
+    role: string
+  }
 }
 
-const { author } = Astro.props
+const { author, i18n = { role: 'Writer & Developer' } } = Astro.props
 ---
 
 <article class="card-hover flex items-center gap-4">
@@ -16,6 +19,6 @@ const { author } = Astro.props
   </div>
   <div>
     <p class="text-foreground font-medium">{author}</p>
-    <p class="text-muted-foreground text-sm">Writer & Developer</p>
+    <p class="text-muted-foreground text-sm">{i18n.role}</p>
   </div>
 </article>

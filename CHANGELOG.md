@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Add i18n translation system: `src/lib/i18n/en.ts`, `vi.ts` with sections for schema, home, author, filter, search, UI, RSS, redirect
+- Route all hardcoded strings across 26 files through i18n translation keys (pages, components, client-side JS)
 - Add shadcn/ui components: FilterSelect, SpotlightCard, input-group, input, select, textarea
 - Add `lib/post.ts` with centralized post utilities (getAuthorInitials, getImageUrl, getAdjacentPosts)
 - Add FilterSelect React component with hidden input bridge for BlogFilter integration

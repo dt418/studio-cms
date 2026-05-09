@@ -4,15 +4,18 @@ import PostItem from './PostItem.astro'
 
 export interface Props {
   posts: Post[]
+  i18n?: {
+    noPosts: string
+  }
 }
 
-const { posts } = Astro.props
+const { posts, i18n = { noPosts: 'No posts yet. Check back soon!' } } = Astro.props
 ---
 
 {
   posts.length === 0 ? (
     <div class="rounded-sm border border-dashed border-white/5 py-16 text-center">
-      <p class="text-muted-foreground/50 font-mono text-sm">No posts yet. Check back soon!</p>
+      <p class="text-muted-foreground/50 font-mono text-sm">{i18n.noPosts}</p>
     </div>
   ) : (
     <div>

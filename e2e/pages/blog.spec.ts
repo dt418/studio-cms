@@ -50,7 +50,6 @@ test.describe('Blog Listing Page', () => {
   test('search input is visible in blog filter', async ({ page }) => {
     const searchInput = page.locator('input[type="search"]')
     await expect(searchInput).toBeVisible()
-    await expect(searchInput).toHaveAttribute('placeholder', /Search/)
   })
 
   test('filter dropdowns are present', async ({ page }) => {

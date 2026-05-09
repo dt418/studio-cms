@@ -8,14 +8,15 @@ interface Props {
   currentTag?: string
   locale?: string
   post?: CollectionEntry<'posts'>
+  heading?: string
 }
 
-const { tags, currentTag, locale, post } = Astro.props
+const { tags, currentTag, locale, post, heading = 'All Tags' } = Astro.props
 const postLocale = locale ?? (post ? getPostLocale(post) : 'vi')
 ---
 
 <div class="mb-8">
-  <h2 class="text-muted-foreground mb-3 text-sm font-medium">All Tags</h2>
+  <h2 class="text-muted-foreground mb-3 text-sm font-medium">{heading}</h2>
   <div class="flex flex-wrap gap-2">
     {
       tags.map((tagName) => (

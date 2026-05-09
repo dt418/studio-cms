@@ -6,12 +6,17 @@ import type { CollectionEntry } from 'astro:content'
 interface Props {
   post: CollectionEntry<'posts'>
   direction: 'prev' | 'next'
+  i18n?: {
+    prevPost: string
+    nextPost: string
+  }
 }
 
-const { post, direction } = Astro.props
+const { post, direction, i18n = { prevPost: 'Previous Post', nextPost: 'Next Post' } } = Astro.props
 const postData = post.data || null
 const isPrev = direction === 'prev'
 const postPath = getPostPath(post)
+const label = isPrev ? i18n.prevPost : i18n.nextPost
 ---
 
 <a
@@ -19,10 +24,10 @@ const postPath = getPostPath(post)
   class={`card-hover group flex flex-col gap-2 p-4 border border-border rounded-lg hover:border-primary/50 transition-colors ${
     isPrev ? '' : 'text-right'
   }`}
-  aria-label={`${isPrev ? 'Previous' : 'Next'} post: ${postData?.title}`}
+  aria-label={`${label}: ${postData?.title}`}
 >
   <p class="text-muted-foreground/50 font-mono text-[0.62rem] tracking-[0.22em] uppercase">
-    {isPrev ? 'Previous Post' : 'Next Post'}
+    {label}
   </p>
   <p
     class="text-foreground group-hover:text-primary line-clamp-2 text-sm font-medium transition-colors"

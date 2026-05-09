@@ -1,3 +1,5 @@
+import { SITE } from '@/lib/site'
+
 export const en = {
   nav: {
     writing: 'writing',
@@ -36,6 +38,12 @@ export const en = {
       archiveSnapshot: 'Archive snapshot',
     },
   },
+  home: {
+    title: 'Engineering Blog',
+    featured: 'Featured',
+    latestFromBlog: 'Latest from the blog.',
+    recentDescription: 'Recent tutorials, guides, and notes on web development.',
+  },
   post: {
     backToBlog: 'Back to Blog',
     publishedOn: 'Published on',
@@ -50,23 +58,69 @@ export const en = {
     words: 'Words',
     share: 'Share',
     onThisPage: 'On this page',
+    readMore: 'Read more →',
+    prevPost: 'Previous Post',
+    nextPost: 'Next Post',
+    postNavigation: 'Post navigation',
+    shareOnX: 'Share on X',
+    copyLink: 'Copy link',
+    noPosts: 'No posts yet. Check back soon!',
+  },
+  author: {
+    role: 'Writer & Developer',
+  },
+  filter: {
+    sortNewest: 'Newest first',
+    sortOldest: 'Oldest first',
+    sortTitleAZ: 'Title A-Z',
+    sortTitleZA: 'Title Z-A',
+    sortShortest: 'Shortest first',
+    sortLongest: 'Longest first',
+    searchPlaceholder: 'Search posts...',
+    allCategories: 'All Categories',
+    allTags: 'All Tags',
+    sortBy: 'Sort By',
+    clearTitle: 'Clear search and reset filters',
+    reset: 'Reset',
+    emptyPrompt: 'Type to search or adjust filters...',
+    noMatch: 'No posts match your filters.',
+    enter: 'enter',
+    minRead: 'min',
+    single: 'post',
+    plural: 'posts',
+    found: 'found',
+  },
+  schema: {
+    home: 'Home',
+    blog: 'Blog',
+    postsTagged: (tag: string) => `Posts tagged: ${tag}`,
+    allPostsTaggedWith: (tag: string) => `All posts tagged with ${tag}`,
+    postsIn: (category: string) => `Posts in ${category}`,
+    allPostsInCategory: (category: string) => `All posts in category ${category}`,
   },
   tags: {
     title: 'Tag:',
     postsTaggedWith: 'posts tagged with',
     backToBlog: 'Back to Blog',
     searchFilter: 'Search & Filter',
+    heading: 'All Tags',
   },
   categories: {
     title: 'Category:',
     postsIn: 'posts in',
     backToBlog: 'Back to Blog',
     searchFilter: 'Search & Filter',
+    heading: 'All Categories',
   },
   search: {
     title: 'Search',
     description: 'Find articles, tutorials, and technical notes.',
     placeholder: 'Search articles, tags, or topics...',
+    noResults: 'No results found.',
+    searching: 'Searching...',
+    loadingIndex: 'Loading search index...',
+    failed: 'Search failed. Please try again.',
+    unavailable: 'Search unavailable.',
   },
   footer: {
     buildingOn: 'Building onboarding, internal tooling, and operational systems with clear proof.',
@@ -81,6 +135,16 @@ export const en = {
   errors: {
     notFound: '404 - Page Not Found',
     goHome: 'Go Home',
+  },
+  ui: {
+    enter: 'enter',
+  },
+  rss: {
+    title: `${SITE.name} Blog RSS Feed`,
+  },
+  redirect: {
+    title: 'Redirecting...',
+    description: 'Redirecting to',
   },
   ogImage: {
     defaultTitle: 'Danh Thanh | DanhThanh.dev',

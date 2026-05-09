@@ -9,9 +9,19 @@ interface Props {
   author: string
   prevPost?: CollectionEntry<'posts'>
   nextPost?: CollectionEntry<'posts'>
+  i18n?: {
+    author: {
+      role: string
+    }
+    post: {
+      postNavigation: string
+      prevPost: string
+      nextPost: string
+    }
+  }
 }
 
-const { tags, author, prevPost, nextPost } = Astro.props
+const { tags, author, prevPost, nextPost, i18n } = Astro.props
 ---
 
 <div class="order-1 min-w-0 lg:order-2">
@@ -26,9 +36,13 @@ const { tags, author, prevPost, nextPost } = Astro.props
     </div>
 
     <!-- Author Card -->
-    <AuthorCard author={author} />
+    <AuthorCard author={author} {...i18n?.author && { i18n: i18n.author }} />
 
     <!-- Prev/Next Navigation -->
-    <PostNavigation {...prevPost && { prevPost }} {...nextPost && { nextPost }} />
+    <PostNavigation
+      {...prevPost && { prevPost }}
+      {...nextPost && { nextPost }}
+      {...i18n?.post && { i18n: i18n.post }}
+    />
   </footer>
 </div>

@@ -1,13 +1,15 @@
 ---
+import { getTranslations } from '@/lib/i18n'
 export const prerender = true
+const i18n = getTranslations('vi')
 ---
 
 <html lang="vi">
   <head>
     <meta http-equiv="refresh" content="0; url=/vi/" />
-    <title>Redirecting...</title>
+    <title>{i18n.redirect.title}</title>
   </head>
   <body>
-    <p>Redirecting to <a href="/vi/">/vi/</a>...</p>
+    <p>{i18n.redirect.description} <a href="/vi/">/vi/</a>...</p>
   </body>
 </html>

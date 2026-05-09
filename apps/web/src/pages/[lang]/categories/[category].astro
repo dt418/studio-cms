@@ -60,8 +60,8 @@ const jsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: `Posts in ${category}`,
-    description: `All posts in category ${category}`,
+    name: i18n.schema.postsIn(category),
+    description: i18n.schema.allPostsInCategory(category),
     url: canonicalUrl,
     isPartOf: {
       '@type': 'WebSite',
@@ -76,13 +76,13 @@ const jsonLd = [
       {
         '@type': 'ListItem',
         position: 1,
-        name: 'Home',
+        name: i18n.schema.home,
         item: siteUrl,
       },
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'Blog',
+        name: i18n.schema.blog,
         item: getBlogPath(lang),
       },
       {
@@ -97,7 +97,7 @@ const jsonLd = [
 
 <BaseLayout
   title={`${category} | ${SITE.name}`}
-  description={`All posts in category ${category}`}
+  description={i18n.schema.allPostsInCategory(category)}
   canonicalUrl={canonicalUrl}
   jsonLd={jsonLd}
   lang={lang}
@@ -114,7 +114,12 @@ const jsonLd = [
       </p>
     </div>
 
-    <CategoryCloud categories={allCategories} currentCategory={category} locale={lang} />
+    <CategoryCloud
+      categories={allCategories}
+      currentCategory={category}
+      locale={lang}
+      heading={i18n.categories.heading}
+    />
 
     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {posts.map((post) => <BlogCard post={post} />)}
@@ -127,6 +132,7 @@ const jsonLd = [
         categories={allCategories}
         tags={allTags}
         initialCategory={category}
+        i18n={i18n.filter}
       />
     </div>
   </section>

@@ -51,11 +51,11 @@ test.describe('Home Page', () => {
   })
 
   test('featured work section displays', async ({ page }) => {
-    // Featured section has "Featured" label and "Latest from the blog" heading
-    const featuredLabel = page.locator('p:has-text("Featured")').first()
+    // Featured section has "Featured" label and "Latest from the blog" heading (i18n-aware)
+    const featuredLabel = page.locator('p:has-text("Nổi bật")').first()
     await expect(featuredLabel).toBeVisible()
 
-    const featuredHeading = page.locator('h2:has-text("Latest from the blog")')
+    const featuredHeading = page.locator('h2:has-text("Bài viết mới nhất")')
     await expect(featuredHeading).toBeVisible()
   })
 

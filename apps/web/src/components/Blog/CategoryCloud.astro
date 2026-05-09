@@ -8,14 +8,15 @@ interface Props {
   currentCategory?: string
   locale?: string
   post?: CollectionEntry<'posts'>
+  heading?: string
 }
 
-const { categories, currentCategory, locale, post } = Astro.props
+const { categories, currentCategory, locale, post, heading = 'All Categories' } = Astro.props
 const postLocale = locale ?? (post ? getPostLocale(post) : 'vi')
 ---
 
 <div class="mb-8">
-  <h2 class="text-muted-foreground mb-3 text-sm font-medium">All Categories</h2>
+  <h2 class="text-muted-foreground mb-3 text-sm font-medium">{heading}</h2>
   <div class="flex flex-wrap gap-2">
     {
       categories.map((cat) => (

@@ -1,12 +1,34 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import { formatDate } from '@/lib/date'
-import { getSlug } from '@/lib/content-graph'
-import { getPostPath } from '@/lib/routes'
 import { Button } from './ui/button'
 import { Search as SearchIcon } from 'lucide-react'
 import { InputGroupInput, InputGroup, InputGroupAddon } from './ui/input-group'
 import { FilterSelect } from './ui/FilterSelect'
+import { formatDate } from '@/lib/date'
+import { getSlug } from '@/lib/content-graph'
+import { getPostPath } from '@/lib/routes'
+
+interface FilterI18n {
+  sortNewest: string
+  sortOldest: string
+  sortTitleAZ: string
+  sortTitleZA: string
+  sortShortest: string
+  sortLongest: string
+  searchPlaceholder: string
+  allCategories: string
+  allTags: string
+  sortBy: string
+  clearTitle: string
+  reset: string
+  emptyPrompt: string
+  noMatch: string
+  enter: string
+  minRead: string
+  single: string
+  plural: string
+  found: string
+}
 
 interface Props {
   posts: CollectionEntry<'posts'>[]
@@ -14,9 +36,10 @@ interface Props {
   tags: string[]
   initialCategory?: string
   initialTag?: string
+  i18n?: FilterI18n
 }
 
-const { posts, categories, tags, initialCategory, initialTag } = Astro.props
+const { posts, categories, tags, initialCategory, initialTag, i18n } = Astro.props
 
 const serializedPosts = posts.map((post) => {
   const data = {
@@ -32,12 +55,12 @@ const serializedPosts = posts.map((post) => {
 const serializedJson = JSON.stringify(serializedPosts).replace(/</g, '\\u003c')
 
 const sortbyOptions: { value: string; label: string }[] = [
-  { value: 'date-desc', label: 'Newest first' },
-  { value: 'date-asc', label: 'Oldest first' },
-  { value: 'title-asc', label: 'Title A-Z' },
-  { value: 'title-desc', label: 'Title Z-A' },
-  { value: 'readingTime-asc', label: 'Shortest first' },
-  { value: 'readingTime-desc', label: 'Longest first' },
+  { value: 'date-desc', label: i18n?.sortNewest ?? 'Newest first' },
+  { value: 'date-asc', label: i18n?.sortOldest ?? 'Oldest first' },
+  { value: 'title-asc', label: i18n?.sortTitleAZ ?? 'Title A-Z' },
+  { value: 'title-desc', label: i18n?.sortTitleZA ?? 'Title Z-A' },
+  { value: 'readingTime-asc', label: i18n?.sortShortest ?? 'Shortest first' },
+  { value: 'readingTime-desc', label: i18n?.sortLongest ?? 'Longest first' },
 ]
 ---
 
@@ -46,7 +69,11 @@ const sortbyOptions: { value: string; label: string }[] = [
     <!-- SEARCH -->
     <div class="relative min-w-[200px] flex-1">
       <InputGroup className="input w-full">
-        <InputGroupInput type="search" id="filter-search" placeholder="Search posts..." />
+        <InputGroupInput
+          type="search"
+          id="filter-search"
+          placeholder={i18n?.searchPlaceholder ?? 'Search posts...'}
+        />
         <InputGroupAddon>
           <SearchIcon />
         </InputGroupAddon>
@@ -62,7 +89,7 @@ const sortbyOptions: { value: string; label: string }[] = [
         name="category"
         options={categories}
         {...initialCategory && { value: initialCategory }}
-        placeholder="All Categories"
+        placeholder={i18n?.allCategories ?? 'All Categories'}
       />
     </div>
 
@@ -75,7 +102,7 @@ const sortbyOptions: { value: string; label: string }[] = [
         name="tag"
         options={tags}
         {...initialTag && { value: initialTag }}
-        placeholder="All Tags"
+        placeholder={i18n?.allTags ?? 'All Tags'}
       />
     </div>
 
@@ -83,29 +110,49 @@ const sortbyOptions: { value: string; label: string }[] = [
     <div class="w-full sm:w-auto sm:min-w-40">
       <input type="hidden" id="filter-sort" />
 
-      <FilterSelect client:load name="sort" options={sortbyOptions} placeholder="Sort By" />
+      <FilterSelect
+        client:load
+        name="sort"
+        options={sortbyOptions}
+        placeholder={i18n?.sortBy ?? 'Sort By'}
+      />
     </div>
 
     <!-- RESET -->
     <Button
       id="filter-reset"
       type="button"
-      title="Clear search and reset filters"
+      title={i18n?.clearTitle ?? 'Clear search and reset filters'}
       className="w-full rounded-none sm:w-auto sm:min-w-20"
       variant="outline"
     >
-      Reset
+      {i18n?.reset ?? 'Reset'}
     </Button>
   </form>
 
   <div id="filter-results-count" class="text-muted-foreground text-sm"></div>
 
   <div id="filter-results" class="space-y-0">
-    <p class="text-muted-foreground py-8 text-center">Type to search or adjust filters...</p>
+    <p class="text-muted-foreground py-8 text-center">
+      {i18n?.emptyPrompt ?? 'Type to search or adjust filters...'}
+    </p>
   </div>
 </div>
 
 <script is:inline type="application/json" id="filter-data" set:html={serializedJson} />
+<script
+  is:inline
+  type="application/json"
+  id="filter-i18n"
+  set:html={JSON.stringify({
+    enter: i18n?.enter ?? 'enter',
+    min: i18n?.minRead ?? 'min',
+    noMatch: i18n?.noMatch ?? 'No posts match your filters.',
+    single: i18n?.single ?? 'post',
+    plural: i18n?.plural ?? 'posts',
+    found: i18n?.found ?? 'found',
+  })}
+/>
 
 <script>
   import { initBlogFilter } from '@/lib/blog-filter'
