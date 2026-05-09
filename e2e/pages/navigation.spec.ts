@@ -47,7 +47,7 @@ test('header navigation works', async ({ page }) => {
     await page.goto('/')
 
     const footer = page.locator('footer')
-    await expect(footer).toContainText('links')
+    await expect(footer).toContainText('liên kết')
   })
 
   test('navigation is sticky on scroll', async ({ page }) => {

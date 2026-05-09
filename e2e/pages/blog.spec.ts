@@ -6,12 +6,12 @@ test.describe('Blog Listing Page', () => {
   })
 
   test('page loads successfully', async ({ page }) => {
-    await expect(page).toHaveTitle(/Archive/)
-    await expect(page.locator('h1')).toContainText('Archive')
+    await expect(page).toHaveTitle(/Bài viết/)
+    await expect(page.locator('h1')).toContainText('Bài viết')
   })
 
   test('displays archive header with badge', async ({ page }) => {
-    const archiveBadge = page.locator('span:has-text("Archive")')
+    const archiveBadge = page.locator('span:has-text("Bài viết")')
     await expect(archiveBadge).toBeVisible()
     await expect(archiveBadge).toHaveClass(/uppercase/)
   })
@@ -32,7 +32,7 @@ test.describe('Blog Listing Page', () => {
     // Check for expected labels
     await expect(statsGrid.getByText('Bài đã xuất bản')).toBeVisible()
     await expect(statsGrid.getByText('Chủ đề')).toBeVisible()
-    await expect(statsGrid.getByText('Tags')).toBeVisible()
+    await expect(statsGrid.getByText('thẻ')).toBeVisible()
     await expect(statsGrid.getByText('Archive snapshot')).toBeVisible()
   })
 
@@ -85,7 +85,7 @@ test.describe('Blog Listing Page', () => {
 
     const header = page.locator('h1')
     await expect(header).toBeVisible()
-    await expect(header).toContainText('Archive')
+    await expect(header).toContainText('Bài viết')
 
     // Stats should still be visible on mobile
     const statsGrid = page.getByTestId('blog-stats-grid')

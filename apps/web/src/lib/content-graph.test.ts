@@ -1,12 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  getPost,
-  getPrevNext,
-  getRelated,
-  getSeries,
-  getNavigation,
-  getSlug,
-} from './content-graph'
+import { getPost, getPrevNext, getRelated, getSeries, getSlug } from './content-graph'
 import type { ContentGraph } from './content-graph'
 import { makePost } from '../test-helpers'
 
@@ -271,41 +264,5 @@ describe('getSeries', () => {
     const last = getSeries(graph, 'part-2')
     expect(last!.prev?.data.title).toBe('Part 1')
     expect(last!.next).toBeNull()
-  })
-})
-
-describe('getNavigation', () => {
-  it('combines post, prevNext, related, and series', () => {
-    const post = makePost({ slug: 'nav-post', title: 'Nav Post', tags: ['astro'] })
-    const related = makePost({ slug: 'related-post', title: 'Related', tags: ['astro'] })
-    const graph: ContentGraph = {
-      posts: [post, related],
-      bySlug: new Map([
-        ['nav-post', post],
-        ['related-post', related],
-      ]),
-      byTag: new Map([['astro', [post, related]]]),
-      bySeries: new Map(),
-    }
-
-    const nav = getNavigation(graph, 'nav-post')
-    expect(nav.post).not.toBeNull()
-    expect(nav.post?.data.title).toBe('Nav Post')
-    expect(nav.related).toHaveLength(1)
-    expect(nav.related[0]?.data.title).toBe('Related')
-    expect(nav.series).toBeNull()
-  })
-
-  it('returns null post for unknown slug', () => {
-    const emptyGraph: ContentGraph = {
-      posts: [],
-      bySlug: new Map(),
-      byTag: new Map(),
-      bySeries: new Map(),
-    }
-    const nav = getNavigation(emptyGraph, 'nonexistent')
-    expect(nav.post).toBeNull()
-    expect(nav.related).toEqual([])
-    expect(nav.series).toBeNull()
   })
 })

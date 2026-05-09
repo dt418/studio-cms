@@ -13,6 +13,8 @@ interface Props {
     minRead: string
     words: string
     share: string
+    shareOnX: string
+    copyLink: string
   }
 }
 
@@ -30,6 +32,8 @@ const {
     minRead: 'Min read',
     words: 'Words',
     share: 'Share',
+    shareOnX: 'Share on X',
+    copyLink: 'Copy link',
   },
 } = Astro.props
 ---
@@ -96,7 +100,7 @@ const {
       <div class="flex gap-2">
         <button
           class="border-border text-muted-foreground hover:text-foreground hover:bg-accent inline-flex h-8 w-8 items-center justify-center rounded-md border transition-colors"
-          aria-label="Share on X"
+          aria-label={i18n.shareOnX}
         >
           <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"
             ><path
@@ -106,7 +110,7 @@ const {
         </button>
         <button
           class="border-border text-muted-foreground hover:text-foreground hover:bg-accent inline-flex h-8 w-8 items-center justify-center rounded-md border transition-colors"
-          aria-label="Copy link"
+          aria-label={i18n.copyLink}
         >
           <svg
             class="h-4 w-4"

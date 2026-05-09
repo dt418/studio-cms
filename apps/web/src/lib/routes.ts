@@ -29,9 +29,5 @@ export function getHomePath(locale: SupportedLocale): string {
   return getLocalizedPath(locale, '/')
 }
 
-export function getSearchPath(locale: SupportedLocale): string {
-  return getLocalizedPath(locale, '/search')
-}
-
 export { SUPPORTED_LOCALES }
 export type { SupportedLocale }

@@ -1,4 +1,4 @@
-import { getCollection, type CollectionEntry } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
 
 export const SUPPORTED_LOCALES = ['vi', 'en'] as const
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number]
@@ -19,13 +19,6 @@ export function getPostSlug(post: CollectionEntry<'posts'>): string {
     return segments.slice(1).join('/')
   }
   return post.data.slug ?? post.id
-}
-
-export async function getLocalizedCollection(
-  locale: SupportedLocale
-): Promise<CollectionEntry<'posts'>[]> {
-  const posts = await getCollection('posts')
-  return posts.filter((post) => getPostLocale(post) === locale)
 }
 
 export function getLocalizedPath(locale: SupportedLocale, path: string): string {

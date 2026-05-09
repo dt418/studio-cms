@@ -8,10 +8,17 @@ interface Props {
   tags: string[]
   publishedAt: string
   readingTime: number
+  lang?: string
   coverImage?: string
+  i18n?: {
+    home: string
+    blog: string
+    minRead: string
+  }
 }
 
-const { category, title, excerpt, tags, publishedAt, readingTime, coverImage } = Astro.props
+const { category, title, excerpt, tags, publishedAt, readingTime, lang, coverImage, i18n } =
+  Astro.props
 ---
 
 <section class="border-border border-b">
@@ -24,6 +31,8 @@ const { category, title, excerpt, tags, publishedAt, readingTime, coverImage } =
         tags={tags}
         publishedAt={publishedAt}
         readingTime={readingTime}
+        {...lang !== undefined ? { lang } : {}}
+        {...i18n !== undefined ? { i18n } : {}}
         {...coverImage && { coverImage }}
       />
     </div>

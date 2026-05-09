@@ -45,9 +45,6 @@ export const en = {
     recentDescription: 'Recent tutorials, guides, and notes on web development.',
   },
   post: {
-    backToBlog: 'Back to Blog',
-    publishedOn: 'Published on',
-    updatedOn: 'Updated on',
     minRead: 'min read',
     tableOfContents: 'Table of Contents',
     relatedPosts: 'Related Posts',
@@ -64,7 +61,6 @@ export const en = {
     postNavigation: 'Post navigation',
     shareOnX: 'Share on X',
     copyLink: 'Copy link',
-    noPosts: 'No posts yet. Check back soon!',
   },
   author: {
     role: 'Writer & Developer',
@@ -112,16 +108,6 @@ export const en = {
     searchFilter: 'Search & Filter',
     heading: 'All Categories',
   },
-  search: {
-    title: 'Search',
-    description: 'Find articles, tutorials, and technical notes.',
-    placeholder: 'Search articles, tags, or topics...',
-    noResults: 'No results found.',
-    searching: 'Searching...',
-    loadingIndex: 'Loading search index...',
-    failed: 'Search failed. Please try again.',
-    unavailable: 'Search unavailable.',
-  },
   footer: {
     buildingOn: 'Building onboarding, internal tooling, and operational systems with clear proof.',
     softwareEngineer:
@@ -132,21 +118,15 @@ export const en = {
     rss: 'rss',
     linkedin: 'linkedin',
   },
-  errors: {
-    notFound: '404 - Page Not Found',
-    goHome: 'Go Home',
-  },
-  ui: {
-    enter: 'enter',
-  },
   rss: {
     title: `${SITE.name} Blog RSS Feed`,
+  },
+  errors: {
+    notFound: 'Page not found',
+    goHome: 'Go back home',
   },
   redirect: {
     title: 'Redirecting...',
     description: 'Redirecting to',
-  },
-  ogImage: {
-    defaultTitle: 'Danh Thanh | DanhThanh.dev',
   },
 }

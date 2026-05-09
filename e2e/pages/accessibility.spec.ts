@@ -24,7 +24,7 @@ test.describe('Accessibility Tests', () => {
   test('blog page should not have critical accessibility violations', async ({ page }) => {
     test.slow() // Axe scans can be slow, especially in Firefox
     await page.goto('/vi/blog')
-    await expect(page.locator('h1')).toContainText('Archive')
+    await expect(page.locator('h1')).toContainText('Bài viết')
 
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa'])
@@ -145,7 +145,7 @@ test.describe('Accessibility Tests', () => {
     expect(h1Count).toBe(1)
 
     const h1 = page.locator('h1')
-    await expect(h1).toContainText('Archive')
+    await expect(h1).toContainText('Bài viết')
   })
 
   test('focus indicators are visible on interactive elements', async ({ page }) => {

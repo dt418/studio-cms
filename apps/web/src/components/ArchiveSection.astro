@@ -1,31 +1,19 @@
 ---
 import type { Post } from '@/lib/content-graph'
+import { getTranslations } from '@/lib/i18n'
 import { formatDate } from '@/lib/date'
 import { getPostPath } from '@/lib/routes'
 
 interface Props {
   posts: Post[]
-  translations?: {
-    browse: string
-    allPosts: string
-    fullArchive: string
-    openFullArchive: string
-    noArchivedPosts: string
-  }
   lang?: 'vi' | 'en'
 }
 
-const { posts, translations, lang = 'vi' } = Astro.props
+const { posts, lang = 'vi' } = Astro.props
+const i18n = getTranslations(lang)
+const labels = i18n.archive
 
-const labels = translations ?? {
-  browse: 'Browse',
-  allPosts: 'All posts and writing.',
-  fullArchive: 'The full archive of tutorials, guides, and notes.',
-  openFullArchive: 'Open full archive',
-  noArchivedPosts: 'No archived posts yet — see the latest above.',
-}
-
-const archivePath = lang === 'en' ? '/en/blog' : '/blog'
+const archivePath = lang === 'en' ? '/en/blog' : '/vi/blog'
 ---
 
 <section class="border-border border-b">

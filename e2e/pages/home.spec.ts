@@ -27,7 +27,7 @@ test.describe('Home Page', () => {
 
     await expect(heroSection.locator('span.rounded-full:has-text("bài viết")')).toBeVisible()
     await expect(heroSection.locator('span.rounded-full:has-text("chủ đề")')).toBeVisible()
-    await expect(heroSection.locator('span.rounded-full:has-text("tags")')).toBeVisible()
+    await expect(heroSection.locator('span.rounded-full:has-text("thẻ")')).toBeVisible()
   })
 
   test('CTA buttons are visible', async ({ page }) => {
@@ -47,7 +47,7 @@ test.describe('Home Page', () => {
   test('metric cards show posts/topics/tags', async ({ page }) => {
     await expect(page.getByText('bài viết', { exact: true })).toBeVisible()
     await expect(page.getByText('chủ đề', { exact: true })).toBeVisible()
-    await expect(page.getByText('tags', { exact: true })).toBeVisible()
+    await expect(page.getByText('thẻ', { exact: true }).first()).toBeVisible()
   })
 
   test('featured work section displays', async ({ page }) => {

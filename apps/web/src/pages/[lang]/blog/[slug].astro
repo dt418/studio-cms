@@ -175,6 +175,8 @@ const breadcrumbJsonLd = {
       tags={tags}
       publishedAt={formattedDate}
       readingTime={readingTimeMin}
+      lang={lang}
+      i18n={{ ...i18n.schema, minRead: i18n.post.minRead }}
       {...coverImage && { coverImage }}
     />
 

@@ -148,7 +148,12 @@ const canonicalUrl = getCanonicalUrl(lang, '/', siteUrl)
 
   <MarqueeSection items={categories} />
 
-  <FeaturedWork featuredPost={featuredPost} recentPosts={recentPosts} i18n={i18n.home} />
+  <FeaturedWork
+    featuredPost={featuredPost}
+    recentPosts={recentPosts}
+    i18n={i18n.home}
+    lang={lang}
+  />
 
-  <ArchiveSection posts={archivePosts} translations={i18n.archive} lang={lang} />
+  <ArchiveSection posts={archivePosts} lang={lang} />
 </BaseLayout>

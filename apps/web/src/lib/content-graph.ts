@@ -108,15 +108,6 @@ export function getSeries(graph: ContentGraph, slug: string) {
   }
 }
 
-export function getNavigation(graph: ContentGraph, slug: string) {
-  return {
-    post: getPost(graph, slug),
-    prevNext: getPrevNext(graph, slug),
-    related: getRelated(graph, slug),
-    series: getSeries(graph, slug),
-  }
-}
-
 export function getSlug(post: Post): string {
   return post.data?.slug ?? post.id
 }

@@ -11,14 +11,25 @@ interface Props {
   tags: string[]
   publishedAt: string
   readingTime: number
+  lang?: string
   coverImage?: string
+  i18n?: {
+    home: string
+    blog: string
+    minRead: string
+  }
 }
 
-const { category, title, excerpt, tags, publishedAt, readingTime, coverImage } = Astro.props
+const { category, title, excerpt, tags, publishedAt, readingTime, lang, coverImage, i18n } =
+  Astro.props
 ---
 
 <div class="space-y-6">
-  <Breadcrumb title={title} />
+  <Breadcrumb
+    title={title}
+    {...lang !== undefined ? { lang } : {}}
+    i18n={{ home: i18n?.home ?? 'Home', blog: i18n?.blog ?? 'Blog' }}
+  />
 
   <!-- Title -->
   <h1
@@ -42,7 +53,11 @@ const { category, title, excerpt, tags, publishedAt, readingTime, coverImage } =
     <TagsList tags={tags} />
   </div>
 
-  <PostMetadata publishedAt={publishedAt} readingTime={readingTime} />
+  <PostMetadata
+    publishedAt={publishedAt}
+    readingTime={readingTime}
+    i18n={{ minRead: i18n?.minRead ?? 'min read' }}
+  />
 
   <!-- Divider -->
   <div class="bg-border h-px"></div>

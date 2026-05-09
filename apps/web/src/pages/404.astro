@@ -1,0 +1,30 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { getTranslations, DEFAULT_LOCALE, type Language } from '@/lib/i18n'
+import { isValidLocale } from '@/lib/content-utils'
+import { getHomePath } from '@/lib/routes'
+import { SITE } from '@/lib/site'
+
+const pathname = Astro.url.pathname
+const firstSegment = pathname.split('/')[1]
+const lang: Language = firstSegment && isValidLocale(firstSegment) ? firstSegment : DEFAULT_LOCALE
+const i18n = getTranslations(lang)
+---
+
+<BaseLayout
+  title={`${i18n.errors.notFound} | ${SITE.name}`}
+  lang={lang}
+  noindex
+  currentPath={`/${lang}`}
+>
+  <div class="container flex flex-1 flex-col items-center justify-center py-32 text-center">
+    <h1 class="text-8xl font-bold tracking-tight md:text-9xl">404</h1>
+    <p class="text-muted-foreground mt-6 text-lg">{i18n.errors.notFound}</p>
+    <a
+      href={getHomePath(lang)}
+      class="bg-primary text-primary-foreground mt-10 inline-flex h-10 items-center justify-center rounded-md px-6 text-sm font-medium transition-colors hover:opacity-90"
+    >
+      {i18n.errors.goHome}
+    </a>
+  </div>
+</BaseLayout>

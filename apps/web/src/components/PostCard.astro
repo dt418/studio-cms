@@ -3,15 +3,17 @@ import PostCardContent from '@/components/PostCardContent.astro'
 import SpotlightCard from '@/components/SpotlightCard.astro'
 import { formatDate } from '@/lib/date'
 import { getPostPath } from '@/lib/routes'
+import { DEFAULT_LOCALE, type Language } from '@/lib/i18n'
 import type { CollectionEntry } from 'astro:content'
 
 export interface Props {
   post: CollectionEntry<'posts'>
   large?: boolean
   spotlight?: boolean
+  lang?: Language
 }
 
-const { post, large = false, spotlight = false } = Astro.props
+const { post, large = false, spotlight = false, lang = DEFAULT_LOCALE } = Astro.props
 const { publishedAt } = post.data
 const formattedDate = formatDate(publishedAt)
 const postPath = getPostPath(post)
@@ -20,11 +22,11 @@ const postPath = getPostPath(post)
 {
   spotlight ? (
     <SpotlightCard as="a" href={postPath} class="block p-8">
-      <PostCardContent post={post} large={large} formattedDate={formattedDate} />
+      <PostCardContent post={post} large={large} formattedDate={formattedDate} lang={lang} />
     </SpotlightCard>
   ) : (
     <a href={postPath} class="card-hover block">
-      <PostCardContent post={post} large={large} formattedDate={formattedDate} />
+      <PostCardContent post={post} large={large} formattedDate={formattedDate} lang={lang} />
     </a>
   )
 }

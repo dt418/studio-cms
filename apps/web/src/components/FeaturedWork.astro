@@ -1,9 +1,11 @@
 ---
 import PostCard from '@/components/PostCard.astro'
 import type { Post } from '@/lib/cms'
+import type { Language } from '@/lib/i18n'
 interface Props {
   featuredPost: Post | null
   recentPosts: Post[]
+  lang?: Language
   i18n?: {
     featured: string
     latestFromBlog: string
@@ -14,6 +16,7 @@ interface Props {
 const {
   featuredPost = null,
   recentPosts,
+  lang,
   i18n = {
     featured: 'Featured',
     latestFromBlog: 'Latest from the blog.',
@@ -39,12 +42,21 @@ const {
       {
         featuredPost ? (
           <div class="lg:col-span-7">
-            <PostCard post={featuredPost} large spotlight />
+            <PostCard
+              post={featuredPost}
+              large
+              spotlight
+              {...(lang !== undefined ? { lang } : {})}
+            />
           </div>
         ) : null
       }
       <div class="grid gap-4 lg:col-span-5">
-        {recentPosts.map((recentPost) => <PostCard post={recentPost} spotlight />)}
+        {
+          recentPosts.map((recentPost) => (
+            <PostCard post={recentPost} spotlight {...(lang !== undefined ? { lang } : {})} />
+          ))
+        }
       </div>
     </div>
   </div>

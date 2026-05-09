@@ -11,7 +11,7 @@ export const vi = {
       'Software engineer chia sẻ những insights thực tế về thiết kế, phát triển, ra mắt và phát triển sản phẩm web hiện đại.',
     posts: 'bài viết',
     topics: 'chủ đề',
-    tags: 'tags',
+    tags: 'thẻ',
     cta: {
       readBlog: 'Đọc blog',
       rssFeed: 'RSS Feed',
@@ -24,17 +24,17 @@ export const vi = {
   archive: {
     browse: 'Duyệt',
     allPosts: 'Tất cả bài viết.',
-    fullArchive: 'Toàn bộ archive gồm tutorials, guides và notes.',
-    openFullArchive: 'Mở full archive',
+    fullArchive: 'Toàn bộ bài viết gồm hướng dẫn,cẩm nang và ghi chú.',
+    openFullArchive: 'Mở tất cả bài viết',
     noArchivedPosts: 'Chưa có bài viết cũ — xem các bài mới ở trên.',
   },
   blog: {
-    archive: 'Archive',
+    archive: 'Bài viết',
     description: 'Bài viết về lập trình, công nghệ và kinh nghiệm phát triển sản phẩm.',
     stats: {
       publishedNotes: 'Bài đã xuất bản',
       categories: 'Chủ đề',
-      tags: 'Tags',
+      tags: 'thẻ',
       archiveSnapshot: 'Archive snapshot',
     },
   },
@@ -45,9 +45,6 @@ export const vi = {
     recentDescription: 'Tutorials, hướng dẫn và ghi chép mới nhất về phát triển web.',
   },
   post: {
-    backToBlog: 'Quay lại Blog',
-    publishedOn: 'Xuất bản',
-    updatedOn: 'Cập nhật',
     minRead: 'phút đọc',
     tableOfContents: 'Mục lục',
     relatedPosts: 'Bài liên quan',
@@ -64,7 +61,6 @@ export const vi = {
     postNavigation: 'Điều hướng bài viết',
     shareOnX: 'Chia sẻ lên X',
     copyLink: 'Sao chép liên kết',
-    noPosts: 'Chưa có bài viết nào. Hãy quay lại sau!',
   },
   author: {
     role: 'Writer & Developer',
@@ -81,7 +77,7 @@ export const vi = {
     allTags: 'Tất cả tags',
     sortBy: 'Sắp xếp',
     clearTitle: 'Xóa tìm kiếm và reset bộ lọc',
-    reset: 'Reset',
+    reset: 'Đặt lại',
     emptyPrompt: 'Nhập để tìm kiếm hoặc điều chỉnh bộ lọc...',
     noMatch: 'Không có bài viết nào phù hợp.',
     enter: 'vào',
@@ -99,7 +95,7 @@ export const vi = {
     allPostsInCategory: (category: string) => `Tất cả bài viết trong danh mục ${category}`,
   },
   tags: {
-    title: 'Tag:',
+    title: 'Thẻ:',
     postsTaggedWith: 'bài viết gắn tag',
     backToBlog: 'Quay lại Blog',
     searchFilter: 'Tìm & Lọc',
@@ -112,41 +108,25 @@ export const vi = {
     searchFilter: 'Tìm & Lọc',
     heading: 'Tất cả Danh mục',
   },
-  search: {
-    title: 'Tìm kiếm',
-    description: 'Tìm bài viết, tutorials và technical notes.',
-    placeholder: 'Tìm bài viết, tags hoặc topics...',
-    noResults: 'Không tìm thấy kết quả.',
-    searching: 'Đang tìm kiếm...',
-    loadingIndex: 'Đang tải chỉ mục tìm kiếm...',
-    failed: 'Tìm kiếm thất bại. Vui lòng thử lại.',
-    unavailable: 'Tìm kiếm không khả dụng.',
-  },
   footer: {
     buildingOn: 'Xây dựng onboarding, internal tooling và hệ thống vận hành với proof rõ ràng.',
     softwareEngineer:
       'Software engineer xây dựng hệ thống giúp sản phẩm phức tạp dễ adopt và tin tưởng hơn.',
-    links: 'links',
+    links: 'liên kết',
     email: 'email',
     github: 'github',
     rss: 'rss',
     linkedin: 'linkedin',
   },
-  errors: {
-    notFound: '404 - Không tìm thấy',
-    goHome: 'Về trang chủ',
-  },
-  ui: {
-    enter: 'vào',
-  },
   rss: {
     title: `${SITE.name} Blog RSS Feed`,
+  },
+  errors: {
+    notFound: 'Không tìm thấy trang',
+    goHome: 'Quay về trang chủ',
   },
   redirect: {
     title: 'Đang chuyển hướng...',
     description: 'Đang chuyển hướng đến',
-  },
-  ogImage: {
-    defaultTitle: 'Danh Thanh | DanhThanh.dev',
   },
 }

@@ -15,18 +15,14 @@
     "lint:fix": "eslint \"src/**/*.{ts,tsx,astro}\" --config ../../eslint.config.js --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,astro,css,json,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,astro,css,json,md}\"",
-    "typecheck": "astro check && tsc --noEmit",
-    "generate-types": "wrangler types"
+    "typecheck": "astro check && tsc --noEmit"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.4",
     "@astrojs/rss": "^4.0.18",
-    "@astrojs/sitemap": "^3.7.2",
     "@base-ui/react": "^1.4.1",
-    "@fontsource-variable/figtree": "^5.2.10",
     "@fontsource-variable/inter": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
-    "@lucide/astro": "^1.14.0",
     "@phosphor-icons/react": "^2.1.10",
     "@tailwindcss/vite": "^4.2.4",
     "astro": "6.2.1",

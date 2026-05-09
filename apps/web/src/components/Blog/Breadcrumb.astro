@@ -1,19 +1,20 @@
 ---
 interface Props {
   title: string
+  lang?: string
   i18n?: {
     home: string
     blog: string
   }
 }
 
-const { title, i18n = { home: 'Home', blog: 'Blog' } } = Astro.props
+const { title, lang = '', i18n = { home: 'Home', blog: 'Blog' } } = Astro.props
 ---
 
 <nav class="text-muted-foreground flex items-center gap-2 text-sm" aria-label="Breadcrumb">
-  <a href="/" class="hover:text-foreground transition-colors">{i18n.home}</a>
+  <a href={`/${lang}`} class="hover:text-foreground transition-colors">{i18n.home}</a>
   <span class="text-muted-foreground/40">/</span>
-  <a href="/blog" class="hover:text-foreground transition-colors">{i18n.blog}</a>
+  <a href={`/${lang}/blog`} class="hover:text-foreground transition-colors">{i18n.blog}</a>
   <span class="text-muted-foreground/40">/</span>
   <span class="text-foreground max-w-50 truncate">{title}</span>
 </nav>

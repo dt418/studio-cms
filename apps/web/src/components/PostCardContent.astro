@@ -1,13 +1,16 @@
 ---
 import type { CollectionEntry } from 'astro:content'
+import { getTranslations, DEFAULT_LOCALE, type Language } from '@/lib/i18n'
 
 interface Props {
   post: CollectionEntry<'posts'>
   large?: boolean
   formattedDate: string
+  lang?: Language
 }
 
-const { post, large = false, formattedDate } = Astro.props
+const { post, large = false, formattedDate, lang = DEFAULT_LOCALE } = Astro.props
+const i18n = getTranslations(lang)
 const { title, excerpt, category, tags } = post.data
 ---
 
@@ -46,5 +49,5 @@ const { title, excerpt, category, tags } = post.data
   )
 }
 <span class="text-muted-foreground/50 font-mono text-[0.62rem] tracking-[0.24em] uppercase">
-  Read more →
+  {i18n.post.readMore}
 </span>
