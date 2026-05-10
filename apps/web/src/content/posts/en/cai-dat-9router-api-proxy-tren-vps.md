@@ -1,7 +1,7 @@
 ---
-title: 'Setting up 9router API Proxy on VPS with PM2 and Cloudflared'
+title: 'Set Up 9router API Proxy on VPS with PM2 and Cloudflared'
 slug: 'cai-dat-9router-api-proxy-tren-vps'
-excerpt: 'Complete guide to installing 9router API proxy on VPS using PM2 and Cloudflared Tunnel. Manage multiple AI API keys (OpenAI, Anthropic, Google), rotate providers, hide credentials, and control costs.'
+excerpt: 'Detailed guide to setting up a 9router API proxy on a VPS using PM2 and Cloudflared Tunnel. Manage multiple AI API keys (OpenAI, Anthropic, Google), rotate providers, hide credentials, and control costs.'
 coverImage: '/og/setup-9router-api-proxy-on-vps.webp'
 publishedAt: 2026-05-08
 updatedAt: 2026-05-08
@@ -10,20 +10,20 @@ language: 'en'
 category: 'tutorials'
 ---
 
-Running a proxy between your application and AI providers helps you centrally manage API keys, rotate providers when hitting rate limits, and hide real credentials from clients. 9router does exactly that.
+Running a proxy layer between your application and AI providers helps centralize API key management, rotate providers when hitting rate limits, and hide real credentials from clients. 9router does exactly that.
 
-This guide covers the complete setup of 9router on VPS using PM2 for headless mode and Cloudflared Tunnel to expose the service externally without opening ports.
+This article gives a detailed walkthrough to set up 9router on a VPS, using PM2 for headless mode and Cloudflared Tunnel to expose the service externally without opening ports.
 
-## Why API Proxy?
+## Why Use an API Proxy?
 
-- **Rotate API keys** — Automatically switch to backup keys when the primary runs out of quota
-- **Hide credentials** — Clients only see your endpoint, never the real keys
+- **Rotate API keys** — Automatically switch to backup keys when the primary key runs out of quota
+- **Hide credentials** — Clients only know your endpoint, never your real key
 - **Manage rate limits** — Distribute requests across multiple providers (OpenAI, Anthropic, Google)
-- **Logging and control** — Track usage and costs per project
+- **Logging and control** — Track usage and costs by project
 
 ## Requirements
 
-- VPS Linux (Ubuntu/Debian)
+- Linux VPS (Ubuntu/Debian)
 - Node.js ≥ 18
 - [PM2](https://pm2.keymetrics.io/) (process manager)
 - [Cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/install-and-setup/tunnel-guide/) (Cloudflare Tunnel)
@@ -48,15 +48,15 @@ Check version:
 9router --version  # 0.4.20+
 ```
 
-## Running on VPS
+## Run on VPS
 
-VPS has no GUI, so run in headless mode:
+A VPS has no GUI, so run in headless mode:
 
 ```bash
 9router --headless
 ```
 
-**Running persistently with PM2 (recommended):**
+**Run persistently with PM2 (recommended):**
 
 ```bash
 npm install -g pm2
@@ -87,21 +87,21 @@ pm2 list
 pm2 logs 9router
 ```
 
-## Configuring API Keys
+## Configure API Keys
 
-Open Web UI (`http://vps-ip:20128`) or config via API. Add keys from providers:
+Open the Web UI (`http://vps-ip:20128`) or configure through API. Add provider keys:
 
 - OpenAI: `sk-...`
 - Anthropic: `sk-ant-...`
 - Google: `AIza...`
 
-9router automatically selects the provider based on the model in the request.
+9router automatically chooses provider based on the model in each request.
 
-## Accessing from Outside
+## Access from Outside
 
-### Using Cloudflare Tunnel (recommended)
+### Use Cloudflare Tunnel (recommended)
 
-Cloudflared doesn't need open ports, proxying through Cloudflare is more secure:
+Cloudflared does not require opening ports, and proxying through Cloudflare is safer:
 
 ```bash
 # Install cloudflared
@@ -117,7 +117,7 @@ cloudflared tunnel run --url http://localhost:20128 9router
 
 Reference: [Cloudflare Tunnel Guide](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/install-and-setup/tunnel-guide/)
 
-### Tunnel Management
+### Tunnel management
 
 ```bash
 # List tunnels
@@ -129,7 +129,7 @@ cloudflared tunnel create <tunnel-name>
 # Delete tunnel
 cloudflared tunnel delete <tunnel-name-or-id>
 
-# Check tunnel info
+# Check running tunnel
 cloudflared tunnel info <tunnel-name>
 
 # Run tunnel (quick run)
@@ -138,11 +138,11 @@ cloudflared tunnel run <tunnel-name>
 # Run with specific config file
 cloudflared tunnel --config /etc/cloudflared/config.yml run <tunnel-name>
 
-# Test connection (from local)
+# Check connection (from local)
 curl -I https://proxy.yourdomain.com
 ```
 
-### Service vs Quick Run
+### Run as service vs quick run
 
 **Quick run** — run directly, config at `~/.cloudflared/config.yml`:
 
@@ -150,16 +150,19 @@ curl -I https://proxy.yourdomain.com
 cloudflared tunnel run 9router
 ```
 
-**Service (production)** — run as systemd service, config at `/etc/cloudflared/`:
+**Service (production)** — run as a systemd service, config at `/etc/cloudflared/`:
 
 ```bash
 # Move credentials file
 sudo mv ~/.cloudflared/<tunnel-id>.json /etc/cloudflared/
 sudo chown root:root /etc/cloudflared/<tunnel-id>.json
 sudo chmod 600 /etc/cloudflared/<tunnel-id>.json
+```
 
-# Create service file
-sudo cloudflared service install
+### Create config file with template below
+
+```bash
+sudo nano /etc/cloudflared/config.yml
 ```
 
 Config file for service: `/etc/cloudflared/config.yml` (not `~/.cloudflared/`)
@@ -187,6 +190,22 @@ ingress:
   - service: http_status:404
 ```
 
+Then save and run these commands to validate config:
+
+```bash
+cloudflared tunnel ingress validate
+# or with specific config file
+cloudflared tunnel --config /etc/cloudflared/config.yml validate
+# if errors occur, inspect details with
+journalctl -u cloudflared -f
+```
+
+### Install service
+
+```bash
+sudo cloudflared service install
+```
+
 **Check service:**
 
 ```bash
@@ -195,68 +214,70 @@ sudo systemctl restart cloudflared
 journalctl -u cloudflared -f
 ```
 
-> **Note:** Credentials file contains sensitive secret key — place at `/etc/cloudflared/` with `600` permissions and owned by `root`.
+> **Note:** The credentials file contains sensitive secrets — place it in `/etc/cloudflared/` with `600` permissions and ownership by `root`.
 
-Then run:
-
-```bash
-pm2 start --name cloudflared "cloudflared tunnel run 9router"
-pm2 startup
-pm2 save
-```
-
-Or if using service:
+Use cloudflared as service:
 
 ```bash
 sudo systemctl enable cloudflared
 sudo systemctl start cloudflared
 ```
 
-Access via `https://proxy.yourdomain.com` (need to create DNS record first).
+### Domain mapping
 
-### Direct Port Open (not recommended)
+```bash
+# Log in to cloudflared
+cloudflared tunnel login
+```
+
+Then create a DNS record pointing your subdomain (for example: `proxy.yourdomain.com` in the config file):
+
+```bash
+cloudflared tunnel route dns <tunnel-name-or-tunnel-id> proxy.yourdomain.com
+```
+
+### Open port directly (not recommended)
 
 ```bash
 sudo ufw allow 20128
 ```
 
-With this method, endpoint will be `http://vps-ip:20128`.
+With this approach, endpoint becomes `http://vps-ip:20128`.
 
-## Using in Your Application
+## Use in your application
 
-Change endpoint from provider to your proxy:
+Change endpoint from original provider to your proxy:
 
 ```bash
 # Before
 curl https://api.openai.com/v1/chat/completions \
   -H "Authorization: Bearer sk-xxxx"
 
-# After (using cloudflared tunnel URL)
+# After (using URL from cloudflared tunnel)
 curl https://proxy.yourdomain.com/v1/chat/completions \
   -H "Authorization: Bearer sk-xxxx"
 ```
 
-Or set environment variable:
+Or set an environment variable:
 
 ```bash
 export OPENAI_API_BASE="https://proxy.yourdomain.com/v1"
 ```
 
-## Checking Status
+## Check status
 
 ```bash
 pm2 status           # Check both 9router and cloudflared tunnel
 pm2 logs 9router     # 9router logs
-pm2 logs cloudflared-tunnel  # Tunnel logs
 ```
 
 ## Conclusion
 
-With a small VPS, 9router, PM2 and Cloudflared, you have a **production-ready API proxy** to manage AI keys, distribute requests, and control costs — no open ports or VPN needed.
+With a small VPS, 9router, PM2, and Cloudflared, you get a **production-ready API proxy** to manage AI keys, distribute requests, and control costs — without opening ports or needing a VPN.
 
-Advantages over other solutions:
+Advantages compared to other solutions:
 
-- No Cloudflare Worker costs
-- No need for domain pointed directly to VPS
-- More secure since traffic goes through Cloudflare
-- Fully self-hosted with a cheap VPS
+- No Cloudflare Worker cost
+- No need to point domain directly to VPS
+- Safer because traffic goes through Cloudflare
+- Full control with a low-cost VPS

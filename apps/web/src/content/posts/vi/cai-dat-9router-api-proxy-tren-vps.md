@@ -156,9 +156,12 @@ cloudflared tunnel run 9router
 sudo mv ~/.cloudflared/<tunnel-id>.json /etc/cloudflared/
 sudo chown root:root /etc/cloudflared/<tunnel-id>.json
 sudo chmod 600 /etc/cloudflared/<tunnel-id>.json
+```
 
-# Tạo service file
-sudo cloudflared service install
+### Tạo config file với mẫu template bên dưới
+
+```bash
+sudo nano /etc/cloudflared/config.yml
 ```
 
 File config cho service: `/etc/cloudflared/config.yml` (không phải `~/.cloudflared/`)
@@ -186,6 +189,22 @@ ingress:
   - service: http_status:404
 ```
 
+sau đó lưu lại và chạy lệnh sau để validate config:
+
+```bash
+cloudflared tunnel ingress validate
+# hoặc với file cấu hình cụ thể
+cloudflared tunnel --config /etc/cloudflared/config.yml validate
+# nếu bị lỗi thù xem chi tiết lỗi bằng lệnh
+journalctl -u cloudflared -f
+```
+
+### Cài đặt service
+
+```bash
+sudo cloudflared service install
+```
+
 **Kiểm tra service:**
 
 ```bash
@@ -196,22 +215,25 @@ journalctl -u cloudflared -f
 
 > **Lưu ý:** File credentials chứa secret key nhạy cảm — đặt ở `/etc/cloudflared/` với quyền `600` và owned by `root`.
 
-Sau đó chạy:
-
-```bash
-pm2 start --name cloudflared "cloudflared tunnel run 9router"
-pm2 startup
-pm2 save
-```
-
-Hoặc nếu dùng service:
+Dùng cloudflared như service:
 
 ```bash
 sudo systemctl enable cloudflared
 sudo systemctl start cloudflared
 ```
 
-Truy cập qua `https://proxy.yourdomain.com` (cần tạo DNS record trước).
+### Mapping domain
+
+```bash
+#Đăng nhâp vào cloudflared bằng lệnh
+cloudflared tunnel login
+```
+
+Sau đó tạo DNS record trỏ subdomain (ví dụ: `proxy.yourdomain.com tương ứng trong file config):
+
+```bash
+cloudflared tunnel route dns <tunel-name or tunnel-id> proxy.yourdomain.com
+```
 
 ### Mở port trực tiếp (không khuyến nghị)
 
@@ -246,7 +268,6 @@ export OPENAI_API_BASE="https://proxy.yourdomain.com/v1"
 ```bash
 pm2 status           # Kiểm tra cả 9router và cloudflared tunnel
 pm2 logs 9router     # Log 9router
-pm2 logs cloudflared-tunnel  # Log tunnel
 ```
 
 ## Kết luận
