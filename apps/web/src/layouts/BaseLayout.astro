@@ -1,6 +1,5 @@
 ---
 import '../styles/app.css'
-import { Font } from 'astro:assets'
 import { SITE } from '@/lib/site'
 import { resolveOgImage } from '@/lib/og-image'
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro'
@@ -57,8 +56,6 @@ const i18n = getTranslations(lang)
     <link rel="alternate" type="application/rss+xml" title={i18n.rss.title} href="/rss.xml" />
     <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <Font cssVariable="--font-inter" preload />
-    <Font cssVariable="--font-jetbrains-mono" />
     <script is:inline>
       try {
         const config = JSON.parse(localStorage.getItem('theme-config') ?? 'null')
@@ -126,7 +123,7 @@ const i18n = getTranslations(lang)
   <body class="bg-background text-foreground flex min-h-screen flex-col antialiased">
     <a
       href="#main-content"
-      class="focus:bg-background focus:ring-ring sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:shadow-lg focus:ring-2 focus:outline-none"
+      class="focus:bg-background focus:ring-ring sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:rounded-md focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:shadow-lg focus:ring-2 focus:outline-none"
     >
       {i18n.nav.skipToContent}
     </a>
@@ -170,7 +167,7 @@ const i18n = getTranslations(lang)
       <div class="container py-16">
         <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
           <div>
-            <h2 class="mb-4 text-2xl font-bold tracking-tight">
+            <h2 class="mb-4 text-2xl tracking-tight">
               {i18n.footer.buildingOn}
             </h2>
             <p class="text-muted-foreground max-w-lg text-sm leading-relaxed">

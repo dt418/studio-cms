@@ -31,7 +31,7 @@
 - Prettier uses no semicolons, single quotes, 100-column width, and the Astro + Tailwind plugins; let it sort Tailwind classes.
 - Do not create React-style JSX-returning helper functions in Astro frontmatter; extract a `.astro` component or render inline.
 - **Images**: Every `<img>` in `.astro` or `.ts` must include `width`/`height` attributes to prevent CLS. Non-hero images add `loading="lazy"` and `decoding="async"`. Always use descriptive `alt` text (never empty on content images).
-- **Fonts**: Configure Inter and JetBrains Mono in `apps/web/astro.config.mjs` with Astro Fonts API `fontProviders.fontsource()`. Render `<Font cssVariable="--font-inter" preload />` and `<Font cssVariable="--font-jetbrains-mono" />` in `BaseLayout.astro`; do not re-add Google Fonts links or direct `@fontsource-variable/*` layout imports.
+- **Fonts**: Current setup does **not** use Astro Fonts API. `apps/web/astro.config.mjs` has no `fonts` block, and `BaseLayout.astro` does not render `<Font />`. Typography is handled via CSS tokens in `src/styles/{tokens,semantic}.css`; keep `--font-inter` and `--font-jetbrains-mono` mappings aligned there. Use fontsource/local CSS flow, not Astro Google font fetching.
 - **Titles**: Page titles follow the pattern `${title} | ${SITE.name}`. Do not use `-` as separator.
 - **JSON-LD**: Every index/list page (blog index, categories, tags) requires `BreadcrumbList` and/or `CollectionPage` structured data. Post pages need `Article` schema.
 - **No meta generator**: Do not add `<meta name="generator">` — it leaks version info to scrapers.

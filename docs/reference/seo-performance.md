@@ -9,7 +9,7 @@ Run before every `pnpm build`:
 - [ ] All `<img>` tags have `width`/`height` attributes — prevents Cumulative Layout Shift (CLS)
 - [ ] Non-hero images have `loading="lazy"` and `decoding="async"`
 - [ ] All images have descriptive `alt` text (no `alt=""` on content images)
-- [ ] Fonts use Astro Fonts API in `astro.config.mjs` and `<Font>` components in `BaseLayout.astro`
+- [ ] Fonts follow local/fontsource token flow (no Astro Fonts API in current setup)
 - [ ] No `<meta name="generator">` tag present
 - [ ] `<meta name="theme-color">` present for dark and light modes
 - [ ] Page titles use `${title} | ${SITE.name}` format (not `-` separator)
@@ -65,42 +65,18 @@ Run before every `pnpm build`:
 
 ## Font Loading
 
-**Current pattern** uses Astro Fonts API with Fontsource provider.
+**Current pattern** uses CSS token mapping + local/fontsource pipeline, not Astro Fonts API.
 
-```js
-fonts: [
-  {
-    provider: fontProviders.fontsource(),
-    name: 'Inter',
-    cssVariable: '--font-inter',
-    weights: [400, 500, 600, 700],
-    styles: ['normal'],
-  },
-  {
-    provider: fontProviders.fontsource(),
-    name: 'JetBrains Mono',
-    cssVariable: '--font-jetbrains-mono',
-    weights: [400, 500, 600, 700],
-    styles: ['normal'],
-  },
-]
-```
-
-`BaseLayout.astro` must render both fonts in `<head>`:
-
-```astro
-<Font cssVariable="--font-inter" preload />
-<Font cssVariable="--font-jetbrains-mono" />
-```
-
-`tokens.css` maps typography tokens to these generated variables:
+- `apps/web/astro.config.mjs` has no `fonts` block.
+- `BaseLayout.astro` does not render `<Font />`.
+- Typography tokens map directly in CSS:
 
 ```css
 --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
 --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
 ```
 
-Do not re-add Google Fonts links or direct `@fontsource-variable/*` layout imports.
+Do not re-add Astro Google font fetching flow here.
 
 ## RSS Feed
 

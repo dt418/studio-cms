@@ -1,4 +1,4 @@
-import { defineConfig, fontProviders } from 'astro/config'
+import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
 import tailwindcss from '@tailwindcss/vite'
 import remarkGfm from 'remark-gfm'
@@ -17,24 +17,6 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'auto',
   },
-  fonts: [
-    {
-      provider: fontProviders.fontsource(),
-      name: 'Inter',
-      cssVariable: '--font-inter',
-      weights: [400, 500, 600, 700, 900],
-      styles: ['normal'],
-      fallbacks: ['ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-    },
-    {
-      provider: fontProviders.fontsource(),
-      name: 'JetBrains Mono',
-      cssVariable: '--font-jetbrains-mono',
-      weights: [400, 500, 600, 700, 900],
-      styles: ['normal'],
-      fallbacks: ['ui-monospace', 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'monospace'],
-    },
-  ],
   devToolbar: { enabled: false },
 
   i18n: {
