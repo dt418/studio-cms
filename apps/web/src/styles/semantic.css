@@ -65,8 +65,8 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
 
   --animate-slide-up: slide-up 500ms ease-out both;
   --animate-scale-in: scale-in 400ms ease-out both;
