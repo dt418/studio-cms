@@ -170,9 +170,6 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      expressive-code-twoslash:
-        specifier: ^0.6.1
-        version: 0.6.1(@expressive-code/core@0.41.7)(eslint@9.39.4(jiti@2.6.1))(expressive-code@0.41.7)(typescript@5.9.3)
       fuse.js:
         specifier: ^7.3.0
         version: 7.3.0
@@ -707,21 +704,6 @@ packages:
   '@dotenvx/dotenvx@1.63.0':
     resolution: {integrity: sha512-jjkmzIRu19uH78AjFInqfcALehbDCZZ7M09hurVawyqNxtOXEg2LR73L59y4QnzfYDEzjbhVzGAd2uDHu0D1aQ==}
     hasBin: true
-
-  '@ec-ts/twoslash-vue@1.0.0':
-    resolution: {integrity: sha512-3bB0/1DPPLHjS0eok2Cne7xQjCQVU5AWScEBGYTqsKuTCTukDUMxUiYI54rDPQME3OLnpysiORi0FQKLA96pAg==}
-    peerDependencies:
-      typescript: ^5.5.0
-
-  '@ec-ts/twoslash@1.0.0':
-    resolution: {integrity: sha512-Bp4MCmeDWVRkTkuytPTszan+QGUqeftiasOBadvxSfQpbXYiWsle/N0lMrG+S14bfS9iBzI8mEqdGgd3Fvr3jQ==}
-    peerDependencies:
-      typescript: ^5.5.0
-
-  '@ec-ts/vfs@1.0.0':
-    resolution: {integrity: sha512-GQYRPMp58p9ak+TOwSLB/HZ+iknFyTRjqMTdXDkitNN3h5yjHuO+yeeO+/cuXiv7dyXGLYs4HaYrFgRKImp8yg==}
-    peerDependencies:
-      typescript: ^5.5.0
 
   '@ecies/ciphers@0.2.6':
     resolution: {integrity: sha512-patgsRPKGkhhoBjETV4XxD0En4ui5fbX0hzayqI3M8tvNMGUoUvmyYAIWwlxBc1KX5cturfqByYdj5bYGRpN9g==}
@@ -2696,18 +2678,6 @@ packages:
   '@vscode/l10n@0.0.18':
     resolution: {integrity: sha512-KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ==}
 
-  '@vue/compiler-core@3.5.33':
-    resolution: {integrity: sha512-3PZLQwFw4Za3TC8t0FvTy3wI16Kt+pmwcgNZca4Pj9iWL2E72a/gZlpBtAJvEdDMdCxdG/qq0C7PN0bsJuv0Rw==}
-
-  '@vue/compiler-dom@3.5.33':
-    resolution: {integrity: sha512-PXq0yrfCLzzL07rbXO4awtXY1Z06LG2eu6Adg3RJFa/j3Cii217XxxLXG22N330gw7GmALCY0Z8RgXEviwgpjA==}
-
-  '@vue/language-core@3.2.7':
-    resolution: {integrity: sha512-Gn4q/tRxbpVGLEuARQ43p3YELlNAFgRUVCgW9U5Cr+5q4vfD2bWDWpl3ABbJMXUt5xlE1dF8dkigg2aUq7JYYw==}
-
-  '@vue/shared@3.5.33':
-    resolution: {integrity: sha512-5vR2QIlmaLG77Ygd4pMP6+SGQ5yox9VhtnbDWTy9DzMzdmeLxZ1QqxrywEZ9sa1AVubfIJyaCG3ytyWU81ufcQ==}
-
   '@withstudiocms/api-spec@0.3.2':
     resolution: {integrity: sha512-xquRiHO4UpBfFVFtgAwI10eyOkvEcwP2LDtvEiYoqU7az6gK2Ch6IvwntTpjwaayf295gHQ6v0nhML5IVkeuZQ==}
     peerDependencies:
@@ -2825,9 +2795,6 @@ packages:
 
   ajv@8.20.0:
     resolution: {integrity: sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==}
-
-  alien-signals@3.1.2:
-    resolution: {integrity: sha512-d9dYqZTS90WLiU0I5c6DHj/HcKkF8ZyGN3G5x8wSbslulz70KOxaqCT0hQCo9KOyhVqzqGojvNdJXoTumZOtcw==}
 
   ansi-align@3.0.1:
     resolution: {integrity: sha512-IOfwwBF5iczOjp/WeY4YxyjqAFMQoZufdQWDd19SEExbVLNXqvpzSJ/M7Za4/sCPmQ0+GRquoA7bGcINcxew6w==}
@@ -3254,9 +3221,6 @@ packages:
 
   crossws@0.3.5:
     resolution: {integrity: sha512-ojKiDvcmByhwa8YYqbQI/hg7MEU0NC03+pSdEq4ZUnZR9xXpwk7E43SMNGkn+JxJGPFtNvQ48+vV2p+P1ml5PA==}
-
-  css-js-gen@1.1.0:
-    resolution: {integrity: sha512-CuPSTe6EwlrDHcMFOfcO3SwVqclVKLnqSbTGGYzfFt8z2NenGeupp47Z3wx+yhQ2pdozb3R8hc+nyECBTykooQ==}
 
   css-select@5.2.2:
     resolution: {integrity: sha512-TizTzUddG/xYLA3NXodFM0fSbNizXjOKhqiQQwvhlspadZokn1KDy0NZFS0wuEubIYAV5/c1/lAr0TaaFXEXzw==}
@@ -3737,13 +3701,6 @@ packages:
   express@5.2.1:
     resolution: {integrity: sha512-hIS4idWWai69NezIdRt2xFVofaF4j+6INOpJlVOLDO8zXGpUVEVzIYk12UUi2JzjEzWL3IOAxcTubgz9Po0yXw==}
     engines: {node: '>= 18'}
-
-  expressive-code-twoslash@0.6.1:
-    resolution: {integrity: sha512-aEeKBgqg6cF4rQPxT5BHNbRffwsA66zWkNT/Y7CcUIE8eHW6KJHPCnZrGCLxvQ5xRd+qWj7ZXq84gT2zd2ECbg==}
-    peerDependencies:
-      '@expressive-code/core': ^0.41.7
-      expressive-code: ^0.41.7
-      typescript: ^5.5.0
 
   expressive-code@0.41.7:
     resolution: {integrity: sha512-2wZjC8OQ3TaVEMcBtYY4Va3lo6J+Ai9jf3d4dbhURMJcU4Pbqe6EcHe424MIZI0VHUA1bR6xdpoHYi3yxokWqA==}
@@ -6062,14 +6019,6 @@ packages:
   tw-animate-css@1.4.0:
     resolution: {integrity: sha512-7bziOlRqH0hJx80h/3mbicLW7o8qLsH5+RaLR2t+OHM3D0JlWGODQKQ4cxbK7WlvmUxpcj6Kgu6EKqjrGFe3QQ==}
 
-  twoslash-eslint@0.3.8:
-    resolution: {integrity: sha512-4rW6i4ALza33+95G3IOG1l2FgBb84+SYzmX/GCe2suMTvZ2P4kJUTGIlr7tIqgPU90FRzDs3iL2i6X/Chuosug==}
-    peerDependencies:
-      eslint: '>=8.50.0'
-
-  twoslash-protocol@0.3.8:
-    resolution: {integrity: sha512-HmvAHoiEviK8LqvAQyc9/irkdvwTUiR1fHmNwH/0gq8EHxyBt4PWVPixjEXg6wJu1u6yBrILEWXGK9Kw58/8yQ==}
-
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
@@ -7410,23 +7359,6 @@ snapshots:
       picomatch: 4.0.4
       which: 4.0.0
       yocto-spinner: 1.1.0
-
-  '@ec-ts/twoslash-vue@1.0.0(typescript@5.9.3)':
-    dependencies:
-      '@ec-ts/twoslash': 1.0.0(typescript@5.9.3)
-      '@vue/language-core': 3.2.7
-      twoslash-protocol: 0.3.8
-      typescript: 5.9.3
-
-  '@ec-ts/twoslash@1.0.0(typescript@5.9.3)':
-    dependencies:
-      '@ec-ts/vfs': 1.0.0(typescript@5.9.3)
-      twoslash-protocol: 0.3.8
-      typescript: 5.9.3
-
-  '@ec-ts/vfs@1.0.0(typescript@5.9.3)':
-    dependencies:
-      typescript: 5.9.3
 
   '@ecies/ciphers@0.2.6(@noble/ciphers@1.3.0)':
     dependencies:
@@ -9137,31 +9069,6 @@ snapshots:
 
   '@vscode/l10n@0.0.18': {}
 
-  '@vue/compiler-core@3.5.33':
-    dependencies:
-      '@babel/parser': 7.29.2
-      '@vue/shared': 3.5.33
-      entities: 7.0.1
-      estree-walker: 2.0.2
-      source-map-js: 1.2.1
-
-  '@vue/compiler-dom@3.5.33':
-    dependencies:
-      '@vue/compiler-core': 3.5.33
-      '@vue/shared': 3.5.33
-
-  '@vue/language-core@3.2.7':
-    dependencies:
-      '@volar/language-core': 2.4.28
-      '@vue/compiler-dom': 3.5.33
-      '@vue/shared': 3.5.33
-      alien-signals: 3.1.2
-      muggle-string: 0.4.1
-      path-browserify: 1.0.1
-      picomatch: 4.0.4
-
-  '@vue/shared@3.5.33': {}
-
   '@withstudiocms/api-spec@0.3.2(020536cb543e26211c1e48ee2c9e5cc3)':
     dependencies:
       '@effect/platform': 0.94.5(effect@3.21.2)
@@ -9299,8 +9206,6 @@ snapshots:
       fast-uri: 3.1.0
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
-
-  alien-signals@3.1.2: {}
 
   ansi-align@3.0.1:
     dependencies:
@@ -9906,8 +9811,6 @@ snapshots:
   crossws@0.3.5:
     dependencies:
       uncrypto: 0.1.3
-
-  css-js-gen@1.1.0: {}
 
   css-select@5.2.2:
     dependencies:
@@ -10547,23 +10450,6 @@ snapshots:
       type-is: 2.0.1
       vary: 1.1.2
     transitivePeerDependencies:
-      - supports-color
-
-  expressive-code-twoslash@0.6.1(@expressive-code/core@0.41.7)(eslint@9.39.4(jiti@2.6.1))(expressive-code@0.41.7)(typescript@5.9.3):
-    dependencies:
-      '@ec-ts/twoslash': 1.0.0(typescript@5.9.3)
-      '@ec-ts/twoslash-vue': 1.0.0(typescript@5.9.3)
-      '@expressive-code/core': 0.41.7
-      '@typescript-eslint/parser': 8.59.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
-      css-js-gen: 1.1.0
-      expressive-code: 0.41.7
-      mdast-util-from-markdown: 2.0.3
-      mdast-util-gfm: 3.1.0
-      mdast-util-to-hast: 13.2.1
-      twoslash-eslint: 0.3.8(eslint@9.39.4(jiti@2.6.1))
-      typescript: 5.9.3
-    transitivePeerDependencies:
-      - eslint
       - supports-color
 
   expressive-code@0.41.7:
@@ -13379,13 +13265,6 @@ snapshots:
       '@turbo/windows-arm64': 2.9.6
 
   tw-animate-css@1.4.0: {}
-
-  twoslash-eslint@0.3.8(eslint@9.39.4(jiti@2.6.1)):
-    dependencies:
-      eslint: 9.39.4(jiti@2.6.1)
-      twoslash-protocol: 0.3.8
-
-  twoslash-protocol@0.3.8: {}
 
   type-check@0.4.0:
     dependencies:
