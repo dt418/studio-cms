@@ -84,3 +84,5 @@ env.vars
 .flaskenv*
 !.env.project
 !.env.vault
+
+*lighthouse*
