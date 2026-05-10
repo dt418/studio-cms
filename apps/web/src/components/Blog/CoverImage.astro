@@ -1,5 +1,5 @@
 ---
-import Image from 'astro/components/Image.astro'
+import { Image } from 'astro:assets'
 
 interface Props {
   coverImage: string
@@ -16,6 +16,7 @@ const { coverImage, title } = Astro.props
     class="h-auto w-full object-cover"
     width="1200"
     height="630"
+    layout="constrained"
     sizes="(max-width: 768px) 100vw, 60vw"
     fetchpriority="high"
     loading="eager"
