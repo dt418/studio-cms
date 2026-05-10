@@ -10,6 +10,10 @@ pre-commit:
       glob: '*.{ts,tsx,astro}'
       run: pnpm typecheck
 
+    a11y-patterns:
+      glob: '*.{astro,ts,tsx}'
+      run: pnpm lint:patterns
+
     format:
       glob: '*.{ts,tsx,astro,css,json,md}'
       run: pnpm format:check

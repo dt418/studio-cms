@@ -4,6 +4,21 @@ export const en = {
   nav: {
     writing: 'writing',
     rss: 'rss',
+    primary: 'Primary navigation',
+    brandHome: `${SITE.name} home`,
+    skipToContent: 'Skip to content',
+  },
+  language: {
+    navigation: 'Language selector',
+    footerNavigation: 'Footer language selector',
+    switchTo: (language: string) => `Switch language to ${language}`,
+    names: {
+      en: 'English',
+      vi: 'Tiếng Việt',
+    },
+  },
+  breadcrumb: {
+    label: 'Breadcrumb',
   },
   hero: {
     tagline: 'For developers shipping modern web products',

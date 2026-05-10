@@ -4,6 +4,21 @@ export const vi = {
   nav: {
     writing: 'Bài viết',
     rss: 'rss',
+    primary: 'Điều hướng chính',
+    brandHome: `${SITE.name} trang chủ`,
+    skipToContent: 'Bỏ qua đến nội dung',
+  },
+  language: {
+    navigation: 'Chọn ngôn ngữ',
+    footerNavigation: 'Chọn ngôn ngữ ở chân trang',
+    switchTo: (language: string) => `Chuyển ngôn ngữ sang ${language}`,
+    names: {
+      en: 'English',
+      vi: 'Tiếng Việt',
+    },
+  },
+  breadcrumb: {
+    label: 'Đường dẫn điều hướng',
   },
   hero: {
     tagline: 'Cho developers xây dựng sản phẩm web hiện đại',

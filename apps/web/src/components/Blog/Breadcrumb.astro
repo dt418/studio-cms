@@ -5,16 +5,17 @@ interface Props {
   i18n?: {
     home: string
     blog: string
+    label: string
   }
 }
 
-const { title, lang = '', i18n = { home: 'Home', blog: 'Blog' } } = Astro.props
+const { title, lang = '', i18n = { home: 'Home', blog: 'Blog', label: 'Breadcrumb' } } = Astro.props
 ---
 
-<nav class="text-muted-foreground flex items-center gap-2 text-sm" aria-label="Breadcrumb">
+<nav class="text-muted-foreground flex items-center gap-2 text-sm" aria-label={i18n.label}>
   <a href={`/${lang}`} class="hover:text-foreground transition-colors">{i18n.home}</a>
-  <span class="text-muted-foreground/40">/</span>
+  <span aria-hidden="true" class="text-muted-foreground/40">/</span>
   <a href={`/${lang}/blog`} class="hover:text-foreground transition-colors">{i18n.blog}</a>
-  <span class="text-muted-foreground/40">/</span>
-  <span class="text-foreground max-w-50 truncate">{title}</span>
+  <span aria-hidden="true" class="text-muted-foreground/40">/</span>
+  <span class="text-foreground max-w-50 truncate" aria-current="page">{title}</span>
 </nav>

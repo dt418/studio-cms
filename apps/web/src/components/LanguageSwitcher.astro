@@ -5,32 +5,55 @@ import { SUPPORTED_LOCALES } from '@/lib/content-utils'
 interface Props {
   currentLang: SupportedLocale
   currentPath: string
+  label: string
+  languageNames: Record<SupportedLocale, string>
+  getSwitchLabel: (language: string) => string
 }
 
-const { currentLang, currentPath } = Astro.props
+const { currentLang, currentPath, label, languageNames, getSwitchLabel } = Astro.props
 
 function switchLocale(targetLang: SupportedLocale): string {
   const pathWithoutLang = currentPath.replace(/^\/(vi|en)/, '')
   return `/${targetLang}${pathWithoutLang || '/blog'}`
 }
+
+const languageLinks = SUPPORTED_LOCALES.map((locale, index) => {
+  const name = languageNames[locale] ?? locale.toUpperCase()
+
+  return {
+    href: switchLocale(locale),
+    isCurrent: currentLang === locale,
+    isLast: index === SUPPORTED_LOCALES.length - 1,
+    label: getSwitchLabel(name),
+    locale,
+  }
+})
 ---
 
-<div class="flex items-center gap-1">
+<nav class="flex items-center gap-1" aria-label={label}>
   {
-    SUPPORTED_LOCALES.map((locale) => (
-      <a
-        href={switchLocale(locale)}
-        class:list={[
-          'rounded px-2 py-1 font-mono text-xs tracking-wider uppercase transition-colors',
-          currentLang === locale
-            ? 'bg-foreground text-background'
-            : 'text-muted-foreground hover:text-foreground',
-        ]}
-        hreflang={locale}
-      >
-        {locale.toUpperCase()}
-      </a>
+    languageLinks.map((link) => (
+      <>
+        <a
+          href={link.href}
+          class:list={[
+            'rounded px-2 py-1 font-mono text-xs tracking-wider uppercase transition-colors',
+            link.isCurrent
+              ? 'bg-foreground text-background'
+              : 'text-muted-foreground hover:text-foreground',
+          ]}
+          hreflang={link.locale}
+          aria-label={link.label}
+          {...(link.isCurrent ? { 'aria-current': 'page' } : {})}
+        >
+          {link.locale.toUpperCase()}
+        </a>
+        {!link.isLast && (
+          <span aria-hidden="true" class="text-muted-foreground/30">
+            /
+          </span>
+        )}
+      </>
     ))
   }
-  {currentLang !== SUPPORTED_LOCALES[0] && <span class="text-muted-foreground/30">/</span>}
-</div>
+</nav>

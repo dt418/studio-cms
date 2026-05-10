@@ -18,6 +18,7 @@ interface Props {
     home: string
     blog: string
     minRead: string
+    breadcrumbLabel: string
   }
 }
 
@@ -39,7 +40,11 @@ const {
   <Breadcrumb
     title={title}
     {...lang !== undefined ? { lang } : {}}
-    i18n={{ home: i18n?.home ?? 'Home', blog: i18n?.blog ?? 'Blog' }}
+    i18n={{
+      home: i18n?.home ?? 'Home',
+      blog: i18n?.blog ?? 'Blog',
+      label: i18n?.breadcrumbLabel ?? 'Breadcrumb',
+    }}
   />
 
   <!-- Title -->
