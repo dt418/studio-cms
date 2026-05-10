@@ -41,6 +41,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Performance
 
+- Improve mobile Lighthouse score with Astro-managed responsive cover images and source asset mapping (`a62b649`)
+- Load Inter and JetBrains Mono through Astro Fonts API with Fontsource provider (`a62b649`)
+- Inline project stylesheets and remove raw hero image preload to reduce render-blocking and oversized image downloads (`a62b649`)
+- Increase blog card/tag touch targets and improve code-block comment contrast for Lighthouse accessibility checks (`a62b649`)
 - Self-host fonts via `@fontsource-variable/inter` and `@fontsource-variable/jetbrains-mono`, eliminating Google Fonts CDN dependency
 - Remove unused animate-on-scroll CSS (~78 lines) and IntersectionObserver JS (~19 lines) from components.css and BaseLayout
 - Add responsive `sizes` attributes to CoverImage, ImageBlock, and BlogCard images

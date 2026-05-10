@@ -275,8 +275,8 @@ graph TB
     end
 
     subgraph Fonts["Font Loading"]
-        FONT1["media=print onload swap<br/>non-blocking Google Fonts"]
-        FONT2["&lt;noscript&gt; fallback<br/>JS-disabled users"]
+        FONT1["Astro Fonts API<br/>Fontsource provider"]
+        FONT2["&lt;Font&gt; components<br/>Inter preload, JetBrains Mono load"]
         FONT3["font-display: swap<br/>prevent FOIT"]
     end
 
@@ -298,7 +298,7 @@ graph TB
 | Area | Convention | File |
 |------|-----------|------|
 | Images | Every `<img>` must have `width`/`height`; use `loading="lazy"` + `decoding="async"` for non-hero images | `CoverImage.astro`, `BlogCard.astro`, `search.ts` |
-| Fonts | Google Fonts loaded with `media="print" onload="this.media='all'"` + `<noscript>` fallback | `BaseLayout.astro` |
+| Fonts | Inter and JetBrains Mono configured with Astro Fonts API and rendered with `<Font>` components | `astro.config.mjs`, `BaseLayout.astro`, `tokens.css` |
 | Titles | `${title} \| ${SITE.name}` on every page | All page components |
 | JSON-LD | `BreadcrumbList` on blog index; `CollectionPage` on category/tag; `Article` on posts | Blog/tag/category pages |
 | RSS | Full `content:encoded` with image + excerpt; per-item `categories`/`author`; channel `<language>` | `rss.xml.ts` |

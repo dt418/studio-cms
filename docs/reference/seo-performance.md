@@ -9,7 +9,7 @@ Run before every `pnpm build`:
 - [ ] All `<img>` tags have `width`/`height` attributes — prevents Cumulative Layout Shift (CLS)
 - [ ] Non-hero images have `loading="lazy"` and `decoding="async"`
 - [ ] All images have descriptive `alt` text (no `alt=""` on content images)
-- [ ] Google Fonts in `<head>` use `media="print" onload="this.media='all'"` with `<noscript>` fallback
+- [ ] Fonts use Astro Fonts API in `astro.config.mjs` and `<Font>` components in `BaseLayout.astro`
 - [ ] No `<meta name="generator">` tag present
 - [ ] `<meta name="theme-color">` present for dark and light modes
 - [ ] Page titles use `${title} | ${SITE.name}` format (not `-` separator)
@@ -33,59 +33,74 @@ Run before every `pnpm build`:
 ## Image Conventions
 
 ```astro
-<!-- Cover image (hero): above-fold, preloaded by browser -->
-<img src={coverImage} alt={title} width={1200} height={630} />
+<Image
+  src={optimizedCoverImage}
+  alt={title}
+  width="1200"
+  height="630"
+  layout="constrained"
+  sizes="(max-width: 768px) calc(100vw - 3rem), 60vw"
+  fetchpriority="high"
+  loading="eager"
+/>
 
-<!-- Content image (markdown): below-fold -->
-<img src={src} alt={alt} loading="lazy" decoding="async" />
-
-<!-- Card thumbnail: below-fold, lazy -->
-<img src={image} alt={title} width={1200} height={630} loading="lazy" decoding="async" />
-
-<!-- Search result thumbnail: small, lazy -->
-<img src={image} alt={`${title} cover image`} width={200} height={113} loading="lazy" decoding="async" />
+<Image
+  src={optimizedCardImage}
+  alt={title}
+  width="640"
+  height="336"
+  layout="constrained"
+  sizes="(max-width: 768px) calc(100vw - 2rem), 400px"
+  loading="lazy"
+  decoding="async"
+/>
 ```
 
 **Key files to check when adding images:**
-- `CoverImage.astro` — Post cover images
+- `CoverImage.astro` — Post cover images with LCP priority
 - `BlogCard.astro` — Card thumbnails on index/archive pages
-- `ImageBlock.astro` — Content images from markdown (no hardcoded dimensions — aspect ratio varies)
+- `src/lib/cover-images.ts` — Public cover path to Astro source asset mapping
+- `src/assets/og/` — Source OG images Astro can optimize
 - `search.ts` (`renderResults`) — Search result thumbnails
 
 ## Font Loading
 
-**Current pattern** (in `BaseLayout.astro`):
+**Current pattern** uses Astro Fonts API with Fontsource provider.
 
-```html
-<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  rel="preload"
-  as="style"
-  href="https://fonts.googleapis.com/css2?family=Inter:...family=JetBrains+Mono:...&display=swap"
-/>
-<link
-  rel="stylesheet"
-  media="print"
-  onload="this.media='all'"
-  href="https://fonts.googleapis.com/css2?family=Inter:...family=JetBrains+Mono:...&display=swap"
-/>
-<noscript>
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Inter:...family=JetBrains+Mono:...&display=swap"
-  />
-</noscript>
+```js
+fonts: [
+  {
+    provider: fontProviders.fontsource(),
+    name: 'Inter',
+    cssVariable: '--font-inter',
+    weights: [400, 500, 600, 700],
+    styles: ['normal'],
+  },
+  {
+    provider: fontProviders.fontsource(),
+    name: 'JetBrains Mono',
+    cssVariable: '--font-jetbrains-mono',
+    weights: [400, 500, 600, 700],
+    styles: ['normal'],
+  },
+]
 ```
 
-**Why this pattern:**
-- `rel="preload"` starts downloading font CSS early (parallel with HTML parse)
-- `media="print"` makes the stylesheet non-render-blocking initially
-- `onload="this.media='all'"` switches to active stylesheet once loaded
-- `<noscript>` fallback ensures fonts load for users without JavaScript
-- `display=swap` shows fallback fonts immediately, swaps when custom fonts load
+`BaseLayout.astro` must render both fonts in `<head>`:
 
-This eliminates render-blocking while maintaining layout stability.
+```astro
+<Font cssVariable="--font-inter" preload />
+<Font cssVariable="--font-jetbrains-mono" />
+```
+
+`tokens.css` maps typography tokens to these generated variables:
+
+```css
+--font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+--font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+```
+
+Do not re-add Google Fonts links or direct `@fontsource-variable/*` layout imports.
 
 ## RSS Feed
 
@@ -132,6 +147,7 @@ pnpm web:build && head -1 apps/web/dist/rss.xml
 
 | Date | Change | Commit |
 |------|--------|--------|
+| 2026-05 | Mobile Lighthouse 95 local audit: Astro Fonts API, responsive cover assets, inline project CSS, touch target and contrast fixes | `a62b649` |
 | 2026-05 | Image CLS fixes, JSON-LD on category/tag, RSS xml namespace, theme-color, title format (`\|` separator) | `5329cd4` |
 | 2026-05 | **REVERTED** non-blocking font loading (`media="print"`) — caused full layout breakage. Use blocking `<link>` instead. | — |
 | 2026-05 | Full audit: 20 issues found across images, fonts, SEO, RSS, titles | — |
