@@ -104,6 +104,11 @@
     @apply bg-transparent p-0 text-sm leading-[1.7];
   }
 
+  .prose pre[data-theme='github-dark-dimmed'] span[style*='#768390'],
+  .prose pre[data-theme='github-dark-dimmed'] span[style*='rgb(118, 131, 144)'] {
+    color: #a3adb8 !important;
+  }
+
   .prose ul,
   .prose ol {
     @apply text-muted-foreground mb-5 ml-6;

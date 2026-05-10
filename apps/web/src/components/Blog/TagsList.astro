@@ -13,12 +13,12 @@ const { tags, post, locale } = Astro.props
 const postLocale = locale ?? (post ? getPostLocale(post) : 'vi')
 ---
 
-<div class="flex flex-wrap gap-2">
+<div class="flex flex-wrap gap-3">
   {
     tags.map((tag) => (
       <a
         href={getTagPath(tag, postLocale as 'vi' | 'en')}
-        class="border-border text-muted-foreground hover:text-foreground hover:bg-accent inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition-colors"
+        class="border-border text-muted-foreground hover:text-foreground hover:bg-accent inline-flex min-h-11 items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors"
       >
         #{tag}
       </a>

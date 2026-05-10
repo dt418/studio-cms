@@ -1,27 +1,14 @@
 ---
-import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
-import buildingSaasImage from '@/assets/og/building-saas-astro-studiocms.webp'
-import gettingStartedAstroImage from '@/assets/og/getting-started-with-astro-5.webp'
-import masteringTypescriptImage from '@/assets/og/mastering-typescript-generics.webp'
-import setup9routerImage from '@/assets/og/setup-9router-api-proxy-on-vps.webp'
-import tailwindMigrationImage from '@/assets/og/tailwindcss-4-migration-guide.webp'
+import { getOptimizedCoverImage } from '@/lib/cover-images'
 
 interface Props {
   coverImage: string
   title: string
 }
 
-const optimizedCoverImages: Record<string, ImageMetadata> = {
-  '/og/building-saas-astro-studiocms.webp': buildingSaasImage,
-  '/og/getting-started-with-astro-5.webp': gettingStartedAstroImage,
-  '/og/mastering-typescript-generics.webp': masteringTypescriptImage,
-  '/og/setup-9router-api-proxy-on-vps.webp': setup9routerImage,
-  '/og/tailwindcss-4-migration-guide.webp': tailwindMigrationImage,
-}
-
 const { coverImage, title } = Astro.props
-const optimizedCoverImage = optimizedCoverImages[coverImage]
+const optimizedCoverImage = getOptimizedCoverImage(coverImage)
 ---
 
 <div class="border-border mt-8 overflow-hidden rounded-xl border">
@@ -34,7 +21,7 @@ const optimizedCoverImage = optimizedCoverImages[coverImage]
         width="1200"
         height="630"
         layout="constrained"
-        sizes="(max-width: 768px) 100vw, 60vw"
+        sizes="(max-width: 768px) calc(100vw - 3rem), 60vw"
         fetchpriority="high"
         loading="eager"
         decoding="sync"
@@ -47,7 +34,7 @@ const optimizedCoverImage = optimizedCoverImages[coverImage]
         width="1200"
         height="630"
         layout="constrained"
-        sizes="(max-width: 768px) 100vw, 60vw"
+        sizes="(max-width: 768px) calc(100vw - 3rem), 60vw"
         fetchpriority="high"
         loading="eager"
         decoding="sync"
