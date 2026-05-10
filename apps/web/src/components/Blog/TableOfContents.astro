@@ -52,46 +52,62 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 3)
 
 <script>
   document.addEventListener('astro:page-load', () => {
-    const toc = document.getElementById('toc')
-    if (!toc) {
+    if (window.matchMedia('(max-width: 1023px)').matches) {
       return
     }
-    toc.classList.remove('hidden')
 
-    const links = toc.querySelectorAll<HTMLAnchorElement>('.toc-link')
-    const headings = Array.from(
-      document.querySelectorAll<HTMLHeadingElement>('.prose h1, .prose h2, .prose h3, .prose h4')
-    )
-
-    links.forEach((link, index) => {
-      const heading = headings[index]
-      if (!heading) return
-
-      const slug = link.getAttribute('href')?.slice(1)
-      if (slug) {
-        heading.id = slug
+    const initToc = () => {
+      const toc = document.getElementById('toc')
+      if (!toc) {
+        return
       }
 
-      link.addEventListener('click', (event) => {
-        event.preventDefault()
-        heading.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        history.replaceState(null, '', link.href)
-      })
-    })
+      toc.classList.remove('hidden')
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            links.forEach((link) => link.classList.remove('active'))
-            const activeLink = toc.querySelector<HTMLAnchorElement>(`a[href="#${entry.target.id}"]`)
-            activeLink?.classList.add('active')
-          }
+      const links = toc.querySelectorAll<HTMLAnchorElement>('.toc-link')
+      const headings = Array.from(
+        document.querySelectorAll<HTMLHeadingElement>('.prose h1, .prose h2, .prose h3, .prose h4')
+      )
+
+      links.forEach((link, index) => {
+        const heading = headings[index]
+        if (!heading) return
+
+        const slug = link.getAttribute('href')?.slice(1)
+        if (slug) {
+          heading.id = slug
+        }
+
+        link.addEventListener('click', (event) => {
+          event.preventDefault()
+          heading.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          history.replaceState(null, '', link.href)
         })
-      },
-      { rootMargin: '-80px 0px -60% 0px', threshold: 0 }
-    )
+      })
 
-    headings.forEach((heading) => observer.observe(heading))
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              links.forEach((link) => link.classList.remove('active'))
+              const activeLink = toc.querySelector<HTMLAnchorElement>(
+                `a[href="#${entry.target.id}"]`
+              )
+              activeLink?.classList.add('active')
+            }
+          })
+        },
+        { rootMargin: '-80px 0px -60% 0px', threshold: 0 }
+      )
+
+      headings.forEach((heading) => observer.observe(heading))
+    }
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(initToc, { timeout: 300 })
+      return
+    }
+
+    setTimeout(initToc, 0)
   })
 </script>

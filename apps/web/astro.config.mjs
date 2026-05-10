@@ -8,7 +8,6 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypePrettyCode from 'rehype-pretty-code'
 
 import astroExpressiveCode from 'astro-expressive-code'
-import ecTwoSlash from 'expressive-code-twoslash'
 import { visualizer } from 'rollup-plugin-visualizer'
 import compress from '@playform/compress'
 
@@ -16,23 +15,23 @@ export default defineConfig({
   site: process.env['SITE_URL'] ?? process.env['CF_PAGES_URL'] ?? 'http://localhost:4321',
   output: 'static',
   build: {
-    inlineStylesheets: 'always',
+    inlineStylesheets: 'auto',
   },
   fonts: [
     {
       provider: fontProviders.fontsource(),
       name: 'Inter',
       cssVariable: '--font-inter',
-      weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-      styles: ['normal', 'oblique', 'italic'],
+      weights: [400, 500, 600, 700, 900],
+      styles: ['normal'],
       fallbacks: ['ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
     },
     {
       provider: fontProviders.fontsource(),
       name: 'JetBrains Mono',
       cssVariable: '--font-jetbrains-mono',
-      weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-      styles: ['normal', 'oblique', 'italic'],
+      weights: [400, 500, 600, 700, 900],
+      styles: ['normal'],
       fallbacks: ['ui-monospace', 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'monospace'],
     },
   ],
@@ -71,7 +70,6 @@ export default defineConfig({
           shadowColor: '#124',
         },
       },
-      plugins: [ecTwoSlash()],
     }),
     compress({
       HTML: {
