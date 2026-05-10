@@ -2,7 +2,9 @@
 interface Props {
   author: string
   publishedAt: string
+  publishedAtIso: string
   updatedAt?: string
+  updatedAtIso?: string
   readingTime: number
   wordCount: number
   i18n?: {
@@ -21,7 +23,9 @@ interface Props {
 const {
   author,
   publishedAt,
+  publishedAtIso,
   updatedAt,
+  updatedAtIso,
   readingTime,
   wordCount,
   i18n = {
@@ -60,7 +64,7 @@ const {
         >
           {i18n.published}
         </p>
-        <time class="text-foreground text-sm" datetime={publishedAt}>{publishedAt}</time>
+        <time class="text-foreground text-sm" datetime={publishedAtIso}>{publishedAt}</time>
       </div>
 
       {
@@ -69,7 +73,7 @@ const {
             <p class="text-muted-foreground/50 mb-1 font-mono text-[0.62rem] tracking-[0.22em] uppercase">
               {i18n.updated}
             </p>
-            <time class="text-foreground text-sm" datetime={updatedAt}>
+            <time class="text-foreground text-sm" datetime={updatedAtIso ?? updatedAt}>
               {updatedAt}
             </time>
           </div>

@@ -72,6 +72,8 @@ const {
 
 const formattedDate = formatDate(publishedAt)
 const updatedDate = updatedAt ? formatDate(updatedAt) : null
+const publishedTime = publishedAt.toISOString()
+const modifiedTime = updatedAt?.toISOString() ?? publishedTime
 
 const bodyText = post.body ?? ''
 const wordCount = bodyText.trim().split(/\s+/).filter(Boolean).length
@@ -87,8 +89,6 @@ const relatedPosts = allPosts
   .slice(0, 3)
 
 const canonicalUrl = getCanonicalUrl(lang, `/blog/${slug}`, siteUrl || Astro.url.origin)
-const publishedTime = publishedAt.toISOString()
-const modifiedTime = updatedAt?.toISOString() ?? publishedTime
 const alternateUrls = getAlternateUrls(`/blog/${slug}`, siteUrl)
 
 const articleJsonLd = {
@@ -130,7 +130,7 @@ const breadcrumbJsonLd = {
       '@type': 'ListItem',
       position: 2,
       name: i18n.schema.blog,
-      item: getBlogPath(lang),
+      item: `${siteUrl}${getBlogPath(lang)}`,
     },
     {
       '@type': 'ListItem',
@@ -180,6 +180,7 @@ const breadcrumbJsonLd = {
       excerpt={excerpt}
       tags={tags}
       publishedAt={formattedDate}
+      publishedAtIso={publishedTime}
       readingTime={readingTimeMin}
       lang={lang}
       i18n={{ ...i18n.schema, minRead: i18n.post.minRead }}
@@ -208,10 +209,11 @@ const breadcrumbJsonLd = {
           <PostMetaCard
             author={author}
             publishedAt={formattedDate}
+            publishedAtIso={publishedTime}
             readingTime={readingTimeMin}
             wordCount={wordCount}
             i18n={i18n.post}
-            {...updatedDate && { updatedAt: updatedDate }}
+            {...updatedDate && { updatedAt: updatedDate, updatedAtIso: modifiedTime }}
           />
         </aside>
       </div>

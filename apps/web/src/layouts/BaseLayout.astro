@@ -44,6 +44,7 @@ const {
 const siteUrl = (Astro.site ?? Astro.url).origin || 'http://localhost:4321'
 const defaultImage = `${siteUrl}/og-image.png`
 const ogImageUrl = resolveOgImage(image, siteUrl, defaultImage)
+const ogImageType = ogImageUrl.endsWith('.webp') ? 'image/webp' : 'image/png'
 
 const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
 const i18n = getTranslations(lang)
@@ -101,7 +102,7 @@ const i18n = getTranslations(lang)
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:type" content={ogImageType} />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'vi_VN'} />
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}

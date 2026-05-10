@@ -1,17 +1,18 @@
 ---
 interface Props {
   publishedAt: string
+  publishedAtIso: string
   readingTime: number
   i18n?: {
     minRead: string
   }
 }
 
-const { publishedAt, readingTime, i18n = { minRead: 'min read' } } = Astro.props
+const { publishedAt, publishedAtIso, readingTime, i18n = { minRead: 'min read' } } = Astro.props
 ---
 
 <div class="text-muted-foreground flex items-center gap-4 text-sm">
-  <time datetime={publishedAt}>{publishedAt}</time>
+  <time datetime={publishedAtIso}>{publishedAt}</time>
   <span class="text-muted-foreground/40">&middot;</span>
   <span>{readingTime} {i18n.minRead}</span>
 </div>

@@ -10,6 +10,7 @@ interface Props {
   excerpt: string
   tags: string[]
   publishedAt: string
+  publishedAtIso: string
   readingTime: number
   lang?: string
   coverImage?: string
@@ -20,8 +21,18 @@ interface Props {
   }
 }
 
-const { category, title, excerpt, tags, publishedAt, readingTime, lang, coverImage, i18n } =
-  Astro.props
+const {
+  category,
+  title,
+  excerpt,
+  tags,
+  publishedAt,
+  publishedAtIso,
+  readingTime,
+  lang,
+  coverImage,
+  i18n,
+} = Astro.props
 ---
 
 <div class="space-y-6">
@@ -55,6 +66,7 @@ const { category, title, excerpt, tags, publishedAt, readingTime, lang, coverIma
 
   <PostMetadata
     publishedAt={publishedAt}
+    publishedAtIso={publishedAtIso}
     readingTime={readingTime}
     i18n={{ minRead: i18n?.minRead ?? 'min read' }}
   />

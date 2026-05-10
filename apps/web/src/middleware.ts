@@ -3,8 +3,9 @@ import { defineMiddleware } from 'astro:middleware'
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const response = await next()
+  const pathname = context.url.pathname.replace(/\/$/, '')
 
-  if (response.status === 404) {
+  if (response.status === 404 && !pathname.endsWith('/404')) {
     const locale = context.currentLocale ?? 'vi'
     const notFoundResponse = await context.rewrite(`/${locale}/404`)
 

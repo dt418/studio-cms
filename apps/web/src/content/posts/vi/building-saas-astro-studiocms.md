@@ -10,8 +10,6 @@ language: 'vi'
 category: 'guides'
 ---
 
-# Xây dựng SaaS với Astro và StudioCMS
-
 Trong hướng dẫn này, chúng ta sẽ đi qua việc xây dựng một ứng dụng SaaS production-ready sử dụng Astro cho frontend và StudioCMS để quản lý nội dung.
 
 ## Tại sao nên dùng Astro + StudioCMS?

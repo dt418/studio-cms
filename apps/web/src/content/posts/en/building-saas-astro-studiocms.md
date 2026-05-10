@@ -10,8 +10,6 @@ language: 'en'
 category: 'guides'
 ---
 
-# Building a SaaS with Astro and StudioCMS
-
 In this guide, we'll walk through building a production-ready SaaS application using Astro for the frontend and StudioCMS for content management.
 
 ## Why Astro + StudioCMS?

@@ -13,20 +13,14 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import compress from '@playform/compress'
 
 export default defineConfig({
-  site: process.env['CF_PAGES_URL'] ?? process.env['SITE_URL'] ?? 'http://localhost:4321',
+  site: process.env['SITE_URL'] ?? process.env['CF_PAGES_URL'] ?? 'http://localhost:4321',
   output: 'static',
   devToolbar: { enabled: false },
 
   i18n: {
     locales: ['vi', 'en'],
     defaultLocale: 'vi',
-    routing: {
-      prefixDefaultLocale: true,
-      fallbackType: 'rewrite',
-    },
-    fallback: {
-      en: 'vi',
-    },
+    routing: 'manual',
   },
 
   vite: {
