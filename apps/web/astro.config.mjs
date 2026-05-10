@@ -15,6 +15,9 @@ import compress from '@playform/compress'
 export default defineConfig({
   site: process.env['SITE_URL'] ?? process.env['CF_PAGES_URL'] ?? 'http://localhost:4321',
   output: 'static',
+  build: {
+    inlineStylesheets: 'always',
+  },
   devToolbar: { enabled: false },
 
   i18n: {
