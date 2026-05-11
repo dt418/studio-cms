@@ -1,5 +1,5 @@
 ---
-title: 'Mastering TypeScript Generics'
+title: 'Làm chủ TypeScript Generics'
 slug: 'mastering-typescript-generics'
 excerpt: 'Deep dive vào TypeScript generics và học cách viết code reusable, type-safe.'
 coverImage: '/og/mastering-typescript-generics.webp'

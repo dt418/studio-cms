@@ -14,7 +14,10 @@ const i18n = getTranslations(lang)
 const { title, excerpt, category, tags } = post.data
 ---
 
-<div class="mb-4 flex items-center gap-3">
+<div class="group/card relative mb-4 flex items-center gap-3">
+  <span
+    class="bg-accent-warm absolute top-1/2 -left-4 h-3 w-0.5 -translate-y-1/2 rounded-full opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+  ></span>
   <span class="text-muted-foreground/50 font-mono text-[0.68rem] tracking-[0.26em] uppercase">
     {category}
   </span>
@@ -24,16 +27,14 @@ const { title, excerpt, category, tags } = post.data
   </time>
 </div>
 <h3
-  class={large
-    ? 'text-foreground mb-4 text-xl font-semibold tracking-tight lg:text-2xl'
-    : 'text-foreground mb-2 text-lg font-semibold tracking-tight'}
+  class="group/title text-foreground group-hover/title:text-accent-warm mb-4 text-xl font-semibold tracking-tight transition-colors duration-300 lg:text-2xl"
 >
   {title}
 </h3>
 <p
   class={large
-    ? 'text-muted-foreground/70 mb-6 text-sm leading-7'
-    : 'text-muted-foreground/60 mb-4 text-sm leading-6'}
+    ? 'text-muted-foreground/70 mb-6 text-sm leading-7 transition-opacity duration-300 group-hover:opacity-80'
+    : 'text-muted-foreground/60 mb-4 text-sm leading-6 transition-opacity duration-300 group-hover:opacity-80'}
 >
   {excerpt}
 </p>

@@ -3,9 +3,9 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 import HeroSection from '@/components/HeroSection.astro'
 import SectionHeader from '@/components/SectionHeader.astro'
 import MetricCard from '@/components/MetricCard.astro'
-import MarqueeSection from '@/components/MarqueeSection.astro'
 import FeaturedWork from '@/components/FeaturedWork.astro'
 import ArchiveSection from '@/components/ArchiveSection.astro'
+import TagCloudSection from '@/components/TagCloudSection.astro'
 import { getLocalizedPosts, getAllCategories, getAllTags, type SupportedLocale } from '@/lib/cms'
 import { getTranslations } from '@/lib/i18n'
 import { SITE } from '@/lib/site'
@@ -35,26 +35,40 @@ const featuredPost = posts[0] ?? null
 const recentPosts = posts.slice(1, 4)
 const archivePosts = posts
 
+const homepageDescription = i18n.home.description
+
 const metrics = [
   {
     label: i18n.blog.stats.publishedNotes,
     value: `${posts.length} ${i18n.blog.stats.publishedNotes.toLowerCase()}`,
     category: i18n.blog.stats.categories,
-    description: i18n.hero.description,
+    description: i18n.home.metrics.postsDescription,
   },
   {
     label: i18n.blog.stats.categories,
     value: `${categories.length} ${i18n.blog.stats.categories.toLowerCase()}`,
     category: i18n.blog.stats.tags,
-    description: i18n.hero.description,
+    description: i18n.home.metrics.topicsDescription,
   },
   {
     label: i18n.blog.stats.tags,
     value: `${allTags.length} ${i18n.hero.tags}`,
     category: i18n.blog.stats.archiveSnapshot,
-    description: i18n.hero.description,
+    description: i18n.home.metrics.tagsDescription,
   },
 ]
+
+const tagCounts = posts.reduce((acc, post) => {
+  post.data.tags.forEach((tag) => {
+    acc.set(tag, (acc.get(tag) ?? 0) + 1)
+  })
+
+  return acc
+}, new Map<string, number>())
+
+const sortedTags = [...tagCounts.entries()].sort(
+  (tagEntryLeft, tagEntryRight) => tagEntryRight[1] - tagEntryLeft[1]
+)
 
 const homePath = getHomePath(lang)
 const canonicalUrl = getCanonicalUrl(lang, '/', siteUrl)
@@ -62,7 +76,7 @@ const canonicalUrl = getCanonicalUrl(lang, '/', siteUrl)
 
 <BaseLayout
   title={`${SITE.name} | ${i18n.home.title}`}
-  description={SITE.description}
+  description={homepageDescription}
   canonicalUrl={canonicalUrl}
   lang={lang}
   currentPath={homePath}
@@ -72,7 +86,7 @@ const canonicalUrl = getCanonicalUrl(lang, '/', siteUrl)
     '@type': 'WebSite',
     name: SITE.name,
     url: siteUrl,
-    description: SITE.description,
+    description: homepageDescription,
     author: {
       '@type': 'Person',
       name: SITE.author,
@@ -102,25 +116,25 @@ const canonicalUrl = getCanonicalUrl(lang, '/', siteUrl)
             <p
               class="text-muted-foreground/40 font-mono text-[0.66rem] tracking-[0.28em] uppercase"
             >
-              01
+              {i18n.hero.posts}
             </p>
-            <p class="text-lg leading-none font-medium">{i18n.hero.posts}</p>
+            <p class="text-lg leading-none font-medium">{posts.length}</p>
           </div>
           <div class="space-y-1">
             <p
               class="text-muted-foreground/40 font-mono text-[0.66rem] tracking-[0.28em] uppercase"
             >
-              02
+              {i18n.hero.topics}
             </p>
-            <p class="text-lg leading-none font-medium">{i18n.hero.topics}</p>
+            <p class="text-lg leading-none font-medium">{categories.length}</p>
           </div>
           <div class="space-y-1">
             <p
               class="text-muted-foreground/40 font-mono text-[0.66rem] tracking-[0.28em] uppercase"
             >
-              03
+              {i18n.hero.tags}
             </p>
-            <p class="text-lg leading-none font-medium">{i18n.hero.tags}</p>
+            <p class="text-lg leading-none font-medium">{allTags.length}</p>
           </div>
         </div>
       </div>
@@ -146,7 +160,12 @@ const canonicalUrl = getCanonicalUrl(lang, '/', siteUrl)
     </div>
   </SectionHeader>
 
-  <MarqueeSection items={categories} />
+  <TagCloudSection
+    tags={sortedTags.map(([name, count]) => ({ name, count }))}
+    lang={lang}
+    title={i18n.blog.stats.tags}
+    linkText={i18n.archive.openFullArchive}
+  />
 
   <FeaturedWork
     featuredPost={featuredPost}

@@ -3,6 +3,7 @@ import { SITE } from '@/lib/site'
 export const vi = {
   nav: {
     writing: 'Bài viết',
+    about: 'Về tôi',
     rss: 'rss',
     primary: 'Điều hướng chính',
     brandHome: `${SITE.name} trang chủ`,
@@ -50,7 +51,7 @@ export const vi = {
       publishedNotes: 'Bài đã xuất bản',
       categories: 'Chủ đề',
       tags: 'thẻ',
-      archiveSnapshot: 'Archive snapshot',
+      archiveSnapshot: 'Tổng quan lưu trữ',
     },
   },
   home: {
@@ -58,6 +59,14 @@ export const vi = {
     featured: 'Nổi bật',
     latestFromBlog: 'Bài viết mới nhất từ blog.',
     recentDescription: 'Tutorials, hướng dẫn và ghi chép mới nhất về phát triển web.',
+    description:
+      'Blog chia sẻ kinh nghiệm lập trình thực tế, từ TypeScript đến kiến trúc web hiện đại.',
+    metrics: {
+      postsDescription: 'Bài viết mới nhất về xây dựng sản phẩm web và hệ thống kỹ thuật bền vững.',
+      topicsDescription:
+        'Mỗi chủ đề tập trung vào vấn đề thực tế: hiệu năng, kiến trúc, trải nghiệm dev.',
+      tagsDescription: 'Khám phá nhanh theo thẻ để tìm đúng bài viết bạn cần ngay lúc này.',
+    },
   },
   post: {
     minRead: 'phút đọc',

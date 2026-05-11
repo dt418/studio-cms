@@ -3,6 +3,7 @@ import { SITE } from '@/lib/site'
 export const en = {
   nav: {
     writing: 'writing',
+    about: 'about',
     rss: 'rss',
     primary: 'Primary navigation',
     brandHome: `${SITE.name} home`,
@@ -58,6 +59,14 @@ export const en = {
     featured: 'Featured',
     latestFromBlog: 'Latest from the blog.',
     recentDescription: 'Recent tutorials, guides, and notes on web development.',
+    description: SITE.description as string,
+    metrics: {
+      postsDescription:
+        'Fresh notes on building modern products and resilient engineering systems.',
+      topicsDescription:
+        'Each topic maps to practical concerns: performance, architecture, developer experience.',
+      tagsDescription: 'Scan tags quickly to jump to the exact post you need right now.',
+    },
   },
   post: {
     minRead: 'min read',
