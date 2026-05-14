@@ -5,7 +5,6 @@ import remarkGfm from 'remark-gfm'
 import rehypeVietnameseSlug from './rehype-vietnamese-slug.mjs'
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import rehypePrettyCode from 'rehype-pretty-code'
 
 import astroExpressiveCode from 'astro-expressive-code'
 import { visualizer } from 'rollup-plugin-visualizer'
@@ -82,7 +81,6 @@ export default defineConfig({
       rehypeVietnameseSlug,
       rehypeHeadingIds,
       [rehypeAutolinkHeadings, { behavior: 'wrap' }],
-      rehypePrettyCode,
     ],
   },
 })
