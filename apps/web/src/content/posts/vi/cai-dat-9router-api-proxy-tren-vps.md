@@ -24,9 +24,13 @@ Bài viết này hướng dẫn chi tiết cách cài đặt 9router trên VPS s
 
 - VPS Linux (Ubuntu/Debian)
 - Node.js ≥ 18
-- [PM2](https://pm2.keymetrics.io/) (process manager)
-- [Cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/install-and-setup/tunnel-guide/) (Cloudflare Tunnel)
+- PM2[^1] (process manager)
+- Cloudflared[^2] (Cloudflare Tunnel)
 - Port 20128 mở local
+
+[^1]: [PM2 Documentation](https://pm2.keymetrics.io/docs/usage/quick-start/)
+
+[^2]: [Cloudflare Tunnel Documentation](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/install-and-setup/tunnel-guide/)
 
 ## Cài đặt
 
@@ -39,7 +43,7 @@ nvm install --lts
 npm install -g 9router
 ```
 
-Tham khảo: [9router trên npm](https://www.npmjs.com/package/9router)
+> 9router: [npm package](https://www.npmjs.com/package/9router) | [Documentation](https://docs.9router.dev/)
 
 Kiểm tra version:
 

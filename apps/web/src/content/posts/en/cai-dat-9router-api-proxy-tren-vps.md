@@ -25,9 +25,13 @@ This article gives a detailed walkthrough to set up 9router on a VPS, using PM2 
 
 - Linux VPS (Ubuntu/Debian)
 - Node.js ≥ 18
-- [PM2](https://pm2.keymetrics.io/) (process manager)
-- [Cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/install-and-setup/tunnel-guide/) (Cloudflare Tunnel)
+- PM2[^1] (process manager)
+- Cloudflared[^2] (Cloudflare Tunnel)
 - Port 20128 open locally
+
+[^1]: [PM2 Documentation](https://pm2.keymetrics.io/docs/usage/quick-start/)
+
+[^2]: [Cloudflare Tunnel Documentation](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/install-and-setup/tunnel-guide/)
 
 ## Installation
 
@@ -40,7 +44,7 @@ nvm install --lts
 npm install -g 9router
 ```
 
-Reference: [9router on npm](https://www.npmjs.com/package/9router)
+> 9router: [npm package](https://www.npmjs.com/package/9router) | [Documentation](https://docs.9router.dev/)
 
 Check version:
 

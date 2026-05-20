@@ -14,7 +14,11 @@ Trong hướng dẫn này, chúng ta sẽ đi qua việc xây dựng một ứng
 
 ## Tại sao nên dùng Astro + StudioCMS?
 
-Astro cung cấp hiệu năng xuất sắc với cách tiếp cận server-first, trong khi StudioCMS cung cấp hệ thống quản lý nội dung mạnh mẽ được xây dựng riêng cho Astro.
+Astro[^1] cung cấp hiệu năng xuất sắc với cách tiếp cận server-first, trong khi StudioCMS[^2] cung cấp hệ thống quản lý nội dung mạnh mẽ được xây dựng riêng cho Astro.
+
+[^1]: [Tài liệu Astro](https://docs.astro.build/)
+
+[^2]: [StudioCMS GitHub](https://github.com/withastro/studiocms)
 
 ## Setup Project
 

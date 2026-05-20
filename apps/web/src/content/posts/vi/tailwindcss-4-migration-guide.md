@@ -12,7 +12,9 @@ category: 'guides'
 
 # Hướng dẫn migrate lên TailwindCSS 4
 
-TailwindCSS 4 giới thiệu những thay đổi quan trọng giúp cải thiện performance và trải nghiệm developer. Hướng dẫn này cover tất cả những gì bạn cần để migrate mượt mà.
+TailwindCSS 4[^1] giới thiệu những thay đổi quan trọng giúp cải thiện performance và trải nghiệm developer. Hướng dẫn này cover tất cả những gì bạn cần để migrate mượt mà.
+
+[^1]: [Tài liệu TailwindCSS 4](https://tailwindcss.com/docs/upgrade-guide)
 
 ## Có gì mới trong TailwindCSS 4?
 

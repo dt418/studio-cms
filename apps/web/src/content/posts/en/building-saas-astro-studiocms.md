@@ -14,7 +14,11 @@ In this guide, we'll walk through building a production-ready SaaS application u
 
 ## Why Astro + StudioCMS?
 
-Astro provides excellent performance with its server-first approach, while StudioCMS offers a robust content management system built specifically for Astro.
+Astro[^1] provides excellent performance with its server-first approach, while StudioCMS[^2] offers a robust content management system built specifically for Astro.
+
+[^1]: [Astro Documentation](https://docs.astro.build/)
+
+[^2]: [StudioCMS GitHub](https://github.com/withastro/studiocms)
 
 ## Project Setup
 

@@ -12,7 +12,9 @@ category: 'tutorials'
 
 # Mastering TypeScript Generics
 
-Generics are one of TypeScript's most powerful features. They allow you to write flexible, reusable code while maintaining type safety.
+Generics[^1] are one of TypeScript's most powerful features. They allow you to write flexible, reusable code while maintaining type safety.
+
+[^1]: [TypeScript Documentation - Generics](https://www.typescriptlang.org/docs/handbook/2/generics.html)
 
 ## What Are Generics?
 

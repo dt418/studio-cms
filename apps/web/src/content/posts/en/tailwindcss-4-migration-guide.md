@@ -12,7 +12,9 @@ category: 'guides'
 
 # TailwindCSS 4 Migration Guide
 
-TailwindCSS 4 introduces significant changes that improve performance and developer experience. This guide covers everything you need to migrate smoothly.
+TailwindCSS 4[^1] introduces significant changes that improve performance and developer experience. This guide covers everything you need to migrate smoothly.
+
+[^1]: [TailwindCSS 4 Documentation](https://tailwindcss.com/docs/upgrade-guide)
 
 ## What's New in TailwindCSS 4?
 

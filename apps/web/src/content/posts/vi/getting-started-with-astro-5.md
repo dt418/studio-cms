@@ -12,7 +12,9 @@ category: 'tutorials'
 
 # Bắt đầu với Astro 5
 
-Astro 5 mang đến những cải tiến đáng kể cho framework web vốn đã rất mạnh mẽ. Trong hướng dẫn này, chúng ta sẽ khám phá các tính năng chính và cách bắt đầu xây dựng site Astro đầu tiên.
+Astro 5[^1] mang đến những cải tiến đáng kể cho framework web vốn đã rất mạnh mẽ. Trong hướng dẫn này, chúng ta sẽ khám phá các tính năng chính và cách bắt đầu xây dựng site Astro đầu tiên.
+
+[^1]: [Tài liệu Astro](https://docs.astro.build/)
 
 ## Astro là gì?
 

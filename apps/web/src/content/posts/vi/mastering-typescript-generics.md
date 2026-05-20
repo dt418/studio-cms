@@ -12,7 +12,9 @@ category: 'tutorials'
 
 # Mastering TypeScript Generics
 
-Generics là một trong những tính năng mạnh nhất của TypeScript. Chúng cho phép bạn viết code linh hoạt, có thể tái sử dụng trong khi vẫn duy trì type safety.
+Generics[^1] là một trong những tính năng mạnh nhất của TypeScript. Chúng cho phép bạn viết code linh hoạt, có thể tái sử dụng trong khi vẫn duy trì type safety.
+
+[^1]: [Tài liệu TypeScript - Generics](https://www.typescriptlang.org/docs/handbook/2/generics.html)
 
 ## Generics là gì?
 

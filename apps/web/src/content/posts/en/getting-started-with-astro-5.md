@@ -12,7 +12,9 @@ category: 'tutorials'
 
 # Getting Started with Astro 5
 
-Astro 5 brings significant improvements to the already powerful web framework. In this guide, we'll explore the key features and how to get started building your first Astro site.
+Astro 5[^1] brings significant improvements to the already powerful web framework. In this guide, we'll explore the key features and how to get started building your first Astro site.
+
+[^1]: [Astro Documentation](https://docs.astro.build/)
 
 ## What is Astro?
 
