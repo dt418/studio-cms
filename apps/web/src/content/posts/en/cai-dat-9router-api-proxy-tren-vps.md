@@ -4,7 +4,7 @@ slug: 'cai-dat-9router-api-proxy-tren-vps'
 excerpt: 'Detailed guide to setting up a 9router API proxy on a VPS using PM2 and Cloudflared Tunnel. Manage multiple AI API keys (OpenAI, Anthropic, Google), rotate providers, hide credentials, and control costs.'
 coverImage: '/og/setup-9router-api-proxy-on-vps.webp'
 publishedAt: 2026-05-08
-updatedAt: 2026-05-08
+updatedAt: 2026-05-20
 tags: ['9router', 'vps', 'ai', 'proxy', 'cloudflare-tunnel', 'pm2', 'api-gateway']
 language: 'en'
 category: 'tutorials'
@@ -61,7 +61,7 @@ A VPS has no GUI, so run in headless mode:
 ```bash
 npm install -g pm2
 
-pm2 start --name 9router "9router --headless"
+pm2 start $(which 9router) --name 9router -- -t
 pm2 startup
 pm2 save
 ```
