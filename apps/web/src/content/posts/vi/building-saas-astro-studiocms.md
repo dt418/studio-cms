@@ -146,12 +146,6 @@ export function createSearchIndex(posts: PostData[]) {
 }
 ```
 
-## Tham khảo
-
-- [Tài liệu Astro](https://docs.astro.build/)
-- [StudioCMS GitHub](https://github.com/withastro/studiocms)
-- [Fuse.js Documentation](https://fusejs.io/)
-
 ## Kết luận
 
 Với Astro và StudioCMS, bạn có thể xây dựng một ứng dụng SaaS hiệu năng cao, scalable với khả năng quản lý nội dung xuất sắc. Sự kết hợp giữa static-first rendering và server-side capabilities mang lại cho bạn điều tốt nhất của cả hai thế giới.

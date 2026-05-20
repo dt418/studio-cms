@@ -91,12 +91,6 @@ class UserRepository implements Repository<User> {
 }
 ```
 
-## References
-
-- [TypeScript Documentation - Generics](https://www.typescriptlang.org/docs/handbook/2/generics.html)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
-- [TypeScript GitHub](https://github.com/microsoft/TypeScript)
-
 ## Conclusion
 
 Generics make your TypeScript code more reusable and type-safe. Practice using them in your projects to become more proficient.

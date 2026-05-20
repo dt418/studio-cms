@@ -64,12 +64,6 @@ export const collections = { blog }
 
 Điều này đảm bảo nội dung được validate tại build time, ngăn lỗi trước khi lên production.
 
-## Tham khảo
-
-- [Tài liệu Astro](https://docs.astro.build/)
-- [Astro 5 Release Notes](https://astro.build/blog/astro-5/)
-- [Hướng dẫn Content Collections](https://docs.astro.build/en/guides/content-collections/)
-
 ## Kết luận
 
 Astro 5 giúp việc xây dựng website hiệu năng cao dễ dàng hơn bao giờ hết. Bắt đầu khám phá và xem bạn có thể xây dựng gì!
