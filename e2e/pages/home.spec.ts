@@ -92,7 +92,7 @@ test.describe('Home Page', () => {
   })
 
   test('responsive design - mobile', async ({ page }) => {
-    await page.goto('/vi/')
+    await page.goto('/vi/', { waitUntil: 'networkidle' })
     await page.setViewportSize({ width: 375, height: 667 })
 
     const heroSection = page.locator('section').first()
@@ -101,7 +101,8 @@ test.describe('Home Page', () => {
   })
 
   test('responsive design - tablet', async ({ page }) => {
-    await page.goto('/vi/')
+    await page.goto('/vi/', { waitUntil: 'domcontentloaded', timeout: 10000 })
+    await page.waitForTimeout(1000)
     await page.setViewportSize({ width: 768, height: 1024 })
 
     const heroSection = page.locator('section').first()

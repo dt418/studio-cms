@@ -33,7 +33,7 @@ test.describe('Blog Listing Page', () => {
     await expect(statsGrid.getByText('Bài đã xuất bản')).toBeVisible()
     await expect(statsGrid.getByText('Chủ đề')).toBeVisible()
     await expect(statsGrid.getByText('thẻ')).toBeVisible()
-    await expect(statsGrid.getByText('Archive snapshot')).toBeVisible()
+    await expect(statsGrid.getByText('Tổng quan lưu trữ')).toBeVisible()
   })
 
   test('stats show numeric values', async ({ page }) => {
