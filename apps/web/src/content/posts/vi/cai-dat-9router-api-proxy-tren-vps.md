@@ -270,6 +270,15 @@ pm2 status           # Kiểm tra cả 9router và cloudflared tunnel
 pm2 logs 9router     # Log 9router
 ```
 
+## Tham khảo
+
+- [9router Official Documentation](https://docs.9router.dev/)
+- [9router GitHub Repository](https://github.com/9router/9router)
+- [9router npm Package](https://www.npmjs.com/package/9router)
+- [PM2 Documentation](https://pm2.keymetrics.io/docs/usage/quick-start/)
+- [Cloudflare Tunnel Documentation](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/install-and-setup/tunnel-guide/)
+- [Cloudflare Zero Trust Documentation](https://developers.cloudflare.com/cloudflare-one/)
+
 ## Kết luận
 
 Với một VPS nhỏ, 9router, PM2 và Cloudflared, bạn có một **API proxy production-ready** để quản lý AI keys, phân phối request và kiểm soát chi phí — không cần open port hay VPN.

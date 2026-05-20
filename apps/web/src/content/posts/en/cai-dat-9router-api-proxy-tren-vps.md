@@ -89,13 +89,13 @@ pm2 logs 9router
 
 ## Configure API Keys
 
-Open the Web UI (`http://vps-ip:20128`) or configure through API. Add provider keys:
+Open the Web UI (`http://vps-ip:20128`) or configure via API. Add provider keys:
 
 - OpenAI: `sk-...`
 - Anthropic: `sk-ant-...`
 - Google: `AIza...`
 
-9router automatically chooses provider based on the model in each request.
+9router automatically chooses a provider based on the model in each request.
 
 ## Access from Outside
 
@@ -270,6 +270,15 @@ export OPENAI_API_BASE="https://proxy.yourdomain.com/v1"
 pm2 status           # Check both 9router and cloudflared tunnel
 pm2 logs 9router     # 9router logs
 ```
+
+## References
+
+- [9router Official Documentation](https://docs.9router.dev/)
+- [9router GitHub Repository](https://github.com/9router/9router)
+- [9router npm Package](https://www.npmjs.com/package/9router)
+- [PM2 Documentation](https://pm2.keymetrics.io/docs/usage/quick-start/)
+- [Cloudflare Tunnel Documentation](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/install-and-setup/tunnel-guide/)
+- [Cloudflare Zero Trust Documentation](https://developers.cloudflare.com/cloudflare-one/)
 
 ## Conclusion
 
