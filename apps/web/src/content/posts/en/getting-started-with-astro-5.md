@@ -62,6 +62,12 @@ export const collections = { blog }
 
 This ensures your content is validated at build time, preventing errors before they reach production.
 
+## References
+
+- [Astro Documentation](https://docs.astro.build/)
+- [Astro 5 Release Notes](https://astro.build/blog/astro-5/)
+- [Content Collections Guide](https://docs.astro.build/en/guides/content-collections/)
+
 ## Conclusion
 
 Astro 5 makes it easier than ever to build performant websites. Start exploring and see what you can build!

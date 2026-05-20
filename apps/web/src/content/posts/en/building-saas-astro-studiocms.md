@@ -142,6 +142,12 @@ export function createSearchIndex(posts: PostData[]) {
 }
 ```
 
+## References
+
+- [Astro Documentation](https://docs.astro.build/)
+- [StudioCMS GitHub](https://github.com/withastro/studiocms)
+- [Fuse.js Documentation](https://fusejs.io/)
+
 ## Conclusion
 
 With Astro and StudioCMS, you can build a performant, scalable SaaS application with excellent content management capabilities. The combination of static-first rendering and server-side capabilities gives you the best of both worlds.

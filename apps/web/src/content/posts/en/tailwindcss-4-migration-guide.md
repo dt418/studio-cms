@@ -94,6 +94,12 @@ Some plugins have been renamed or restructured:
 4. Update CSS imports
 5. Test your build
 
+## References
+
+- [TailwindCSS 4 Documentation](https://tailwindcss.com/docs/upgrade-guide)
+- [TailwindCSS Vite Plugin](https://tailwindcss.com/docs/installation/vite)
+- [TailwindCSS GitHub](https://github.com/tailwindlabs/tailwindcss)
+
 ## Conclusion
 
 TailwindCSS 4 simplifies configuration while improving performance. Take the time to migrate and enjoy the benefits.

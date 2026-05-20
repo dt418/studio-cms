@@ -94,6 +94,12 @@ Một số plugin đã được đổi tên hoặc tái cấu trúc:
 4. Update CSS imports
 5. Test build
 
+## Tham khảo
+
+- [Tài liệu TailwindCSS 4](https://tailwindcss.com/docs/upgrade-guide)
+- [TailwindCSS Vite Plugin](https://tailwindcss.com/docs/installation/vite)
+- [TailwindCSS GitHub](https://github.com/tailwindlabs/tailwindcss)
+
 ## Kết luận
 
 TailwindCSS 4 đơn giản hóa cấu hình trong khi cải thiện performance. Hãy dành thời gian migrate và tận hưởng những lợi ích mới.
