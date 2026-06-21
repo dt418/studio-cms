@@ -10,6 +10,5 @@
   "blanks-around-headings": false,
   "blanks-around-fences": false,
   "blanks-around-lists": false,
-  "table-column-style": false,
-  "no-hard-tabs": false
+  "table-column-style": false
 }
