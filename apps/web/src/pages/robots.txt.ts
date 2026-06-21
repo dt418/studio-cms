@@ -1,8 +1,12 @@
 import type { APIRoute } from 'astro'
+import { getContentSignals } from '@/lib/agent-metadata'
 
 export const prerender = true
 
 export const GET: APIRoute = ({ site }) => {
+  const signals = getContentSignals()
+  const signalLine = `Content-Signal: ai-train=${signals['ai-train']}, search=${signals.search}, ai-input=${signals['ai-input']}`
+
   const body = [
     'User-agent: *',
     'Allow: /',
@@ -10,6 +14,8 @@ export const GET: APIRoute = ({ site }) => {
     'Disallow: /api/',
     '',
     `Sitemap: ${new URL('sitemap.xml', site)}`,
+    '',
+    signalLine,
     '',
   ].join('\n')
 
