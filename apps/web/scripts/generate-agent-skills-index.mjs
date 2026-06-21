@@ -27,10 +27,11 @@ const skills = catalog.map((entry) => {
     )
     process.exit(1)
   }
-  const localPath = join(webRoot, 'src', 'pages', entry.url.slice(siteUrl.length))
-  const content = readFileSync(localPath, 'utf8')
+  const relativePath = entry.url.slice(siteUrl.length)
+  const skillSource = join(webRoot, 'agent-skills', entry.id, 'SKILL.md')
+  const content = readFileSync(skillSource, 'utf8')
   const sha256 = createHash('sha256').update(content).digest('hex')
-  return { ...entry, sha256 }
+  return { ...entry, url: entry.url, path: relativePath, sha256 }
 })
 
 mkdirSync(outputDir, { recursive: true })

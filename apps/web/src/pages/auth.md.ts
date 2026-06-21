@@ -8,7 +8,9 @@ export const GET: APIRoute = ({ site }) => {
   const signals = getContentSignals()
   const locales = getLocales()
   const body = [
-    '# Authentication Policy',
+    '# Auth.md',
+    '',
+    '> Machine-readable authentication policy for AI agents.',
     '',
     '## Current state',
     '',

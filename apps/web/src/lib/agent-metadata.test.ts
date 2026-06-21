@@ -3,11 +3,15 @@ import {
   AgentSkillSchema,
   ContentSignalSchema,
   LocaleSchema,
+  buildLinkHeaderValue,
   getAgentSkills,
   getApiCatalogLinks,
   getContentSignals,
+  getDnsAidRecords,
+  getHomeMarkdownPath,
   getLocales,
   getSiteUrl,
+  getWebMCPTools,
 } from './agent-metadata'
 
 describe('agent-metadata schemas', () => {
@@ -67,9 +71,65 @@ describe('getApiCatalogLinks', () => {
     expect(rels).toContain('search')
     expect(rels).toContain('alternate')
     expect(rels).toContain('sitemap')
-    expect(rels).toContain('documentation')
-    const authLink = getApiCatalogLinks().find((l) => l.rel === 'documentation')
+    expect(rels).toContain('service-doc')
+    const authLink = getApiCatalogLinks().find((l) => l.rel === 'service-doc')
     expect(authLink?.href).toBe('/auth.md')
+  })
+
+  it('advertises agent discovery endpoints via registered rels', () => {
+    const rels = getApiCatalogLinks().map((l) => l.rel)
+    expect(rels).toContain('api-catalog')
+    expect(rels).toContain('auth-server')
+    expect(rels).toContain('oauth-protected-resource')
+    expect(rels).toContain('openid-configuration')
+    expect(rels).toContain('agent-skills')
+  })
+})
+
+describe('buildLinkHeaderValue', () => {
+  it('emits RFC 8288 Link header with rel and type per link', () => {
+    const value = buildLinkHeaderValue()
+    expect(value).toContain('</search>; rel="search"')
+    expect(value).toContain('</rss.xml>; rel="alternate"')
+    expect(value).toContain('</auth.md>; rel="service-doc"')
+    expect(value).toContain('</.well-known/agent-skills/index.json>; rel="agent-skills"')
+    const parts = value.split(', ')
+    expect(parts.length).toBeGreaterThanOrEqual(8)
+  })
+})
+
+describe('getDnsAidRecords', () => {
+  it('returns SVCB records for _a2a._agents and _index._agents', () => {
+    const records = getDnsAidRecords()
+    const names = records.map((record) => record.name)
+    expect(names).toContain('_a2a._agents')
+    expect(names).toContain('_index._agents')
+    for (const record of records) {
+      expect(record.type).toBe('SVCB')
+      expect(record.params?.alpn).toBe('h2')
+    }
+  })
+})
+
+describe('getWebMCPTools', () => {
+  it('returns blog tools with JSON Schema input', () => {
+    const tools = getWebMCPTools()
+    const names = tools.map((tool) => tool.name)
+    expect(names).toContain('search_posts')
+    expect(names).toContain('get_post')
+    expect(names).toContain('list_categories')
+    expect(names).toContain('list_tags')
+    for (const tool of tools) {
+      expect(tool.inputSchema.type).toBe('object')
+      expect(tool.inputSchema.properties).toBeDefined()
+    }
+  })
+})
+
+describe('getHomeMarkdownPath', () => {
+  it('returns locale-prefixed markdown path', () => {
+    expect(getHomeMarkdownPath('vi')).toBe('/vi/index.md')
+    expect(getHomeMarkdownPath('en')).toBe('/en/index.md')
   })
 })
 

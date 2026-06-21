@@ -4,6 +4,7 @@ import { SITE } from '@/lib/site'
 import { resolveOgImage } from '@/lib/og-image'
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro'
 import { getTranslations } from '@/lib/i18n'
+import { getWebMCPTools } from '@/lib/agent-metadata'
 import type { SupportedLocale } from '@/lib/content-utils'
 
 export interface Props {
@@ -45,6 +46,9 @@ const ogImageType = ogImageUrl.endsWith('.webp') ? 'image/webp' : 'image/png'
 
 const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
 const i18n = getTranslations(lang)
+
+const webMCPTools = getWebMCPTools()
+const webMCPPayload = JSON.stringify({ tools: webMCPTools })
 ---
 
 <!doctype html>
@@ -56,29 +60,21 @@ const i18n = getTranslations(lang)
     <link rel="alternate" type="application/rss+xml" title={i18n.rss.title} href="/rss.xml" />
     <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+
     <script is:inline>
       try {
         const config = JSON.parse(localStorage.getItem('theme-config') ?? 'null')
         const root = document.documentElement
-
         if (config?.theme === 'light') {
           root.classList.remove('dark')
         } else {
           root.classList.add('dark')
-        }
-
-        if (config?.primary && typeof config.primary === 'object') {
-          const { l, c, h } = config.primary
-          if (typeof l === 'number' && typeof c === 'number' && typeof h === 'number') {
-            root.style.setProperty('--primary', `oklch(${l} ${c} ${h})`)
-          }
         }
       } catch {
         document.documentElement.classList.add('dark')
       }
     </script>
 
-    <!-- Primary Meta Tags -->
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
@@ -91,7 +87,6 @@ const i18n = getTranslations(lang)
     }
     {alternateUrls && <link rel="alternate" hreflang="x-default" href={alternateUrls['vi']} />}
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={type} />
@@ -106,7 +101,6 @@ const i18n = getTranslations(lang)
     {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
     {author && <meta property="article:author" content={author} />}
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content={SITE.social.twitter} />
     <meta name="twitter:title" content={title} />
@@ -114,130 +108,119 @@ const i18n = getTranslations(lang)
     <meta name="twitter:image" content={ogImageUrl} />
     {author && <meta name="twitter:creator" content={SITE.social.twitter} />}
 
-    <!-- Author -->
     {author && <meta name="author" content={author} />}
 
-    <!-- JSON-LD Structured Data -->
     {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+    <script id="webmcp-context" type="application/json" set:html={webMCPPayload} is:inline />
+    <script is:inline>
+      ;(function () {
+        try {
+          var node = document.getElementById('webmcp-context')
+          if (
+            !node ||
+            !navigator.modelContext ||
+            typeof navigator.modelContext.provideContext !== 'function'
+          )
+            return
+          var raw = node.textContent || '{}'
+          var payload = JSON.parse(raw)
+          if (!payload || !Array.isArray(payload.tools)) return
+          var tools = payload.tools.map(function (tool) {
+            return {
+              name: tool.name,
+              description: tool.description,
+              inputSchema: tool.inputSchema,
+              handler: function () {
+                return Promise.resolve({
+                  content: [
+                    {
+                      type: 'text',
+                      text:
+                        'Visit ' +
+                        window.location.origin +
+                        '/api/posts.json for live blog data, or /auth.md for the auth policy.',
+                    },
+                  ],
+                })
+              },
+            }
+          })
+          navigator.modelContext.provideContext({ tools: tools })
+        } catch (_err) {
+          return undefined
+        }
+      })()
+    </script>
   </head>
-  <body class="bg-background text-foreground flex min-h-screen flex-col antialiased">
+  <body
+    class="overflow-x-hidden bg-[var(--bg)] text-[var(--fg)] antialiased"
+    style="font-family: var(--font-sans);"
+  >
     <a
       href="#main-content"
-      class="focus:bg-background focus:ring-ring sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:rounded-md focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:shadow-lg focus:ring-2 focus:outline-none"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:bg-[var(--bg2)] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[var(--hi)] focus:ring-2 focus:ring-[var(--hi)] focus:outline-none"
     >
       {i18n.nav.skipToContent}
     </a>
-    <!-- Header (CPZ style, DT branding kept) -->
-    <header class="border-border bg-background/80 sticky top-0 z-50 border-b backdrop-blur-xl">
-      <div class="container flex h-14 items-center">
+
+    <header
+      class="nav sticky top-0 z-50 flex items-center justify-between border-b border-[var(--bg3)] bg-[rgba(10,10,10,0.92)] px-8 py-6 backdrop-blur-[20px] lg:px-12"
+    >
+      <a
+        href={`/${lang}`}
+        class="nav-logo font-display text-[1.5rem] font-bold tracking-[-0.03em] text-[var(--fg)] transition-colors hover:text-[var(--hi)]"
+        aria-label={i18n.nav.brandHome}
+      >
+        DT<span class="text-[var(--hi)]">.</span>
+      </a>
+      <nav class="nav-links flex items-center gap-8">
         <a
-          href={`/${lang}`}
-          class="flex items-center gap-2 font-semibold tracking-tight"
-          aria-label={i18n.nav.brandHome}
+          href={`/${lang}/blog`}
+          class="nav-link font-mono text-[0.7rem] tracking-[0.1em] text-[var(--fg2)] uppercase transition-colors hover:text-[var(--hi)]"
         >
-          <span class="text-lg">DT</span>
+          {i18n.nav.writing}
         </a>
-        <nav
-          class="ml-auto flex items-center gap-4 font-mono text-[0.62rem] tracking-[0.24em] uppercase"
-          aria-label={i18n.nav.primary}
+        <a
+          href={`/${lang}/about`}
+          class="nav-link font-mono text-[0.7rem] tracking-[0.1em] text-[var(--fg2)] uppercase transition-colors hover:text-[var(--hi)]"
         >
-          <a
-            href={`/${lang}/blog`}
-            class="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {i18n.nav.writing}
-          </a>
-          <a
-            href={`/${lang}/about`}
-            class="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {i18n.nav.about}
-          </a>
-          <a href="/rss.xml" class="text-muted-foreground hover:text-foreground transition-colors">
-            {i18n.nav.rss}
-          </a>
-          <LanguageSwitcher
-            currentLang={lang}
-            currentPath={currentPath}
-            label={i18n.language.navigation}
-            languageNames={i18n.language.names}
-            getSwitchLabel={i18n.language.switchTo}
-          />
-        </nav>
-      </div>
+          {i18n.nav.about}
+        </a>
+        <a
+          href="/rss.xml"
+          class="nav-badge rounded-full bg-[var(--bg3)] px-3 py-1.5 font-mono text-[0.65rem] tracking-[0.08em] text-[var(--fg2)] transition-colors hover:text-[var(--hi)]"
+        >
+          RSS
+        </a>
+        <LanguageSwitcher
+          currentLang={lang}
+          currentPath={currentPath}
+          label={i18n.language.navigation}
+          languageNames={i18n.language.names}
+          getSwitchLabel={i18n.language.switchTo}
+        />
+      </nav>
     </header>
+
     <main id="main-content" tabindex="-1" class="flex-1">
       <slot />
     </main>
-    <footer class="border-border border-t font-sans text-[0.62rem] tracking-[0.24em] uppercase">
-      <div class="container py-16">
-        <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
-          <div>
-            <h2 class="mb-4 text-2xl tracking-tight">
-              {i18n.footer.buildingOn}
-            </h2>
-            <p class="text-muted-foreground max-w-lg text-sm leading-relaxed">
-              {i18n.footer.softwareEngineer}
-            </p>
-          </div>
-          <div class="lg:flex lg:flex-col lg:items-end lg:text-right">
-            <h3
-              class="text-muted-foreground/60 mb-4 text-xs font-semibold tracking-wider uppercase"
-            >
-              {i18n.footer.links}
-            </h3>
-            <ul class="space-y-3">
-              <li>
-                <a
-                  href={`mailto:${SITE.email}`}
-                  class="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {i18n.footer.email} →
-                </a>
-              </li>
-              <li>
-                <a
-                  href={SITE.social.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {i18n.footer.github} →
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/rss.xml"
-                  class="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {i18n.footer.rss} →
-                </a>
-              </li>
-              <li>
-                <a
-                  href={SITE.social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {i18n.footer.linkedin} →
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="border-border text-muted-foreground/50 mt-16 border-t pt-6">
-          <div class="flex items-center justify-between">
-            <p>{SITE.name} / {new Date().getFullYear()}</p>
-            <LanguageSwitcher
-              currentLang={lang}
-              currentPath={currentPath}
-              label={i18n.language.footerNavigation}
-              languageNames={i18n.language.names}
-              getSwitchLabel={i18n.language.switchTo}
-            />
-          </div>
-        </div>
+
+    <footer
+      class="flex items-center justify-between border-t border-[var(--bg3)] px-8 py-6 lg:px-12"
+    >
+      <span class="font-mono text-[0.65rem] tracking-[0.08em] text-[var(--fg3)]">
+        DanhThanh.dev © {new Date().getFullYear()}
+      </span>
+      <div class="flex items-center gap-6">
+        <LanguageSwitcher
+          currentLang={lang}
+          currentPath={currentPath}
+          label={i18n.language.footerNavigation}
+          languageNames={i18n.language.names}
+          getSwitchLabel={i18n.language.switchTo}
+        />
       </div>
     </footer>
   </body>
