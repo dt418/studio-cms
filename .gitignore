@@ -7,6 +7,9 @@ graphify-out/
 # generated types
 .astro/
 
+# generated agent-readiness artifacts
+apps/web/src/lib/.generated/
+
 # generated OG image (rebuilt every `pnpm build` from scripts/generate-og-image.mjs)
 **/public/og-image.png
 
@@ -79,6 +82,9 @@ session-ses_*
 # wrangler
 .wrangler/
 env.vars
+
+# Worktrees
+.worktrees/
 
 .env*
 .flaskenv*
