@@ -6,6 +6,7 @@
   "include": [
     ".astro/types.d.ts",
     "src",
+    "src/pages/.well-known/**/*.ts",
     "*.config.ts",
     "*.config.js",
     "*.config.mjs",
