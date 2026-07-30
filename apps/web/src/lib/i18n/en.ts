@@ -113,6 +113,7 @@ export const en = {
   schema: {
     home: 'Home',
     blog: 'Blog',
+    about: 'About',
     postsTagged: (tag: string) => `Posts tagged: ${tag}`,
     allPostsTaggedWith: (tag: string) => `All posts tagged with ${tag}`,
     postsIn: (category: string) => `Posts in ${category}`,

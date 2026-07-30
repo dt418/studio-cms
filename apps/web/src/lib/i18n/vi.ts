@@ -113,6 +113,7 @@ export const vi = {
   schema: {
     home: 'Trang chủ',
     blog: 'Blog',
+    about: 'Về tôi',
     postsTagged: (tag: string) => `Bài viết gắn tag: ${tag}`,
     allPostsTaggedWith: (tag: string) => `Tất cả bài viết gắn tag ${tag}`,
     postsIn: (category: string) => `Bài viết trong ${category}`,
