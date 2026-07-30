@@ -88,7 +88,9 @@ env.vars
 
 .env*
 .flaskenv*
+!.env.example
 !.env.project
 !.env.vault
+!.envrc
 
 *lighthouse*
