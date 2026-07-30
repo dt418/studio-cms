@@ -47,6 +47,10 @@ const ogImageType = ogImageUrl.endsWith('.webp') ? 'image/webp' : 'image/png'
 const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
 const i18n = getTranslations(lang)
 
+const isHomepage = currentPath === `/${lang}/` || currentPath === `/${lang}`
+const isBlogActive = isHomepage || currentPath.includes(`/${lang}/blog`)
+const isAboutActive = currentPath.includes(`/${lang}/about`)
+
 const webMCPTools = getWebMCPTools()
 const webMCPPayload = JSON.stringify({ tools: webMCPTools })
 ---
@@ -177,13 +181,23 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
       <nav class="nav-links flex items-center gap-8">
         <a
           href={`/${lang}/blog`}
-          class="nav-link text-muted-foreground hover:text-primary font-mono text-[0.7rem] tracking-[0.1em] uppercase transition-colors"
+          class:list={[
+            'nav-link font-mono text-[0.7rem] tracking-[0.1em] uppercase transition-colors',
+            isBlogActive
+              ? 'text-foreground border-b border-foreground pb-0.5'
+              : 'text-muted-foreground hover:text-primary',
+          ]}
         >
           {i18n.nav.writing}
         </a>
         <a
           href={`/${lang}/about`}
-          class="nav-link text-muted-foreground hover:text-primary font-mono text-[0.7rem] tracking-[0.1em] uppercase transition-colors"
+          class:list={[
+            'nav-link font-mono text-[0.7rem] tracking-[0.1em] uppercase transition-colors',
+            isAboutActive
+              ? 'text-foreground border-b border-foreground pb-0.5'
+              : 'text-muted-foreground hover:text-primary',
+          ]}
         >
           {i18n.nav.about}
         </a>
