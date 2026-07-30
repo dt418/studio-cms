@@ -17,6 +17,7 @@
     }
   },
   "plugin": [
-    ".opencode/plugins/graphify.js"
+    ".opencode/plugins/graphify.js",
+    ".opencode/plugins/no-verify-guard.ts"
   ]
 }

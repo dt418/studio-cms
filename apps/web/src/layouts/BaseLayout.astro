@@ -120,17 +120,17 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
     <script is:inline>
       ;(function () {
         try {
-          var node = document.getElementById('webmcp-context')
+          const node = document.getElementById('webmcp-context')
           if (
             !node ||
             !navigator.modelContext ||
             typeof navigator.modelContext.provideContext !== 'function'
           )
             return
-          var raw = node.textContent || '{}'
-          var payload = JSON.parse(raw)
+          const raw = node.textContent || '{}'
+          const payload = JSON.parse(raw)
           if (!payload || !Array.isArray(payload.tools)) return
-          var tools = payload.tools.map(function (tool) {
+          const tools = payload.tools.map(function (tool) {
             return {
               name: tool.name,
               description: tool.description,
@@ -151,7 +151,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
             }
           })
           navigator.modelContext.provideContext({ tools: tools })
-        } catch (_err) {
+        } catch {
           return undefined
         }
       })()
@@ -184,7 +184,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
           class:list={[
             'nav-link font-mono text-[0.7rem] tracking-[0.1em] uppercase transition-colors',
             isBlogActive
-              ? 'text-foreground border-b border-foreground pb-0.5'
+              ? 'text-foreground border-foreground border-b pb-0.5'
               : 'text-muted-foreground hover:text-primary',
           ]}
         >
@@ -195,7 +195,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
           class:list={[
             'nav-link font-mono text-[0.7rem] tracking-[0.1em] uppercase transition-colors',
             isAboutActive
-              ? 'text-foreground border-b border-foreground pb-0.5'
+              ? 'text-foreground border-foreground border-b pb-0.5'
               : 'text-muted-foreground hover:text-primary',
           ]}
         >

@@ -196,6 +196,13 @@ When refactoring:
 - Check that components display correctly
 - Run linting to ensure code style compliance
 
+## Git Hooks And Verification
+
+- **NEVER use `--no-verify` on `git commit` or `git push`.**
+- Lefthook hooks (pre-commit, commit-msg, pre-push) are the quality gate. They catch lint errors, type errors, format violations, and failing tests before code reaches the repo.
+- If a hook fails: fix the underlying issue. Do not skip the hook.
+- This applies to AI agents and human developers equally.
+
 ## Common Patterns
 
 ### Conditional Rendering

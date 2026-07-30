@@ -45,7 +45,10 @@ const breadcrumbJsonLd = {
   jsonLd={breadcrumbJsonLd}
 >
   <section class="container py-14 sm:py-20">
-    <nav class="text-muted-foreground mb-6 flex items-center gap-2 text-sm" aria-label={i18n.breadcrumb.label}>
+    <nav
+      class="text-muted-foreground mb-6 flex items-center gap-2 text-sm"
+      aria-label={i18n.breadcrumb.label}
+    >
       <a href={`/${lang}`} class="hover:text-foreground transition-colors">{i18n.schema.home}</a>
       <span aria-hidden="true" class="text-muted-foreground/40">/</span>
       <span class="text-foreground" aria-current="page">{i18n.schema.about}</span>
