@@ -95,7 +95,18 @@
       "@effect/sql": "0.50.0",
       "@effect/cluster": "0.57.0",
       "@effect/rpc": "0.74.0"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "canvas",
+      "esbuild",
+      "lefthook",
+      "msgpackr-extract",
+      "msw",
+      "postinstall-postinstall",
+      "sharp",
+      "workerd"
+    ]
   },
   "workspaces": [
     ".",
