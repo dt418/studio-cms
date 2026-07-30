@@ -60,7 +60,7 @@
   }
 
   .prose {
-    @apply text-foreground max-w-[65ch];
+    @apply text-foreground;
   }
 
   .prose h1,
