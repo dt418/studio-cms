@@ -154,42 +154,42 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
     </script>
   </head>
   <body
-    class="overflow-x-hidden bg-[var(--bg)] text-[var(--fg)] antialiased"
+    class="bg-background text-foreground overflow-x-hidden antialiased"
     style="font-family: var(--font-sans);"
   >
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:bg-[var(--bg2)] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[var(--hi)] focus:ring-2 focus:ring-[var(--hi)] focus:outline-none"
+      class="focus:bg-muted focus:text-primary focus:ring-primary sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:ring-2 focus:outline-none"
     >
       {i18n.nav.skipToContent}
     </a>
 
     <header
-      class="nav sticky top-0 z-50 flex items-center justify-between border-b border-[var(--bg3)] bg-[rgba(10,10,10,0.92)] px-8 py-6 backdrop-blur-[20px] lg:px-12"
+      class="nav border-border sticky top-0 z-50 flex items-center justify-between border-b bg-[rgba(10,10,10,0.92)] px-8 py-6 backdrop-blur-[20px] lg:px-12"
     >
       <a
         href={`/${lang}`}
-        class="nav-logo font-display text-[1.5rem] font-bold tracking-[-0.03em] text-[var(--fg)] transition-colors hover:text-[var(--hi)]"
+        class="nav-logo font-display text-foreground hover:text-primary text-[1.5rem] font-bold tracking-[-0.03em] transition-colors"
         aria-label={i18n.nav.brandHome}
       >
-        DT<span class="text-[var(--hi)]">.</span>
+        DT<span class="text-primary">.</span>
       </a>
       <nav class="nav-links flex items-center gap-8">
         <a
           href={`/${lang}/blog`}
-          class="nav-link font-mono text-[0.7rem] tracking-[0.1em] text-[var(--fg2)] uppercase transition-colors hover:text-[var(--hi)]"
+          class="nav-link text-muted-foreground hover:text-primary font-mono text-[0.7rem] tracking-[0.1em] uppercase transition-colors"
         >
           {i18n.nav.writing}
         </a>
         <a
           href={`/${lang}/about`}
-          class="nav-link font-mono text-[0.7rem] tracking-[0.1em] text-[var(--fg2)] uppercase transition-colors hover:text-[var(--hi)]"
+          class="nav-link text-muted-foreground hover:text-primary font-mono text-[0.7rem] tracking-[0.1em] uppercase transition-colors"
         >
           {i18n.nav.about}
         </a>
         <a
           href="/rss.xml"
-          class="nav-badge rounded-full bg-[var(--bg3)] px-3 py-1.5 font-mono text-[0.65rem] tracking-[0.08em] text-[var(--fg2)] transition-colors hover:text-[var(--hi)]"
+          class="nav-badge bg-border text-muted-foreground hover:text-primary rounded-full px-3 py-1.5 font-mono text-[0.65rem] tracking-[0.08em] transition-colors"
         >
           RSS
         </a>
@@ -207,10 +207,8 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
       <slot />
     </main>
 
-    <footer
-      class="flex items-center justify-between border-t border-[var(--bg3)] px-8 py-6 lg:px-12"
-    >
-      <span class="font-mono text-[0.65rem] tracking-[0.08em] text-[var(--fg3)]">
+    <footer class="border-border flex items-center justify-between border-t px-8 py-6 lg:px-12">
+      <span class="text-muted-foreground font-mono text-[0.65rem] tracking-[0.08em]">
         DanhThanh.dev © {new Date().getFullYear()}
       </span>
       <div class="flex items-center gap-6">
