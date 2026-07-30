@@ -3,7 +3,7 @@
     "id": "read-blog",
     "title": "Read the DanhThanh.dev blog",
     "description": "Discover posts, fetch full content, list categories and tags, and respect content signals.",
-    "url": "https://blog.danhthanh.dev/.well-known/agent-skills/read-blog/SKILL.md",
+    "path": "/.well-known/agent-skills/read-blog/SKILL.md",
     "version": "0.1.0"
   }
 ]

@@ -18,20 +18,18 @@ if (!Array.isArray(catalog)) {
   process.exit(1)
 }
 
-const siteUrl = process.env.SITE_URL ?? 'http://localhost:4321'
+const siteUrl = process.env.SITE_URL ?? process.env.CF_PAGES_URL ?? 'http://localhost:4321'
 
 const skills = catalog.map((entry) => {
-  if (typeof entry.url !== 'string' || !entry.url.startsWith(siteUrl)) {
-    console.error(
-      `skill "${entry.id}" url must start with ${siteUrl}; got ${entry.url}`,
-    )
+  if (typeof entry.path !== 'string' || !entry.path.startsWith('/')) {
+    console.error(`skill "${entry.id}" path must be an absolute path; got ${entry.path}`)
     process.exit(1)
   }
-  const relativePath = entry.url.slice(siteUrl.length)
+  const url = `${siteUrl}${entry.path}`
   const skillSource = join(webRoot, 'agent-skills', entry.id, 'SKILL.md')
   const content = readFileSync(skillSource, 'utf8')
   const sha256 = createHash('sha256').update(content).digest('hex')
-  return { ...entry, url: entry.url, path: relativePath, sha256 }
+  return { ...entry, url, sha256 }
 })
 
 mkdirSync(outputDir, { recursive: true })
