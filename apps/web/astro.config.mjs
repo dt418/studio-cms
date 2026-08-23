@@ -61,13 +61,19 @@ export default defineConfig({
       },
     }),
     compress({
+      CSS: {
+        csso: false,
+        lightningcss: { minify: true },
+      },
       HTML: {
         'html-minifier-terser': {
           collapseWhitespace: true,
           removeComments: true,
           removeRedundantAttributes: true,
           removeEmptyAttributes: true,
-          minifyCSS: true,
+          // html-minifier-terser's CSS parser does not understand Tailwind v4
+          // range media queries such as `@media (width>=48rem)`.
+          minifyCSS: false,
           minifyJS: true,
           sortAttributes: true,
           sortClassName: true,
