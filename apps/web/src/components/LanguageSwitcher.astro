@@ -37,10 +37,8 @@ const languageLinks = SUPPORTED_LOCALES.map((locale, index) => {
         <a
           href={link.href}
           class:list={[
-            'rounded px-2 py-1 font-mono text-xs tracking-wider uppercase transition-colors',
-            link.isCurrent
-              ? 'bg-foreground text-background'
-              : 'text-muted-foreground hover:text-foreground',
+            'rounded px-2 py-1 font-mono text-xs tracking-[0.16em] uppercase transition-colors',
+            link.isCurrent ? 'text-primary font-bold' : 'text-muted-foreground hover:text-primary',
           ]}
           hreflang={link.locale}
           aria-label={link.label}

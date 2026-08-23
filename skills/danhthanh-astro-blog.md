@@ -1,13 +1,12 @@
 # Skill: danhthanh-astro-blog
 
-Use this skill when changing blog routes, RSS, sitemap behavior, post visibility, StudioCMS integration, or `apps/web/src/content/posts` rendering in `danhthanh.dev`.
+Use this skill when changing blog routes, RSS, sitemap behavior, post visibility, or `apps/web/src/content/posts` rendering in `danhthanh.dev`.
 
 ## Project Facts
 
-- This is a pnpm + Turborepo monorepo with public web code in `apps/web` and CMS/admin code in `apps/cms`.
+- This is a pnpm + Turborepo workspace with the public Astro 7 static site in `apps/web`.
 - `apps/web` owns the public blog, RSS, search, sitemap, and generated OG/search artifacts.
-- `apps/cms` owns StudioCMS routes under `/studiocms` and uses `@astrojs/node` standalone output.
-- StudioCMS blog injection is intentionally disabled so custom public blog routes stay authoritative.
+- All content is file-based Markdown/MDX in `apps/web/src/content/posts` and is rendered at build time.
 - Public posts come from `apps/web/src/content/posts/**/*.{md,mdx}` through `apps/web/src/content.config.ts` and `apps/web/src/lib/cms.ts`.
 - Prefer `@/*` imports within each app over deep relative imports.
 
@@ -25,13 +24,6 @@ Use this skill when changing blog routes, RSS, sitemap behavior, post visibility
 - Draft posts are excluded unless `includeDrafts` is explicitly requested.
 - `noindex` posts are excluded from public listings unless `includeNoindex` is explicitly requested.
 - If adding a public collection, feed, sitemap, or search surface, confirm it uses the same visibility semantics.
-
-## StudioCMS Rules
-
-- Preserve the separation between StudioCMS admin/plugin routes and custom public `/blog` pages.
-- Do not enable StudioCMS route injection for the public blog unless the whole route strategy is being redesigned.
-- Preserve `studiocms-layout-overrides` in `apps/cms/astro.config.mjs`; it exists to patch StudioCMS dashboard/auth CSS before downstream transforms.
-- Do not patch `node_modules` directly for StudioCMS layout fixes.
 
 ## Content Schema And Inline Script Rules
 

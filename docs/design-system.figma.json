@@ -1,0 +1,48 @@
+{
+  "format": "figma-variable-handoff",
+  "name": "DanhThanh.dev design system",
+  "version": "1.1.0",
+  "source": "apps/web/src/styles/tokens.css",
+  "collections": {
+    "color": {
+      "background": { "light": "oklch(97% 0.005 95.1)", "dark": "oklch(16% 0.003 67.6)" },
+      "foreground": { "light": "oklch(17.3% 0.004 84.6)", "dark": "oklch(95.9% 0.01 87.5)" },
+      "card": { "light": "oklch(93.1% 0.01 87.5)", "dark": "oklch(23.2% 0.006 78.2)" },
+      "muted-foreground": { "light": "oklch(46.7% 0.012 72.5)", "dark": "oklch(69.6% 0.018 79.3)" },
+      "border": { "light": "oklch(89.2% 0.013 86.8)", "dark": "oklch(27.6% 0.009 72.7)" },
+      "primary": { "light": "oklch(64.9% 0.206 33.6)", "dark": "oklch(64.9% 0.206 33.6)" },
+      "accent": { "light": "oklch(88% 0.073 76.9)", "dark": "oklch(75.1% 0.108 72.6)" },
+      "accent-foreground": { "light": "oklch(25.6% 0.027 73.4)", "dark": "oklch(25.6% 0.027 73.4)" }
+    },
+    "typography": {
+      "font-ui": "Space Grotesk Variable",
+      "font-display": "Space Grotesk Variable",
+      "font-mono": "JetBrains Mono Variable",
+      "hero-size": "clamp(3rem, 9vw, 8rem)",
+      "section-size": "clamp(1.875rem, 4vw, 3rem)",
+      "body-size": "1rem",
+      "meta-size": "0.625rem"
+    },
+    "radius": {
+      "sm": "0.25rem",
+      "md": "0.5rem",
+      "lg": "0.75rem",
+      "xl": "1rem"
+    },
+    "motion": {
+      "ease-out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "fast": "150ms",
+      "base": "280ms",
+      "slow": "480ms",
+      "marquee": "30s"
+    }
+  },
+  "frames": {
+    "home-desktop": { "width": 1440, "height": 1024 },
+    "home-mobile": { "width": 390, "height": 844 },
+    "featured-card": { "width": 960, "height": 420 },
+    "archive-list": { "width": 960, "height": 620 },
+    "about-desktop": { "width": 960, "height": 860 },
+    "about-mobile": { "width": 390, "height": 1120 }
+  }
+}

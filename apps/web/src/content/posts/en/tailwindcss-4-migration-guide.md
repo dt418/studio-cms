@@ -8,6 +8,11 @@ updatedAt: 2026-04-20
 tags: ['tailwindcss', 'css', 'frontend']
 language: 'vi'
 category: 'guides'
+faq:
+  - question: 'What is the main change in TailwindCSS 4?'
+    answer: 'TailwindCSS 4 moves more configuration into CSS and uses a Vite-first setup for a simpler build pipeline.'
+  - question: 'What should be checked after migration?'
+    answer: 'Verify theme tokens, content detection, custom utilities, and any plugins that depended on the previous configuration format.'
 ---
 
 # TailwindCSS 4 Migration Guide

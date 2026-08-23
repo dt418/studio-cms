@@ -7,6 +7,8 @@ import {
   SUPPORTED_LOCALES,
 } from './content-utils'
 
+export const RSS_PATH = '/rss.xml'
+
 export function getPostPath(post: Post): string {
   const locale = getPostLocale(post)
   const slug = getPostSlug(post)

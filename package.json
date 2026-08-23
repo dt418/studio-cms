@@ -6,9 +6,7 @@
   "version": "0.0.1",
   "scripts": {
     "astro": "pnpm --filter web astro",
-    "studiocms": "pnpm --filter cms studiocms",
-    "migrate": "pnpm turbo run migrate --filter=./apps/*",
-    "dev": "pnpm turbo run dev --filter=./apps/*",
+    "dev": "pnpm --filter web dev",
     "preview": "pnpm web:preview",
     "test": "pnpm web:test",
     "test:watch": "pnpm --filter web test:watch",
@@ -24,10 +22,6 @@
     "web:lint": "pnpm --filter web lint",
     "web:typecheck": "pnpm --filter web typecheck",
     "web:test": "pnpm --filter web test",
-    "cms:dev": "pnpm --filter cms dev",
-    "cms:build": "pnpm --filter cms build",
-    "cms:preview": "pnpm --filter cms preview",
-    "cms:migrate": "pnpm --filter cms migrate",
     "lint": "pnpm web:lint",
     "lint:patterns": "node scripts/lint-patterns.mjs",
     "lint:md": "markdownlint \"*.md\" \"docs/**/*.md\" \"skills/**/*.md\" \"prompts/**/*.md\" \"rules/**/*.md\" \"agents/**/*.md\" \"plans/**/*.md\" \"apps/web/src/content/**/*.md\"",
@@ -75,39 +69,6 @@
   "trustedDependencies": [
     "@parcel/watcher"
   ],
-  "pnpm": {
-    "peerDependencyRules": {
-      "allowedVersions": {
-        "studiocms>astro": "6",
-        "@astrojs/node>astro": "6",
-        "@inox-tools/runtime-logger>astro": "6",
-        "astro-integration-kit>astro": "6",
-        "@effect/platform-node>@effect/platform": "0.94.5",
-        "@effect/experimental>@effect/platform": "0.94.5",
-        "@effect/cli>@effect/platform": "0.94.5",
-        "@studiocms/markdown-remark>@astrojs/internal-helpers": "0.9"
-      }
-    },
-    "overrides": {
-      "@effect/platform": "0.94.5",
-      "@effect/platform-node": "0.104.1",
-      "@effect/experimental": "0.59.0",
-      "@effect/sql": "0.50.0",
-      "@effect/cluster": "0.57.0",
-      "@effect/rpc": "0.74.0"
-    },
-    "onlyBuiltDependencies": [
-      "@parcel/watcher",
-      "canvas",
-      "esbuild",
-      "lefthook",
-      "msgpackr-extract",
-      "msw",
-      "postinstall-postinstall",
-      "sharp",
-      "workerd"
-    ]
-  },
   "workspaces": [
     ".",
     "apps/*",

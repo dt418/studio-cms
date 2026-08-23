@@ -10,14 +10,14 @@ const outputPath = resolve(projectRoot, 'public/og-image.png')
 const WIDTH = 1200
 const HEIGHT = 630
 
-// Hex equivalents of the dark theme tokens defined in src/styles/global.css
-// (kept in sync manually because librsvg cannot resolve CSS custom properties).
+// SVG-compatible fallbacks for the dark OKLCH tokens in src/styles/tokens.css.
+// Keep these values in sync manually because librsvg cannot resolve CSS custom properties.
 const COLORS = {
-  background: '#252525',       // oklch(0.145 0 0)
-  foreground: '#fafafa',       // oklch(0.985 0 0)
-  mutedForeground: '#b5b5b5',  // oklch(0.708 0 0)
-  border: 'rgba(255,255,255,0.10)',
-  dot: 'rgba(255,255,255,0.06)',
+  background: 'rgb(14 13 12)', // oklch(16% 0.003 67.6)
+  foreground: 'rgb(244 241 234)', // oklch(95.9% 0.01 87.5)
+  mutedForeground: 'rgb(163 156 145)', // oklch(69.6% 0.018 79.3)
+  border: 'rgb(244 241 234 / 10%)',
+  dot: 'rgb(244 241 234 / 6%)',
 }
 
 const BRAND = 'DANHTHANH.DEV'
@@ -57,7 +57,7 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
   <!-- Big name -->
   <text
     x="80" y="320"
-    font-family="'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    font-family="'Space Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
     font-size="96"
     font-weight="600"
     letter-spacing="-2"
@@ -67,14 +67,14 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
   <!-- Tagline -->
   <text
     x="80" y="400"
-    font-family="'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    font-family="'Space Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
     font-size="34"
     font-weight="400"
     fill="${COLORS.mutedForeground}"
   >${TAGLINE_LINE_1}</text>
   <text
     x="80" y="448"
-    font-family="'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    font-family="'Space Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
     font-size="34"
     font-weight="400"
     fill="${COLORS.mutedForeground}"
@@ -108,9 +108,7 @@ async function generate() {
   const outDir = dirname(outputPath)
   if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true })
 
-  const pngBuffer = await sharp(Buffer.from(svg))
-    .png({ compressionLevel: 9 })
-    .toBuffer()
+  const pngBuffer = await sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toBuffer()
 
   writeFileSync(outputPath, pngBuffer)
   const kb = (pngBuffer.byteLength / 1024).toFixed(1)

@@ -5,6 +5,7 @@ import TagsList from './Blog/TagsList.astro'
 import { formatDate } from '@/lib/date'
 import { getOptimizedCoverImage } from '@/lib/cover-images'
 import { getPostPath } from '@/lib/routes'
+import { getPostLocale } from '@/lib/content-utils'
 
 interface Props {
   post: CollectionEntry<'posts'>
@@ -12,7 +13,7 @@ interface Props {
 
 const { post } = Astro.props
 const { title, excerpt, coverImage, publishedAt, tags, category } = post.data
-const formattedDate = formatDate(publishedAt)
+const formattedDate = formatDate(publishedAt, getPostLocale(post))
 const postPath = getPostPath(post)
 const optimizedCoverImage = coverImage ? getOptimizedCoverImage(coverImage) : undefined
 ---

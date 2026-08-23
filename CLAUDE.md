@@ -1,12 +1,12 @@
-# CLAUDE.md — StudioCMS Blog
+# CLAUDE.md — danhthanh.dev
 
 Project context auto-loaded by Claude Code. The ground truth for how this
 repo organizes work, names things, and closes loops.
 
 ## What this repo is
 
-StudioCMS Blog - A modern Astro-based blog with modular component architecture,
-following Astro best practices with strict TypeScript type safety and centralized
+Astro 7 static blog with modular component architecture, following Astro best
+practices with strict TypeScript type safety and centralized
 utility functions.
 
 ## Project Structure

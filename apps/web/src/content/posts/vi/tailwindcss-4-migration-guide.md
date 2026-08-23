@@ -8,6 +8,11 @@ updatedAt: 2026-04-20
 tags: ['tailwindcss', 'css', 'frontend']
 language: 'vi'
 category: 'guides'
+faq:
+  - question: 'Thay đổi chính của TailwindCSS 4 là gì?'
+    answer: 'TailwindCSS 4 đưa nhiều cấu hình hơn vào CSS và ưu tiên thiết lập qua Vite để pipeline build đơn giản hơn.'
+  - question: 'Cần kiểm tra gì sau khi migrate?'
+    answer: 'Hãy kiểm tra token giao diện, cơ chế phát hiện content, utility tùy chỉnh và các plugin phụ thuộc vào định dạng cấu hình cũ.'
 ---
 
 # Hướng dẫn migrate lên TailwindCSS 4

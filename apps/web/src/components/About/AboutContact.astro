@@ -1,0 +1,43 @@
+---
+interface ContactItem {
+  marker: string
+  label: string
+  value: string
+  href: string
+  external?: boolean
+}
+
+interface Props {
+  title: string
+  items: ContactItem[]
+}
+
+const { title, items } = Astro.props
+---
+
+<section class="border-border bg-card/30 rounded-xl border p-6 sm:p-8 lg:p-10">
+  <h2 class="font-serif text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
+  <div class="mt-8 grid gap-3 font-mono text-xs sm:grid-cols-2">
+    {
+      items.map((item) => (
+        <a
+          href={item.href}
+          {...(item.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+          class="border-border text-muted-foreground hover:border-primary hover:text-primary group flex items-center justify-between gap-4 rounded border px-4 py-4 transition-colors"
+        >
+          <span class="flex min-w-0 items-center gap-3">
+            <span class="text-primary shrink-0" aria-hidden="true">
+              {item.marker}
+            </span>
+            <span class="truncate">
+              {item.label}: {item.value}
+            </span>
+          </span>
+          <span class="shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true">
+            {item.external ? '↗' : '→'}
+          </span>
+        </a>
+      ))
+    }
+  </div>
+</section>

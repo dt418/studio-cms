@@ -10,12 +10,21 @@ interface Props {
     prevPost: string
     nextPost: string
   }
+  locale?: 'vi' | 'en'
 }
 
-const { prevPost, nextPost, i18n } = Astro.props
+const { prevPost, nextPost, i18n, locale = 'en' } = Astro.props
 ---
 
 <nav class="mt-8 grid gap-4 md:grid-cols-2" aria-label={i18n?.postNavigation ?? 'Post navigation'}>
-  {prevPost && <PostNavLink post={prevPost} direction="prev" {...(i18n && { i18n })} />}
-  {nextPost && <PostNavLink post={nextPost} direction="next" {...(i18n && { i18n })} />}
+  {
+    prevPost && (
+      <PostNavLink post={prevPost} direction="prev" locale={locale} {...(i18n && { i18n })} />
+    )
+  }
+  {
+    nextPost && (
+      <PostNavLink post={nextPost} direction="next" locale={locale} {...(i18n && { i18n })} />
+    )
+  }
 </nav>

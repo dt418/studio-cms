@@ -6,22 +6,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = resolve(__dirname, '..')
 
 const webVars = ['SITE_URL', 'CF_PAGES_URL']
-const cmsVars = [
-  'CMS_LIBSQL_URL',
-  'LIBSQL_URL',
-  'CMS_LIBSQL_AUTH_TOKEN',
-  'LIBSQL_AUTH_TOKEN',
-  'CMS_ENCRYPTION_KEY',
-  'CMS_GITHUB_CLIENT_ID',
-  'CMS_GITHUB_CLIENT_SECRET',
-  'CMS_GITHUB_REDIRECT_URI',
-  'CMS_GOOGLE_CLIENT_ID',
-  'CMS_GOOGLE_CLIENT_SECRET',
-  'CMS_GOOGLE_REDIRECT_URI',
-  'CMS_SITE_URL',
-  'CLOUDFLARE_ACCOUNT_ID',
-  'CLOUDFLARE_API_TOKEN',
-]
 
 function parseEnv(path) {
   const content = readFileSync(path, 'utf-8')
@@ -46,20 +30,22 @@ const reverse = process.argv.includes('--reverse')
 if (reverse) {
   // per-app .env → root .env
   const web = parseEnv(resolve(root, 'apps/web/.env'))
-  const cms = parseEnv(resolve(root, 'apps/cms/.env'))
-  const merged = { ...web, ...cms }
+  const merged = { ...web }
   const rootPath = resolve(root, '.env')
   const existing = (() => {
-    try { return parseEnv(rootPath) } catch { return {} }
+    try {
+      return parseEnv(rootPath)
+    } catch {
+      return {}
+    }
   })()
   const combined = { ...existing, ...merged }
   const lines = Object.entries(combined).map(([k, v]) => `${k}=${v}`)
   writeFileSync(rootPath, lines.join('\n') + '\n')
   console.log('Merged per-app .env into root .env')
 } else {
-  // root .env → per-app .env
+  // root .env → web app .env
   const rootEnv = parseEnv(resolve(root, '.env'))
   writeEnv(resolve(root, 'apps/web/.env'), webVars, rootEnv)
-  writeEnv(resolve(root, 'apps/cms/.env'), cmsVars, rootEnv)
-  console.log('Synced per-app .env files from root .env')
+  console.log('Synced apps/web/.env from root .env')
 }

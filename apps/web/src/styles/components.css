@@ -4,11 +4,11 @@
 
 @layer components {
   .container {
-    @apply mx-auto max-w-7xl px-6 lg:px-8;
+    @apply mx-auto max-w-6xl px-4 sm:px-6;
   }
 
   .btn {
-    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-sm px-4 py-2 text-sm leading-5 font-medium transition-all duration-150;
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded px-4 py-2 text-sm leading-5 font-medium transition-all duration-200;
   }
 
   .btn:focus-visible {
@@ -20,11 +20,11 @@
   }
 
   .btn-primary {
-    @apply bg-primary text-primary-foreground;
+    @apply bg-foreground text-background;
   }
 
   .btn-primary:hover {
-    @apply opacity-85;
+    @apply bg-primary text-primary-foreground;
   }
 
   .btn-outline {
@@ -32,21 +32,17 @@
   }
 
   .btn-outline:hover {
-    @apply bg-accent text-accent-foreground;
+    @apply border-foreground text-foreground;
   }
 
   .card-hover {
-    @apply border-border bg-card/30 relative overflow-hidden rounded-md border p-6 transition-all duration-300;
+    @apply border-border bg-card/30 relative overflow-hidden rounded-lg border p-6 transition-all duration-300;
   }
 
   .card-hover::before {
     content: '';
     @apply pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-in-out;
-    background: radial-gradient(
-      circle at 50% 50%,
-      color-mix(in oklch, var(--foreground) 12%, transparent) 0%,
-      transparent 80%
-    );
+    background: radial-gradient(circle at 50% 50%, var(--accent-warm-glow), transparent 78%);
   }
 
   .card-hover:focus-within,
@@ -67,7 +63,7 @@
   .prose h2,
   .prose h3,
   .prose h4 {
-    @apply text-foreground mt-10 mb-4 scroll-mt-28 font-semibold tracking-tight;
+    @apply text-foreground mt-10 mb-4 scroll-mt-28 font-serif font-semibold tracking-tight;
   }
 
   .prose h1 {
@@ -81,7 +77,7 @@
   }
 
   .prose p {
-    @apply text-muted-foreground mb-5 leading-[1.8];
+    @apply text-muted-foreground mb-5 max-w-[68ch] leading-[1.85];
   }
 
   .prose a {
@@ -97,7 +93,7 @@
   }
 
   .prose pre {
-    @apply border-border bg-muted my-6 overflow-x-auto rounded-md border p-4;
+    @apply border-border bg-muted my-6 overflow-x-auto rounded-lg border p-4;
   }
 
   .prose pre code {
@@ -106,7 +102,7 @@
 
   .prose pre[data-theme='github-dark-dimmed'] span[style*='#768390'],
   .prose pre[data-theme='github-dark-dimmed'] span[style*='rgb(118, 131, 144)'] {
-    color: #a3adb8 !important;
+    color: oklch(70.1% 0.027 253.5) !important;
   }
 
   .prose ul,

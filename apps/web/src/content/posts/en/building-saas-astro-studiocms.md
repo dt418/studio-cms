@@ -8,6 +8,11 @@ updatedAt: 2026-04-05
 tags: ['astro', 'saas', 'studiocms', 'web-development']
 language: 'en'
 category: 'guides'
+faq:
+  - question: 'When is Astro a good fit for a SaaS frontend?'
+    answer: 'Astro is a strong fit when the product is content-heavy, performance-sensitive, or needs only a small amount of client-side interactivity.'
+  - question: 'What role does StudioCMS play in this setup?'
+    answer: 'StudioCMS provides the content management layer while Astro focuses on rendering the public-facing experience.'
 ---
 
 In this guide, we'll walk through building a production-ready SaaS application using Astro for the frontend and StudioCMS for content management.

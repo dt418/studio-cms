@@ -8,6 +8,11 @@ updatedAt: 2026-04-30
 tags: ['astro', 'web-development', 'performance']
 language: 'vi'
 category: 'tutorials'
+faq:
+  - question: 'Astro render nội dung mặc định như thế nào?'
+    answer: 'Astro render HTML tĩnh theo mặc định và chỉ thêm JavaScript phía trình duyệt cho các island có tương tác.'
+  - question: 'Khi nào một component nên trở thành island?'
+    answer: 'Hãy dùng island khi component cần state phía trình duyệt, event handler hoặc hành vi chỉ có ở client.'
 ---
 
 # Bắt đầu với Astro 5

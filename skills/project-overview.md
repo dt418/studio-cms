@@ -3,8 +3,8 @@
 ## Project Overview
 
 - **Name:** DanhThanh.dev Blog
-- **Framework:** Astro 5 monorepo with public web app in `apps/web` and CMS/admin app in `apps/cms`
-- **CMS:** StudioCMS with libSQL/Turso env vars in `apps/cms`
+- **Framework:** Astro 7 static app in `apps/web`
+- **Content:** File-based Markdown/MDX collections under `apps/web/src/content/posts`
 - **Styling:** Tailwind CSS 4 + design tokens imported through `apps/web/src/styles/app.css`
 - **React:** Used only where interactive islands/components need it
 - **UI Primitives:** `@base-ui/react` + `class-variance-authority`
@@ -105,15 +105,15 @@ getPostsByCategory(category) → Post[]
 
 ## Utilities
 
-| File                               | Purpose                                                                      |
-| ---------------------------------- | ---------------------------------------------------------------------------- |
-| `apps/web/src/lib/utils.ts`        | Centralized utilities: cn()                                                  |
-| `apps/web/src/lib/post.ts`         | Post-related utilities: getAuthorInitials, getImageUrl, getAdjacentPosts     |
-| `apps/web/src/lib/date.ts`         | Date formatting (formatDate)                                                 |
-| `apps/web/src/lib/reading-time.ts` | Reading time calculation                                                     |
-| `apps/web/src/lib/search.ts`       | Search types and helpers                                                     |
-| `apps/web/src/lib/filter.ts`       | Post filtering/sorting                                                       |
-| `apps/web/src/lib/group.ts`        | `groupByYear()`, `sortedYears()`                                             |
+| File                               | Purpose                                                                  |
+| ---------------------------------- | ------------------------------------------------------------------------ |
+| `apps/web/src/lib/utils.ts`        | Centralized utilities: cn()                                              |
+| `apps/web/src/lib/post.ts`         | Post-related utilities: getAuthorInitials, getImageUrl, getAdjacentPosts |
+| `apps/web/src/lib/date.ts`         | Date formatting (formatDate)                                             |
+| `apps/web/src/lib/reading-time.ts` | Reading time calculation                                                 |
+| `apps/web/src/lib/search.ts`       | Search types and helpers                                                 |
+| `apps/web/src/lib/filter.ts`       | Post filtering/sorting                                                   |
+| `apps/web/src/lib/group.ts`        | `groupByYear()`, `sortedYears()`                                         |
 
 ## Import Conventions
 
@@ -198,14 +198,14 @@ All development must follow the comprehensive standards defined in `CODING_RULES
 
 ## Routes
 
-| Route                    | File                                             | Description      |
-| ------------------------ | ------------------------------------------------ | ---------------- |
-| `/`                      | `apps/web/src/pages/index.astro`                 | Homepage         |
-| `/blog`                  | `apps/web/src/pages/[lang]/blog/index.astro`     | Blog archive     |
-| `/[lang]/blog/[slug]`    | `apps/web/src/pages/[lang]/blog/[slug].astro`    | Post detail      |
-| `/[lang]/tags/[tag]`     | `apps/web/src/pages/[lang]/tags/[tag].astro`     | Tag archive      |
+| Route                           | File                                                    | Description      |
+| ------------------------------- | ------------------------------------------------------- | ---------------- |
+| `/`                             | `apps/web/src/pages/index.astro`                        | Homepage         |
+| `/blog`                         | `apps/web/src/pages/[lang]/blog/index.astro`            | Blog archive     |
+| `/[lang]/blog/[slug]`           | `apps/web/src/pages/[lang]/blog/[slug].astro`           | Post detail      |
+| `/[lang]/tags/[tag]`            | `apps/web/src/pages/[lang]/tags/[tag].astro`            | Tag archive      |
 | `/[lang]/categories/[category]` | `apps/web/src/pages/[lang]/categories/[category].astro` | Category archive |
-| `/rss.xml`               | `apps/web/src/pages/rss.xml.ts`                  | RSS feed         |
+| `/rss.xml`                      | `apps/web/src/pages/rss.xml.ts`                         | RSS feed         |
 
 ## Commands
 

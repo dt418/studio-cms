@@ -1,4 +1,4 @@
-# Coding Rules for StudioCMS Blog
+# Coding Rules for danhthanh.dev
 
 This document outlines the coding standards and best practices that all agents must follow when working on this project.
 

@@ -10,9 +10,15 @@ interface Props {
     prevPost: string
     nextPost: string
   }
+  locale?: 'vi' | 'en'
 }
 
-const { post, direction, i18n = { prevPost: 'Previous Post', nextPost: 'Next Post' } } = Astro.props
+const {
+  post,
+  direction,
+  i18n = { prevPost: 'Previous Post', nextPost: 'Next Post' },
+  locale = 'en',
+} = Astro.props
 const postData = post.data || null
 const isPrev = direction === 'prev'
 const postPath = getPostPath(post)
@@ -37,6 +43,6 @@ const label = isPrev ? i18n.prevPost : i18n.nextPost
     {isPrev ? '' : ' →'}
   </p>
   <p class="text-muted-foreground text-xs">
-    {postData?.category && `${postData.category} · `}{formatDate(postData?.publishedAt)}
+    {postData?.category && `${postData.category} · `}{formatDate(postData?.publishedAt, locale)}
   </p>
 </a>
