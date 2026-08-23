@@ -8,7 +8,10 @@ export const LOCALE_CONFIG: Record<Locale, { lang: string; hreflang: string; lab
   en: { lang: 'en', hreflang: 'en', label: 'EN' },
 }
 
-export const LOCALE_ROUTES: Record<Locale, { home: string; blog: string, tags: string, categories: string }> = {
+export const LOCALE_ROUTES: Record<
+  Locale,
+  { home: string; blog: string; tags: string; categories: string }
+> = {
   vi: { home: '/vi/', blog: '/vi/blog', tags: '/vi/tags', categories: '/vi/categories' },
   en: { home: '/en/', blog: '/en/blog', tags: '/en/tags', categories: '/en/categories' },
 }
@@ -39,13 +42,15 @@ export async function expectOgLocale(page: Page, locale: Locale) {
 }
 
 export async function expectLanguageSwitcher(page: Page, currentLocale: Locale) {
-  const activeLink = page.locator(`header a[hreflang="${currentLocale}"]`)
+  const activeLink = page.locator(
+    `[data-testid="header-language-switcher"] a[hreflang="${currentLocale}"]`
+  )
   await expect(activeLink).toBeVisible()
-  await expect(activeLink).toHaveClass(/bg-foreground/)
+  await expect(activeLink).toHaveClass(/text-primary/)
 }
 
 export async function switchLanguage(page: Page, to: Locale) {
-  const switcher = page.locator(`a[hreflang="${to}"]`).first()
+  const switcher = page.locator(`[data-testid="header-language-switcher"] a[hreflang="${to}"]`)
   await switcher.click()
   await page.waitForURL(`**/${to}/**`)
 }

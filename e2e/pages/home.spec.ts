@@ -18,36 +18,40 @@ test.describe('Home Page', () => {
   })
 
   test('hero has developer-focused tagline', async ({ page }) => {
-    const tagline = page.locator('p:has-text("Cho developers xây dựng sản phẩm web hiện đại")').first()
+    const tagline = page.getByText('Dành cho nhà phát triển xây dựng sản phẩm web hiện đại', {
+      exact: true,
+    })
     await expect(tagline).toBeVisible()
   })
 
   test('stats badges display in hero section', async ({ page }) => {
-    const heroSection = page.locator('section').first()
+    const stats = page.getByTestId('hero-stats')
 
-    await expect(heroSection.locator('span.rounded-full:has-text("bài viết")')).toBeVisible()
-    await expect(heroSection.locator('span.rounded-full:has-text("chủ đề")')).toBeVisible()
-    await expect(heroSection.locator('span.rounded-full:has-text("thẻ")')).toBeVisible()
+    await expect(stats.getByText('bài viết', { exact: true })).toBeVisible()
+    await expect(stats.getByText('chủ đề', { exact: true })).toBeVisible()
+    await expect(stats.getByText('thẻ', { exact: true })).toBeVisible()
   })
 
   test('CTA buttons are visible', async ({ page }) => {
-    const readBlogCTA = page.locator('a:has-text("Đọc blog")')
+    const cta = page.getByTestId('hero-cta')
+    const readBlogCTA = cta.getByRole('link', { name: 'Đọc blog', exact: true })
     await expect(readBlogCTA).toBeVisible()
     await expect(readBlogCTA).toHaveAttribute('href', '/vi/blog')
 
-    const rssCTA = page.locator('a:has-text("RSS Feed")')
+    const rssCTA = cta.getByRole('link', { name: 'RSS', exact: true })
     await expect(rssCTA).toBeVisible()
     await expect(rssCTA).toHaveAttribute('href', '/rss.xml')
   })
 
   test('latest insights section displays', async ({ page }) => {
-    await expect(page.getByText('Insights').first()).toBeVisible()
+    await expect(page.getByText('Góc nhìn mới nhất', { exact: true })).toBeVisible()
   })
 
   test('metric cards show posts/topics/tags', async ({ page }) => {
-    await expect(page.getByText('bài viết', { exact: true })).toBeVisible()
-    await expect(page.getByText('chủ đề', { exact: true })).toBeVisible()
-    await expect(page.getByText('thẻ', { exact: true }).first()).toBeVisible()
+    const metrics = page.getByTestId('home-metrics')
+    await expect(metrics.getByText('Bài đã xuất bản', { exact: true })).toBeVisible()
+    await expect(metrics.getByText('Chủ đề', { exact: true }).first()).toBeVisible()
+    await expect(metrics.getByText('thẻ', { exact: true }).first()).toBeVisible()
   })
 
   test('featured work section displays', async ({ page }) => {
@@ -68,7 +72,7 @@ test.describe('Home Page', () => {
   })
 
   test('navigation links work', async ({ page }) => {
-    const blogLink = page.locator('header a[href="/vi/blog"]')
+    const blogLink = page.locator('header nav.nav-links a[href="/vi/blog"]')
     await expect(blogLink).toBeVisible()
     await expect(blogLink).toContainText('viết')
 

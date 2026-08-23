@@ -158,7 +158,7 @@ const canonicalUrl = getCanonicalUrl(lang, '/', siteUrl)
     <h2 slot="header" class="mt-4 max-w-xl text-2xl font-semibold tracking-tight lg:text-3xl">
       {i18n.section.practicalKnowledge}
     </h2>
-    <div class="mt-6 grid gap-4 sm:mt-8 sm:gap-5 lg:grid-cols-3">
+    <div data-testid="home-metrics" class="mt-6 grid gap-4 sm:mt-8 sm:gap-5 lg:grid-cols-3">
       {
         metrics.map((item) => (
           <MetricCard
