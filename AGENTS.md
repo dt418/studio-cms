@@ -26,7 +26,6 @@
 - Commit messages are checked by commitlint; use Conventional Commits style such as `fix: prevent search overflow`.
 - **NEVER use `--no-verify` on `git commit` or `git push`.** Hooks exist to catch lint, type, format, and test failures before they reach the repo. Bypassing them defeats the entire quality gate. If a hook fails, fix the underlying issue — do not skip the hook.
 - ESLint ignores `e2e`, `dist`, `.astro`, `tender-series`, and coverage; do not assume E2E files are covered by `pnpm lint`.
-
 ## Git Workflow
 
 - `main` is a protected integration branch. Never push directly to `main` or force-push any shared branch.
