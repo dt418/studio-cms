@@ -1,4 +1,7 @@
 @import 'tailwindcss';
+/* Astro templates live one directory above this stylesheet. Register them
+   explicitly so Tailwind v4 emits all responsive variants in production. */
+@source '../**/*.{astro,html,js,jsx,ts,tsx,md,mdx}';
 @import './tokens.css';
 @import './semantic.css';
 @import './base.css';
