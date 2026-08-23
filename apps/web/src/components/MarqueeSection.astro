@@ -8,14 +8,15 @@ const { items } = Astro.props
 const duplicatedItems = Array.from({ length: 12 }, () => items).flat()
 ---
 
-<section class="border-border overflow-hidden border-b">
-  <div class="py-4">
+<section class="border-border bg-card/40 overflow-hidden border-y">
+  <div class="py-3.5">
     <div class="lg:animate-marquee flex gap-6 whitespace-nowrap">
       {
         duplicatedItems.map((item) => (
-          <span class="text-muted-foreground/40 font-mono text-[0.62rem] tracking-[0.24em] uppercase">
+          <span class="text-muted-foreground font-mono text-[0.64rem] tracking-[0.18em] uppercase">
+            <span class="text-primary mr-2">✳</span>
             {item}
-            <span class="text-muted-foreground/20 ml-6">/</span>
+            <span class="text-muted-foreground/30 ml-6">/</span>
           </span>
         ))
       }

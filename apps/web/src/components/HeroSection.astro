@@ -8,38 +8,44 @@ export interface Props {
   categories: number
   allTags: number
   i18n: Translations['hero']
+  lang?: 'vi' | 'en'
 }
 
-const { posts, categories, allTags, i18n } = Astro.props
+const { posts, categories, allTags, i18n, lang = 'vi' } = Astro.props
 ---
 
-<section class="border-border bg-background border-b">
-  <div class="container py-12 lg:py-16">
-    <div class="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
+<section class="border-border border-b">
+  <div class="container py-12 sm:py-20">
+    <div class="mb-8 flex items-center justify-between gap-4">
+      <p
+        class="border-primary text-primary border-l-2 pl-3 font-mono text-[0.66rem] tracking-[0.18em] uppercase"
+      >
+        {i18n.tagline}
+      </p>
+      <div
+        class="text-muted-foreground flex items-center gap-2 font-mono text-[0.65rem] tracking-[0.16em] uppercase"
+      >
+        <span class="bg-primary h-2 w-2 animate-pulse rounded-full"></span>
+        <span class="hidden sm:inline">{i18n.activeNotes}</span>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 items-end gap-10 lg:grid-cols-12">
       <!-- Left Column -->
-      <div class="flex flex-col justify-between gap-6">
+      <div class="lg:col-span-8">
         <div class="max-w-4xl">
-          <p
-            class="text-muted-foreground/50 mb-6 font-mono text-[0.62rem] tracking-[0.28em] uppercase"
-          >
-            {i18n.tagline}
-          </p>
-          <h1
-            class="mb-6 text-[clamp(2.5rem,12vw,7rem)] leading-[0.84] font-semibold tracking-[-0.09em] uppercase"
-          >
-            <span class="block">Danh</span>
-            <span class="text-muted-foreground block">Thanh</span>
+          <h1 class="font-serif text-5xl leading-[0.98] tracking-[-0.06em] sm:text-7xl md:text-8xl">
+            Danh <em class="text-primary font-serif italic">Thanh</em> Dev.
           </h1>
           <p
-            class="text-muted-foreground/70 max-w-xl text-[0.98rem] leading-7 sm:text-lg sm:leading-8"
+            class="text-muted-foreground mt-5 max-w-2xl text-base leading-7 sm:text-lg sm:leading-8"
           >
             {i18n.description}
           </p>
         </div>
-        <div class="max-w-xl space-y-4">
-          <CTAButtons i18n={i18n.cta} />
+        <div class="mt-9 max-w-xl space-y-4">
+          <CTAButtons i18n={i18n.cta} lang={lang} />
           <div
-            class="hidden flex-wrap items-center gap-3 text-[0.72rem] tracking-[0.26em] uppercase sm:flex"
+            class="hidden flex-wrap items-center gap-3 text-[0.68rem] tracking-[0.18em] uppercase sm:flex"
           >
             <StatsBadge label={i18n.posts} value={posts} />
             <StatsBadge label={i18n.topics} value={categories} />
@@ -48,7 +54,9 @@ const { posts, categories, allTags, i18n } = Astro.props
         </div>
       </div>
       <!-- Right Column - Terminal Panel -->
-      <slot name="terminal" />
+      <div class="lg:col-span-4">
+        <slot name="terminal" />
+      </div>
     </div>
   </div>
 </section>

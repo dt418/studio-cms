@@ -4,13 +4,14 @@ interface Props {
     readBlog: string
     rssFeed: string
   }
+  lang?: 'vi' | 'en'
 }
 
-const { i18n } = Astro.props
+const { i18n, lang = 'vi' } = Astro.props
 const labels = i18n ?? { readBlog: 'Read the blog', rssFeed: 'RSS Feed' }
 ---
 
 <div class="flex flex-col gap-3 sm:flex-row">
-  <a href="/vi/blog" class="btn btn-primary btn-lg"> {labels.readBlog} </a>
+  <a href={`/${lang}/blog`} class="btn btn-primary btn-lg"> {labels.readBlog} </a>
   <a href="/rss.xml" class="btn btn-outline btn-lg"> {labels.rssFeed} </a>
 </div>

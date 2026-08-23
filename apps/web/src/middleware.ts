@@ -59,7 +59,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const url = context.url
 
   const wantsMarkdown =
-    url.pathname.endsWith('.md') === false && prefersMarkdown(request.headers.get('accept'))
+    context.isPrerendered === false &&
+    url.pathname.endsWith('.md') === false &&
+    prefersMarkdown(request.headers.get('accept'))
 
   if (wantsMarkdown) {
     const rewriteTarget = resolveMarkdownRewrite(url.pathname)

@@ -5,6 +5,7 @@ import TableOfContents from '@/components/Blog/TableOfContents.astro'
 import PostHero from '@/components/Blog/PostHero.astro'
 import ArticleContent from '@/components/Blog/ArticleContent.astro'
 import RelatedPosts from '@/components/Blog/RelatedPosts.astro'
+import PostFAQ from '@/components/Blog/PostFAQ.astro'
 import { getLocalizedPosts, getPostSlug, type SupportedLocale } from '@/lib/cms'
 import { readingTime } from '@/lib/reading-time'
 import { render } from 'astro:content'
@@ -68,10 +69,11 @@ const {
   tags,
   category,
   author = SITE.author,
+  faq,
 } = post.data
 
-const formattedDate = formatDate(publishedAt)
-const updatedDate = updatedAt ? formatDate(updatedAt) : null
+const formattedDate = formatDate(publishedAt, lang)
+const updatedDate = updatedAt ? formatDate(updatedAt, lang) : null
 const publishedTime = publishedAt.toISOString()
 const modifiedTime = updatedAt?.toISOString() ?? publishedTime
 
@@ -139,6 +141,26 @@ const breadcrumbJsonLd = {
     },
   ],
 } as const
+
+const faqJsonLd =
+  faq.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map((item) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: item.answer,
+          },
+        })),
+      }
+    : null
+
+const pageJsonLd = faqJsonLd
+  ? [articleJsonLd, breadcrumbJsonLd, faqJsonLd]
+  : [articleJsonLd, breadcrumbJsonLd]
 ---
 
 <style is:global>
@@ -162,7 +184,7 @@ const breadcrumbJsonLd = {
   modifiedTime={modifiedTime}
   author={author}
   type="article"
-  jsonLd={[articleJsonLd, breadcrumbJsonLd]}
+  jsonLd={pageJsonLd}
   noindex={post.data.noindex}
   lang={lang}
   currentPath={`/${lang}/blog/${slug}`}
@@ -216,6 +238,8 @@ const breadcrumbJsonLd = {
         </aside>
       </div>
     </div>
+
+    <PostFAQ items={faq} i18n={i18n.post} />
 
     <RelatedPosts relatedPosts={relatedPosts} i18n={i18n.post} />
   </article>

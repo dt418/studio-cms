@@ -8,6 +8,11 @@ updatedAt: 2026-04-30
 tags: ['astro', 'web-development', 'performance']
 language: 'en'
 category: 'tutorials'
+faq:
+  - question: 'What does Astro render by default?'
+    answer: 'Astro renders static HTML by default and adds client-side JavaScript only to interactive islands.'
+  - question: 'When should a component become an island?'
+    answer: 'Use an island when the component needs browser-side state, event handlers, or other client-only behavior.'
 ---
 
 # Getting Started with Astro 5

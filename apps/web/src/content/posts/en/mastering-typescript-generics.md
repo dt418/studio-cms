@@ -8,6 +8,11 @@ updatedAt: 2025-02-10
 tags: ['typescript', 'programming', 'generics']
 language: 'en'
 category: 'tutorials'
+faq:
+  - question: 'Why use generics in TypeScript?'
+    answer: 'Generics let one function or component work with many types while preserving precise type information.'
+  - question: 'When should a generic be constrained?'
+    answer: 'Add a constraint when the implementation depends on a known property or capability of the type.'
 ---
 
 # Mastering TypeScript Generics

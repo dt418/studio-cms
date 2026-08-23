@@ -1,248 +1,73 @@
-<h1 align="center">danhthanh.dev</h1>
+# danhthanh.dev
 
-<p align="center">
-  <strong>A Turborepo monorepo with an Astro static blog and a separate StudioCMS SSR app.</strong>
-</p>
-
-<p align="center">
-  <a href="https://github.com/dt418/studio-cms/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
-</p>
-
----
-
-A fast public blog built as static Astro output, plus a separate StudioCMS dashboard/API app for CMS-managed content and administration.
-
-```bash
-pnpm install && pnpm dev
-```
-
----
+Astro 7 static blog with an editorial developer-portfolio interface. The site is built from Markdown/MDX content in `apps/web/src/content/posts`, validated by Astro content collections, and emitted as static HTML.
 
 ## Quick start
 
 ```bash
-# Clone the repository
-git clone https://github.com/dt418/studio-cms.git
-cd studio-cms
-
-# Install dependencies
 pnpm install
-
-# Set up environment variables
-cp .env.demo .env
-
-# Run CMS database migrations
-pnpm cms:migrate
-
-# Start the development server
+Copy-Item .env.example apps/web/.env
 pnpm dev
 ```
 
-Open `http://localhost:4321` in your browser for the public site. Run `pnpm cms:dev` and visit `http://localhost:4322/studiocms` for the CMS app.
+Open `http://localhost:4321`.
 
----
+## Stack
 
-## Tech Stack
+| Area      | Technology                               |
+| --------- | ---------------------------------------- |
+| Framework | Astro 7 static output                    |
+| Styling   | Tailwind CSS v4 + shadcn/ui tokens       |
+| Content   | Astro content collections + Markdown/MDX |
+| Search    | Pagefind + Fuse.js                       |
+| Tests     | Vitest + Playwright                      |
+| Quality   | ESLint + Prettier + Lefthook             |
 
-| Layer           | Technology                                                               |
-| --------------- | ------------------------------------------------------------------------ |
-| **Monorepo**    | pnpm workspaces + Turborepo                                              |
-| **Web**         | Astro 6 static build                                                     |
-| **CMS**         | StudioCMS 0.4 on Astro SSR + Node adapter (md + blog plugins only)       |
-| **Database**    | libSQL (local file or Turso remote)                                      |
-| **Styling**     | Tailwind CSS 4 + shadcn/ui (web only)                                    |
-| **Search**      | Pagefind (build-time) + Fuse.js (client-side)                            |
-| **Testing**     | Vitest (unit) + Playwright (E2E)                                         |
-| **Linting**     | ESLint (flat config) + Prettier                                          |
-| **Git Hooks**   | Lefthook + commitlint                                                    |
-| **Auth**        | OAuth (GitHub + Google)                                                  |
-| **Markdown**    | remark-gfm → rehype-slug → rehype-autolink-headings → rehype-pretty-code |
-| **Code Blocks** | Expressive Code + TwoSlash                                               |
-
----
-
-## Architecture At A Glance
+## Architecture
 
 ```mermaid
-graph TB
-    subgraph Apps["pnpm Workspaces"]
-        WEB["apps/web<br/>Astro 6 static<br/>Public blog + search"]
-        CMS["apps/cms<br/>Astro 5 SSR<br/>StudioCMS dashboard"]
-    end
-
-    subgraph Data["Data Layer"]
-        DB[("libSQL / Turso<br/>CMS content + auth")]
-    end
-
-    subgraph Build["Build Output"]
-        DIST["apps/web/dist<br/>Static HTML/CSS/JS<br/>+ Pagefind index"]
-        SERVER["apps/cms/dist/server/entry.mjs<br/>Node.js standalone"]
-    end
-
-    subgraph Deploy["Deployment Targets"]
-        CDN["Static Hosting (CDN)"]
-        NODE["Node.js Server"]
-    end
-
-    WEB --> DIST
-    CMS --> DB
-    CMS --> SERVER
-    DIST --> CDN
-    SERVER --> NODE
-
-    style WEB fill:#a5d6a7,stroke:#2e7d32
-    style CMS fill:#90caf9,stroke:#1565c0
-    style DB fill:#ffcc80,stroke:#ef6c00
-    style CDN fill:#c8e6c9,stroke:#388e3c
-    style NODE fill:#bbdefb,stroke:#1565c0
+graph LR
+  CONTENT["apps/web/src/content/posts"] --> COLLECTIONS["Astro content collections"]
+  COLLECTIONS --> PAGES["Static pages and RSS"]
+  PAGES --> PAGEFIND["Pagefind index"]
+  PAGES --> DIST["apps/web/dist"]
+  DIST --> CDN["Static hosting"]
 ```
 
----
+## Routes
 
-## Available Routes
+- `/:lang/` — home
+- `/:lang/blog` — searchable archive
+- `/:lang/blog/:slug` — article
+- `/:lang/about` — author page
+- `/rss.xml` — RSS feed
 
-| Route             | Description                            |
-| ----------------- | -------------------------------------- |
-| `/`               | Home page                              |
-| `/blog`           | Blog listing                           |
-| `/blog/:slug`     | Individual blog post                   |
-| `/search`         | Search page (Pagefind + Fuse.js)       |
-| `/rss.xml`        | RSS feed                               |
-| `/studiocms`      | CMS dashboard in `apps/cms`            |
-| `/studiocms-blog` | CMS-managed blog content in `apps/cms` |
+## Commands
 
----
+| Command             | Purpose                         |
+| ------------------- | ------------------------------- |
+| `pnpm dev`          | Start the web app               |
+| `pnpm build`        | Build the static site           |
+| `pnpm preview`      | Preview the production build    |
+| `pnpm test`         | Run unit tests                  |
+| `pnpm test:e2e`     | Run Playwright tests            |
+| `pnpm lint`         | Run ESLint                      |
+| `pnpm format:check` | Check formatting                |
+| `pnpm typecheck`    | Run Astro and TypeScript checks |
+| `pnpm check`        | Run the full quality gate       |
 
-## Project Structure
+## Content workflow
 
-```
-├── apps/
-│   ├── web/                  # Static Astro public site
-│   │   ├── astro.config.mjs
-│   │   ├── src/              # Blog pages, components, content, tests
-│   │   ├── public/           # Static assets
-│   │   └── scripts/          # OG image and search index generation
-│   └── cms/                  # StudioCMS SSR admin/API app
-│       ├── astro.config.mjs
-│       ├── studiocms.config.mjs
-│       └── src/              # CMS routes, renderer, styles
-├── pnpm-workspace.yaml       # Workspace package boundaries
-├── turbo.json                # Turborepo task graph
-├── eslint.config.js          # ESLint flat config
-├── commitlint.config.js      # Conventional commit rules
-├── lefthook.yml              # Git hooks configuration
-├── playwright.config.ts      # Playwright E2E test config
-├── .prettierrc               # Prettier formatting rules
-├── .prettierignore           # Prettier ignore patterns
-├── e2e/                      # Playwright E2E tests
-│   ├── pages/                # Page-level E2E tests
-│   ├── components/           # Component E2E tests
-│   ├── fixtures/             # Test fixtures
-│   └── utils/                # Test utilities
-├── docs/                     # Documentation
-├── tender-series/            # Blog content files
-├── agents/                   # Agent definitions (markdown)
-├── skills/                   # Skills for agents
-├── rules/                    # Project rules and guidelines
-└── .claude/                  # Claude Code commands and skills
-```
-
----
-
-## Development Commands
-
-| Command             | Description                                       |
-| ------------------- | ------------------------------------------------- |
-| `pnpm dev`          | Start the public web dev server                   |
-| `pnpm web:dev`      | Start `apps/web` on port 4321                     |
-| `pnpm cms:dev`      | Start `apps/cms` on port 4322                     |
-| `pnpm build`        | Build web and CMS with Turborepo                  |
-| `pnpm web:build`    | Build the static web app                          |
-| `pnpm cms:build`    | Build the StudioCMS SSR app                       |
-| `pnpm preview`      | Preview the web production build locally          |
-| `pnpm cms:migrate`  | Run StudioCMS database migrations                 |
-| `pnpm studiocms`    | StudioCMS CLI tools                               |
-| `pnpm test`         | Run web unit tests (Vitest)                       |
-| `pnpm test:watch`   | Run tests in watch mode                           |
-| `pnpm test:e2e`     | Run E2E tests (Playwright)                        |
-| `pnpm test:e2e:ui`  | Run E2E tests with UI mode                        |
-| `pnpm lint`         | Check for lint errors                             |
-| `pnpm lint:fix`     | Auto-fix lint issues                              |
-| `pnpm format`       | Format code with Prettier                         |
-| `pnpm format:check` | Check formatting without modifying                |
-| `pnpm typecheck`    | Run TypeScript type checking                      |
-| `pnpm check`        | Run all checks (lint + format + test + typecheck) |
-
----
-
-## Content Management
-
-StudioCMS supports Markdown blog posts via the `@studiocms/md` and `@studiocms/blog` plugins.
-
-Public blog posts live in `apps/web/src/content/posts`. StudioCMS content is created and managed via the CMS app dashboard at `/studiocms`.
-
----
+Add or edit localized Markdown/MDX files under `apps/web/src/content/posts/{vi,en}`. Each post must satisfy the schema in `apps/web/src/content.config.ts`. A production build generates the OG image, static pages, and Pagefind search index.
 
 ## Deployment
-
-### Production Build
 
 ```bash
 pnpm install
 pnpm build
 ```
 
-Deploy `apps/web/dist` as the public static site. Deploy `apps/cms` separately as a Node SSR app.
-
-```bash
-pnpm cms:migrate
-pnpm cms:build
-node apps/cms/dist/server/entry.mjs
-```
-
-### Environment Variables
-
-See `.env.demo` for a template. Required variables:
-
-| Variable             | Description                          |
-| -------------------- | ------------------------------------ |
-| `CMS_LIBSQL_URL`     | `file:./libsql.db` or Turso URL      |
-| `CMS_ENCRYPTION_KEY` | Generate: `openssl rand --base64 16` |
-| `SITE_URL`         | Public web URL                       |
-| `CMS_SITE_URL`       | CMS/admin app URL                    |
-
-For production, configure OAuth credentials and set `SITE_URL` to your domain.
-
-See the [Deployment Guide](docs/guides/deployment.md) for full instructions.
-
----
-
-## Troubleshooting
-
-| Issue               | Solution                                             |
-| ------------------- | ---------------------------------------------------- |
-| Database not found  | Run `pnpm cms:migrate` to initialize                 |
-| OAuth login fails   | Verify callback URLs match your domain               |
-| Port already in use | Set `PORT=xxxx` env var or kill the existing process |
-| Build fails         | Run `pnpm typecheck` and `pnpm lint` to diagnose     |
-| Tests fail          | Run `pnpm test` to see which tests failed            |
-| Commit rejected     | Use Conventional Commits format: `type: subject`     |
-
----
-
-## Documentation
-
-| Document                                                         | What you'll learn            |
-| ---------------------------------------------------------------- | ---------------------------- |
-| [Getting Started](#quick-start)                                  | Set up and run locally       |
-| [Architecture](docs/reference/architecture.md)                   | System architecture overview |
-| [Environment Variables](docs/reference/environment-variables.md) | All config options           |
-| [Development Workflow](docs/guides/development-workflow.md)      | Commands, testing, git hooks |
-| [Content Management](docs/guides/content-management.md)          | Using the CMS dashboard      |
-| [Deployment](docs/guides/deployment.md)                          | Production deployment steps  |
-| [Coding Conventions](docs/contributing/conventions.md)           | Code style and standards     |
-
----
+Deploy `apps/web/dist` to any static host. Set `SITE_URL` for canonical URLs, RSS, sitemap, and social metadata.
 
 ## License
 

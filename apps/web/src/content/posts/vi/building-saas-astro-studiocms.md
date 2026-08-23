@@ -8,6 +8,11 @@ updatedAt: 2026-04-05
 tags: ['astro', 'saas', 'studiocms', 'web-development']
 language: 'vi'
 category: 'guides'
+faq:
+  - question: 'Khi nào Astro phù hợp với frontend SaaS?'
+    answer: 'Astro phù hợp khi sản phẩm nhiều nội dung, cần hiệu năng tốt hoặc chỉ có một phần nhỏ cần tương tác phía trình duyệt.'
+  - question: 'StudioCMS đảm nhiệm vai trò gì trong cấu trúc này?'
+    answer: 'StudioCMS cung cấp lớp quản lý nội dung, còn Astro tập trung render trải nghiệm công khai cho người dùng.'
 ---
 
 Trong hướng dẫn này, chúng ta sẽ đi qua việc xây dựng một ứng dụng SaaS production-ready sử dụng Astro cho frontend và StudioCMS để quản lý nội dung.

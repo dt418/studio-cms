@@ -26,15 +26,16 @@ docs/
 - [Tech Stack](../README.md#tech-stack)
 - [Available Routes](../README.md#available-routes)
 - [Design System](./reference/design-system.md)
+- [Figma token handoff](./design-system.figma.json)
 - [Component Usage](./guides/component-usage.md)
 - [Troubleshooting](../README.md#troubleshooting)
 
 ## Recommended Reading Path
 
-1. [Quick Start](../README.md#quick-start) to install dependencies, configure `.env`, run migrations, and start local apps.
+1. [Quick Start](../README.md#quick-start) to install dependencies, configure `.env`, and start the web app.
 2. [Development Workflow](./guides/development-workflow.md) for commands, tests, formatting, and git hooks.
-3. [Architecture Overview](./reference/architecture.md) to understand the `apps/web` and `apps/cms` split.
-4. [Deployment Guide](./guides/deployment.md) when preparing separate static web and Node SSR CMS deployments.
+3. [Architecture Overview](./reference/architecture.md) to understand the static content flow.
+4. [Deployment Guide](./guides/deployment.md) when preparing a static site deployment.
 
 ## Guides
 

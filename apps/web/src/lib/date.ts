@@ -4,6 +4,13 @@ const dateOptions = {
   day: 'numeric',
 } satisfies Intl.DateTimeFormatOptions
 
-export function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat('en-US', dateOptions).format(date)
+export type DateLocale = 'vi' | 'en'
+
+const localeMap: Record<DateLocale, string> = {
+  vi: 'vi-VN',
+  en: 'en-US',
+}
+
+export function formatDate(date: Date, locale: DateLocale = 'en'): string {
+  return new Intl.DateTimeFormat(localeMap[locale], dateOptions).format(date)
 }

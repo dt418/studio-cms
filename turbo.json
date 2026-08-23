@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalEnv": ["NODE_ENV", "CI", "SITE_URL", "CMS_*", "LIBSQL_URL", "LIBSQL_AUTH_TOKEN", "CLOUDFLARE_*"],
+  "globalEnv": ["NODE_ENV", "CI", "SITE_URL", "CLOUDFLARE_*"],
   "envMode": "strict",
   "tasks": {
     "build": {

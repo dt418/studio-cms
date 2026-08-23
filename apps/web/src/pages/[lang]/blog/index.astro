@@ -87,6 +87,12 @@ const canonicalUrl = getCanonicalUrl(lang, '/blog', siteUrl)
 
   <section class="container py-10">
     <StatsGrid stats={stats} />
-    <BlogFilter posts={posts} categories={categories} tags={tags} i18n={i18n.filter} />
+    <BlogFilter
+      posts={posts}
+      categories={categories}
+      tags={tags}
+      locale={lang}
+      i18n={i18n.filter}
+    />
   </section>
 </BaseLayout>

@@ -3,7 +3,7 @@ import react from '@astrojs/react'
 import tailwindcss from '@tailwindcss/vite'
 import remarkGfm from 'remark-gfm'
 import rehypeVietnameseSlug from './rehype-vietnamese-slug.mjs'
-import { rehypeHeadingIds } from '@astrojs/markdown-remark'
+import { rehypeHeadingIds, unified } from '@astrojs/markdown-remark'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 
 import astroExpressiveCode from 'astro-expressive-code'
@@ -13,6 +13,8 @@ import compress from '@playform/compress'
 export default defineConfig({
   site: process.env['SITE_URL'] ?? process.env['CF_PAGES_URL'] ?? 'http://localhost:4321',
   output: 'static',
+  // Keep v6-compatible whitespace semantics while the content templates migrate.
+  compressHTML: true,
   build: {
     inlineStylesheets: 'auto',
   },
@@ -44,11 +46,17 @@ export default defineConfig({
   integrations: [
     react(),
     astroExpressiveCode({
+      // Keep the copy control visible in dev and static previews even when the
+      // generated asset manifest has not been refreshed yet.
+      emitExternalStylesheet: false,
       themes: ['dracula', 'github-light'],
+      frames: {
+        showCopyToClipboardButton: true,
+      },
       styleOverrides: {
         borderRadius: '0.5rem',
         frames: {
-          shadowColor: '#124',
+          shadowColor: 'rgb(43 33 20)',
         },
       },
     }),
@@ -76,11 +84,13 @@ export default defineConfig({
   ],
 
   markdown: {
-    remarkPlugins: [remarkGfm],
-    rehypePlugins: [
-      rehypeVietnameseSlug,
-      rehypeHeadingIds,
-      [rehypeAutolinkHeadings, { behavior: 'wrap' }],
-    ],
+    processor: unified({
+      remarkPlugins: [remarkGfm],
+      rehypePlugins: [
+        rehypeVietnameseSlug,
+        rehypeHeadingIds,
+        [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+      ],
+    }),
   },
 })

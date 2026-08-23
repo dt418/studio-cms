@@ -24,12 +24,12 @@ const delayMap: Record<string, string> = {
 <section class="border-border bg-card/20 border-b">
   <div class="container py-10 lg:py-12">
     <div class="mb-8 flex items-end justify-between gap-3">
-      <p class="text-muted-foreground/50 font-mono text-[0.62rem] tracking-[0.28em] uppercase">
+      <p class="text-primary font-mono text-[0.66rem] tracking-[0.18em] uppercase">
         {title}
       </p>
       <a
         href={`/${lang}/blog`}
-        class="group text-muted-foreground/70 hover:text-foreground font-mono text-[0.72rem] tracking-[0.26em] uppercase transition-all duration-300"
+        class="group text-muted-foreground hover:text-primary font-mono text-[0.68rem] tracking-[0.18em] uppercase transition-all duration-300"
       >
         <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">
           {linkText}
@@ -45,9 +45,9 @@ const delayMap: Record<string, string> = {
           <a
             href={`/${lang}/blog?tag=${encodeURIComponent(name)}`}
             style={delayMap[index.toString()] ?? ''}
-            class="animate-fade-in-up border-border text-muted-foreground hover:border-accent-warm hover:text-accent-warm group relative inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs opacity-0 transition-all duration-300 hover:-ml-0.5 hover:bg-white/[0.03]"
+            class="animate-fade-in-up border-border text-muted-foreground hover:border-primary hover:text-primary group relative inline-flex items-center gap-2 rounded border px-3 py-1.5 text-xs opacity-0 transition-all duration-300 hover:-ml-0.5 hover:bg-white/[0.03]"
           >
-            <span class="bg-accent-warm absolute inset-y-0 left-0 w-0.5 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <span class="bg-primary absolute inset-y-0 left-0 w-0.5 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <span class="transition-colors duration-300">#{name}</span>
             <span class="text-muted-foreground/40 text-[0.65rem] transition-colors duration-300">
               {count}

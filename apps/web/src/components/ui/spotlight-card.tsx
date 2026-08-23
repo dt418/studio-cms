@@ -65,7 +65,7 @@ function SpotlightCard({
         setOpacity(0)
       },
       className: cn(
-        'border-border bg-card/30 relative overflow-hidden rounded-md border p-8 transition-all duration-300',
+        'border-border bg-card/30 relative overflow-hidden rounded-xl border p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-2xl',
         className
       ),
       children: (

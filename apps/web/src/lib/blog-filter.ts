@@ -88,8 +88,6 @@ function renderCard(post: SerializedPost, i18n: FilterI18n): string {
   `
 }
 
-let listenersRegistered = false
-
 export function initBlogFilter(): void {
   const postsData: SerializedPost[] = JSON.parse(
     document.getElementById('filter-data')?.textContent?.trim() || '[]'
@@ -157,12 +155,21 @@ export function initBlogFilter(): void {
     resultsContainer!.innerHTML = result.map((post) => renderCard(post, i18n)).join('')
   }
 
-  if (!listenersRegistered) {
-    listenersRegistered = true
+  if (searchInput.dataset.filterBound !== 'true') {
     searchInput!.addEventListener('input', applyFilters)
+    searchInput.dataset.filterBound = 'true'
+  }
+  if (categoryInput.dataset.filterBound !== 'true') {
     categoryInput!.addEventListener('change', applyFilters)
+    categoryInput.dataset.filterBound = 'true'
+  }
+  if (tagInput.dataset.filterBound !== 'true') {
     tagInput!.addEventListener('change', applyFilters)
+    tagInput.dataset.filterBound = 'true'
+  }
+  if (sortInput.dataset.filterBound !== 'true') {
     sortInput!.addEventListener('change', applyFilters)
+    sortInput.dataset.filterBound = 'true'
   }
 
   applyFilters()

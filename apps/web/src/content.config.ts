@@ -50,6 +50,14 @@ export const posts = defineCollection({
 
     // ⚡ Optional nhưng hữu ích
     readingTime: z.number().optional(),
+    faq: z
+      .array(
+        z.object({
+          question: z.string(),
+          answer: z.string(),
+        })
+      )
+      .default([]),
   }),
 })
 

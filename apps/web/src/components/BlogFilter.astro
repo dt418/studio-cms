@@ -7,6 +7,7 @@ import { FilterSelect } from './ui/FilterSelect'
 import { formatDate } from '@/lib/date'
 import { getSlug } from '@/lib/content-graph'
 import { getPostPath } from '@/lib/routes'
+import type { DateLocale } from '@/lib/date'
 
 interface FilterI18n {
   sortNewest: string
@@ -37,9 +38,10 @@ interface Props {
   initialCategory?: string
   initialTag?: string
   i18n?: FilterI18n
+  locale?: DateLocale
 }
 
-const { posts, categories, tags, initialCategory, initialTag, i18n } = Astro.props
+const { posts, categories, tags, initialCategory, initialTag, i18n, locale = 'en' } = Astro.props
 
 const serializedPosts = posts.map((post) => {
   const data = {
@@ -47,7 +49,7 @@ const serializedPosts = posts.map((post) => {
     slug: getSlug(post),
     path: getPostPath(post),
     publishedAt: post.data.publishedAt.toISOString(),
-    formattedDate: formatDate(post.data.publishedAt),
+    formattedDate: formatDate(post.data.publishedAt, locale),
   }
   return { ...post, data }
 })

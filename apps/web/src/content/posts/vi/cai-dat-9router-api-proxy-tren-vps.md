@@ -7,6 +7,11 @@ publishedAt: 2026-05-08
 updatedAt: 2026-05-20
 tags: ['9router', 'vps', 'ai', 'proxy', 'cloudflare-tunnel', 'pm2', 'api-gateway']
 category: 'tutorials'
+faq:
+  - question: 'Vì sao nên đặt API proxy trước các nhà cung cấp AI?'
+    answer: 'Proxy tập trung quản lý key, xoay vòng nhà cung cấp, xử lý giới hạn tốc độ và theo dõi mức sử dụng qua một endpoint được kiểm soát.'
+  - question: 'Cần bảo vệ những gì khi đưa lên môi trường production?'
+    answer: 'Hãy bảo vệ credential của nhà cung cấp, giới hạn quyền truy cập proxy, kiểm tra request và theo dõi mức dùng cùng tỷ lệ lỗi.'
 ---
 
 Chạy một proxy trung gian giữa ứng dụng của bạn và các AI provider giúp tập trung quản lý API keys, xoay vòng provider khi rate limit, và ẩn credentials thật khỏi client. 9router làm chính xác việc đó.

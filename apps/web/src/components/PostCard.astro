@@ -15,7 +15,7 @@ export interface Props {
 
 const { post, large = false, spotlight = false, lang = DEFAULT_LOCALE } = Astro.props
 const { publishedAt } = post.data
-const formattedDate = formatDate(publishedAt)
+const formattedDate = formatDate(publishedAt, lang)
 const postPath = getPostPath(post)
 ---
 

@@ -14,27 +14,28 @@ const i18n = getTranslations(lang)
 const { title, excerpt, category, tags } = post.data
 ---
 
-<div class="group/card relative mb-4 flex items-center gap-3">
+<div class="group/card relative mb-4 flex flex-wrap items-center gap-3">
   <span
-    class="bg-accent-warm absolute top-1/2 -left-4 h-3 w-0.5 -translate-y-1/2 rounded-full opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+    class="bg-primary absolute top-1/2 -left-4 h-3 w-0.5 -translate-y-1/2 rounded-full opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
   ></span>
-  <span class="text-muted-foreground/50 font-mono text-[0.68rem] tracking-[0.26em] uppercase">
+  <span
+    class="bg-accent text-accent-foreground rounded px-2 py-1 font-mono text-[0.62rem] font-bold tracking-[0.16em] uppercase"
+  >
     {category}
   </span>
-  <span class="text-muted-foreground/30">/</span>
-  <time class="text-muted-foreground/40 font-mono text-[0.68rem] tracking-[0.26em] uppercase">
+  <time class="text-muted-foreground font-mono text-[0.68rem] tracking-[0.18em] uppercase">
     {formattedDate}
   </time>
 </div>
 <h3
-  class="group/title text-foreground group-hover/title:text-accent-warm mb-4 text-xl font-semibold tracking-tight transition-colors duration-300 lg:text-2xl"
+  class="group/title text-foreground group-hover/title:text-primary mb-4 font-serif text-xl font-bold tracking-tight transition-colors duration-300 lg:text-3xl"
 >
   {title}
 </h3>
 <p
   class={large
-    ? 'text-muted-foreground/70 mb-6 text-sm leading-7 transition-opacity duration-300 group-hover:opacity-80'
-    : 'text-muted-foreground/60 mb-4 text-sm leading-6 transition-opacity duration-300 group-hover:opacity-80'}
+    ? 'text-muted-foreground mb-6 text-sm leading-7 transition-opacity duration-300 group-hover:opacity-80'
+    : 'text-muted-foreground mb-4 text-sm leading-6 transition-opacity duration-300 group-hover:opacity-80'}
 >
   {excerpt}
 </p>
@@ -42,13 +43,13 @@ const { title, excerpt, category, tags } = post.data
   large && (
     <div class="mb-6 flex flex-wrap gap-2">
       {tags.slice(0, 3).map((tag) => (
-        <span class="text-muted-foreground/50 border-border border px-2 py-1 font-mono text-[0.62rem] tracking-[0.22em] uppercase">
+        <span class="text-muted-foreground border-border border px-2 py-1 font-mono text-[0.62rem] tracking-[0.18em] uppercase">
           {tag}
         </span>
       ))}
     </div>
   )
 }
-<span class="text-muted-foreground/50 font-mono text-[0.62rem] tracking-[0.24em] uppercase">
+<span class="text-primary font-mono text-[0.62rem] font-semibold tracking-[0.18em] uppercase">
   {i18n.post.readMore}
 </span>

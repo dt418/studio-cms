@@ -1,0 +1,93 @@
+---
+import { ChevronDown, CircleHelp } from 'lucide-react'
+
+interface FAQItem {
+  question: string
+  answer: string
+}
+
+interface Props {
+  items: FAQItem[]
+  i18n: {
+    faqEyebrow: string
+    faqTitle: string
+    faqDescription: string
+  }
+}
+
+const { items, i18n } = Astro.props
+---
+
+{
+  items.length > 0 && (
+    <section class="border-border border-y" aria-labelledby="post-faq-title" data-post-faq>
+      <div class="container py-14 lg:py-18">
+        <div class="mx-auto grid grid-cols-1 gap-8 lg:grid-cols-[200px_1fr_240px] lg:gap-12">
+          <div class="hidden lg:block" aria-hidden="true" />
+          <div class="min-w-0 lg:col-start-2">
+            <div class="mb-8 max-w-2xl">
+              <p class="text-primary font-mono text-[0.66rem] tracking-[0.18em] uppercase">
+                {i18n.faqEyebrow}
+              </p>
+              <h2 id="post-faq-title" class="mt-3 font-serif text-3xl font-bold tracking-tight">
+                {i18n.faqTitle}
+              </h2>
+              <p class="text-muted-foreground mt-3 text-base leading-7">{i18n.faqDescription}</p>
+            </div>
+
+            <div class="grid gap-3 md:grid-cols-2">
+              {items.map((item) => (
+                <details class="group border-border bg-card/20 open:bg-card/45 rounded-lg border p-5 transition-colors">
+                  <summary class="text-foreground flex cursor-pointer list-none items-start justify-between gap-4 font-semibold [&::-webkit-details-marker]:hidden">
+                    <span class="inline-flex min-w-0 items-start gap-2.5">
+                      <CircleHelp
+                        aria-hidden="true"
+                        className="text-primary mt-0.5 shrink-0"
+                        size={17}
+                        strokeWidth={1.75}
+                      />
+                      <span>{item.question}</span>
+                    </span>
+                    <ChevronDown
+                      aria-hidden="true"
+                      className="text-muted-foreground mt-0.5 shrink-0 transition-transform duration-300 group-open:rotate-180"
+                      size={17}
+                      strokeWidth={1.75}
+                    />
+                  </summary>
+                  <p class="text-muted-foreground border-border/70 mt-4 border-t pt-4 text-sm leading-7">
+                    {item.answer}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<script>
+  const initFaqAccordion = () => {
+    const faq = document.querySelector<HTMLElement>('[data-post-faq]')
+    if (!faq || faq.dataset.accordionBound === 'true') return
+
+    faq.dataset.accordionBound = 'true'
+    faq.addEventListener('click', (event) => {
+      const target = event.target
+      if (!(target instanceof Element)) return
+
+      const summary = target.closest('summary')
+      const details = summary?.parentElement
+      if (!(details instanceof HTMLDetailsElement) || details.open) return
+
+      faq.querySelectorAll<HTMLDetailsElement>('details[open]').forEach((openDetails) => {
+        if (openDetails !== details) openDetails.open = false
+      })
+    })
+  }
+
+  document.addEventListener('astro:page-load', initFaqAccordion)
+  initFaqAccordion()
+</script>

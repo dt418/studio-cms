@@ -6,6 +6,7 @@ import LanguageSwitcher from '@/components/LanguageSwitcher.astro'
 import { getTranslations } from '@/lib/i18n'
 import { getWebMCPTools } from '@/lib/agent-metadata'
 import type { SupportedLocale } from '@/lib/content-utils'
+import { BookOpenText, Code2, House, Mail, Menu, Moon, Rss, Sun, UserRound } from 'lucide-react'
 
 export interface Props {
   title: string
@@ -62,8 +63,8 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title={i18n.rss.title} href="/rss.xml" />
-    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="rgb(14 13 12)" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="rgb(246 245 241)" media="(prefers-color-scheme: light)" />
 
     <script is:inline>
       try {
@@ -156,9 +157,44 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
         }
       })()
     </script>
+    <script is:inline>
+      ;(function () {
+        function setTheme(theme) {
+          const root = document.documentElement
+          root.classList.toggle('dark', theme === 'dark')
+          localStorage.setItem('theme-config', JSON.stringify({ theme }))
+          document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
+            button.setAttribute('aria-pressed', String(theme === 'dark'))
+            const label =
+              theme === 'dark'
+                ? button.getAttribute('data-theme-light-label')
+                : button.getAttribute('data-theme-dark-label')
+            if (label) button.setAttribute('title', label)
+          })
+          document.querySelectorAll('[data-theme-icon]').forEach(function (icon) {
+            icon.classList.toggle(
+              'hidden',
+              icon.getAttribute('data-theme-icon') !== (theme === 'dark' ? 'light' : 'dark')
+            )
+          })
+        }
+
+        document.addEventListener('click', function (event) {
+          const target = event.target
+          if (!(target instanceof Element)) return
+          const button = target.closest('[data-theme-toggle]')
+          if (!button) return
+          setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark')
+        })
+
+        document.addEventListener('astro:page-load', function () {
+          setTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light')
+        })
+      })()
+    </script>
   </head>
   <body
-    class="bg-background text-foreground overflow-x-hidden antialiased"
+    class="bg-background text-foreground flex min-h-screen flex-col overflow-x-hidden antialiased"
     style="font-family: var(--font-sans);"
   >
     <a
@@ -168,71 +204,202 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
       {i18n.nav.skipToContent}
     </a>
 
-    <header
-      class="nav border-border sticky top-0 z-50 flex items-center justify-between border-b bg-[rgba(10,10,10,0.92)] px-8 py-6 backdrop-blur-[20px] lg:px-12"
-    >
-      <a
-        href={`/${lang}`}
-        class="nav-logo font-display text-foreground hover:text-primary text-[1.5rem] font-bold tracking-[-0.03em] transition-colors"
-        aria-label={i18n.nav.brandHome}
-      >
-        DT<span class="text-primary">.</span>
-      </a>
-      <nav class="nav-links flex items-center gap-8">
+    <header class="border-border bg-background/90 sticky top-0 z-50 border-b backdrop-blur-xl">
+      <div class="container flex h-16 items-center justify-between gap-4">
         <a
-          href={`/${lang}/blog`}
-          class:list={[
-            'nav-link font-mono text-[0.7rem] tracking-[0.1em] uppercase transition-colors',
-            isBlogActive
-              ? 'text-foreground border-foreground border-b pb-0.5'
-              : 'text-muted-foreground hover:text-primary',
-          ]}
+          href={`/${lang}`}
+          class="group flex items-center gap-2.5"
+          aria-label={i18n.nav.brandHome}
         >
-          {i18n.nav.writing}
+          <span
+            class="bg-foreground text-background group-hover:bg-primary flex h-8 w-8 items-center justify-center rounded font-mono text-xs font-bold transition-colors"
+          >
+            DT
+          </span>
+          <span class="font-display text-foreground text-lg font-bold tracking-tight">
+            DanhThanh<span class="text-primary">.dev</span>
+          </span>
         </a>
-        <a
-          href={`/${lang}/about`}
-          class:list={[
-            'nav-link font-mono text-[0.7rem] tracking-[0.1em] uppercase transition-colors',
-            isAboutActive
-              ? 'text-foreground border-foreground border-b pb-0.5'
-              : 'text-muted-foreground hover:text-primary',
-          ]}
-        >
-          {i18n.nav.about}
-        </a>
-        <a
-          href="/rss.xml"
-          class="nav-badge bg-border text-muted-foreground hover:text-primary rounded-full px-3 py-1.5 font-mono text-[0.65rem] tracking-[0.08em] transition-colors"
-        >
-          RSS
-        </a>
-        <LanguageSwitcher
-          currentLang={lang}
-          currentPath={currentPath}
-          label={i18n.language.navigation}
-          languageNames={i18n.language.names}
-          getSwitchLabel={i18n.language.switchTo}
-        />
-      </nav>
+
+        <nav class="nav-links hidden items-center gap-8 md:flex" aria-label={i18n.nav.primary}>
+          <a
+            href={`/${lang}`}
+            class:list={[
+              'nav-link inline-flex items-center gap-1.5 font-mono text-[0.68rem] tracking-[0.16em] uppercase transition-colors',
+              isHomepage
+                ? 'text-primary border-primary border-b pb-1'
+                : 'text-muted-foreground hover:text-primary',
+            ]}
+          >
+            <House aria-hidden="true" size={13} strokeWidth={1.75} />
+            {i18n.schema.home}
+          </a>
+          <a
+            href={`/${lang}/blog`}
+            class:list={[
+              'nav-link inline-flex items-center gap-1.5 font-mono text-[0.68rem] tracking-[0.16em] uppercase transition-colors',
+              isBlogActive && !isHomepage
+                ? 'text-primary border-primary border-b pb-1'
+                : 'text-muted-foreground hover:text-primary',
+            ]}
+          >
+            <BookOpenText aria-hidden="true" size={13} strokeWidth={1.75} />
+            {i18n.nav.writing}
+          </a>
+          <a
+            href={`/${lang}/about`}
+            class:list={[
+              'nav-link inline-flex items-center gap-1.5 font-mono text-[0.68rem] tracking-[0.16em] uppercase transition-colors',
+              isAboutActive
+                ? 'text-primary border-primary border-b pb-1'
+                : 'text-muted-foreground hover:text-primary',
+            ]}
+          >
+            <UserRound aria-hidden="true" size={13} strokeWidth={1.75} />
+            {i18n.nav.about}
+          </a>
+          <a
+            href="/rss.xml"
+            class="nav-badge border-border text-muted-foreground hover:border-primary hover:text-primary inline-flex items-center gap-1.5 rounded border px-3 py-1.5 font-mono text-[0.65rem] tracking-[0.12em] uppercase transition-colors"
+          >
+            <Rss aria-hidden="true" size={13} strokeWidth={1.75} />
+            {i18n.nav.rss}
+          </a>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            data-theme-toggle
+            data-theme-dark-label={i18n.nav.themeDark}
+            data-theme-light-label={i18n.nav.themeLight}
+            aria-pressed="true"
+            title={i18n.nav.toggleTheme}
+            class="border-border text-muted-foreground hover:border-primary hover:text-primary hidden h-9 w-9 items-center justify-center rounded border font-mono text-xs transition-colors sm:flex"
+          >
+            <Sun data-theme-icon="light" aria-hidden="true" size={15} strokeWidth={1.75} />
+            <Moon
+              data-theme-icon="dark"
+              aria-hidden="true"
+              size={15}
+              strokeWidth={1.75}
+              className="hidden"
+            />
+          </button>
+          <div class="hidden sm:block">
+            <LanguageSwitcher
+              currentLang={lang}
+              currentPath={currentPath}
+              label={i18n.language.navigation}
+              languageNames={i18n.language.names}
+              getSwitchLabel={i18n.language.switchTo}
+            />
+          </div>
+          <details class="relative md:hidden">
+            <summary
+              class="border-border text-muted-foreground hover:border-primary hover:text-primary flex h-9 w-9 list-none items-center justify-center rounded border font-mono text-sm transition-colors"
+              aria-label={i18n.nav.menu}
+            >
+              <Menu aria-hidden="true" size={16} strokeWidth={1.75} />
+            </summary>
+            <div
+              class="border-border bg-background absolute top-12 right-0 w-56 rounded-lg border p-3 shadow-2xl"
+            >
+              <nav class="flex flex-col gap-1 font-mono text-xs tracking-[0.16em] uppercase">
+                <a
+                  href={`/${lang}`}
+                  class="hover:bg-card hover:text-primary inline-flex items-center gap-2 rounded px-3 py-3"
+                  ><House aria-hidden="true" size={14} strokeWidth={1.75} />{i18n.schema.home}</a
+                >
+                <a
+                  href={`/${lang}/blog`}
+                  class="hover:bg-card hover:text-primary inline-flex items-center gap-2 rounded px-3 py-3"
+                  ><BookOpenText aria-hidden="true" size={14} strokeWidth={1.75} />{
+                    i18n.nav.writing
+                  }</a
+                >
+                <a
+                  href={`/${lang}/about`}
+                  class="hover:bg-card hover:text-primary inline-flex items-center gap-2 rounded px-3 py-3"
+                  ><UserRound aria-hidden="true" size={14} strokeWidth={1.75} />{i18n.nav.about}</a
+                >
+                <a
+                  href="/rss.xml"
+                  class="hover:bg-card hover:text-primary inline-flex items-center gap-2 rounded px-3 py-3"
+                  ><Rss aria-hidden="true" size={14} strokeWidth={1.75} />{i18n.nav.rss}</a
+                >
+                <button
+                  type="button"
+                  data-theme-toggle
+                  data-theme-dark-label={i18n.nav.themeDark}
+                  data-theme-light-label={i18n.nav.themeLight}
+                  class="text-muted-foreground hover:bg-card hover:text-primary inline-flex items-center gap-2 rounded px-3 py-3 text-left"
+                  ><Sun
+                    data-theme-icon="light"
+                    aria-hidden="true"
+                    size={14}
+                    strokeWidth={1.75}
+                  /><Moon
+                    data-theme-icon="dark"
+                    aria-hidden="true"
+                    size={14}
+                    strokeWidth={1.75}
+                    className="hidden"
+                  />{i18n.nav.toggleTheme}</button
+                >
+                <div class="border-border mt-2 border-t pt-2">
+                  <LanguageSwitcher
+                    currentLang={lang}
+                    currentPath={currentPath}
+                    label={i18n.language.navigation}
+                    languageNames={i18n.language.names}
+                    getSwitchLabel={i18n.language.switchTo}
+                  />
+                </div>
+              </nav>
+            </div>
+          </details>
+        </div>
+      </div>
     </header>
 
     <main id="main-content" tabindex="-1" class="flex-1">
       <slot />
     </main>
 
-    <footer class="border-border flex items-center justify-between border-t px-8 py-6 lg:px-12">
-      <span class="text-muted-foreground font-mono text-[0.65rem] tracking-[0.08em]">
-        DanhThanh.dev © {new Date().getFullYear()}
-      </span>
-      <div class="flex items-center gap-6">
-        <LanguageSwitcher
-          currentLang={lang}
-          currentPath={currentPath}
-          label={i18n.language.footerNavigation}
-          languageNames={i18n.language.names}
-          getSwitchLabel={i18n.language.switchTo}
-        />
+    <footer class="border-border border-t">
+      <div
+        class="container flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <span class="text-muted-foreground font-mono text-[0.65rem] tracking-[0.14em] uppercase">
+          DanhThanh.dev © {new Date().getFullYear()}
+        </span>
+        <div class="flex items-center gap-6">
+          <a
+            href={`mailto:${SITE.email}`}
+            class="text-muted-foreground hover:text-primary inline-flex items-center gap-1.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase transition-colors"
+            ><Mail aria-hidden="true" size={13} strokeWidth={1.75} />{i18n.footer.email}</a
+          >
+          <a
+            href={SITE.social.github}
+            class="text-muted-foreground hover:text-primary inline-flex items-center gap-1.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase transition-colors"
+            ><Code2 aria-hidden="true" size={13} strokeWidth={1.75} />{i18n.footer.github}</a
+          >
+          <a
+            href="/rss.xml"
+            class="text-muted-foreground hover:text-primary inline-flex items-center gap-1.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase transition-colors"
+            ><Rss aria-hidden="true" size={13} strokeWidth={1.75} />{i18n.footer.rss}</a
+          >
+        </div>
+        <div class="sm:hidden">
+          <LanguageSwitcher
+            currentLang={lang}
+            currentPath={currentPath}
+            label={i18n.language.footerNavigation}
+            languageNames={i18n.language.names}
+            getSwitchLabel={i18n.language.switchTo}
+          />
+        </div>
       </div>
     </footer>
   </body>

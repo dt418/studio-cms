@@ -8,6 +8,11 @@ updatedAt: 2026-05-20
 tags: ['9router', 'vps', 'ai', 'proxy', 'cloudflare-tunnel', 'pm2', 'api-gateway']
 language: 'en'
 category: 'tutorials'
+faq:
+  - question: 'Why place an API proxy in front of AI providers?'
+    answer: 'A proxy centralizes key management, provider rotation, rate-limit handling, and usage tracking behind one controlled endpoint.'
+  - question: 'What should be protected in production?'
+    answer: 'Protect provider credentials, restrict access to the proxy, validate requests, and monitor usage and error rates.'
 ---
 
 Running a proxy layer between your application and AI providers helps centralize API key management, rotate providers when hitting rate limits, and hide real credentials from clients. 9router does exactly that.

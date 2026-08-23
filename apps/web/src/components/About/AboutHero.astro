@@ -1,0 +1,35 @@
+---
+interface Props {
+  eyebrow: string
+  title: string
+  intro: string
+  monogram: string
+  monogramLabel: string
+}
+
+const { eyebrow, title, intro, monogram, monogramLabel } = Astro.props
+---
+
+<div
+  class="border-border grid gap-10 border-b pb-12 sm:gap-12 sm:pb-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(180px,0.45fr)] lg:items-center"
+>
+  <div>
+    <p
+      class="text-primary border-primary border-l-2 pl-3 font-mono text-xs tracking-[0.2em] uppercase"
+    >
+      {eyebrow}
+    </p>
+    <h1 class="mt-4 font-serif text-5xl leading-none font-bold tracking-tight sm:text-7xl">
+      {title}
+    </h1>
+    <p class="text-muted-foreground mt-6 max-w-2xl text-base leading-8 sm:text-lg">{intro}</p>
+  </div>
+  <div class="justify-self-start lg:justify-self-end">
+    <div
+      class="bg-foreground text-background flex h-32 w-32 items-center justify-center rounded-2xl font-serif text-5xl font-bold shadow-xl shadow-black/20 sm:h-36 sm:w-36"
+      aria-label={monogramLabel}
+    >
+      {monogram}
+    </div>
+  </div>
+</div>

@@ -8,6 +8,11 @@ updatedAt: 2025-02-10
 tags: ['typescript', 'programming', 'generics']
 language: 'vi'
 category: 'tutorials'
+faq:
+  - question: 'Vì sao nên dùng generics trong TypeScript?'
+    answer: 'Generics cho phép một hàm hoặc component làm việc với nhiều kiểu dữ liệu mà vẫn giữ được thông tin kiểu chính xác.'
+  - question: 'Khi nào nên giới hạn một generic?'
+    answer: 'Hãy thêm constraint khi phần cài đặt phụ thuộc vào một thuộc tính hoặc khả năng xác định của kiểu dữ liệu.'
 ---
 
 # Mastering TypeScript Generics
