@@ -1,10 +1,10 @@
 # E2E Tests
 
-End-to-end tests for the StudioCMS Blog using Playwright.
+End-to-end tests for the Astro blog using Playwright.
 
 ## Setup
 
-Tests are configured to run against the preview server. The project must be built before running E2E tests.
+Tests run against the Astro dev server started by Playwright. A separate CMS or database is not required.
 
 ## Running Tests
 

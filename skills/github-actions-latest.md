@@ -279,7 +279,7 @@ When updating GitHub Actions:
 
 ## Project-Specific Notes
 
-### StudioCMS Blog Workflows
+### Astro Blog Workflows
 
 **Active Workflows:**
 
@@ -300,5 +300,5 @@ When updating GitHub Actions:
 
 **Environment Variables:**
 
-- `CMS_ENCRYPTION_KEY` - Stored as GitHub secret
+- `SITE_URL` - Used when building canonical URLs and feeds
 - `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` - Set to true for Node.js 24

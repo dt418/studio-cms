@@ -32,13 +32,13 @@ You are an expert in Playwright end-to-end testing for Astro projects. You help 
 
 ## Project Context
 
-This is a StudioCMS Blog project with:
-- Astro 5 SSR mode
+This is a file-based Astro blog with:
+- Astro 7 static output
 - TypeScript strict mode enabled
 - Tailwind CSS styling
 - React integration for interactive components
 - E2E tests in `e2e/` directory
-- Tests run against preview server (http://localhost:4321)
+- Tests run against the Astro dev server (http://localhost:4321)
 
 ## Testing Guidelines
 
