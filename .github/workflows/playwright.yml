@@ -21,22 +21,13 @@ jobs:
         run: pnpm install
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
-      - name: Run database migrations
-        run: pnpm cms:migrate
-        env:
-          CMS_LIBSQL_URL: file:./libsql.db
-          CMS_ENCRYPTION_KEY: ${{ secrets.CMS_ENCRYPTION_KEY }}
       - name: Build application
         run: pnpm build
         env:
-          CMS_LIBSQL_URL: file:./libsql.db
-          CMS_ENCRYPTION_KEY: ${{ secrets.CMS_ENCRYPTION_KEY }}
           SITE_URL: http://localhost:4321
       - name: Run Playwright tests
         run: pnpm test:e2e
         env:
-          CMS_LIBSQL_URL: file:./libsql.db
-          CMS_ENCRYPTION_KEY: ${{ secrets.CMS_ENCRYPTION_KEY }}
           SITE_URL: http://localhost:4321
       - uses: actions/upload-artifact@v7
         if: always()

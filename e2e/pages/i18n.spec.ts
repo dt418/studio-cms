@@ -38,7 +38,7 @@ test.describe('i18n: Locale Home Pages', () => {
 
     test(`${locale} nav links to ${locale} blog`, async ({ page }) => {
       await page.goto(home)
-      const blogLink = page.locator(`header a[href="${blog}"]`)
+      const blogLink = page.locator(`header nav.nav-links a[href="${blog}"]`)
       await expect(blogLink).toBeVisible()
     })
 
@@ -124,7 +124,7 @@ test.describe('i18n: Blog Post Pages', () => {
 test.describe('i18n: Language Switcher', () => {
   test('switcher is visible on home page', async ({ page }) => {
     await page.goto('/')
-    const switcher = page.locator('a[hreflang="vi"]').first()
+    const switcher = page.locator('[data-testid="header-language-switcher"] a[hreflang="vi"]')
     await expect(switcher).toBeVisible()
   })
 
@@ -150,8 +150,9 @@ test.describe('i18n: Language Switcher', () => {
   })
 
   test('footer switcher works', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 })
     await page.goto('/vi/')
-    const footerSwitcher = page.locator('footer a[hreflang="en"]').first()
+    const footerSwitcher = page.locator('[data-testid="footer-language-switcher"] a[hreflang="en"]')
     await footerSwitcher.click()
     await expect(page).toHaveURL(/\/en\//)
   })

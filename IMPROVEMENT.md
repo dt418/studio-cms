@@ -86,4 +86,3 @@ The following E2E testing infrastructure has been added to improve test coverage
 - Cache `getCollection('posts')` to avoid 3× re-derivation per SSR request.
 - Frontmatter parser in `scripts/generate-search-index.mjs` should use a real YAML parser (`gray-matter` or `js-yaml`) rather than the regex shortcut.
 - Theme toggle component (`ThemeToggle.astro`) is defined but not mounted in `BaseLayout`; `class="theme-dark"` is hardcoded on `<html>`.
-- StudioCMS dependencies are declared but the homepage and blog read directly from `src/content/posts` via the `glob` loader; verify if the StudioCMS integration is intended.

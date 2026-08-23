@@ -66,7 +66,7 @@ test.describe('Blog Listing Page', () => {
 
   test('navigation from home page works', async ({ page }) => {
     await page.goto('/')
-    const blogLink = page.locator('header a[href="/vi/blog"]')
+    const blogLink = page.locator('header nav.nav-links a[href="/vi/blog"]')
     await blogLink.click()
     await expect(page).toHaveURL('/vi/blog')
   })

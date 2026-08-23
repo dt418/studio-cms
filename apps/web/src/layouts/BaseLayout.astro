@@ -6,7 +6,18 @@ import LanguageSwitcher from '@/components/LanguageSwitcher.astro'
 import { getTranslations } from '@/lib/i18n'
 import { getWebMCPTools } from '@/lib/agent-metadata'
 import type { SupportedLocale } from '@/lib/content-utils'
-import { BookOpenText, Code2, House, Mail, Menu, Moon, Rss, Sun, UserRound } from 'lucide-react'
+import {
+  BookOpenText,
+  Code2,
+  Contact,
+  House,
+  Mail,
+  Menu,
+  Moon,
+  Rss,
+  Sun,
+  UserRound,
+} from 'lucide-react'
 
 export interface Props {
   title: string
@@ -286,7 +297,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
               className="hidden"
             />
           </button>
-          <div class="hidden sm:block">
+          <div data-testid="header-language-switcher" class="hidden sm:block">
             <LanguageSwitcher
               currentLang={lang}
               currentPath={currentPath}
@@ -374,7 +385,8 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
         <span class="text-muted-foreground font-mono text-[0.65rem] tracking-[0.14em] uppercase">
           DanhThanh.dev © {new Date().getFullYear()}
         </span>
-        <div class="flex items-center gap-6">
+        <nav class="flex items-center gap-6" aria-label={i18n.footer.links}>
+          <span class="sr-only">{i18n.footer.links}</span>
           <a
             href={`mailto:${SITE.email}`}
             class="text-muted-foreground hover:text-primary inline-flex items-center gap-1.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase transition-colors"
@@ -390,8 +402,13 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
             class="text-muted-foreground hover:text-primary inline-flex items-center gap-1.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase transition-colors"
             ><Rss aria-hidden="true" size={13} strokeWidth={1.75} />{i18n.footer.rss}</a
           >
-        </div>
-        <div class="sm:hidden">
+          <a
+            href={SITE.social.linkedin}
+            class="text-muted-foreground hover:text-primary inline-flex items-center gap-1.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase transition-colors"
+            ><Contact aria-hidden="true" size={13} strokeWidth={1.75} />{i18n.footer.linkedin}</a
+          >
+        </nav>
+        <div data-testid="footer-language-switcher" class="sm:hidden">
           <LanguageSwitcher
             currentLang={lang}
             currentPath={currentPath}

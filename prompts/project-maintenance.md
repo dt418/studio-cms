@@ -10,7 +10,7 @@ Focus areas:
 
 - Keep `AGENTS.md`, `CODING_RULES.md`, `docs/**`, `skills/**`, and agent harness guidance aligned
   with the current monorepo layout.
-- Prefer `apps/web` and `apps/cms` paths over stale root `src/*` paths.
+- Prefer `apps/web` paths over stale root `src/*` paths.
 - Keep commands aligned with root `package.json` scripts.
 - Preserve generated-artifact boundaries for `dist/**`, Pagefind output, and OG image generation.
 - Run `pnpm lint:md` for documentation changes and `pnpm check` for broad changes.

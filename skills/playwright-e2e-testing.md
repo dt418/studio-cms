@@ -217,7 +217,7 @@ pnpm exec playwright install
 
 ## Project-Specific Notes
 
-### StudioCMS Blog E2E Tests
+### Astro Blog E2E Tests
 
 **Covered Routes:**
 
@@ -238,6 +238,6 @@ pnpm exec playwright install
 
 **Key Considerations:**
 
-- Tests run against preview server, not dev server
-- Database content may vary between environments
-- Use realistic test data or mock responses
+- Tests run against the Astro dev server started by Playwright
+- Content is loaded from the checked-in Markdown collections
+- Keep assertions independent of generated content ordering

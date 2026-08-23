@@ -1,14 +1,14 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Navigation', () => {
-test('header navigation works', async ({ page }) => {
+  test('header navigation works', async ({ page }) => {
     await page.goto('/')
 
     const branding = page.locator('header a[href="/vi"]').first()
     await expect(branding).toBeVisible()
     await expect(branding).toContainText('DT')
 
-    const blogLink = page.locator('header a[href="/vi/blog"]')
+    const blogLink = page.locator('header nav.nav-links a[href="/vi/blog"]')
     await expect(blogLink).toBeVisible()
     await expect(blogLink).toContainText('viết')
 
@@ -19,7 +19,7 @@ test('header navigation works', async ({ page }) => {
   test('header has RSS link', async ({ page }) => {
     await page.goto('/')
 
-    const rssLink = page.locator('header a[href="/rss.xml"]')
+    const rssLink = page.locator('header nav.nav-links a[href="/rss.xml"]')
     await expect(rssLink).toBeVisible()
     await expect(rssLink).toContainText('rss')
   })

@@ -48,5 +48,5 @@ Use this skill when changing blog routes, RSS, sitemap behavior, post visibility
 ## Documentation
 
 - Update `README.md` when public route paths change.
-- Update `docs/reference/architecture.md` when routing, visibility, StudioCMS integration, or search/RSS behavior changes.
+- Update `docs/reference/architecture.md` when routing, visibility, static content, or search/RSS behavior changes.
 - Update `CHANGELOG.md` for user-visible route, feed, visibility, SEO, or search changes.
