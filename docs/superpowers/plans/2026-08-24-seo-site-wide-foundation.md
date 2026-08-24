@@ -10,6 +10,8 @@
 
 **Spec:** `docs/superpowers/specs/2026-08-24-seo-site-wide-foundation-design.md`
 
+**Status:** Implemented and verified; Issue #14 scope complete
+
 ## Global Constraints
 
 - Preserve existing dirty worktree changes, especially partial `src/lib/seo.ts`, `src/lib/sitemap-manifest.ts`, and tests. Reconcile them; never reset or overwrite unrelated edits.
@@ -53,7 +55,7 @@
 - Produces `normalizeSiteOrigin(value: string | URL): string` and `toAbsoluteUrl(path: string, siteOrigin: string): string`.
 - Produces trimmed `description`, `canonicalUrl`, and `translationKey` collection fields.
 
-- [ ] **Step 1: Write the failing origin and schema tests**
+- [x] **Step 1: Write the failing origin and schema tests**
 
 Add `src/lib/site.test.ts` cases for missing build configuration, dev localhost fallback, trailing-slash normalization, and unsafe origin rejection:
 
@@ -70,12 +72,12 @@ expect(() => resolveConfiguredSiteUrl('build', { SITE_URL: 'https://seo.test/pat
 
 Add collection tests for whitespace-only description, credential/fragment canonical URLs, and trimmed valid values.
 
-- [ ] **Step 2: Run the new test before implementation**
+- [x] **Step 2: Run the new test before implementation**
 
 Run: `pnpm --filter web test -- src/lib/site.test.ts`  
 Expected: FAIL because the config does not export command-aware resolution and build mode currently permits implicit localhost.
 
-- [ ] **Step 3: Implement config ownership and exact schema rules**
+- [x] **Step 3: Implement config ownership and exact schema rules**
 
 Export `resolveConfiguredSiteUrl` from `astro.config.mjs` and call it in a static `defineConfig({...})` object after deriving the command from the Astro CLI invocation. It chooses non-empty trimmed `SITE_URL`, then `CF_PAGES_URL`; only dev gets localhost. Build error text must match Step 1. The config merges the workspace/app dotenv values with `process.env`, and expands the Tailwind Vite plugin array so Astro receives each plugin entry directly.
 
@@ -93,7 +95,7 @@ translationKey: z.string()
 
 Keep one shared origin validator in `site.ts`; no page/layout may use request origin as a fallback.
 
-- [ ] **Step 4: Verify focused behavior**
+- [x] **Step 4: Verify focused behavior**
 
 Run: `pnpm --filter web test -- src/lib/site.test.ts src/lib/seo.test.ts`  
 Expected: PASS.
@@ -101,7 +103,7 @@ Expected: PASS.
 Run in PowerShell: `Remove-Item Env:SITE_URL,Env:CF_PAGES_URL -ErrorAction SilentlyContinue; pnpm --filter web astro build`  
 Expected: non-zero with the exact missing-origin error.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/astro.config.mjs apps/web/src/lib/site.ts apps/web/src/lib/site.test.ts apps/web/src/content.config.ts apps/web/src/test-helpers.ts
@@ -121,18 +123,18 @@ git commit -m "feat: validate the public SEO origin"
 - Produces `SeoImage { url, type, width, height }`, `createSeoDocument`, `resolvePostDescription`, `resolvePostCanonical`, `isExternalCanonical`, `getPostAlternateLinks`, and safe `serializeJsonLd`.
 - Produces website, person, profile page, collection, article, and absolute breadcrumb schema builders.
 
-- [ ] **Step 1: Write failing SEO tests**
+- [x] **Step 1: Write failing SEO tests**
 
 Extend `seo.test.ts` to assert a noncanonical document has no canonical/openGraph/schema, a noindex-content document retains canonical but no alternates, and an external-canonical post has no alternates and no sitemap eligibility.
 
 Assert fallback image is absolute `/og-image.png`, 1200×630 PNG; a root-relative WebP is absolute; credential, fragment, and non-HTTP image inputs throw. Assert Website uses origin-based website/person IDs, ProfilePage points to that person, and every breadcrumb including final item is absolute.
 
-- [ ] **Step 2: Run the focused test**
+- [x] **Step 2: Run the focused test**
 
 Run: `pnpm --filter web test -- src/lib/seo.test.ts`  
 Expected: FAIL until image dimensions, discriminated inputs, and complete schema fields exist.
 
-- [ ] **Step 3: Implement the normalized model**
+- [x] **Step 3: Implement the normalized model**
 
 Replace the loose boolean input with:
 
@@ -144,12 +146,12 @@ Only indexable input may create alternates. Noncanonical input returns robots pl
 
 Build Website with a website ID ending `/#website`, Person ID ending `/#person`, website URL ending `/vi/`, both languages, social links, and ProfilePage `mainEntity`/ `isPartOf` references. Keep one JSON array escaped for script-safe output.
 
-- [ ] **Step 4: Run focused verification**
+- [x] **Step 4: Run focused verification**
 
 Run: `pnpm --filter web test -- src/lib/seo.test.ts src/lib/site.test.ts`  
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/lib/seo.ts apps/web/src/lib/seo.test.ts
@@ -174,7 +176,7 @@ git commit -m "feat: centralize SEO document generation"
 - `isRoutablePost` is exactly non-draft; only a route query may include noindex.
 - `getAllTags(locale)` and `getAllCategories(locale)` return sorted terms from public posts in that locale.
 
-- [ ] **Step 1: Write failing visibility fixtures**
+- [x] **Step 1: Write failing visibility fixtures**
 
 Create fixtures for Vietnamese-only public term, English-only public term, noindex-only term, draft-only term, and duplicate key in English. Assert:
 
@@ -188,12 +190,12 @@ expect(() => validateTranslationKeys(duplicatePosts)).toThrow(
 
 Assert localized tag/category queries contain only the matching public locale terms.
 
-- [ ] **Step 2: Run the focused tests**
+- [x] **Step 2: Run the focused tests**
 
 Run: `pnpm --filter web test -- src/lib/cms.test.ts src/lib/post-visibility.test.ts`  
 Expected: FAIL for named routability/duplicate validation and locale-static-path behavior.
 
-- [ ] **Step 3: Implement predicates and route generation**
+- [x] **Step 3: Implement predicates and route generation**
 
 Keep `isPublicPost` as all discovery policy. Add `isRoutablePost`, call `validateTranslationKeys` at shared collection/query entry, and make post `getStaticPaths` fetch non-draft posts with `includeNoindex: true`. Category/tag `getStaticPaths` loops must call `getAllCategories(locale)` and `getAllTags(locale)`, never global lists.
 
@@ -215,12 +217,12 @@ export function validateTranslationKeys(posts: Post[]): void {
 }
 ```
 
-- [ ] **Step 4: Verify focused behavior**
+- [x] **Step 4: Verify focused behavior**
 
 Run: `pnpm --filter web test -- src/lib/cms.test.ts src/lib/post-visibility.test.ts src/lib/routes.test.ts`  
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/lib/post-visibility.ts apps/web/src/lib/post-visibility.test.ts apps/web/src/lib/cms.ts apps/web/src/lib/cms.test.ts apps/web/src/pages/[lang]/blog/[slug].astro apps/web/src/pages/[lang]/categories/[category].astro apps/web/src/pages/[lang]/tags/[tag].astro
@@ -241,7 +243,7 @@ git commit -m "fix: align post visibility with locale routes"
 - Localized routes consume `createSeoDocument` and schema builders; no route builds raw canonical/head tags.
 - Each route produces the schema and alternate behavior stated in the approved spec.
 
-- [ ] **Step 1: Add render assertions to the SEO E2E file**
+- [x] **Step 1: Add render assertions to the SEO E2E file**
 
 Create `e2e/seo-foundation.spec.ts` with these initial checks:
 
@@ -254,12 +256,12 @@ await expect(page.locator('link[hreflang="vi"]')).toHaveAttribute('href', /^http
 
 Add no-canonical/no-OG/no-schema assertions for root redirect and both 404 pages.
 
-- [ ] **Step 2: Record baseline failure**
+- [x] **Step 2: Record baseline failure**
 
 Run: `pnpm exec playwright test --config=playwright.seo.config.ts e2e/seo-foundation.spec.ts --project=seo-chromium`  
 Expected: FAIL until Task 6 supplies the served-dist configuration.
 
-- [ ] **Step 3: Migrate layout and route inputs**
+- [x] **Step 3: Migrate layout and route inputs**
 
 Make BaseLayout render title, description, robots, canonical, hreflang, full OG/Twitter family, and one serialized JSON-LD script solely from `seo`. For route conversion: home emits Website+Person; about ProfilePage+breadcrumb; blog/category/tag CollectionPage+breadcrumb; post Article+breadcrumb and conditional FAQ. Every final crumb has absolute canonical URL.
 
@@ -273,7 +275,7 @@ Use noncanonical SEO for redirect/404; use noindex-content SEO for noindex posts
 
 In the post route, construct `seo` from `resolvePostDescription(post)`, `resolvePostCanonical(post, siteOrigin)`, `getPostAlternateLinks(post, localizedPosts, siteOrigin)`, and `buildArticleSchema(...)`; do not pass raw post description/canonical props to the layout.
 
-- [ ] **Step 4: Verify type and unit integrity**
+- [x] **Step 4: Verify type and unit integrity**
 
 Run: `pnpm --filter web test -- src/lib/seo.test.ts src/lib/cms.test.ts`  
 Expected: PASS.
@@ -281,7 +283,7 @@ Expected: PASS.
 Run: `pnpm --filter web typecheck`  
 Expected: PASS with no obsolete BaseLayout prop call.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/layouts/BaseLayout.astro apps/web/src/pages/index.astro apps/web/src/pages/404.astro apps/web/src/pages/[lang]/404.astro apps/web/src/pages/[lang]/index.astro apps/web/src/pages/[lang]/about.astro apps/web/src/pages/[lang]/blog/index.astro apps/web/src/pages/[lang]/blog/[slug].astro apps/web/src/pages/[lang]/categories/[category].astro apps/web/src/pages/[lang]/tags/[tag].astro e2e/seo-foundation.spec.ts
@@ -305,18 +307,18 @@ git commit -m "feat: render shared SEO metadata for page routes"
 - `buildSitemapManifest(posts, origin)` returns sorted unique locally canonical records; `serializeSitemap(records)` XML-escapes all dynamic values.
 - API has local `url`, resolved description, and optional `canonicalUrl` only when it differs; RSS link always remains local.
 
-- [ ] **Step 1: Add failing focused tests**
+- [x] **Step 1: Add failing focused tests**
 
 Add a description-only query test to `filter.test.ts`, an E2E assertion that noindex article has no `data-pagefind-body`, and manifest tests that off-origin-canonical local/external URLs are both absent while an ampersand URL becomes `&amp;`.
 
 Add route tests asserting agent catalog uses only `/sitemap.xml`, `auth.md.ts:23` no longer has `/search`, localized Markdown has no `/search` or `/sitemap-index.xml`, and API/RSS exclude draft/noindex but use custom description.
 
-- [ ] **Step 2: Run failing focused tests**
+- [x] **Step 2: Run failing focused tests**
 
 Run: `pnpm --filter web test -- src/lib/filter.test.ts src/lib/sitemap-manifest.test.ts src/lib/agent-metadata.test.ts`  
 Expected: FAIL until shared resolver and stale-route cleanup are complete.
 
-- [ ] **Step 3: Implement the common-consumer policy**
+- [x] **Step 3: Implement the common-consumer policy**
 
 Serialize descriptions in BlogFilter through `resolvePostDescription`; retain `filter.ts` matching the typed field. Add `data-pagefind-body` only when `isPublicPost(post)`.
 
@@ -335,12 +337,12 @@ return {
 }
 ```
 
-- [ ] **Step 4: Verify focused consumers**
+- [x] **Step 4: Verify focused consumers**
 
 Run: `pnpm --filter web test -- src/lib/filter.test.ts src/lib/sitemap-manifest.test.ts src/lib/agent-metadata.test.ts src/lib/cms.test.ts`  
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/components/BlogFilter.astro apps/web/src/lib/blog-filter.ts apps/web/src/lib/filter.ts apps/web/src/lib/filter.test.ts apps/web/src/lib/sitemap-manifest.ts apps/web/src/lib/sitemap-manifest.test.ts apps/web/src/pages/sitemap.xml.ts apps/web/src/pages/robots.txt.ts apps/web/src/pages/rss.xml.ts apps/web/src/pages/api/posts.json.ts apps/web/src/pages/auth.md.ts apps/web/src/pages/[lang]/index.md.ts apps/web/src/lib/agent-metadata.ts apps/web/src/lib/agent-metadata.test.ts apps/web/src/pages/[lang]/blog/[slug].astro
@@ -360,16 +362,16 @@ git commit -m "fix: align SEO discovery surfaces"
 - Produces `seo-chromium` Playwright project with base URL `http://seo.test:4321`.
 - Produces a build/preview process with `SITE_URL=http://seo.test:4321`, static output served on `127.0.0.1:4321`, and Chromium host resolver `MAP seo.test 127.0.0.1`.
 
-- [ ] **Step 1: Complete served-artifact assertions**
+- [x] **Step 1: Complete served-artifact assertions**
 
 In the E2E file parse JSON-LD and sitemap. Assert sitemap locations are unique and begin with the configured origin, and none contain redirect/error/noindex/draft/external-canonical/API/Markdown/Pagefind/well-known surfaces. Fetch robots, sitemap, RSS, API, auth, agent catalog, and Markdown routes; assert content types and that all discovery links agree.
 
-- [ ] **Step 2: Run before config exists**
+- [x] **Step 2: Run before config exists**
 
 Run: `pnpm exec playwright test --config=playwright.seo.config.ts e2e/seo-foundation.spec.ts --project=seo-chromium`  
 Expected: FAIL because the dedicated configuration does not exist.
 
-- [ ] **Step 3: Implement isolated static preview configuration**
+- [x] **Step 3: Implement isolated static preview configuration**
 
 Create `playwright.seo.config.ts` without changing the existing multi-browser config. It starts a Node wrapper that sets `SITE_URL`, invokes `pnpm web:build`, then previews the generated web dist at `127.0.0.1:4321`. The Chromium project sets `baseURL` to `http://seo.test:4321` and `launchOptions.args` to `['--host-resolver-rules=MAP seo.test 127.0.0.1']`.
 
@@ -389,7 +391,7 @@ const preview = spawn(
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => preview.kill(signal))
 ```
 
-- [ ] **Step 4: Run final focused verification**
+- [x] **Step 4: Run final focused verification**
 
 Run: `pnpm --filter web test -- src/lib/site.test.ts src/lib/seo.test.ts src/lib/post-visibility.test.ts src/lib/cms.test.ts src/lib/filter.test.ts src/lib/sitemap-manifest.test.ts src/lib/agent-metadata.test.ts`  
 Expected: PASS.
@@ -400,7 +402,7 @@ Expected: PASS against served `apps/web/dist`.
 Run: `$env:SITE_URL='http://seo.test:4321'; pnpm web:build`  
 Expected: PASS; inspect generated `robots.txt`, `sitemap.xml`, and representative localized HTML, not source files.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add playwright.seo.config.ts e2e/seo-foundation.spec.ts scripts/run-seo-preview.mjs
