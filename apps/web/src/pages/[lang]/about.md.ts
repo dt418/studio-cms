@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro'
 import { getTranslations } from '@/lib/i18n'
 import { SITE } from '@/lib/site'
+import { getSiteOrigin } from '@/lib/site'
 import { isValidLocale } from '@/lib/content-utils'
 
 export const prerender = true
@@ -9,10 +10,10 @@ export async function getStaticPaths() {
   return [{ params: { lang: 'vi' } }, { params: { lang: 'en' } }]
 }
 
-export const GET: APIRoute = ({ params, site }) => {
+export const GET: APIRoute = ({ params }) => {
   const langParam = params.lang ?? 'vi'
   const lang = isValidLocale(langParam) ? langParam : 'vi'
-  const origin = site?.origin ?? ''
+  const origin = getSiteOrigin()
   const i18n = getTranslations(lang)
   const title = lang === 'vi' ? 'Về tôi' : 'About'
   const contact = lang === 'vi' ? 'Liên hệ hợp tác' : 'Contact for collaboration'

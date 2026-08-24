@@ -7,6 +7,7 @@ publishedAt: 2025-02-10
 updatedAt: 2025-02-10
 tags: ['typescript', 'programming', 'generics']
 language: 'en'
+translationKey: 'mastering-typescript-generics'
 category: 'tutorials'
 faq:
   - question: 'Why use generics in TypeScript?'

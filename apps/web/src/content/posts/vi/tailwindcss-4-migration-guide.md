@@ -7,6 +7,7 @@ publishedAt: 2026-04-20
 updatedAt: 2026-04-20
 tags: ['tailwindcss', 'css', 'frontend']
 language: 'vi'
+translationKey: 'tailwindcss-4-migration-guide'
 category: 'guides'
 faq:
   - question: 'Thay đổi chính của TailwindCSS 4 là gì?'

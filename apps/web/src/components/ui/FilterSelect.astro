@@ -1,0 +1,151 @@
+---
+interface Option {
+  value: string
+  label?: string
+}
+
+interface Props {
+  options: Array<string | Option>
+  placeholder?: string
+  name: string
+  value?: string
+  ariaLabel?: string
+}
+
+const { options, placeholder = '', name, value = '', ariaLabel = placeholder } = Astro.props
+const normalizedOptions = options.map((option) =>
+  typeof option === 'string'
+    ? { value: option, label: option }
+    : { value: option.value, label: option.label ?? option.value }
+)
+const selectedLabel = normalizedOptions.find((option) => option.value === value)?.label
+const listboxId = `filter-select-${name}`
+---
+
+<div class="relative w-full" data-filter-select={name}>
+  <button
+    type="button"
+    role="combobox"
+    aria-expanded="false"
+    aria-haspopup="listbox"
+    aria-controls={listboxId}
+    aria-label={ariaLabel}
+    class="border-input focus-visible:border-ring focus-visible:ring-ring/50 data-placeholder:text-muted-foreground dark:bg-input/30 dark:hover:bg-input/50 flex h-8 w-full items-center justify-between gap-1.5 rounded-none border bg-transparent py-2 pr-2 pl-2.5 text-xs whitespace-nowrap transition-colors outline-none select-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
+    data-filter-select-trigger
+  >
+    <span class="flex-1 text-left" data-filter-select-label data-placeholder={placeholder}>
+      {selectedLabel || placeholder}
+    </span>
+    <span aria-hidden="true" class="text-muted-foreground pointer-events-none text-xs">▼</span>
+  </button>
+
+  <div class="hidden" data-filter-select-menu aria-hidden="true">
+    <div
+      id={listboxId}
+      role="listbox"
+      class="bg-popover text-popover-foreground ring-foreground/10 absolute top-full left-0 z-50 mt-1 max-h-72 w-full min-w-36 overflow-y-auto rounded-none shadow-md ring-1"
+    >
+      {
+        normalizedOptions.map((option) => (
+          <button
+            type="button"
+            role="option"
+            aria-selected={option.value === value}
+            class="focus:bg-accent focus:text-accent-foreground relative flex w-full cursor-default items-center gap-2 rounded-none py-2 pr-8 pl-2 text-left text-xs outline-hidden select-none"
+            data-filter-select-option={option.value}
+          >
+            <span class="flex flex-1 shrink-0 gap-2 whitespace-nowrap">{option.label}</span>
+            <span
+              aria-hidden="true"
+              class:list={[
+                'pointer-events-none absolute right-2',
+                option.value !== value && 'hidden',
+              ]}
+            >
+              ✓
+            </span>
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<script>
+  const closeSelect = (root: HTMLElement) => {
+    const menu = root.querySelector<HTMLElement>('[data-filter-select-menu]')
+    const trigger = root.querySelector<HTMLButtonElement>('[data-filter-select-trigger]')
+    if (!menu || !trigger) return
+    menu.classList.add('hidden')
+    menu.setAttribute('aria-hidden', 'true')
+    trigger.setAttribute('aria-expanded', 'false')
+  }
+
+  const initFilterSelects = () => {
+    for (const root of document.querySelectorAll<HTMLElement>('[data-filter-select]')) {
+      if (root.dataset.filterSelectBound === 'true') continue
+      root.dataset.filterSelectBound = 'true'
+
+      const name = root.dataset.filterSelect
+      const trigger = root.querySelector<HTMLButtonElement>('[data-filter-select-trigger]')
+      const menu = root.querySelector<HTMLElement>('[data-filter-select-menu]')
+      const label = root.querySelector<HTMLElement>('[data-filter-select-label]')
+      if (!name || !trigger || !menu || !label) continue
+
+      trigger.addEventListener('click', () => {
+        const opening = menu.classList.contains('hidden')
+        for (const other of document.querySelectorAll<HTMLElement>('[data-filter-select-menu]')) {
+          other.classList.add('hidden')
+          other.setAttribute('aria-hidden', 'true')
+        }
+        for (const other of document.querySelectorAll<HTMLButtonElement>(
+          '[data-filter-select-trigger]'
+        )) {
+          other.setAttribute('aria-expanded', 'false')
+        }
+        if (opening) {
+          menu.classList.remove('hidden')
+          menu.setAttribute('aria-hidden', 'false')
+          trigger.setAttribute('aria-expanded', 'true')
+        }
+      })
+
+      for (const option of root.querySelectorAll<HTMLButtonElement>(
+        '[data-filter-select-option]'
+      )) {
+        option.addEventListener('click', () => {
+          const value = option.dataset.filterSelectOption ?? ''
+          const hidden = document.getElementById(`filter-${name}`)
+          const optionLabel = option.querySelector('span')?.textContent ?? ''
+          if (hidden instanceof HTMLInputElement) {
+            hidden.value = value
+            hidden.dispatchEvent(new Event('change', { bubbles: true }))
+            hidden.dispatchEvent(new Event('input', { bubbles: true }))
+          }
+          label.textContent = optionLabel
+          for (const check of root.querySelectorAll<HTMLElement>(
+            '[data-filter-select-option] > span:last-child'
+          )) {
+            check.classList.toggle('hidden', check.parentElement !== option)
+          }
+          closeSelect(root)
+          window.dispatchEvent(new Event('filter-change'))
+        })
+      }
+    }
+
+    window.addEventListener('filter-reset', () => {
+      for (const root of document.querySelectorAll<HTMLElement>('[data-filter-select]')) {
+        const name = root.dataset.filterSelect
+        const hidden = name ? document.getElementById(`filter-${name}`) : null
+        const triggerLabel = root.querySelector<HTMLElement>('[data-filter-select-label]')
+        if (hidden instanceof HTMLInputElement) hidden.value = ''
+        if (triggerLabel) triggerLabel.textContent = triggerLabel.dataset.placeholder ?? ''
+        closeSelect(root)
+      }
+    })
+  }
+
+  document.addEventListener('astro:page-load', initFilterSelects)
+  initFilterSelects()
+</script>

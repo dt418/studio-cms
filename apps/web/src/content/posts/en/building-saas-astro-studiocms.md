@@ -7,6 +7,7 @@ publishedAt: 2026-04-05
 updatedAt: 2026-04-05
 tags: ['astro', 'saas', 'studiocms', 'web-development']
 language: 'en'
+translationKey: 'building-saas-astro-studiocms'
 category: 'guides'
 faq:
   - question: 'When is Astro a good fit for a SaaS frontend?'

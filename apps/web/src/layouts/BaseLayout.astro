@@ -1,62 +1,22 @@
 ---
 import '../styles/app.css'
 import { SITE } from '@/lib/site'
-import { resolveOgImage } from '@/lib/og-image'
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro'
 import { getTranslations } from '@/lib/i18n'
 import { getWebMCPTools } from '@/lib/agent-metadata'
+import { serializeJsonLd, type SeoDocument } from '@/lib/seo'
 import type { SupportedLocale } from '@/lib/content-utils'
-import {
-  BookOpenText,
-  Code2,
-  Contact,
-  House,
-  Mail,
-  Menu,
-  Moon,
-  Rss,
-  Sun,
-  UserRound,
-} from 'lucide-react'
+import Icon from '@/components/Icon.astro'
 
 export interface Props {
-  title: string
-  description?: string
-  image?: string
-  canonicalUrl?: string
-  publishedTime?: string
-  modifiedTime?: string
-  author?: string
-  type?: 'website' | 'article'
-  noindex?: boolean
-  jsonLd?: Record<string, unknown> | Record<string, unknown>[]
-  lang?: SupportedLocale
+  seo: SeoDocument
   currentPath?: string
-  alternateUrls?: Record<SupportedLocale, string>
 }
 
-const {
-  title,
-  description = SITE.description,
-  image,
-  canonicalUrl,
-  publishedTime,
-  modifiedTime,
-  author = SITE.author,
-  type = 'website',
-  noindex = false,
-  jsonLd,
-  lang = 'vi',
-  currentPath = Astro.url.pathname,
-  alternateUrls,
-} = Astro.props
+const { seo, currentPath = Astro.url.pathname } = Astro.props
 
-const siteUrl = (Astro.site ?? Astro.url).origin || 'http://localhost:4321'
-const defaultImage = `${siteUrl}/og-image.png`
-const ogImageUrl = resolveOgImage(image, siteUrl, defaultImage)
-const ogImageType = ogImageUrl.endsWith('.webp') ? 'image/webp' : 'image/png'
-
-const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`
+const { title, description, canonical, author, openGraph } = seo
+const lang: SupportedLocale = seo.lang
 const i18n = getTranslations(lang)
 
 const isHomepage = currentPath === `/${lang}/` || currentPath === `/${lang}`
@@ -93,40 +53,59 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
-    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={seo.robots} />
+    {canonical && <link rel="canonical" href={canonical} />}
     {
-      alternateUrls &&
-        Object.entries(alternateUrls).map(([locale, url]) => (
-          <link rel="alternate" hreflang={locale} href={url} />
-        ))
+      seo.alternates.map((alternate) => (
+        <link rel="alternate" hreflang={alternate.locale} href={alternate.href} />
+      ))
     }
-    {alternateUrls && <link rel="alternate" hreflang="x-default" href={alternateUrls['vi']} />}
+    {
+      seo.defaultAlternate && (
+        <link rel="alternate" hreflang="x-default" href={seo.defaultAlternate} />
+      )
+    }
 
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content={type} />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content={ogImageType} />
-    <meta property="og:site_name" content={SITE.name} />
-    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'vi_VN'} />
-    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
-    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
-    {author && <meta property="article:author" content={author} />}
+    {openGraph && <meta property="og:title" content={title} />}
+    {openGraph && <meta property="og:description" content={description} />}
+    {openGraph && <meta property="og:type" content={openGraph.type} />}
+    {openGraph && <meta property="og:url" content={openGraph.url} />}
+    {openGraph && <meta property="og:image" content={openGraph.image.url} />}
+    {openGraph && <meta property="og:image:width" content={String(openGraph.image.width)} />}
+    {openGraph && <meta property="og:image:height" content={String(openGraph.image.height)} />}
+    {openGraph && <meta property="og:image:type" content={openGraph.image.type} />}
+    {openGraph && <meta property="og:site_name" content={SITE.name} />}
+    {openGraph && <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'vi_VN'} />}
+    {
+      openGraph?.publishedTime && (
+        <meta property="article:published_time" content={openGraph.publishedTime} />
+      )
+    }
+    {
+      openGraph?.modifiedTime && (
+        <meta property="article:modified_time" content={openGraph.modifiedTime} />
+      )
+    }
+    {openGraph?.type === 'article' && author && <meta property="article:author" content={author} />}
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content={SITE.social.twitter} />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImageUrl} />
-    {author && <meta name="twitter:creator" content={SITE.social.twitter} />}
+    {openGraph && <meta name="twitter:card" content="summary_large_image" />}
+    {openGraph && <meta name="twitter:site" content={SITE.social.twitter} />}
+    {openGraph && <meta name="twitter:title" content={title} />}
+    {openGraph && <meta name="twitter:description" content={description} />}
+    {openGraph && <meta name="twitter:image" content={openGraph.image.url} />}
+    {
+      openGraph?.type === 'article' && author && (
+        <meta name="twitter:creator" content={SITE.social.twitter} />
+      )
+    }
 
-    {author && <meta name="author" content={author} />}
+    {openGraph?.type === 'article' && author && <meta name="author" content={author} />}
 
-    {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {
+      seo.jsonLd.length > 0 && (
+        <script is:inline type="application/ld+json" set:html={serializeJsonLd(seo.jsonLd)} />
+      )
+    }
 
     <script id="webmcp-context" type="application/json" set:html={webMCPPayload} is:inline />
     <script is:inline>
@@ -250,7 +229,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
                 : 'text-muted-foreground hover:text-primary',
             ]}
           >
-            <House aria-hidden="true" size={13} strokeWidth={1.75} />
+            <Icon name="house" size={13} strokeWidth={1.75} />
             {i18n.schema.home}
           </a>
           <a
@@ -262,7 +241,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
                 : 'text-muted-foreground hover:text-primary',
             ]}
           >
-            <BookOpenText aria-hidden="true" size={13} strokeWidth={1.75} />
+            <Icon name="book-open-text" size={13} strokeWidth={1.75} />
             {i18n.nav.writing}
           </a>
           <a
@@ -274,14 +253,14 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
                 : 'text-muted-foreground hover:text-primary',
             ]}
           >
-            <UserRound aria-hidden="true" size={13} strokeWidth={1.75} />
+            <Icon name="user-round" size={13} strokeWidth={1.75} />
             {i18n.nav.about}
           </a>
           <a
             href="/rss.xml"
             class="nav-badge border-border text-muted-foreground hover:border-primary hover:text-primary inline-flex items-center gap-1.5 rounded border px-3 py-1.5 font-mono text-[0.65rem] tracking-[0.12em] uppercase transition-colors"
           >
-            <Rss aria-hidden="true" size={13} strokeWidth={1.75} />
+            <Icon name="rss" size={13} strokeWidth={1.75} />
             {i18n.nav.rss}
           </a>
         </nav>
@@ -296,14 +275,8 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
             title={i18n.nav.toggleTheme}
             class="border-border text-muted-foreground hover:border-primary hover:text-primary hidden h-9 w-9 items-center justify-center rounded border font-mono text-xs transition-colors sm:flex"
           >
-            <Sun data-theme-icon="light" aria-hidden="true" size={15} strokeWidth={1.75} />
-            <Moon
-              data-theme-icon="dark"
-              aria-hidden="true"
-              size={15}
-              strokeWidth={1.75}
-              className="hidden"
-            />
+            <Icon name="sun" data-theme-icon="light" size={15} strokeWidth={1.75} />
+            <Icon name="moon" data-theme-icon="dark" size={15} strokeWidth={1.75} class="hidden" />
           </button>
           <div data-testid="header-language-switcher" class="hidden sm:block">
             <LanguageSwitcher
@@ -319,7 +292,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
               class="border-border text-muted-foreground hover:border-primary hover:text-primary flex h-9 w-9 list-none items-center justify-center rounded border font-mono text-sm transition-colors"
               aria-label={i18n.nav.menu}
             >
-              <Menu aria-hidden="true" size={16} strokeWidth={1.75} />
+              <Icon name="menu" size={16} strokeWidth={1.75} />
             </summary>
             <div
               class="border-border bg-background absolute top-12 right-0 w-56 rounded-lg border p-3 shadow-2xl"
@@ -328,24 +301,22 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
                 <a
                   href={`/${lang}`}
                   class="hover:bg-card hover:text-primary inline-flex items-center gap-2 rounded px-3 py-3"
-                  ><House aria-hidden="true" size={14} strokeWidth={1.75} />{i18n.schema.home}</a
+                  ><Icon name="house" size={14} strokeWidth={1.75} />{i18n.schema.home}</a
                 >
                 <a
                   href={`/${lang}/blog`}
                   class="hover:bg-card hover:text-primary inline-flex items-center gap-2 rounded px-3 py-3"
-                  ><BookOpenText aria-hidden="true" size={14} strokeWidth={1.75} />{
-                    i18n.nav.writing
-                  }</a
+                  ><Icon name="book-open-text" size={14} strokeWidth={1.75} />{i18n.nav.writing}</a
                 >
                 <a
                   href={`/${lang}/about`}
                   class="hover:bg-card hover:text-primary inline-flex items-center gap-2 rounded px-3 py-3"
-                  ><UserRound aria-hidden="true" size={14} strokeWidth={1.75} />{i18n.nav.about}</a
+                  ><Icon name="user-round" size={14} strokeWidth={1.75} />{i18n.nav.about}</a
                 >
                 <a
                   href="/rss.xml"
                   class="hover:bg-card hover:text-primary inline-flex items-center gap-2 rounded px-3 py-3"
-                  ><Rss aria-hidden="true" size={14} strokeWidth={1.75} />{i18n.nav.rss}</a
+                  ><Icon name="rss" size={14} strokeWidth={1.75} />{i18n.nav.rss}</a
                 >
                 <button
                   type="button"
@@ -353,17 +324,12 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
                   data-theme-dark-label={i18n.nav.themeDark}
                   data-theme-light-label={i18n.nav.themeLight}
                   class="text-muted-foreground hover:bg-card hover:text-primary inline-flex items-center gap-2 rounded px-3 py-3 text-left"
-                  ><Sun
-                    data-theme-icon="light"
-                    aria-hidden="true"
-                    size={14}
-                    strokeWidth={1.75}
-                  /><Moon
+                  ><Icon name="sun" data-theme-icon="light" size={14} strokeWidth={1.75} /><Icon
+                    name="moon"
                     data-theme-icon="dark"
-                    aria-hidden="true"
                     size={14}
                     strokeWidth={1.75}
-                    className="hidden"
+                    class="hidden"
                   />{i18n.nav.toggleTheme}</button
                 >
                 <div class="border-border mt-2 border-t pt-2">
@@ -398,22 +364,22 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
           <a
             href={`mailto:${SITE.email}`}
             class="text-muted-foreground hover:text-primary inline-flex items-center gap-1.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase transition-colors"
-            ><Mail aria-hidden="true" size={13} strokeWidth={1.75} />{i18n.footer.email}</a
+            ><Icon name="mail" size={13} strokeWidth={1.75} />{i18n.footer.collaboration}</a
           >
           <a
             href={SITE.social.github}
             class="text-muted-foreground hover:text-primary inline-flex items-center gap-1.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase transition-colors"
-            ><Code2 aria-hidden="true" size={13} strokeWidth={1.75} />{i18n.footer.github}</a
+            ><Icon name="code" size={13} strokeWidth={1.75} />{i18n.footer.github}</a
           >
           <a
             href="/rss.xml"
             class="text-muted-foreground hover:text-primary inline-flex items-center gap-1.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase transition-colors"
-            ><Rss aria-hidden="true" size={13} strokeWidth={1.75} />{i18n.footer.rss}</a
+            ><Icon name="rss" size={13} strokeWidth={1.75} />{i18n.footer.rss}</a
           >
           <a
             href={SITE.social.linkedin}
             class="text-muted-foreground hover:text-primary inline-flex items-center gap-1.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase transition-colors"
-            ><Contact aria-hidden="true" size={13} strokeWidth={1.75} />{i18n.footer.linkedin}</a
+            ><Icon name="contact" size={13} strokeWidth={1.75} />{i18n.footer.linkedin}</a
           >
         </nav>
         <div data-testid="footer-language-switcher" class="sm:hidden">

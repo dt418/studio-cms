@@ -6,15 +6,31 @@ import PostHero from '@/components/Blog/PostHero.astro'
 import ArticleContent from '@/components/Blog/ArticleContent.astro'
 import RelatedPosts from '@/components/Blog/RelatedPosts.astro'
 import PostFAQ from '@/components/Blog/PostFAQ.astro'
-import { getLocalizedPosts, getPostSlug, type SupportedLocale } from '@/lib/cms'
+import {
+  getAllPosts,
+  getLocalizedPosts,
+  getPostSlug,
+  type SupportedLocale,
+} from '@/lib/content-queries'
 import { readingTime } from '@/lib/reading-time'
 import { render } from 'astro:content'
-import { SITE } from '@/lib/site'
-import { getImageUrl, getAdjacentPosts } from '@/lib/post'
+import { getSiteOrigin, SITE, toAbsoluteUrl } from '@/lib/site'
+import { getAdjacentPosts } from '@/lib/post'
+import { getOptimizedCoverImage } from '@/lib/cover-images'
 import { formatDate } from '@/lib/date'
-import { getBlogPath } from '@/lib/routes'
+import { getBlogPath, getHomePath, getPostPath } from '@/lib/routes'
 import { getTranslations } from '@/lib/i18n'
-import { getCanonicalUrl, getAlternateUrls, isValidLocale } from '@/lib/content-utils'
+import { isValidLocale } from '@/lib/content-utils'
+import { isPublicPost } from '@/lib/post-visibility'
+import {
+  buildArticleSchema,
+  buildBreadcrumbList,
+  createSeoDocument,
+  getPostAlternateLinks,
+  resolvePostCanonical,
+  resolvePostDescription,
+  resolveSeoImage,
+} from '@/lib/seo'
 import { createSafeSlug, getUniqueId } from '../../../../rehype-vietnamese-slug.mjs'
 import type { CollectionEntry } from 'astro:content'
 
@@ -24,17 +40,22 @@ export async function getStaticPaths() {
   const locales: SupportedLocale[] = ['vi', 'en']
   const paths: {
     params: { lang: SupportedLocale; slug: string }
-    props: { post: CollectionEntry<'posts'>; allPosts: CollectionEntry<'posts'>[] }
+    props: {
+      post: CollectionEntry<'posts'>
+      allPosts: CollectionEntry<'posts'>[]
+      translationPosts: CollectionEntry<'posts'>[]
+    }
   }[] = []
 
+  const translationPosts = await getAllPosts()
   for (const locale of locales) {
     const posts = await getLocalizedPosts(locale, { includeNoindex: true })
-    const visiblePosts = posts.filter((post) => !post.data.noindex)
+    const publicPosts = posts.filter((post) => isPublicPost(post))
 
-    for (const post of visiblePosts) {
+    for (const post of posts) {
       paths.push({
         params: { lang: locale, slug: getPostSlug(post) },
-        props: { post, allPosts: visiblePosts },
+        props: { post, allPosts: publicPosts, translationPosts },
       })
     }
   }
@@ -45,13 +66,14 @@ export async function getStaticPaths() {
 interface Props {
   post: CollectionEntry<'posts'>
   allPosts: CollectionEntry<'posts'>[]
+  translationPosts: CollectionEntry<'posts'>[]
 }
 
-const siteUrl = Astro.site?.origin ?? ''
+const siteUrl = getSiteOrigin()
 const langParam = Astro.params.lang ?? 'vi'
 const lang = isValidLocale(langParam) ? langParam : 'vi'
 const slug = Astro.params.slug
-const { post, allPosts } = Astro.props as Props
+const { post, allPosts, translationPosts } = Astro.props as Props
 
 const { Content, headings } = await render(post)
 const normalizedHeadingCounts = new Map<string, number>()
@@ -62,7 +84,6 @@ const normalizedHeadings = headings.map((heading) => ({
 
 const {
   title,
-  excerpt,
   coverImage,
   publishedAt,
   updatedAt,
@@ -82,6 +103,7 @@ const wordCount = bodyText.trim().split(/\s+/).filter(Boolean).length
 const readingTimeMin = readingTime(bodyText)
 
 const i18n = getTranslations(lang)
+const description = resolvePostDescription(post)
 
 const currentIndex = allPosts.findIndex((entry) => getPostSlug(entry) === slug)
 const { prev: prevPost, next: nextPost } = getAdjacentPosts(allPosts, currentIndex)
@@ -90,57 +112,50 @@ const relatedPosts = allPosts
   .filter((entry) => getPostSlug(entry) !== slug && entry.data.category === category)
   .slice(0, 3)
 
-const canonicalUrl = getCanonicalUrl(lang, `/blog/${slug}`, siteUrl || Astro.url.origin)
-const alternateUrls = getAlternateUrls(`/blog/${slug}`, siteUrl)
+const postPath = getPostPath(post)
+const canonicalUrl = resolvePostCanonical(post, siteUrl)
+const alternateLinks = getPostAlternateLinks(post, translationPosts, siteUrl)
 
-const articleJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: title,
-  description: excerpt,
-  image: getImageUrl(coverImage, siteUrl),
-  datePublished: publishedTime,
-  dateModified: modifiedTime,
-  author: {
-    '@type': 'Person',
-    name: author,
-    url: siteUrl,
-  },
-  publisher: {
-    '@type': 'Organization',
-    name: SITE.name,
-    url: siteUrl,
-  },
-  mainEntityOfPage: {
-    '@type': 'WebPage',
-    '@id': canonicalUrl,
-  },
+const coverMetadata = coverImage ? getOptimizedCoverImage(coverImage) : undefined
+const coverImageType =
+  coverMetadata?.format === 'png'
+    ? 'image/png'
+    : coverMetadata?.format === 'webp'
+      ? 'image/webp'
+      : undefined
+const seoImage =
+  coverMetadata && coverImageType
+    ? resolveSeoImage(
+        {
+          url: coverMetadata.src,
+          type: coverImageType,
+          width: coverMetadata.width,
+          height: coverMetadata.height,
+        },
+        siteUrl
+      )
+    : undefined
+const articleJsonLd = buildArticleSchema({
+  title,
+  description,
+  url: canonicalUrl,
+  ...(seoImage ? { image: seoImage.url } : {}),
+  publishedAt,
+  ...(updatedAt && { updatedAt }),
+  author,
+  siteName: SITE.name,
+  siteUrl,
   keywords: [...tags, category],
-} as const
+})
 
-const breadcrumbJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    {
-      '@type': 'ListItem',
-      position: 1,
-      name: i18n.schema.home,
-      item: `${siteUrl}/${lang}`,
-    },
-    {
-      '@type': 'ListItem',
-      position: 2,
-      name: i18n.schema.blog,
-      item: `${siteUrl}${getBlogPath(lang)}`,
-    },
-    {
-      '@type': 'ListItem',
-      position: 3,
-      name: title,
-    },
-  ],
-} as const
+const breadcrumbJsonLd = buildBreadcrumbList({
+  homeLabel: i18n.schema.home,
+  homeUrl: toAbsoluteUrl(getHomePath(lang), siteUrl),
+  blogLabel: i18n.schema.blog,
+  blogUrl: toAbsoluteUrl(getBlogPath(lang), siteUrl),
+  currentLabel: title,
+  currentUrl: canonicalUrl,
+})
 
 const faqJsonLd =
   faq.length > 0
@@ -161,6 +176,23 @@ const faqJsonLd =
 const pageJsonLd = faqJsonLd
   ? [articleJsonLd, breadcrumbJsonLd, faqJsonLd]
   : [articleJsonLd, breadcrumbJsonLd]
+
+const seo = createSeoDocument({
+  kind: post.data.noindex ? 'noindex-content' : 'indexable',
+  title: `${title} | ${SITE.name}`,
+  description,
+  path: postPath,
+  canonicalUrl,
+  lang,
+  siteOrigin: siteUrl,
+  alternates: alternateLinks,
+  author,
+  type: 'article',
+  publishedTime: publishedAt,
+  modifiedTime: updatedAt ?? publishedAt,
+  jsonLd: pageJsonLd,
+  ...(seoImage && { image: seoImage }),
+})
 ---
 
 <style is:global>
@@ -176,22 +208,12 @@ const pageJsonLd = faqJsonLd
   }
 </style>
 
-<BaseLayout
-  title={`${title} | ${SITE.name}`}
-  description={excerpt}
-  canonicalUrl={canonicalUrl}
-  publishedTime={publishedTime}
-  modifiedTime={modifiedTime}
-  author={author}
-  type="article"
-  jsonLd={pageJsonLd}
-  noindex={post.data.noindex}
-  lang={lang}
-  currentPath={`/${lang}/blog/${slug}`}
-  alternateUrls={alternateUrls}
-  {...coverImage && { image: coverImage }}
->
-  <article class="min-h-screen" data-pagefind-body transition:name="post-detail">
+<BaseLayout seo={seo} currentPath={postPath}>
+  <article
+    class="min-h-screen"
+    transition:name="post-detail"
+    {...isPublicPost(post) && { 'data-pagefind-body': true }}
+  >
     <span data-pagefind-filter="category">{category}</span>
     {tags.map((tag) => <span data-pagefind-filter="tag">{tag}</span>)}
     <span data-pagefind-sort="date">{publishedAt.getTime()}</span>
@@ -199,7 +221,7 @@ const pageJsonLd = faqJsonLd
     <PostHero
       category={category}
       title={title}
-      excerpt={excerpt}
+      excerpt={description}
       tags={tags}
       publishedAt={formattedDate}
       publishedAtIso={publishedTime}

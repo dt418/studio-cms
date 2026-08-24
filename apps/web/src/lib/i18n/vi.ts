@@ -199,6 +199,7 @@ export const vi = {
       'Software engineer xây dựng hệ thống giúp sản phẩm phức tạp dễ adopt và tin tưởng hơn.',
     links: 'liên kết',
     email: 'email',
+    collaboration: 'Liên hệ hợp tác →',
     github: 'github',
     rss: 'rss',
     linkedin: 'linkedin',

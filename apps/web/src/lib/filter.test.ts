@@ -51,6 +51,22 @@ describe('filterPosts', () => {
       expect(result[0]?.data.slug).toBe('typescript-generics')
     })
 
+    it('matches posts by description', () => {
+      const result = filterPosts(
+        [
+          makePost({
+            slug: 'description-only',
+            title: 'A title without the query',
+            excerpt: 'A different excerpt',
+            description: 'Find this post through its SEO description',
+          }),
+        ],
+        { query: 'SEO description' }
+      )
+      expect(result).toHaveLength(1)
+      expect(result[0]?.data.slug).toBe('description-only')
+    })
+
     it('matches posts by tag', () => {
       const result = filterPosts(posts, { query: 'saas' })
       expect(result).toHaveLength(1)

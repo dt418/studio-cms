@@ -1,4 +1,6 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
+
+process.env.SITE_URL ??= 'http://localhost:4321'
 
 /**
  * Read environment variables from file.
@@ -72,9 +74,11 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'pnpm web:dev',
-    url: 'http://localhost:4321/',
+    command: 'node scripts/run-seo-preview.mjs http://localhost:4321',
+    url: 'http://127.0.0.1:4321/',
     timeout: 180 * 1000,
-    reuseExistingServer: !process.env.CI,
+    // Always use the deterministic static runner; a stale Astro preview can
+    // return different MIME headers and mask regressions in generated output.
+    reuseExistingServer: false,
   },
-});
+})
