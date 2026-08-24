@@ -74,7 +74,10 @@ const featuredMarkLabel = featuredPost?.data.category ?? ''
           <div class="grid items-stretch lg:grid-cols-[minmax(0,1.4fr)_minmax(260px,0.6fr)]">
             <div class="p-6 sm:p-10 lg:p-12">
               <div class="mb-5 flex flex-wrap items-center gap-3">
-                <span class="bg-accent text-accent-foreground rounded px-2.5 py-1 font-mono text-[0.62rem] font-bold tracking-[0.16em] uppercase">
+                <span
+                  data-testid="featured-category"
+                  class="bg-accent text-accent-foreground rounded px-2.5 py-1 font-mono text-[0.62rem] font-bold tracking-[0.16em] uppercase"
+                >
                   {featuredPost.data.category}
                 </span>
                 <time class="text-muted-foreground font-mono text-[0.66rem] tracking-[0.18em] uppercase">
