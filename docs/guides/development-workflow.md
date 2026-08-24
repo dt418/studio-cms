@@ -42,3 +42,6 @@ Agent integrations use the same quality gate:
 
 Each integration delegates to `scripts/agent-commit-guard.mjs` or `pnpm check`;
 Lefthook remains the final Git-level enforcement layer for staged files.
+
+The pre-push hook runs the test suite and full build sequentially. This avoids
+Vitest worker starvation when Astro/Vite consumes the same local resources.

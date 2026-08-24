@@ -75,7 +75,7 @@ Managed by Lefthook:
 | ------------ | ------------------------------------ | ----------------------------------------------------------------- |
 | `commit-msg` | commitlint                           | Validate conventional commit format                               |
 | `pre-commit` | lint + typecheck + format (parallel) | ESLint, TypeScript, and Prettier checks for staged matching files |
-| `pre-push`   | test + build (parallel)              | Run tests + full build before push                                |
+| `pre-push`   | test + build (sequential)            | Run tests + full build before push; avoid worker contention       |
 
 ## Related Topics
 
