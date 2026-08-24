@@ -200,15 +200,15 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
 
         function syncThemeControls() {
           setTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light')
-
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', syncThemeControls, { once: true })
-          } else {
-            syncThemeControls()
-          }
-
-          document.addEventListener('astro:page-load', syncThemeControls)
         }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', syncThemeControls, { once: true })
+        } else {
+          syncThemeControls()
+        }
+
+        document.addEventListener('astro:page-load', syncThemeControls)
       })()
     </script>
   </head>

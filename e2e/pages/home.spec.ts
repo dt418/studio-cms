@@ -71,10 +71,11 @@ test.describe('Home Page', () => {
       .map((word) => word[0])
       .join('')
       .toUpperCase()
+    const category = (await featured.getByTestId('featured-mark-label').textContent())?.trim() ?? ''
 
     await expect(featured.getByTestId('featured-reading-time')).toHaveText(/\d+\s+phút đọc/)
     await expect(featured.getByTestId('featured-mark')).toHaveText(expectedMark)
-    await expect(featured.getByTestId('featured-mark-label')).toHaveText(/^(guides|tutorials)$/)
+    expect(category).toMatch(/^(guides|tutorials)$/)
   })
 
   test('archive section displays', async ({ page }) => {
