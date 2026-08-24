@@ -27,6 +27,14 @@
 - **NEVER use `--no-verify` on `git commit` or `git push`.** Hooks exist to catch lint, type, format, and test failures before they reach the repo. Bypassing them defeats the entire quality gate. If a hook fails, fix the underlying issue — do not skip the hook.
 - ESLint ignores `e2e`, `dist`, `.astro`, `tender-series`, and coverage; do not assume E2E files are covered by `pnpm lint`.
 
+## Git Workflow
+
+- `main` is a protected integration branch. Never push directly to `main` or force-push any shared branch.
+- Start every task from an up-to-date `main` checkout on a separate branch, using a descriptive name such as `codex/fix-e2e-ci`.
+- Open a pull request into `main` for every change. Do not merge a task branch without the required CI checks passing.
+- The required PR gate is the `test` job in `.github/workflows/playwright.yml`; it runs Vitest, typecheck, build, and the full Chromium/Firefox/WebKit Playwright suite.
+- Keep unrelated changes out of a PR. Update the PR description with the root cause, validation commands, and any known environment limitations.
+
 ## Code Conventions That Bite
 
 - TypeScript is strict with `exactOptionalPropertyTypes`, `noUncheckedIndexedAccess`, and unused checks; conditionally spread optional Astro props (`{...(value && { value })}`) instead of passing possibly undefined values.

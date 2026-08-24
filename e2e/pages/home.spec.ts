@@ -63,6 +63,20 @@ test.describe('Home Page', () => {
     await expect(featuredHeading).toBeVisible()
   })
 
+  test('featured work derives metadata from the selected post', async ({ page }) => {
+    const featured = page.getByTestId('featured-work')
+    const title = (await featured.locator('h3').textContent())?.trim() ?? ''
+    const words = title.match(/[\p{L}\p{N}]+/gu)?.slice(0, 2) ?? []
+    const expectedMark = words
+      .map((word) => word[0])
+      .join('')
+      .toUpperCase()
+
+    await expect(featured.getByTestId('featured-reading-time')).toHaveText(/\d+\s+phút đọc/)
+    await expect(featured.getByTestId('featured-mark')).toHaveText(expectedMark)
+    await expect(featured.getByTestId('featured-mark-label')).toHaveText(/^(guides|tutorials)$/)
+  })
+
   test('archive section displays', async ({ page }) => {
     const browseLabel = page.locator('p:has-text("Duyệt")')
     await expect(browseLabel).toBeVisible()

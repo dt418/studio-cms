@@ -4,7 +4,7 @@
 
 ```bash
 pnpm install
-Copy-Item .env.example apps/web/.env
+cp .env.example apps/web/.env
 pnpm dev
 ```
 

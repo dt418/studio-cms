@@ -6,7 +6,7 @@ Astro 7 static blog with an editorial developer-portfolio interface. The site is
 
 ```bash
 pnpm install
-Copy-Item .env.example apps/web/.env
+cp .env.example apps/web/.env
 pnpm dev
 ```
 

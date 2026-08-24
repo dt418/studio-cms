@@ -68,8 +68,6 @@ export const en = {
     featured: 'Featured',
     latestFromBlog: 'Latest from the blog.',
     recentDescription: 'Recent tutorials, guides, and notes on web development.',
-    featuredMark: '9R',
-    featuredMarkLabel: 'API Gateway / VPS',
     readMore: 'Read more',
     recentLabel: 'Recently published',
     featuredIndex: 'featured / 01',

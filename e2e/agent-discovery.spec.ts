@@ -35,9 +35,14 @@ test('GET /robots.txt includes Content-Signal', async ({ request }) => {
   expect(body).toContain('Content-Signal: ai-train=no, search=yes, ai-input=yes')
 })
 
-test('RFC 9728 oauth-protected-resource declares empty authorization_servers', async ({ request }) => {
+test('RFC 9728 oauth-protected-resource declares empty authorization_servers', async ({
+  request,
+}) => {
   const res = await request.get('/.well-known/oauth-protected-resource')
-  const body = (await res.json()) as { authorization_servers: unknown[]; resource_documentation: string }
+  const body = (await res.json()) as {
+    authorization_servers: unknown[]
+    resource_documentation: string
+  }
   expect(body.authorization_servers).toEqual([])
   expect(body.resource_documentation).toMatch(/\/auth\.md$/)
 })
@@ -61,13 +66,13 @@ test('MCP server card declares empty capabilities and tools', async ({ request }
   expect(body.tools).toEqual([])
 })
 
-test('RFC 9264 api-catalog linkset includes documentation link to /auth.md', async ({ request }) => {
+test('RFC 9264 api-catalog linkset preserves service-doc link to /auth.md', async ({ request }) => {
   const res = await request.get('/.well-known/api-catalog')
   const body = (await res.json()) as {
     linkset: Array<{ 'service-doc': Array<{ rel: string; href: string }> }>
   }
   const all = body.linkset.flatMap((l) => l['service-doc'])
-  const auth = all.find((l) => l.rel === 'documentation')
+  const auth = all.find((l) => l.rel === 'service-doc')
   expect(auth?.href).toMatch(/\/auth\.md$/)
 })
 
