@@ -10,7 +10,7 @@ The static web app only needs the variables below. Astro automatically loads `ap
 ## Local setup
 
 ```bash
-Copy-Item .env.example apps/web/.env
+cp .env.example apps/web/.env
 ```
 
 Do not commit `.env` files or credentials. There is no runtime database, CMS server, OAuth flow, or backend environment in this project.

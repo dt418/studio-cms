@@ -19,6 +19,10 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
+      - name: Run Vitest
+        run: pnpm test
+      - name: Run typecheck
+        run: pnpm typecheck
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
       - name: Build application

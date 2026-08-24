@@ -68,8 +68,6 @@ export const vi = {
     featured: 'Nổi bật',
     latestFromBlog: 'Bài viết mới nhất từ blog.',
     recentDescription: 'Hướng dẫn, cẩm nang và ghi chú mới về phát triển web.',
-    featuredMark: '9R',
-    featuredMarkLabel: 'API Gateway / VPS',
     readMore: 'Đọc thêm',
     recentLabel: 'Vừa xuất bản',
     featuredIndex: 'nổi bật / 01',

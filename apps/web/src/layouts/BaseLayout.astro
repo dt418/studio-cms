@@ -198,9 +198,17 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
           setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark')
         })
 
-        document.addEventListener('astro:page-load', function () {
+        function syncThemeControls() {
           setTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light')
-        })
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', syncThemeControls, { once: true })
+        } else {
+          syncThemeControls()
+        }
+
+        document.addEventListener('astro:page-load', syncThemeControls)
       })()
     </script>
   </head>

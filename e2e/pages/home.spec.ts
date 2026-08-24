@@ -63,6 +63,24 @@ test.describe('Home Page', () => {
     await expect(featuredHeading).toBeVisible()
   })
 
+  test('featured work derives metadata from the selected post', async ({ page }) => {
+    const featured = page.getByTestId('featured-work')
+    const title = (await featured.locator('h3').textContent())?.trim() ?? ''
+    const words = title.match(/[\p{L}\p{N}]+/gu)?.slice(0, 2) ?? []
+    const expectedMark = words
+      .map((word) => word[0])
+      .join('')
+      .toUpperCase()
+    const categoryBadge = featured.getByTestId('featured-category')
+    const markLabel = featured.getByTestId('featured-mark-label')
+
+    await expect(featured.getByTestId('featured-reading-time')).toHaveText(/\d+\s+phút đọc/)
+    await expect(featured.getByTestId('featured-mark')).toHaveText(expectedMark)
+    await expect(categoryBadge).toBeVisible()
+    await expect(markLabel).toBeVisible()
+    expect((await markLabel.textContent())?.trim()).toBe((await categoryBadge.textContent())?.trim())
+  })
+
   test('archive section displays', async ({ page }) => {
     const browseLabel = page.locator('p:has-text("Duyệt")')
     await expect(browseLabel).toBeVisible()

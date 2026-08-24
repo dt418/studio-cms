@@ -52,17 +52,42 @@ test.describe('Accessibility Tests', () => {
   test('keyboard navigation works on home page', async ({ page }) => {
     await page.goto('/vi/')
 
-    // The first tab reaches the skip link across all browser engines.
+    const skipLink = page.getByRole('link', { name: 'Bỏ qua đến nội dung' })
     await page.keyboard.press('Tab')
-    const firstFocusable = page.locator(':focus')
-    await expect(firstFocusable).toBeVisible()
+    await expect(skipLink).toBeFocused()
 
-    // Verify a visible navigation control can receive keyboard focus. WebKit
-    // does not consistently advance focus through hidden responsive controls
-    // when Tab is synthesized in headless mode.
-    const navigationLink = page.locator('header nav.nav-links a').first()
-    await navigationLink.focus()
+    // Continue with real Tab traversal until the first visible desktop nav
+    // link receives focus. This keeps the assertion meaningful across engines
+    // without forcing focus programmatically.
+    const navigationLink = page.locator('header nav.nav-links a:visible').first()
+    const focusableCount = await page
+      .locator('a:visible, button:visible, input:visible, select:visible, textarea:visible')
+      .count()
+    let reachedNavigation = false
+
+    for (let index = 0; index < focusableCount; index++) {
+      await page.keyboard.press('Tab')
+      reachedNavigation = await navigationLink.evaluate(
+        (element) => element === document.activeElement
+      )
+      if (reachedNavigation) break
+    }
+
+    expect(reachedNavigation).toBe(true)
     await expect(navigationLink).toBeFocused()
+  })
+
+  test('theme controls reflect saved theme on initial page load', async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('theme-config', JSON.stringify({ theme: 'light' }))
+    })
+    await page.goto('/vi/')
+
+    const toggle = page.locator('[data-theme-toggle]:visible').first()
+    await expect(toggle).toHaveAttribute('aria-pressed', 'false')
+    await expect(toggle).toHaveAttribute('title', 'Chuyển sang giao diện tối')
+    await expect(toggle.locator('[data-theme-icon="dark"]')).toBeVisible()
+    await expect(toggle.locator('[data-theme-icon="light"]')).toBeHidden()
   })
 
   test('keyboard navigation works on blog page', async ({ page }) => {

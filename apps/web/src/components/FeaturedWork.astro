@@ -2,6 +2,8 @@
 import type { Post } from '@/lib/cms'
 import { formatDate } from '@/lib/date'
 import { getPostPath } from '@/lib/routes'
+import { readingTime } from '@/lib/reading-time'
+import { getFeaturedMark } from '@/lib/featured-work'
 
 interface Props {
   featuredPost: Post | null
@@ -11,8 +13,6 @@ interface Props {
     featured: string
     latestFromBlog: string
     recentDescription: string
-    featuredMark: string
-    featuredMarkLabel: string
     readMore: string
     recentLabel: string
     featuredIndex: string
@@ -29,8 +29,6 @@ const {
     featured: 'Featured',
     latestFromBlog: 'Latest from the blog.',
     recentDescription: 'Recent tutorials, guides, and notes on web development.',
-    featuredMark: '9R',
-    featuredMarkLabel: 'API Gateway / VPS',
     readMore: 'Read more',
     recentLabel: 'Recently published',
     featuredIndex: 'featured / 01',
@@ -40,6 +38,11 @@ const {
 } = Astro.props
 
 const featuredPath = featuredPost ? getPostPath(featuredPost) : '#'
+const featuredReadingTime =
+  featuredPost?.data.readingTime ??
+  (featuredPost?.body !== undefined ? readingTime(featuredPost.body) : undefined)
+const featuredMark = featuredPost ? getFeaturedMark(featuredPost.data.title) : ''
+const featuredMarkLabel = featuredPost?.data.category ?? ''
 ---
 
 <section class="border-border border-b">
@@ -64,21 +67,32 @@ const featuredPath = featuredPost ? getPostPath(featuredPost) : '#'
       featuredPost && (
         <a
           href={featuredPath}
+          data-testid="featured-work"
           class="group border-border bg-card/30 hover:border-primary relative mb-14 block overflow-hidden rounded-xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
         >
           <span class="bg-primary absolute inset-y-0 left-0 w-1 origin-bottom scale-y-0 transition-transform duration-500 group-hover:scale-y-100" />
           <div class="grid items-stretch lg:grid-cols-[minmax(0,1.4fr)_minmax(260px,0.6fr)]">
             <div class="p-6 sm:p-10 lg:p-12">
               <div class="mb-5 flex flex-wrap items-center gap-3">
-                <span class="bg-accent text-accent-foreground rounded px-2.5 py-1 font-mono text-[0.62rem] font-bold tracking-[0.16em] uppercase">
+                <span
+                  data-testid="featured-category"
+                  class="bg-accent text-accent-foreground rounded px-2.5 py-1 font-mono text-[0.62rem] font-bold tracking-[0.16em] uppercase"
+                >
                   {featuredPost.data.category}
                 </span>
                 <time class="text-muted-foreground font-mono text-[0.66rem] tracking-[0.18em] uppercase">
                   {formatDate(featuredPost.data.publishedAt, lang)}
                 </time>
-                <span class="text-muted-foreground/50 font-mono text-[0.66rem] tracking-[0.16em] uppercase">
-                  {featuredPost.data.readingTime} {i18n.minRead}
-                </span>
+                {
+                  featuredReadingTime !== undefined && (
+                    <span
+                      data-testid="featured-reading-time"
+                      class="text-muted-foreground/50 font-mono text-[0.66rem] tracking-[0.16em] uppercase"
+                    >
+                      {featuredReadingTime} {i18n.minRead}
+                    </span>
+                  )
+                }
               </div>
 
               <h3 class="text-foreground group-hover:text-primary max-w-3xl font-serif text-3xl leading-[1.08] font-bold tracking-tight transition-colors sm:text-4xl lg:text-5xl">
@@ -97,11 +111,17 @@ const featuredPath = featuredPost ? getPostPath(featuredPost) : '#'
             </div>
 
             <div class="border-border bg-background/70 flex min-h-64 flex-col items-center justify-center border-t p-8 lg:border-t-0 lg:border-l">
-              <span class="text-primary font-serif text-8xl leading-none font-bold tracking-[-0.08em] transition-transform duration-500 group-hover:scale-105">
-                {i18n.featuredMark}
+              <span
+                data-testid="featured-mark"
+                class="text-primary font-serif text-8xl leading-none font-bold tracking-[-0.08em] transition-transform duration-500 group-hover:scale-105"
+              >
+                {featuredMark}
               </span>
-              <span class="text-muted-foreground mt-3 font-mono text-[0.62rem] tracking-[0.2em] uppercase">
-                {i18n.featuredMarkLabel}
+              <span
+                data-testid="featured-mark-label"
+                class="text-muted-foreground mt-3 font-mono text-[0.62rem] tracking-[0.2em] uppercase"
+              >
+                {featuredMarkLabel}
               </span>
               <span class="border-primary/40 text-primary mt-7 border px-3 py-1 font-mono text-[0.58rem] tracking-[0.2em] uppercase">
                 {i18n.featuredIndex}
