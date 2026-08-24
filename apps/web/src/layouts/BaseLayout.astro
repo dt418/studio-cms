@@ -11,9 +11,10 @@ import Icon from '@/components/Icon.astro'
 export interface Props {
   seo: SeoDocument
   currentPath?: string
+  alternatePaths?: Partial<Record<SupportedLocale, string>>
 }
 
-const { seo, currentPath = Astro.url.pathname } = Astro.props
+const { seo, currentPath = Astro.url.pathname, alternatePaths } = Astro.props
 
 const { title, description, canonical, author, openGraph } = seo
 const lang: SupportedLocale = seo.lang
@@ -282,6 +283,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
             <LanguageSwitcher
               currentLang={lang}
               currentPath={currentPath}
+              {...alternatePaths && { alternatePaths }}
               label={i18n.language.navigation}
               languageNames={i18n.language.names}
               getSwitchLabel={i18n.language.switchTo}
@@ -336,6 +338,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
                   <LanguageSwitcher
                     currentLang={lang}
                     currentPath={currentPath}
+                    {...alternatePaths && { alternatePaths }}
                     label={i18n.language.navigation}
                     languageNames={i18n.language.names}
                     getSwitchLabel={i18n.language.switchTo}
@@ -386,6 +389,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
           <LanguageSwitcher
             currentLang={lang}
             currentPath={currentPath}
+            {...alternatePaths && { alternatePaths }}
             label={i18n.language.footerNavigation}
             languageNames={i18n.language.names}
             getSwitchLabel={i18n.language.switchTo}

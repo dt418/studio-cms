@@ -1,10 +1,9 @@
 const COMMIT_COMMAND = /(?:^|[;&|()])\s*git\s+commit\b/
-const QUALITY_GATE = /\bpnpm\s+(?:check|lint|format:check)\b/
+const QUALITY_GATE = /(?:^|[;&|()])\s*pnpm\s+check(?:\s|$)/
 const BLOCKED_PATTERNS = [
   /git\s+commit\b.*--no-verify/,
   /git\s+commit\b.*-n\b/,
   /git\s+push\b.*--no-verify/,
-  /git\s+push\b.*-n\b/,
 ]
 
 export default {

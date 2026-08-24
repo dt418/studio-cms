@@ -5,18 +5,21 @@ import { extname, join, normalize, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
 
-const siteOrigin = process.argv[2] ?? process.env.PREVIEW_SITE_URL ?? 'http://seo.test:4321'
+const siteOrigin =
+  process.argv[2] ?? process.env.PREVIEW_SITE_URL ?? process.env.SITE_URL ?? 'http://seo.test:4321'
 const environment = { ...process.env, SITE_URL: siteOrigin }
 const pnpmCommand = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
 const buildCommand = process.platform === 'win32' ? (process.env.ComSpec ?? 'cmd.exe') : pnpmCommand
 const buildArgs =
   process.platform === 'win32' ? ['/d', '/s', '/c', `${pnpmCommand} web:build`] : ['web:build']
-const build = spawnSync(buildCommand, buildArgs, {
-  env: environment,
-  stdio: 'inherit',
-})
+if (process.env.SKIP_WEB_BUILD !== 'true') {
+  const build = spawnSync(buildCommand, buildArgs, {
+    env: environment,
+    stdio: 'inherit',
+  })
 
-if (build.status !== 0) process.exit(build.status ?? 1)
+  if (build.status !== 0) process.exit(build.status ?? 1)
+}
 
 const root = resolve(fileURLToPath(new URL('../apps/web/dist/', import.meta.url)))
 const mimeTypes = {

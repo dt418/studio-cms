@@ -35,7 +35,7 @@ This is a design-only document. It preserves the site’s visual UI, content URL
 
 - `apps/web/src/layouts/BaseLayout.astro` already emits common tags, but it accepts overlapping primitive props and falls back to request origin; static output can therefore acquire a localhost origin.
 - `apps/web/src/lib/content-utils.ts` produces alternate URLs for every locale without proving the corresponding translated page exists.
-- `apps/web/src/lib/cms.ts` defaults to indexable public posts, while taxonomy static paths in `pages/[lang]/categories/[category].astro` and `tags/[tag].astro` first enumerate global terms, enabling empty locale-local pages.
+- `apps/web/src/lib/content-queries.ts` defaults to indexable public posts, while taxonomy static paths in `pages/[lang]/categories/[category].astro` and `tags/[tag].astro` first enumerate global terms, enabling empty locale-local pages.
 - `apps/web/src/pages/sitemap.xml.ts` interpolates XML directly and uses `new Date()` for empty collections; both violate deterministic XML output.
 - `apps/web/src/lib/agent-metadata.ts` and `pages/[lang]/index.md.ts` advertise `/sitemap-index.xml` and `/search`, but this static app publishes `/sitemap.xml` and no search route. `robots.txt` already uses the correct sitemap.
 - `apps/web/src/pages/index.astro` is a meta-refresh redirect with neither `noindex` nor canonical policy. Root/localized 404 pages, API JSON, Markdown, XML, RSS, robots, and `.well-known` surfaces must not become sitemap members or indexable HTML duplicates.
@@ -50,7 +50,7 @@ This is a design-only document. It preserves the site’s visual UI, content URL
 | New `src/lib/seo.ts`                                         | URL normalization, SEO document construction, alternate assembly, and safe JSON-LD serialization. It does not query content. |
 | New `src/lib/seo-schema.ts` or a focused portion of `seo.ts` | Builders for `WebSite`/Person, `WebPage`/ProfilePage, `CollectionPage`, `Article`, and breadcrumbs.                          |
 | `src/lib/post-visibility.ts`                                 | Authoritative draft/noindex classification.                                                                                  |
-| `src/lib/cms.ts`                                             | Visibility-aware, locale-aware post and taxonomy queries.                                                                    |
+| `src/lib/content-queries.ts`                                 | Visibility-aware, locale-aware post and taxonomy queries.                                                                    |
 | `src/lib/routes.ts`                                          | Relative, URI-encoded route paths only.                                                                                      |
 | `src/layouts/BaseLayout.astro`                               | The only renderer of common HTML head output.                                                                                |
 | New sitemap manifest helper                                  | Produces indexable route records; `pages/sitemap.xml.ts` serializes only.                                                    |
@@ -306,7 +306,7 @@ The later implementation plan must check current Astro 7 APIs before coding and 
 
 - `apps/web/astro.config.mjs`: command-aware site-origin validation before build.
 - `apps/web/src/content.config.ts`: trimmed description/canonical validation and optional translation key validation.
-- `apps/web/src/lib/site.ts`, `content-utils.ts`, `routes.ts`, `post-visibility.ts`, `cms.ts`: origin consumer, public visibility, locale taxonomy primitives.
+- `apps/web/src/lib/site.ts`, `content-utils.ts`, `routes.ts`, `post-visibility.ts`, `content-queries.ts`: origin consumer, public visibility, locale taxonomy primitives.
 - New focused SEO/schema/sitemap-manifest modules and Vitest tests under `apps/web/src/lib/`.
 - `apps/web/src/layouts/BaseLayout.astro`: normalized head rendering and safe JSON-LD.
 - `apps/web/src/pages/index.astro`, `404.astro`, localized HTML routes: route-specific SEO inputs/schema.

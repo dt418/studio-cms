@@ -13,7 +13,7 @@ import {
 import { getSiteOrigin, SITE, toAbsoluteUrl } from '@/lib/site'
 import { getTranslations } from '@/lib/i18n'
 import { getTagPath, getBlogPath, getHomePath } from '@/lib/routes'
-import { isValidLocale } from '@/lib/content-utils'
+import { isValidLocale, SUPPORTED_LOCALES } from '@/lib/content-utils'
 import { buildBreadcrumbList, buildCollectionPageSchema, createSeoDocument } from '@/lib/seo'
 
 export const prerender = true
@@ -58,6 +58,14 @@ const tag =
 const posts = await getPostsByTag(tag, lang)
 const allTags = await getAllTags(lang)
 const allCategories = await getAllCategories(lang)
+const alternatePaths = Object.fromEntries(
+  await Promise.all(
+    SUPPORTED_LOCALES.map(async (locale) => [
+      locale,
+      (await getAllTags(locale)).includes(tag) ? getTagPath(tag, locale) : getBlogPath(locale),
+    ])
+  )
+) as Partial<Record<SupportedLocale, string>>
 
 const tagPath = getTagPath(tag, lang)
 const canonicalUrl = toAbsoluteUrl(tagPath, siteUrl)
@@ -91,7 +99,7 @@ const seo = createSeoDocument({
 })
 ---
 
-<BaseLayout seo={seo} currentPath={tagPath}>
+<BaseLayout seo={seo} currentPath={tagPath} alternatePaths={alternatePaths}>
   <section class="container py-16">
     <div class="mb-12">
       <BackLink href={getBlogPath(lang)} text={i18n.tags.backToBlog} />

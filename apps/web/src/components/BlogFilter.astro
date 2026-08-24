@@ -94,7 +94,7 @@ const sortbyOptions: { value: string; label: string }[] = [
 
     <!-- CATEGORY -->
     <div class="w-full sm:w-auto sm:min-w-40">
-      <input type="hidden" id="filter-category" />
+      <input type="hidden" id="filter-category" value={initialCategory ?? ''} />
 
       <FilterSelect
         name="category"

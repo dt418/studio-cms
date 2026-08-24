@@ -8,11 +8,12 @@ const SEO_FIXTURE = {
   canonical: 'https://canonical.example.invalid/seo-e2e-noindex',
 }
 const PUBLIC_DESCRIPTION_FIXTURE = {
-  slug: 'seo-e2e-description',
-  path: '/vi/blog/seo-e2e-description',
-  description: 'Fixture custom description reaches the API and RSS surfaces.',
-  category: 'seo-e2e-only-vi',
-  tag: 'seo-e2e-only-vi',
+  slug: 'mastering-typescript-generics',
+  locale: 'vi' as const,
+  path: '/vi/blog/mastering-typescript-generics',
+  description: 'Mô tả tùy chỉnh cho bài viết Generics trong TypeScript.',
+  category: 'tutorials',
+  tags: ['typescript', 'programming', 'generics'],
 }
 
 interface ApiPost {
@@ -321,11 +322,15 @@ test.describe('served discovery surfaces', () => {
       expect(rss).toContain(post.description.replace(/&/g, '&amp;'))
     }
 
-    const fixture = posts.find((post) => post.slug === PUBLIC_DESCRIPTION_FIXTURE.slug)
+    const fixture = posts.find(
+      (post) =>
+        post.slug === PUBLIC_DESCRIPTION_FIXTURE.slug &&
+        post.locale === PUBLIC_DESCRIPTION_FIXTURE.locale
+    )
     expect(fixture).toMatchObject({
       description: PUBLIC_DESCRIPTION_FIXTURE.description,
       category: PUBLIC_DESCRIPTION_FIXTURE.category,
-      tags: [PUBLIC_DESCRIPTION_FIXTURE.tag],
+      tags: PUBLIC_DESCRIPTION_FIXTURE.tags,
     })
     expect(fixture?.url).toBe(`${ORIGIN}${PUBLIC_DESCRIPTION_FIXTURE.path}`)
     expect(rss).toContain(PUBLIC_DESCRIPTION_FIXTURE.description)

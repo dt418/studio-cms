@@ -17,12 +17,15 @@ try {
 }
 
 const command = payload?.tool_input?.command ?? payload?.command ?? ''
-if (!/\bgit\s+commit\b/.test(command)) process.exit(0)
-
-if (/git\s+(?:commit|push)\b.*(?:--no-verify|-n\b)/.test(command)) {
+if (
+  /git\s+commit\b.*(?:--no-verify|-n\b)/.test(command) ||
+  /git\s+push\b.*--no-verify/.test(command)
+) {
   console.error('BLOCKED: --no-verify is not allowed. Fix the failing hook instead.')
   process.exit(1)
 }
+
+if (!/\bgit\s+commit\b/.test(command)) process.exit(0)
 
 const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
 const result = spawnSync(pnpm, ['check'], {

@@ -163,8 +163,7 @@ git commit -m "feat: centralize SEO document generation"
 **Files:**
 
 - Modify: `apps/web/src/lib/post-visibility.ts`
-- Modify: `apps/web/src/lib/cms.ts`
-- Modify: `apps/web/src/lib/cms.test.ts`
+- Modify: `apps/web/src/lib/content-queries.ts`
 - Create: `apps/web/src/lib/post-visibility.test.ts`
 - Modify: `apps/web/src/pages/[lang]/blog/[slug].astro`
 - Modify: `apps/web/src/pages/[lang]/categories/[category].astro`
@@ -192,7 +191,7 @@ Assert localized tag/category queries contain only the matching public locale te
 
 - [x] **Step 2: Run the focused tests**
 
-Run: `pnpm --filter web test -- src/lib/cms.test.ts src/lib/post-visibility.test.ts`  
+Run: `pnpm --filter web test -- src/lib/post-visibility.test.ts`
 Expected: FAIL for named routability/duplicate validation and locale-static-path behavior.
 
 - [x] **Step 3: Implement predicates and route generation**
@@ -219,13 +218,13 @@ export function validateTranslationKeys(posts: Post[]): void {
 
 - [x] **Step 4: Verify focused behavior**
 
-Run: `pnpm --filter web test -- src/lib/cms.test.ts src/lib/post-visibility.test.ts src/lib/routes.test.ts`  
+Run: `pnpm --filter web test -- src/lib/post-visibility.test.ts src/lib/routes.test.ts`
 Expected: PASS.
 
 - [x] **Step 5: Commit**
 
 ```bash
-git add apps/web/src/lib/post-visibility.ts apps/web/src/lib/post-visibility.test.ts apps/web/src/lib/cms.ts apps/web/src/lib/cms.test.ts apps/web/src/pages/[lang]/blog/[slug].astro apps/web/src/pages/[lang]/categories/[category].astro apps/web/src/pages/[lang]/tags/[tag].astro
+git add apps/web/src/lib/post-visibility.ts apps/web/src/lib/post-visibility.test.ts apps/web/src/lib/content-queries.ts apps/web/src/pages/[lang]/blog/[slug].astro apps/web/src/pages/[lang]/categories/[category].astro apps/web/src/pages/[lang]/tags/[tag].astro
 git commit -m "fix: align post visibility with locale routes"
 ```
 
@@ -277,7 +276,7 @@ In the post route, construct `seo` from `resolvePostDescription(post)`, `resolve
 
 - [x] **Step 4: Verify type and unit integrity**
 
-Run: `pnpm --filter web test -- src/lib/seo.test.ts src/lib/cms.test.ts`  
+Run: `pnpm --filter web test -- src/lib/seo.test.ts`
 Expected: PASS.
 
 Run: `pnpm --filter web typecheck`  
@@ -315,7 +314,7 @@ Add route tests asserting agent catalog uses only `/sitemap.xml`, `auth.md.ts:23
 
 - [x] **Step 2: Run failing focused tests**
 
-Run: `pnpm --filter web test -- src/lib/filter.test.ts src/lib/sitemap-manifest.test.ts src/lib/agent-metadata.test.ts`  
+Run: `pnpm --filter web test -- src/lib/filter.test.ts src/lib/sitemap-manifest.test.ts src/lib/agent-metadata.test.ts`
 Expected: FAIL until shared resolver and stale-route cleanup are complete.
 
 - [x] **Step 3: Implement the common-consumer policy**
@@ -339,7 +338,8 @@ return {
 
 - [x] **Step 4: Verify focused consumers**
 
-Run: `pnpm --filter web test -- src/lib/filter.test.ts src/lib/sitemap-manifest.test.ts src/lib/agent-metadata.test.ts src/lib/cms.test.ts`  
+Run: `pnpm --filter web test -- src/lib/filter.test.ts src/lib/sitemap-manifest.test.ts src/lib/agent-metadata.test.ts`
+
 Expected: PASS.
 
 - [x] **Step 5: Commit**
@@ -393,7 +393,7 @@ for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => preview.kil
 
 - [x] **Step 4: Run final focused verification**
 
-Run: `pnpm --filter web test -- src/lib/site.test.ts src/lib/seo.test.ts src/lib/post-visibility.test.ts src/lib/cms.test.ts src/lib/filter.test.ts src/lib/sitemap-manifest.test.ts src/lib/agent-metadata.test.ts`  
+Run: `pnpm --filter web test -- src/lib/site.test.ts src/lib/seo.test.ts src/lib/post-visibility.test.ts src/lib/filter.test.ts src/lib/sitemap-manifest.test.ts src/lib/agent-metadata.test.ts`
 Expected: PASS.
 
 Run: `pnpm exec playwright test --config=playwright.seo.config.ts e2e/seo-foundation.spec.ts --project=seo-chromium`  

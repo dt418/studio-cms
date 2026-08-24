@@ -54,13 +54,19 @@ const listboxId = `filter-select-${name}`
             class="focus:bg-accent focus:text-accent-foreground relative flex w-full cursor-default items-center gap-2 rounded-none py-2 pr-8 pl-2 text-left text-xs outline-hidden select-none"
             data-filter-select-option={option.value}
           >
-            <span class="flex flex-1 shrink-0 gap-2 whitespace-nowrap">{option.label}</span>
+            <span
+              data-filter-select-option-label
+              class="flex flex-1 shrink-0 gap-2 whitespace-nowrap"
+            >
+              {option.label}
+            </span>
             <span
               aria-hidden="true"
               class:list={[
                 'pointer-events-none absolute right-2',
                 option.value !== value && 'hidden',
               ]}
+              data-filter-select-check
             >
               ✓
             </span>
@@ -81,6 +87,26 @@ const listboxId = `filter-select-${name}`
     trigger.setAttribute('aria-expanded', 'false')
   }
 
+  const syncSelection = (root: HTMLElement, value: string) => {
+    const label = root.querySelector<HTMLElement>('[data-filter-select-label]')
+    const placeholder = label?.dataset.placeholder ?? ''
+    const selected = [
+      ...root.querySelectorAll<HTMLButtonElement>('[data-filter-select-option]'),
+    ].find((option) => option.dataset.filterSelectOption === value)
+    if (label) {
+      const selectedLabel = selected?.querySelector<HTMLElement>(
+        '[data-filter-select-option-label]'
+      )?.textContent
+      label.textContent = selectedLabel || placeholder
+    }
+    for (const option of root.querySelectorAll<HTMLButtonElement>('[data-filter-select-option]')) {
+      const isSelected = option === selected
+      option.setAttribute('aria-selected', String(isSelected))
+      const check = option.querySelector<HTMLElement>('[data-filter-select-check]')
+      if (check) check.classList.toggle('hidden', !isSelected)
+    }
+  }
+
   const initFilterSelects = () => {
     for (const root of document.querySelectorAll<HTMLElement>('[data-filter-select]')) {
       if (root.dataset.filterSelectBound === 'true') continue
@@ -91,6 +117,9 @@ const listboxId = `filter-select-${name}`
       const menu = root.querySelector<HTMLElement>('[data-filter-select-menu]')
       const label = root.querySelector<HTMLElement>('[data-filter-select-label]')
       if (!name || !trigger || !menu || !label) continue
+
+      const hidden = document.getElementById(`filter-${name}`)
+      syncSelection(root, hidden instanceof HTMLInputElement ? hidden.value : '')
 
       trigger.addEventListener('click', () => {
         const opening = menu.classList.contains('hidden')
@@ -116,22 +145,20 @@ const listboxId = `filter-select-${name}`
         option.addEventListener('click', () => {
           const value = option.dataset.filterSelectOption ?? ''
           const hidden = document.getElementById(`filter-${name}`)
-          const optionLabel = option.querySelector('span')?.textContent ?? ''
           if (hidden instanceof HTMLInputElement) {
             hidden.value = value
             hidden.dispatchEvent(new Event('change', { bubbles: true }))
             hidden.dispatchEvent(new Event('input', { bubbles: true }))
           }
-          label.textContent = optionLabel
-          for (const check of root.querySelectorAll<HTMLElement>(
-            '[data-filter-select-option] > span:last-child'
-          )) {
-            check.classList.toggle('hidden', check.parentElement !== option)
-          }
+          syncSelection(root, value)
           closeSelect(root)
           window.dispatchEvent(new Event('filter-change'))
         })
       }
+
+      document.addEventListener('click', (event) => {
+        if (event.target instanceof Node && !root.contains(event.target)) closeSelect(root)
+      })
     }
 
     window.addEventListener('filter-reset', () => {
@@ -141,6 +168,7 @@ const listboxId = `filter-select-${name}`
         const triggerLabel = root.querySelector<HTMLElement>('[data-filter-select-label]')
         if (hidden instanceof HTMLInputElement) hidden.value = ''
         if (triggerLabel) triggerLabel.textContent = triggerLabel.dataset.placeholder ?? ''
+        syncSelection(root, '')
         closeSelect(root)
       }
     })
