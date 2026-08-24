@@ -21,12 +21,13 @@
 
 ## Verification And Hooks
 
-- Lefthook pre-commit always runs lint, typecheck, and `format:check` in parallel, regardless of which files are staged; a11y-pattern and Markdown checks run alongside them.
+- Lefthook pre-commit runs lint, typecheck, and `format:check` in parallel for staged TS/TSX/Astro/CSS/JSON/MD files; a11y-pattern and Markdown checks run alongside them when their file globs match.
 - Before an agent invokes `git commit`, it must run `pnpm check` and `git diff --check`. If either command fails, fix the underlying issue and rerun the checks before retrying the commit.
 - Lefthook pre-push runs `pnpm test` and `pnpm build` in parallel.
 - Commit messages are checked by commitlint; use Conventional Commits style such as `fix: prevent search overflow`.
 - **NEVER use `--no-verify` on `git commit` or `git push`.** Hooks exist to catch lint, type, format, and test failures before they reach the repo. Bypassing them defeats the entire quality gate. If a hook fails, fix the underlying issue — do not skip the hook.
 - ESLint ignores `e2e`, `dist`, `.astro`, `tender-series`, and coverage; do not assume E2E files are covered by `pnpm lint`.
+
 ## Git Workflow
 
 - `main` is a protected integration branch. Never push directly to `main` or force-push any shared branch.

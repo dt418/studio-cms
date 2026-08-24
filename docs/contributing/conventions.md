@@ -71,11 +71,11 @@ This document outlines the coding conventions for the danhthanh.dev monorepo.
 
 Managed by Lefthook:
 
-| Hook         | Commands                             | Description                                             |
-| ------------ | ------------------------------------ | ------------------------------------------------------- |
-| `commit-msg` | commitlint                           | Validate conventional commit format                     |
-| `pre-commit` | lint + typecheck + format (parallel) | ESLint, TypeScript, and Prettier checks on every commit |
-| `pre-push`   | test + build (parallel)              | Run tests + full build before push                      |
+| Hook         | Commands                             | Description                                                       |
+| ------------ | ------------------------------------ | ----------------------------------------------------------------- |
+| `commit-msg` | commitlint                           | Validate conventional commit format                               |
+| `pre-commit` | lint + typecheck + format (parallel) | ESLint, TypeScript, and Prettier checks for staged matching files |
+| `pre-push`   | test + build (parallel)              | Run tests + full build before push                                |
 
 ## Related Topics
 

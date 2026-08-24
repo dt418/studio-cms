@@ -6,4 +6,4 @@ ESLint, formatting, unit tests, and TypeScript. Never use `--no-verify` or
 
 The `commit-quality-gate` plugin automatically prefixes agent-issued
 `git commit` commands with `pnpm check`. Lefthook remains the final repository
-hook and repeats the commit-time checks.
+hook and checks the staged files at commit time.

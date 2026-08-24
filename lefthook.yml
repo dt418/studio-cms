@@ -2,7 +2,8 @@ pre-commit:
   parallel: true
   commands:
     lint:
-      run: pnpm lint
+      glob: '*.{ts,tsx,astro}'
+      run: pnpm exec eslint --config eslint.config.js {staged_files}
       stage_fixed: true
 
     typecheck:
@@ -14,7 +15,8 @@ pre-commit:
       run: pnpm lint:patterns
 
     format:
-      run: pnpm format:check
+      glob: '*.{ts,tsx,astro,css,json,md}'
+      run: pnpm exec prettier --check --ignore-unknown {staged_files}
 
     markdownlint:
       glob: '*.md'
@@ -26,7 +28,9 @@ commit-msg:
       run: pnpm commitlint --edit {1}
 
 pre-push:
-  parallel: true
+  # Keep test and build sequential to avoid Vitest worker starvation while
+  # Astro/Vite consumes the same CPU and memory on developer machines.
+  parallel: false
   commands:
     test:
       run: pnpm test

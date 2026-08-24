@@ -9,5 +9,5 @@ Use this rule for every agent-driven commit in the repository.
    `--no-verify` on `git commit` or `git push`.
 
 The Lefthook `pre-commit` hook independently enforces lint, format, typecheck,
-accessibility-pattern, and Markdown checks on every commit. The agent command
-rule is an additional guard; it does not replace the hook.
+accessibility-pattern, and Markdown checks for staged matching files. The agent
+command rule is an additional guard; it does not replace the hook.

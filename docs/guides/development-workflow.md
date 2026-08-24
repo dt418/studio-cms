@@ -32,7 +32,7 @@ Edit Markdown/MDX files under `apps/web/src/content/posts/{vi,en}`. Validate fro
 
 ## Hooks
 
-Lefthook always runs lint, typecheck, and formatting checks before every commit, regardless of which files are staged. Agents must run `pnpm check` and `git diff --check` before invoking `git commit`. Never bypass hooks with `--no-verify`.
+Lefthook runs lint, typecheck, and formatting checks for staged matching files before commit. Agents must run `pnpm check` and `git diff --check` before invoking `git commit`. Never bypass hooks with `--no-verify`.
 
 Agent integrations use the same quality gate:
 
@@ -41,4 +41,4 @@ Agent integrations use the same quality gate:
 - OpenCode loads `.opencode/plugins/commit-quality-gate.ts` and its matching rule.
 
 Each integration delegates to `scripts/agent-commit-guard.mjs` or `pnpm check`;
-Lefthook remains the final Git-level enforcement layer.
+Lefthook remains the final Git-level enforcement layer for staged files.
