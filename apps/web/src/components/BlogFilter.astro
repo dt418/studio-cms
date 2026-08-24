@@ -209,7 +209,10 @@ const sortbyOptions: { value: string; label: string }[] = [
     // hidden filter input from the browser URL when arriving from a tag cloud.
     const tagFromUrl = new URLSearchParams(window.location.search).get('tag')
     const tagInput = document.getElementById('filter-tag') as HTMLInputElement | null
-    if (tagInput && tagFromUrl) tagInput.value = tagFromUrl
+    if (tagInput && tagFromUrl) {
+      tagInput.value = tagFromUrl
+      window.dispatchEvent(new Event('filter-selection-sync'))
+    }
 
     initBlogFilter()
     setupFilterBridge()

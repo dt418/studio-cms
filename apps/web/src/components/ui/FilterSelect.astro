@@ -139,6 +139,24 @@ const listboxId = `filter-select-${name}`
         }
       })
 
+      trigger.addEventListener('keydown', (event) => {
+        if (!['ArrowDown', 'Enter', ' '].includes(event.key)) return
+        event.preventDefault()
+        if (!menu.classList.contains('hidden')) return
+        for (const other of document.querySelectorAll<HTMLElement>('[data-filter-select-menu]')) {
+          other.classList.add('hidden')
+          other.setAttribute('aria-hidden', 'true')
+        }
+        for (const other of document.querySelectorAll<HTMLButtonElement>(
+          '[data-filter-select-trigger]'
+        )) {
+          other.setAttribute('aria-expanded', 'false')
+        }
+        menu.classList.remove('hidden')
+        menu.setAttribute('aria-hidden', 'false')
+        trigger.setAttribute('aria-expanded', 'true')
+      })
+
       for (const option of root.querySelectorAll<HTMLButtonElement>(
         '[data-filter-select-option]'
       )) {
@@ -158,6 +176,11 @@ const listboxId = `filter-select-${name}`
 
       document.addEventListener('click', (event) => {
         if (event.target instanceof Node && !root.contains(event.target)) closeSelect(root)
+      })
+
+      window.addEventListener('filter-selection-sync', () => {
+        const current = document.getElementById(`filter-${name}`)
+        syncSelection(root, current instanceof HTMLInputElement ? current.value : '')
       })
     }
 

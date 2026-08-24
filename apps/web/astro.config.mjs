@@ -72,9 +72,7 @@ const envMode = command === 'build' ? 'production' : 'development'
 const workspaceRoot = findAncestor(process.cwd(), 'pnpm-workspace.yaml') ?? process.cwd()
 const appEnvDirectory =
   findAncestor(process.cwd(), 'astro.config.mjs') ?? resolve(workspaceRoot, 'apps/web')
-const rootEnvDirectory = workspaceRoot
 const configuredEnv = {
-  ...readOriginEnv(rootEnvDirectory, envMode),
   ...readOriginEnv(appEnvDirectory, envMode),
   ...process.env,
 }

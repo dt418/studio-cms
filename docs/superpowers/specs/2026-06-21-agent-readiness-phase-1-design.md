@@ -15,25 +15,25 @@ scan test for. Phase 1 ships the static `.well-known/` endpoints, the agent
 skills index, the auth.md policy file, and the `Content-Signal` line in
 `robots.txt`.
 
-Harness scaffolding (AGENTS.md, CLAUDE.md, openspec, plans, .claude, .agents,
+Harness scaffolding (AGENTS.md, CLAUDE.md, specs, plans, .claude, .agents,
 .factory) already exists at repo root. This phase does **not** touch those
 files; it only extends the public app with the metadata surface.
 
 ## Goals (Phase 1 scope)
 
-| # | Goal | Surface | Implementation |
-|---|------|---------|----------------|
-| 1 | Link headers | Out of scope (Phase 2) | — |
-| 2 | DNS-AID | Out of scope (Phase 4 docs only) | — |
-| 3 | Markdown negotiation | Out of scope (Phase 2) | — |
-| 4 | Content signals | `robots.txt` | Add `Content-Signal` line |
-| 5 | API catalog | `/.well-known/api-catalog` | Stub: search/RSS/sitemap via service-doc relation |
-| 6 | OAuth/OIDC discovery | `/.well-known/oauth-authorization-server`, `/.well-known/openid-configuration` | Stub: minimal metadata |
-| 7 | OAuth Protected Resource | `/.well-known/oauth-protected-resource` | Stub: declare no authorization servers required |
-| 8 | auth.md | `/auth.md` | Real: "no auth required" + future intent |
-| 9 | MCP Server Card | `/.well-known/mcp/server-card.json` | Stub: serverInfo + transport URL |
-| 10 | Agent skills index | `/.well-known/agent-skills/index.json` | Real: list blog skills with sha256 |
-| 11 | WebMCP | Out of scope (Phase 3) | — |
+| #   | Goal                     | Surface                                                                        | Implementation                                    |
+| --- | ------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------- |
+| 1   | Link headers             | Out of scope (Phase 2)                                                         | —                                                 |
+| 2   | DNS-AID                  | Out of scope (Phase 4 docs only)                                               | —                                                 |
+| 3   | Markdown negotiation     | Out of scope (Phase 2)                                                         | —                                                 |
+| 4   | Content signals          | `robots.txt`                                                                   | Add `Content-Signal` line                         |
+| 5   | API catalog              | `/.well-known/api-catalog`                                                     | Stub: search/RSS/sitemap via service-doc relation |
+| 6   | OAuth/OIDC discovery     | `/.well-known/oauth-authorization-server`, `/.well-known/openid-configuration` | Stub: minimal metadata                            |
+| 7   | OAuth Protected Resource | `/.well-known/oauth-protected-resource`                                        | Stub: declare no authorization servers required   |
+| 8   | auth.md                  | `/auth.md`                                                                     | Real: "no auth required" + future intent          |
+| 9   | MCP Server Card          | `/.well-known/mcp/server-card.json`                                            | Stub: serverInfo + transport URL                  |
+| 10  | Agent skills index       | `/.well-known/agent-skills/index.json`                                         | Real: list blog skills with sha256                |
+| 11  | WebMCP                   | Out of scope (Phase 3)                                                         | —                                                 |
 
 Stub vs. Real decision rule: if the surface exists for the blog's actual
 state (search/RSS/sitemap, skills, no-auth policy), ship real data. If the
@@ -250,6 +250,7 @@ Add the script invocation to `apps/web/package.json` `build` script **before**
 ### Unit — `apps/web/src/lib/agent-metadata.test.ts`
 
 Vitest tests:
+
 - Each getter returns a value that satisfies its Zod schema.
 - `getSiteUrl()` throws when `SITE_URL` is missing.
 - `getApiCatalogLinks()` includes search, RSS, sitemap, and `/auth.md`.
@@ -258,6 +259,7 @@ Vitest tests:
 ### E2E — `e2e/agent-discovery.spec.ts`
 
 Playwright spec hitting `localhost:4321`:
+
 - Each of the 7 `.well-known/*.json` routes returns `200` with the expected
   Content-Type.
 - `/auth.md` returns `200` with `text/markdown` and body contains

@@ -79,7 +79,7 @@ Expected: FAIL because the config does not export command-aware resolution and b
 
 - [x] **Step 3: Implement config ownership and exact schema rules**
 
-Export `resolveConfiguredSiteUrl` from `astro.config.mjs` and call it in a static `defineConfig({...})` object after deriving the command from the Astro CLI invocation. It chooses non-empty trimmed `SITE_URL`, then `CF_PAGES_URL`; only dev gets localhost. Build error text must match Step 1. The config merges the workspace/app dotenv values with `process.env`, and expands the Tailwind Vite plugin array so Astro receives each plugin entry directly.
+Export `resolveConfiguredSiteUrl` from `astro.config.mjs` and call it in a static `defineConfig({...})` object after deriving the command from the Astro CLI invocation. It chooses non-empty trimmed `SITE_URL`, then `CF_PAGES_URL`; only dev gets localhost. Build error text must match Step 1. The config merges the web app dotenv values with `process.env`, and expands the Tailwind Vite plugin array so Astro receives each plugin entry directly.
 
 Set collection fields to:
 
