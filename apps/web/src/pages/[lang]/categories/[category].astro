@@ -4,16 +4,21 @@ import BlogFilter from '@/components/BlogFilter.astro'
 import BlogCard from '@/components/BlogCard.astro'
 import BackLink from '@/components/Blog/BackLink.astro'
 import CategoryCloud from '@/components/Blog/CategoryCloud.astro'
-import { getPostsByCategory, getAllCategories, getAllTags, type SupportedLocale } from '@/lib/cms'
-import { SITE } from '@/lib/site'
+import {
+  getPostsByCategory,
+  getAllCategories,
+  getAllTags,
+  type SupportedLocale,
+} from '@/lib/content-queries'
+import { getSiteOrigin, SITE, toAbsoluteUrl } from '@/lib/site'
 import { getTranslations } from '@/lib/i18n'
-import { getCategoryPath, getBlogPath } from '@/lib/routes'
-import { getCanonicalUrl, getAlternateUrls, isValidLocale } from '@/lib/content-utils'
+import { getCategoryPath, getBlogPath, getHomePath } from '@/lib/routes'
+import { isValidLocale, SUPPORTED_LOCALES } from '@/lib/content-utils'
+import { buildBreadcrumbList, buildCollectionPageSchema, createSeoDocument } from '@/lib/seo'
 
 export const prerender = true
 
 export async function getStaticPaths() {
-  const categories = await getAllCategories()
   const locales: SupportedLocale[] = ['vi', 'en']
   const paths: {
     params: { lang: SupportedLocale; category: string }
@@ -21,6 +26,7 @@ export async function getStaticPaths() {
   }[] = []
 
   for (const locale of locales) {
+    const categories = await getAllCategories(locale)
     for (const category of categories) {
       paths.push({
         params: { lang: locale, category },
@@ -34,7 +40,7 @@ export async function getStaticPaths() {
 
 const langParam = Astro.params.lang ?? 'vi'
 const lang = isValidLocale(langParam) ? langParam : 'vi'
-const siteUrl = Astro.site?.origin ?? ''
+const siteUrl = getSiteOrigin()
 
 const i18n = getTranslations(lang)
 
@@ -52,58 +58,50 @@ const category =
 const posts = await getPostsByCategory(category, lang)
 const allCategories = await getAllCategories(lang)
 const allTags = await getAllTags(lang)
+const alternatePaths = Object.fromEntries(
+  await Promise.all(
+    SUPPORTED_LOCALES.map(async (locale) => [
+      locale,
+      (await getAllCategories(locale)).includes(category)
+        ? getCategoryPath(category, locale)
+        : getBlogPath(locale),
+    ])
+  )
+) as Partial<Record<SupportedLocale, string>>
 
-const canonicalUrl = getCanonicalUrl(lang, `/categories/${encodeURIComponent(category)}`, siteUrl)
-const alternateUrls = getAlternateUrls(`/categories/${encodeURIComponent(category)}`, siteUrl)
+const categoryPath = getCategoryPath(category, lang)
+const canonicalUrl = toAbsoluteUrl(categoryPath, siteUrl)
 
 const jsonLd = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
+  buildCollectionPageSchema({
     name: i18n.schema.postsIn(category),
     description: i18n.schema.allPostsInCategory(category),
     url: canonicalUrl,
-    isPartOf: {
-      '@type': 'WebSite',
-      name: SITE.name,
-      url: siteUrl,
-    },
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: i18n.schema.home,
-        item: siteUrl,
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: i18n.schema.blog,
-        item: getBlogPath(lang),
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: category,
-      },
-    ],
-  },
+    siteName: SITE.name,
+    siteUrl,
+    lang,
+  }),
+  buildBreadcrumbList({
+    homeLabel: i18n.schema.home,
+    homeUrl: toAbsoluteUrl(getHomePath(lang), siteUrl),
+    blogLabel: i18n.schema.blog,
+    blogUrl: toAbsoluteUrl(getBlogPath(lang), siteUrl),
+    currentLabel: category,
+    currentUrl: canonicalUrl,
+  }),
 ]
+const seo = createSeoDocument({
+  kind: 'indexable',
+  title: `${category} | ${SITE.name}`,
+  description: i18n.schema.allPostsInCategory(category),
+  path: categoryPath,
+  lang,
+  siteOrigin: siteUrl,
+  jsonLd,
+})
 ---
 
-<BaseLayout
-  title={`${category} | ${SITE.name}`}
-  description={i18n.schema.allPostsInCategory(category)}
-  canonicalUrl={canonicalUrl}
-  jsonLd={jsonLd}
-  lang={lang}
-  currentPath={getCategoryPath(category, lang)}
-  alternateUrls={alternateUrls}
->
+<BaseLayout seo={seo} currentPath={categoryPath} alternatePaths={alternatePaths}>
   <section class="container py-16">
     <div class="mb-12">
       <BackLink href={getBlogPath(lang)} text={i18n.categories.backToBlog} />

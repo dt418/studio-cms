@@ -16,6 +16,7 @@ export default tseslint.config(
       'e2e',
       '.agents',
       '.claude',
+      '.opencode',
       '.factory',
       '.superpowers',
       'skills',

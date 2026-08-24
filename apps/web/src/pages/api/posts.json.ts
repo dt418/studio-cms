@@ -1,25 +1,32 @@
-import { getCollection } from 'astro:content'
-import { getPostSlug, getPostLocale } from '@/lib/content-utils'
+import { getAllPosts } from '@/lib/content-queries'
+import { getPostLocale, getPostSlug } from '@/lib/content-utils'
+import { getPostPath } from '@/lib/routes'
+import { resolvePostCanonical, resolvePostDescription } from '@/lib/seo'
+import { getSiteOrigin, toAbsoluteUrl } from '@/lib/site'
 
 export const prerender = true
 
 export async function GET() {
-  const posts = await getCollection('posts')
-
-  const postsData = posts
-    .filter((post) => !post.data.noindex)
-    .map((post) => ({
+  const origin = getSiteOrigin()
+  const posts = await getAllPosts()
+  const postsData = posts.map((post) => {
+    const localUrl = toAbsoluteUrl(getPostPath(post), origin)
+    const canonicalUrl = resolvePostCanonical(post, origin)
+    return {
       slug: getPostSlug(post),
       locale: getPostLocale(post),
       title: post.data.title,
       excerpt: post.data.excerpt,
+      description: resolvePostDescription(post),
       category: post.data.category,
       tags: post.data.tags,
       publishedAt: post.data.publishedAt.toISOString(),
-      url: `/${getPostLocale(post)}/blog/${getPostSlug(post)}`,
-    }))
+      url: localUrl,
+      ...(canonicalUrl !== localUrl && { canonicalUrl }),
+    }
+  })
 
   return new Response(JSON.stringify(postsData), {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
   })
 }

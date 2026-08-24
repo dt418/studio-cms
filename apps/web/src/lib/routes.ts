@@ -1,4 +1,4 @@
-import type { Post } from './cms'
+import type { Post } from './content-queries'
 import {
   getPostLocale,
   getPostSlug,

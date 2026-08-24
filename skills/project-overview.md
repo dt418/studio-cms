@@ -92,7 +92,7 @@ Defined in `apps/web/src/content.config.ts` with Zod schema:
 - `tags` (default `[]`), `author` (default `'Danh Thanh'`)
 - Loader reads `apps/web/src/content/posts/**/*.{md,mdx}`.
 
-### Content Collection Functions (`apps/web/src/lib/cms.ts`)
+### Content Collection Functions (`apps/web/src/lib/content-queries.ts`)
 
 These helpers read the local Astro content collection; there is no runtime CMS or backend.
 

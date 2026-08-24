@@ -199,6 +199,7 @@ export const en = {
       'Software engineer building systems that make complex products easier to adopt and trust.',
     links: 'links',
     email: 'email',
+    collaboration: 'Contact for collaboration →',
     github: 'github',
     rss: 'rss',
     linkedin: 'linkedin',

@@ -1,5 +1,5 @@
 ---
-import { ChevronDown, CircleHelp } from 'lucide-react'
+import Icon from '@/components/Icon.astro'
 
 interface FAQItem {
   question: string
@@ -40,17 +40,17 @@ const { items, i18n } = Astro.props
                 <details class="group border-border bg-card/20 open:bg-card/45 rounded-lg border p-5 transition-colors">
                   <summary class="text-foreground flex cursor-pointer list-none items-start justify-between gap-4 font-semibold [&::-webkit-details-marker]:hidden">
                     <span class="inline-flex min-w-0 items-start gap-2.5">
-                      <CircleHelp
-                        aria-hidden="true"
-                        className="text-primary mt-0.5 shrink-0"
+                      <Icon
+                        name="circle-help"
+                        class="text-primary mt-0.5 shrink-0"
                         size={17}
                         strokeWidth={1.75}
                       />
                       <span>{item.question}</span>
                     </span>
-                    <ChevronDown
-                      aria-hidden="true"
-                      className="text-muted-foreground mt-0.5 shrink-0 transition-transform duration-300 group-open:rotate-180"
+                    <Icon
+                      name="chevron-down"
+                      class="text-muted-foreground mt-0.5 shrink-0 transition-transform duration-300 group-open:rotate-180"
                       size={17}
                       strokeWidth={1.75}
                     />
@@ -82,9 +82,9 @@ const { items, i18n } = Astro.props
       const details = summary?.parentElement
       if (!(details instanceof HTMLDetailsElement) || details.open) return
 
-      faq.querySelectorAll<HTMLDetailsElement>('details[open]').forEach((openDetails) => {
+      for (const openDetails of faq.querySelectorAll<HTMLDetailsElement>('details[open]')) {
         if (openDetails !== details) openDetails.open = false
-      })
+      }
     })
   }
 

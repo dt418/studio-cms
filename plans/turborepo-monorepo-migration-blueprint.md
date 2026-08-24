@@ -35,7 +35,7 @@ Current public web support code:
 - `src/content/posts/*`
 - `src/components/**/*`
 - `src/layouts/BaseLayout.astro`
-- `src/lib/cms.ts`
+- `src/lib/content-queries.ts`
 - `src/lib/content-graph.ts`
 - `src/lib/post-visibility.ts`
 - `src/lib/routes.ts`
@@ -76,7 +76,7 @@ Current SSR assumptions:
    - `src/styles/components/remder.ts` imports `studiocms/types`.
    - These files must move to `apps/cms` and should be renamed or placed under a clearer CMS path.
 
-3. `src/lib/cms.ts` is not StudioCMS code despite its name.
+3. `src/lib/content-queries.ts` is not StudioCMS code despite its former name.
    - It uses `astro:content` and should belong to the static web content layer.
    - The name will confuse the monorepo boundary because `apps/cms` will become the real CMS app.
    - Rename during the web split to `apps/web/src/lib/posts.ts` or `apps/web/src/lib/content.ts`.
@@ -434,8 +434,8 @@ File moves:
 
 Refactors:
 
-- Rename `apps/web/src/lib/cms.ts` to `apps/web/src/lib/posts.ts`.
-- Update imports from `@/lib/cms` to `@/lib/posts`.
+- Keep the file-based query module at `apps/web/src/lib/content-queries.ts`.
+- Update imports from `@/lib/cms` to `@/lib/content-queries`.
 - Update `apps/web/src/lib/post-visibility.ts` and `routes.ts` type imports accordingly.
 - Update search/OG scripts to use paths relative to `apps/web`.
 - Create `apps/web/astro.config.mjs` without SSR adapter or StudioCMS integrations.

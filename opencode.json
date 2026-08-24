@@ -18,6 +18,7 @@
   },
   "plugin": [
     ".opencode/plugins/graphify.js",
-    ".opencode/plugins/no-verify-guard.ts"
+    ".opencode/plugins/no-verify-guard.ts",
+    ".opencode/plugins/commit-quality-gate.ts"
   ]
 }

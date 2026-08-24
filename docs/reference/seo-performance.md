@@ -23,10 +23,21 @@ Run before every `pnpm build`:
 | Post detail (`/blog/:slug`) | `Article` (headline, datePublished, dateModified, author, publisher) | `pages/blog/[slug].astro` |
 | Category (`/categories/:cat`) | `CollectionPage` with explicit canonical URL | `pages/categories/[category].astro` |
 | Tag (`/tags/:tag`) | `CollectionPage` with explicit canonical URL | `pages/tags/[tag].astro` |
-| Search (`/search`) | `WebPage` | `pages/search.astro` |
+
+The `WebSite` and `Person` entities use the site origin for stable IDs. The
+representative localized site URL is intentionally `/vi/`; localized pages
+still emit their own canonical and hreflang links.
+
+`WebSite.url` and the Person profile URL in JSON-LD use the absolute `/vi/`
+and `/vi/about` pages respectively. The origin-based `/#website` and `/#person`
+values are entity IDs, not HTML canonical URLs. A `translationKey` is the only
+supported post translation identity: a key may occur at most once per locale,
+and duplicate locale/key pairs fail validation. Author and `article:author`
+metadata is emitted only for Article pages; collection and site pages do not
+claim an article author.
 
 **When adding a new page type**:
-1. Add JSON-LD via `jsonLd` prop on `<BaseLayout>`
+1. Build a `SeoDocument` with `createSeoDocument` and pass it as the only SEO prop to `<BaseLayout>`
 2. For lists, use `BreadcrumbList` + `CollectionPage` (pass as array if both needed)
 3. Always set explicit `canonicalUrl` for parameterized pages
 
@@ -85,7 +96,7 @@ Do not re-add Astro Google font fetching flow here.
 Requirements per item:
 - `categories` — post tags
 - `author` — `${SITE.email} (${SITE.author})`
-- `customData` with `<content:encoded>` — image + excerpt in CDATA
+- `customData` with `<content:encoded>` — image + resolved description in CDATA
 
 The `xmlns:content="http://purl.org/rss/1.0/modules/content/"` namespace is injected via response post-processing (see `rss.xml.ts` for the `replace` call).
 

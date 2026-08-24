@@ -7,6 +7,7 @@ publishedAt: 2026-04-30
 updatedAt: 2026-04-30
 tags: ['astro', 'web-development', 'performance']
 language: 'vi'
+translationKey: 'getting-started-with-astro-5'
 category: 'tutorials'
 faq:
   - question: 'Astro render nội dung mặc định như thế nào?'

@@ -3,8 +3,8 @@ import { getContentSignals, getLocales, getSiteUrl } from '@/lib/agent-metadata'
 
 export const prerender = true
 
-export const GET: APIRoute = ({ site }) => {
-  const origin = (site ?? getSiteUrl()).origin
+export const GET: APIRoute = () => {
+  const origin = getSiteUrl().origin
   const signals = getContentSignals()
   const locales = getLocales()
   const body = [
@@ -20,7 +20,6 @@ export const GET: APIRoute = ({ site }) => {
     '',
     '- Read any post or page',
     '- Subscribe to the RSS feed at /rss.xml',
-    '- Search the blog at /search',
     '- Browse tags, categories, and authors',
     '',
     '## What you cannot do',

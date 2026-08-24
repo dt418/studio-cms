@@ -1,5 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content'
 import { getPostSlug, getPostLocale, type SupportedLocale } from './content-utils'
+import { isPublicPost, validateTranslationKeys } from './post-visibility'
 
 export type Post = CollectionEntry<'posts'>
 
@@ -10,14 +11,11 @@ export interface ContentGraph {
   bySeries: Map<string, Post[]>
 }
 
-function isPublished(post: Post): boolean {
-  return !post.data.draft && !post.data.noindex
-}
-
 export async function buildContentGraph(locale?: SupportedLocale): Promise<ContentGraph> {
   const raw = await getCollection('posts')
+  validateTranslationKeys(raw)
 
-  let posts = raw.filter(isPublished)
+  let posts = raw.filter((post) => isPublicPost(post))
 
   if (locale) {
     posts = posts.filter((post) => getPostLocale(post) === locale)

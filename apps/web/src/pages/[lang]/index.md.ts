@@ -1,6 +1,9 @@
 import type { APIRoute } from 'astro'
-import { getAllCategories, getAllTags, getLocalizedPosts } from '@/lib/cms'
+import { getAllCategories, getAllTags, getLocalizedPosts } from '@/lib/content-queries'
 import { getTranslations } from '@/lib/i18n'
+import { getPostPath } from '@/lib/routes'
+import { resolvePostDescription } from '@/lib/seo'
+import { getSiteOrigin, toAbsoluteUrl } from '@/lib/site'
 import { isValidLocale, type SupportedLocale } from '@/lib/content-utils'
 
 export const prerender = true
@@ -13,10 +16,10 @@ export async function getStaticPaths() {
   }))
 }
 
-export const GET: APIRoute = async ({ params, site }) => {
+export const GET: APIRoute = async ({ params }) => {
   const langParam = params.lang ?? 'vi'
   const lang: SupportedLocale = isValidLocale(langParam) ? langParam : 'vi'
-  const origin = site?.origin ?? ''
+  const origin = getSiteOrigin()
   const i18n = getTranslations(lang)
   const posts = await getLocalizedPosts(lang)
   const categories = await getAllCategories(lang)
@@ -38,9 +41,9 @@ export const GET: APIRoute = async ({ params, site }) => {
     const featured = posts[0]
     lines.push('## Featured')
     lines.push('')
-    lines.push(`### [${featured.data.title}](${origin}/${lang}/blog/${featured.id})`)
+    lines.push(`### [${featured.data.title}](${toAbsoluteUrl(getPostPath(featured), origin)})`)
     lines.push('')
-    lines.push(featured.data.description ?? '')
+    lines.push(resolvePostDescription(featured))
     lines.push('')
   }
 
@@ -48,7 +51,7 @@ export const GET: APIRoute = async ({ params, site }) => {
     lines.push('## Recent')
     lines.push('')
     for (const post of posts.slice(1, 6)) {
-      lines.push(`- [${post.data.title}](${origin}/${lang}/blog/${post.id})`)
+      lines.push(`- [${post.data.title}](${toAbsoluteUrl(getPostPath(post), origin)})`)
     }
     lines.push('')
   }
@@ -65,8 +68,7 @@ export const GET: APIRoute = async ({ params, site }) => {
   lines.push('## Feeds')
   lines.push('')
   lines.push(`- RSS: ${origin}/rss.xml`)
-  lines.push(`- Sitemap: ${origin}/sitemap-index.xml`)
-  lines.push(`- Search: ${origin}/search`)
+  lines.push(`- Sitemap: ${origin}/sitemap.xml`)
   lines.push(`- API: ${origin}/api/posts.json`)
   lines.push('')
 

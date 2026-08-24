@@ -13,6 +13,8 @@ export interface FilterablePost {
   data: {
     title: string
     excerpt: string
+    description?: string | undefined
+    slug?: string | undefined
     tags: string[]
     category: string
     publishedAt: string | Date
@@ -36,6 +38,7 @@ export function filterPosts<T extends FilterablePost>(
       (post) =>
         post.data.title.toLowerCase().includes(query) ||
         post.data.excerpt.toLowerCase().includes(query) ||
+        post.data.description?.toLowerCase().includes(query) ||
         post.data.tags.some((tag) => tag.toLowerCase().includes(query)) ||
         post.data.category.toLowerCase().includes(query)
     )

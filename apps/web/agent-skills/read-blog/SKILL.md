@@ -18,7 +18,7 @@ This skill describes how an autonomous agent should read the DanhThanh.dev blog 
 
 - `GET /` — localized homepage (HTML).
 - `GET /rss.xml` — RSS feed.
-- `GET /sitemap-index.xml` — sitemap index.
+- `GET /sitemap.xml` — sitemap.
 - `GET /api/posts.json` — full JSON post list.
 - `GET /.well-known/agent-skills/index.json` — this skill and any others.
 - `GET /auth.md` — machine-readable auth policy (Content-Signal declaration).

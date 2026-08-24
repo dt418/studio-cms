@@ -3,3 +3,5 @@ packages:
   - apps/*
   - packages/*
   - '!tender-series'
+allowBuilds:
+  esbuild: true
