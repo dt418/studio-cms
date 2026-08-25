@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "98143ea6c1de05dfe79997cc2367136717ccafbf4af563de1face18a967758d4"
+    "context": "8533b1c86a2c5ca6c2e9707a62fe8cb49771922362c49d9a9c5fd2a64d20e6e6"
   },
   "nodes": [
     {
@@ -234,6 +234,12 @@
       "path": "AGENTS.md"
     },
     {
+      "id": "file:CLAUDE.md",
+      "kind": "instructions",
+      "label": "CLAUDE.md",
+      "path": "CLAUDE.md"
+    },
+    {
       "id": "file:agents/AGENTS.md",
       "kind": "context",
       "label": "AGENTS.md",
@@ -244,6 +250,12 @@
       "kind": "context",
       "label": "CLAUDE.md",
       "path": "agents/CLAUDE.md"
+    },
+    {
+      "id": "file:agents/README.md",
+      "kind": "context",
+      "label": "README.md",
+      "path": "agents/README.md"
     },
     {
       "id": "file:agents/e2e-tester.md",
@@ -258,10 +270,10 @@
       "path": "agents/orchestration-runtime-adapters.md"
     },
     {
-      "id": "file:agents/README.md",
+      "id": "file:agents/templates/README.md",
       "kind": "context",
       "label": "README.md",
-      "path": "agents/README.md"
+      "path": "agents/templates/README.md"
     },
     {
       "id": "file:agents/templates/ceo.md",
@@ -316,12 +328,6 @@
       "kind": "context",
       "label": "writer.md",
       "path": "agents/templates/marketing/writer.md"
-    },
-    {
-      "id": "file:agents/templates/README.md",
-      "kind": "context",
-      "label": "README.md",
-      "path": "agents/templates/README.md"
     },
     {
       "id": "file:apps/web/src/__mocks__/astro-content.ts",
@@ -426,16 +432,16 @@
       "path": "apps/web/src/components/Blog/PostMetadata.astro"
     },
     {
-      "id": "file:apps/web/src/components/Blog/PostNavigation.astro",
-      "kind": "source",
-      "label": "PostNavigation.astro",
-      "path": "apps/web/src/components/Blog/PostNavigation.astro"
-    },
-    {
       "id": "file:apps/web/src/components/Blog/PostNavLink.astro",
       "kind": "source",
       "label": "PostNavLink.astro",
       "path": "apps/web/src/components/Blog/PostNavLink.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/PostNavigation.astro",
+      "kind": "source",
+      "label": "PostNavigation.astro",
+      "path": "apps/web/src/components/Blog/PostNavigation.astro"
     },
     {
       "id": "file:apps/web/src/components/Blog/RelatedPosts.astro",
@@ -570,12 +576,6 @@
       "path": "apps/web/src/components/TagCloudSection.astro"
     },
     {
-      "id": "file:apps/web/src/components/ui/button.tsx",
-      "kind": "source",
-      "label": "button.tsx",
-      "path": "apps/web/src/components/ui/button.tsx"
-    },
-    {
       "id": "file:apps/web/src/components/ui/FilterSelect.astro",
       "kind": "source",
       "label": "FilterSelect.astro",
@@ -586,6 +586,12 @@
       "kind": "source",
       "label": "FilterSelect.tsx",
       "path": "apps/web/src/components/ui/FilterSelect.tsx"
+    },
+    {
+      "id": "file:apps/web/src/components/ui/button.tsx",
+      "kind": "source",
+      "label": "button.tsx",
+      "path": "apps/web/src/components/ui/button.tsx"
     },
     {
       "id": "file:apps/web/src/components/ui/input-group.tsx",
@@ -918,6 +924,12 @@
       "path": "apps/web/src/pages/.well-known/openid-configuration.ts"
     },
     {
+      "id": "file:apps/web/src/pages/404.astro",
+      "kind": "source",
+      "label": "404.astro",
+      "path": "apps/web/src/pages/404.astro"
+    },
+    {
       "id": "file:apps/web/src/pages/[lang]/404.astro",
       "kind": "source",
       "label": "404.astro",
@@ -978,12 +990,6 @@
       "path": "apps/web/src/pages/[lang]/tags/[tag].astro"
     },
     {
-      "id": "file:apps/web/src/pages/404.astro",
-      "kind": "source",
-      "label": "404.astro",
-      "path": "apps/web/src/pages/404.astro"
-    },
-    {
       "id": "file:apps/web/src/pages/api/posts.json.ts",
       "kind": "source",
       "label": "posts.json.ts",
@@ -1036,12 +1042,6 @@
       "kind": "source",
       "label": "post.ts",
       "path": "apps/web/src/types/post.ts"
-    },
-    {
-      "id": "file:CLAUDE.md",
-      "kind": "instructions",
-      "label": "CLAUDE.md",
-      "path": "CLAUDE.md"
     },
     {
       "id": "file:opencode.json",
@@ -1430,16 +1430,6 @@
       "type": "imports"
     },
     {
-      "from": "file:apps/web/src/components/Blog/PostNavigation.astro",
-      "to": "file:apps/web/src/components/Blog/PostNavLink.astro",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/components/Blog/PostNavigation.astro",
-      "to": "package:astro:content",
-      "type": "imports"
-    },
-    {
       "from": "file:apps/web/src/components/Blog/PostNavLink.astro",
       "to": "file:apps/web/src/lib/date.ts",
       "type": "imports"
@@ -1451,6 +1441,16 @@
     },
     {
       "from": "file:apps/web/src/components/Blog/PostNavLink.astro",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/PostNavigation.astro",
+      "to": "file:apps/web/src/components/Blog/PostNavLink.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/PostNavigation.astro",
       "to": "package:astro:content",
       "type": "imports"
     },
@@ -1680,6 +1680,16 @@
       "type": "imports"
     },
     {
+      "from": "file:apps/web/src/components/ui/FilterSelect.tsx",
+      "to": "file:apps/web/src/lib/utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/FilterSelect.tsx",
+      "to": "package:react",
+      "type": "imports"
+    },
+    {
       "from": "file:apps/web/src/components/ui/button.tsx",
       "to": "file:apps/web/src/lib/utils.ts",
       "type": "imports"
@@ -1692,16 +1702,6 @@
     {
       "from": "file:apps/web/src/components/ui/button.tsx",
       "to": "package:class-variance-authority",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/components/ui/FilterSelect.tsx",
-      "to": "file:apps/web/src/lib/utils.ts",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/components/ui/FilterSelect.tsx",
-      "to": "package:react",
       "type": "imports"
     },
     {
@@ -2375,6 +2375,41 @@
       "type": "imports"
     },
     {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/components/NotFoundPage.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/layouts/BaseLayout.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/lib/seo.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
       "from": "file:apps/web/src/pages/[lang]/404.astro",
       "to": "file:apps/web/src/components/NotFoundPage.astro",
       "type": "imports"
@@ -2835,41 +2870,6 @@
       "type": "imports"
     },
     {
-      "from": "file:apps/web/src/pages/404.astro",
-      "to": "file:apps/web/src/components/NotFoundPage.astro",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/pages/404.astro",
-      "to": "file:apps/web/src/layouts/BaseLayout.astro",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/pages/404.astro",
-      "to": "file:apps/web/src/lib/content-utils.ts",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/pages/404.astro",
-      "to": "file:apps/web/src/lib/i18n",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/pages/404.astro",
-      "to": "file:apps/web/src/lib/routes.ts",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/pages/404.astro",
-      "to": "file:apps/web/src/lib/seo.ts",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/pages/404.astro",
-      "to": "file:apps/web/src/lib/site.ts",
-      "type": "imports"
-    },
-    {
       "from": "file:apps/web/src/pages/api/posts.json.ts",
       "to": "file:apps/web/src/lib/content-queries.ts",
       "type": "imports"
@@ -3291,12 +3291,22 @@
     },
     {
       "from": "workspace:root",
+      "to": "file:CLAUDE.md",
+      "type": "governed-by"
+    },
+    {
+      "from": "workspace:root",
       "to": "file:agents/AGENTS.md",
       "type": "contains"
     },
     {
       "from": "workspace:root",
       "to": "file:agents/CLAUDE.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/README.md",
       "type": "contains"
     },
     {
@@ -3311,7 +3321,7 @@
     },
     {
       "from": "workspace:root",
-      "to": "file:agents/README.md",
+      "to": "file:agents/templates/README.md",
       "type": "contains"
     },
     {
@@ -3357,11 +3367,6 @@
     {
       "from": "workspace:root",
       "to": "file:agents/templates/marketing/writer.md",
-      "type": "contains"
-    },
-    {
-      "from": "workspace:root",
-      "to": "file:agents/templates/README.md",
       "type": "contains"
     },
     {
@@ -3451,12 +3456,12 @@
     },
     {
       "from": "workspace:root",
-      "to": "file:apps/web/src/components/Blog/PostNavigation.astro",
+      "to": "file:apps/web/src/components/Blog/PostNavLink.astro",
       "type": "contains"
     },
     {
       "from": "workspace:root",
-      "to": "file:apps/web/src/components/Blog/PostNavLink.astro",
+      "to": "file:apps/web/src/components/Blog/PostNavigation.astro",
       "type": "contains"
     },
     {
@@ -3571,17 +3576,17 @@
     },
     {
       "from": "workspace:root",
-      "to": "file:apps/web/src/components/ui/button.tsx",
-      "type": "contains"
-    },
-    {
-      "from": "workspace:root",
       "to": "file:apps/web/src/components/ui/FilterSelect.astro",
       "type": "contains"
     },
     {
       "from": "workspace:root",
       "to": "file:apps/web/src/components/ui/FilterSelect.tsx",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/ui/button.tsx",
       "type": "contains"
     },
     {
@@ -3861,6 +3866,11 @@
     },
     {
       "from": "workspace:root",
+      "to": "file:apps/web/src/pages/404.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
       "to": "file:apps/web/src/pages/[lang]/404.astro",
       "type": "contains"
     },
@@ -3911,11 +3921,6 @@
     },
     {
       "from": "workspace:root",
-      "to": "file:apps/web/src/pages/404.astro",
-      "type": "contains"
-    },
-    {
-      "from": "workspace:root",
       "to": "file:apps/web/src/pages/api/posts.json.ts",
       "type": "contains"
     },
@@ -3958,11 +3963,6 @@
       "from": "workspace:root",
       "to": "file:apps/web/src/types/post.ts",
       "type": "contains"
-    },
-    {
-      "from": "workspace:root",
-      "to": "file:CLAUDE.md",
-      "type": "governed-by"
     },
     {
       "from": "workspace:root",

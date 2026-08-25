@@ -11,10 +11,11 @@ const scriptDirectory = path.dirname(fileURLToPath(import.meta.url))
 const cliPath = path.join(scriptDirectory, 'harness.mjs')
 const graphifyPluginPath = path.resolve(scriptDirectory, '../../../.opencode/plugins/graphify.js')
 
-function runCli(args, cwd) {
+function runCli(args, cwd, env = {}) {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, [cliPath, ...args], {
       cwd,
+      env: { ...process.env, ...env },
       stdio: ['ignore', 'pipe', 'pipe'],
     })
     let stdout = ''
@@ -195,6 +196,34 @@ test('context graph is portable across checkout directory names', async () => {
   } finally {
     await rm(firstTarget, { recursive: true, force: true })
     await rm(secondTarget, { recursive: true, force: true })
+  }
+})
+
+test('context graph is stable when locale comparison behavior differs', async () => {
+  const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-locale-portability-'))
+  const localeShim = path.join(target, 'reverse-locale-compare.cjs')
+
+  try {
+    await mkdir(path.join(target, 'src'), { recursive: true })
+    await writeFile(path.join(target, 'package.json'), JSON.stringify({ name: 'fixture' }), 'utf8')
+    await writeFile(path.join(target, 'AGENTS.md'), '# Fixture instructions\n', 'utf8')
+    await writeFile(path.join(target, 'src', 'alpha.ts'), 'export const alpha = true\n', 'utf8')
+    await writeFile(path.join(target, 'src', 'beta.ts'), 'export const beta = true\n', 'utf8')
+    await writeFile(
+      localeShim,
+      'String.prototype.localeCompare = function (other) { return this < other ? 1 : this > other ? -1 : 0 }\n',
+      'utf8'
+    )
+
+    const generated = await runCli(['context', '--target', target], target)
+    assert.equal(generated.code, 0, generated.stderr)
+
+    const checked = await runCli(['context', '--target', target, '--check'], target, {
+      NODE_OPTIONS: `--require=${localeShim}`,
+    })
+    assert.equal(checked.code, 0, checked.stderr)
+  } finally {
+    await rm(target, { recursive: true, force: true })
   }
 })
 

@@ -58,6 +58,10 @@ function toPosix(filePath) {
   return filePath.split(path.sep).join('/')
 }
 
+function compareText(left, right) {
+  return left === right ? 0 : left < right ? -1 : 1
+}
+
 async function directoryEntries(directory) {
   try {
     return await readdir(directory, { withFileTypes: true })
@@ -263,11 +267,11 @@ async function buildContextGraph(target) {
     version: 2,
     root: identity,
     fingerprints: { context: await contextFingerprint(target, contextFiles) },
-    nodes: [...nodes.values()].sort((left, right) => left.id.localeCompare(right.id)),
+    nodes: [...nodes.values()].sort((left, right) => compareText(left.id, right.id)),
     edges: [...edges.values()].sort((left, right) => {
       const leftKey = `${left.from}|${left.to}|${left.type}`
       const rightKey = `${right.from}|${right.to}|${right.type}`
-      return leftKey.localeCompare(rightKey)
+      return compareText(leftKey, rightKey)
     }),
   }
 }
@@ -280,7 +284,7 @@ function contextReport(graph) {
   }
   const central = [...degree.entries()]
     .filter(([, count]) => count > 1)
-    .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))
+    .sort((left, right) => right[1] - left[1] || compareText(left[0], right[0]))
     .slice(0, 10)
 
   return [
