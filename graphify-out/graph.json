@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "f19c626bea5228f1b4fbeffe515917e43bd95597e0d9875b544549c1b6c1154d"
+    "context": "ba45c2cda171cdeb046ef7f4aaafae74a70ca747984a1a63eb3fc113c884ea42"
   },
   "nodes": [
     {
@@ -46,6 +46,12 @@
       "kind": "context",
       "label": "harness-verify.md",
       "path": ".claude/commands/harness-verify.md"
+    },
+    {
+      "id": "file:.codex/AGENTS.md",
+      "kind": "context",
+      "label": "AGENTS.md",
+      "path": ".codex/AGENTS.md"
     },
     {
       "id": "file:.codex/README.md",
@@ -3363,6 +3369,11 @@
     {
       "from": "workspace:root",
       "to": "file:.claude/commands/harness-verify.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.codex/AGENTS.md",
       "type": "contains"
     },
     {
