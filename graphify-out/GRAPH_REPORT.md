@@ -10,7 +10,7 @@ Regenerate with `pnpm harness:context` after source, workspace, or harness chang
 
 ## High-connectivity nodes
 
-- `workspace:root` (212 links)
+- `workspace:root` (228 links)
 - `file:apps/web/src/lib/routes.ts` (26 links)
 - `file:apps/web/src/lib/site.ts` (26 links)
 - `file:apps/web/src/lib/content-utils.ts` (24 links)

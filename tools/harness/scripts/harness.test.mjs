@@ -10,6 +10,10 @@ import { spawn } from 'node:child_process'
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url))
 const cliPath = path.join(scriptDirectory, 'harness.mjs')
 const graphifyPluginPath = path.resolve(scriptDirectory, '../../../.opencode/plugins/graphify.js')
+const harnessGuardPath = path.resolve(
+  scriptDirectory,
+  '../../../.opencode/plugins/harness-guard.ts'
+)
 
 function runCli(args, cwd, env = {}) {
   return new Promise((resolve, reject) => {
@@ -28,6 +32,36 @@ function runCli(args, cwd, env = {}) {
     })
     child.on('error', reject)
     child.on('close', (code) => resolve({ code, stdout, stderr }))
+  })
+}
+
+function runGuard(command) {
+  const source = [
+    `import createPlugin from ${JSON.stringify(pathToFileURL(harnessGuardPath).href)}`,
+    'const plugin = await createPlugin()',
+    `const output = { args: { command: ${JSON.stringify(command)} } }`,
+    "await plugin['tool.execute.before']({ tool: 'shell' }, output)",
+    'process.stdout.write(output.args.command)',
+  ].join('\n')
+  return new Promise((resolve, reject) => {
+    const child = spawn(
+      process.execPath,
+      ['--experimental-strip-types', '--input-type=module', '-e', source],
+      { stdio: ['ignore', 'pipe', 'pipe'] }
+    )
+    let stdout = ''
+    let stderr = ''
+    child.stdout.on('data', (chunk) => {
+      stdout += chunk
+    })
+    child.stderr.on('data', (chunk) => {
+      stderr += chunk
+    })
+    child.on('error', reject)
+    child.on('close', (code) => {
+      if (code === 0) resolve(stdout)
+      else reject(new Error(stderr || `guard exited with code ${code}`))
+    })
   })
 }
 
@@ -51,6 +85,32 @@ test('init creates a Node verification entrypoint and validate recognizes it', a
     for (const directory of ['tasks', 'decisions', 'patches', 'reviews', 'reports']) {
       assert.ok(artifactDirectories.includes(directory), `missing ${directory}`)
       await readFile(path.join(target, '.harness', directory, '.gitkeep'), 'utf8')
+    }
+
+    const runtimeCommands = [
+      'context',
+      'documentation-sync',
+      'init',
+      'orchestrate',
+      'status',
+      'validate',
+      'verify',
+    ]
+    for (const runtime of ['codex', 'claude', 'pi']) {
+      const runtimeDirectory =
+        runtime === 'codex'
+          ? path.join(target, '.codex', 'skills')
+          : runtime === 'claude'
+            ? path.join(target, '.claude', 'commands')
+            : path.join(target, '.pi', 'prompts')
+      for (const command of runtimeCommands) {
+        const adapterPath =
+          runtime === 'codex'
+            ? path.join(runtimeDirectory, `harness-${command}`, 'SKILL.md')
+            : path.join(runtimeDirectory, `harness-${command}.md`)
+        const adapter = await readFile(adapterPath, 'utf8')
+        if (command === 'orchestrate') assert.match(adapter, new RegExp(`--runtime ${runtime}`))
+      }
     }
 
     const validated = await runCli(
@@ -446,6 +506,37 @@ test('context detects application config and post content changes', async () => 
   }
 })
 
+test('context detects application script changes', async () => {
+  const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-context-workspace-scripts-'))
+
+  try {
+    await mkdir(path.join(target, 'apps', 'web', 'scripts'), { recursive: true })
+    await writeFile(path.join(target, 'package.json'), JSON.stringify({ name: 'fixture' }), 'utf8')
+    await writeFile(
+      path.join(target, 'apps', 'web', 'scripts', 'generate.mjs'),
+      'export const generated = true\n',
+      'utf8'
+    )
+
+    await runCli(['context', '--target', target], target)
+    const graph = JSON.parse(
+      await readFile(path.join(target, 'graphify-out', 'graph.json'), 'utf8')
+    )
+    assert.ok(graph.nodes.some((node) => node.id === 'file:apps/web/scripts/generate.mjs'))
+
+    await writeFile(
+      path.join(target, 'apps', 'web', 'scripts', 'generate.mjs'),
+      'export const generated = false\n',
+      'utf8'
+    )
+    const changed = await runCli(['context', '--target', target, '--check'], target)
+    assert.equal(changed.code, 1)
+    assert.match(changed.stderr, /out of date/)
+  } finally {
+    await rm(target, { recursive: true, force: true })
+  }
+})
+
 test('orchestrate reports the model routing for an implementation role', async () => {
   const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-orchestration-'))
 
@@ -553,6 +644,40 @@ test('init preserves existing shared state unless force is requested', async () 
     const initialized = await runCli(['init', '--target', target], target)
     assert.equal(initialized.code, 0, initialized.stderr)
     assert.equal(JSON.parse(await readFile(statePath, 'utf8')).currentTask, 'TASK-42')
+  } finally {
+    await rm(target, { recursive: true, force: true })
+  }
+})
+
+test('init preserves customized manifest fields while refreshing commands', async () => {
+  const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-manifest-preservation-'))
+
+  try {
+    await writeFile(
+      path.join(target, 'package.json'),
+      JSON.stringify({ name: 'fixture', scripts: { test: 'node --version' } }),
+      'utf8'
+    )
+    await runCli(['init', '--target', target], target)
+    const manifestPath = path.join(target, '.harness', 'manifest.json')
+    const manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
+    manifest.policies.default = 'allow-read'
+    manifest.state.tasks = 'custom/tasks/'
+    manifest.verification.custom = 'preserve-me'
+    await writeFile(manifestPath, JSON.stringify(manifest), 'utf8')
+    await mkdir(path.join(target, 'custom', 'tasks'), { recursive: true })
+    await writeFile(
+      path.join(target, 'package.json'),
+      JSON.stringify({ name: 'fixture', scripts: { build: 'node --version' } }),
+      'utf8'
+    )
+
+    await runCli(['init', '--target', target], target)
+    const refreshed = JSON.parse(await readFile(manifestPath, 'utf8'))
+    assert.equal(refreshed.policies.default, 'allow-read')
+    assert.equal(refreshed.state.tasks, 'custom/tasks/')
+    assert.equal(refreshed.verification.custom, 'preserve-me')
+    assert.deepEqual(refreshed.verification.commands, ['npm run build'])
   } finally {
     await rm(target, { recursive: true, force: true })
   }
@@ -796,6 +921,52 @@ test('validate rejects a malformed external skill manifest', async () => {
   }
 })
 
+test('validate rejects an incomplete external skill declaration', async () => {
+  const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-external-skills-shape-'))
+
+  try {
+    await writeFile(path.join(target, 'package.json'), JSON.stringify({ name: 'fixture' }), 'utf8')
+    await runCli(['init', '--target', target], target)
+    await writeFile(
+      path.join(target, '.harness', 'external-skills.json'),
+      JSON.stringify({ version: 1, skills: [{}] }),
+      'utf8'
+    )
+
+    const validated = await runCli(
+      ['validate', '--target', target, '--json', '--min-score', '100'],
+      target
+    )
+    assert.equal(validated.code, 1)
+    const report = JSON.parse(validated.stdout)
+    assert.equal(report.subsystems.lifecycle.pass, false)
+    assert.deepEqual(report.subsystems.lifecycle.invalid, ['external-skills.json'])
+  } finally {
+    await rm(target, { recursive: true, force: true })
+  }
+})
+
+test('validate rejects missing shared-state directories', async () => {
+  const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-state-directories-'))
+
+  try {
+    await writeFile(path.join(target, 'package.json'), JSON.stringify({ name: 'fixture' }), 'utf8')
+    await runCli(['init', '--target', target], target)
+    await rm(path.join(target, '.harness', 'tasks'), { recursive: true, force: true })
+
+    const validated = await runCli(
+      ['validate', '--target', target, '--json', '--min-score', '100'],
+      target
+    )
+    assert.equal(validated.code, 1)
+    const report = JSON.parse(validated.stdout)
+    assert.equal(report.subsystems.state.pass, false)
+    assert.match(report.subsystems.state.missing.join(', '), /tasks/)
+  } finally {
+    await rm(target, { recursive: true, force: true })
+  }
+})
+
 test('validate text output names malformed JSON artifacts', async () => {
   const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-validation-output-'))
 
@@ -834,4 +1005,23 @@ test('Graphify plugin emits a portable reminder without rewriting shell commands
     console.warn = originalWarn
     await rm(target, { recursive: true, force: true })
   }
+})
+
+test('Harness guard gates multiline commit commands', async () => {
+  const guarded = await runGuard('echo x\ngit commit -m x')
+
+  assert.equal(
+    guarded,
+    'pnpm harness:context:check && pnpm harness:validate && ( echo x\ngit commit -m x )'
+  )
+})
+test('Harness guard rejects masked gates before commit', async () => {
+  const guarded = await runGuard(
+    'pnpm harness:validate || true; pnpm harness:context:check || true; git commit -m x'
+  )
+
+  assert.equal(
+    guarded,
+    'pnpm harness:context:check && pnpm harness:validate && ( pnpm harness:validate || true; pnpm harness:context:check || true; git commit -m x )'
+  )
 })
