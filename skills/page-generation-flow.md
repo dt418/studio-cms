@@ -20,7 +20,7 @@ flowchart LR
 ## Source of truth
 
 - `apps/web/src/content.config.ts` — frontmatter schema.
-- `apps/web/src/lib/cms.ts` — collection query helpers (the name is retained for API compatibility; it has no backend dependency).
+- `apps/web/src/lib/content-queries.ts` — file-based collection query helpers.
 - `apps/web/src/pages/[lang]` — localized public routes.
 - `apps/web/src/lib/post-visibility.ts` — publication filtering.
 

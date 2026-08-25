@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "required": ["artifact_id", "status"],
+  "properties": {
+    "artifact_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    }
+  }
+}

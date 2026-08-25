@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "required": ["artifact_id", "version"],
+  "properties": {
+    "artifact_id": {
+      "type": "string"
+    },
+    "version": {
+      "type": "number"
+    }
+  }
+}

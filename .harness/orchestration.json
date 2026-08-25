@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "defaultRuntime": "generic",
+  "roles": {
+    "spec-creator": "tera-high",
+    "planning": "tera-high",
+    "implementation": "luna-max",
+    "documentation-sync": "tera-medium",
+    "reviewer": "tera-medium",
+    "qa": "tera-high",
+    "tester": "luna-max",
+    "observer": "tera-medium"
+  },
+  "riskEscalations": {
+    "reviewer": {
+      "high": "tera-high",
+      "triggers": ["authentication", "authorization", "data-migration", "payment", "security"]
+    }
+  },
+  "runtimes": ["codex", "claude", "pi", "omp", "opencode"],
+  "sharedState": ["tasks", "decisions", "patches", "reviews", "reports"]
+}

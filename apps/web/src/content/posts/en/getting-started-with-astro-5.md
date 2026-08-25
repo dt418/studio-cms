@@ -7,6 +7,7 @@ publishedAt: 2026-04-30
 updatedAt: 2026-04-30
 tags: ['astro', 'web-development', 'performance']
 language: 'en'
+translationKey: 'getting-started-with-astro-5'
 category: 'tutorials'
 faq:
   - question: 'What does Astro render by default?'

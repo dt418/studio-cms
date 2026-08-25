@@ -6,7 +6,8 @@ coverImage: '/og/tailwindcss-4-migration-guide.webp'
 publishedAt: 2026-04-20
 updatedAt: 2026-04-20
 tags: ['tailwindcss', 'css', 'frontend']
-language: 'vi'
+language: 'en'
+translationKey: 'tailwindcss-4-migration-guide'
 category: 'guides'
 faq:
   - question: 'What is the main change in TailwindCSS 4?'

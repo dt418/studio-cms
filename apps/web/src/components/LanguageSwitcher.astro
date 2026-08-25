@@ -8,9 +8,11 @@ interface Props {
   label: string
   languageNames: Record<SupportedLocale, string>
   getSwitchLabel: (language: string) => string
+  alternatePaths?: Partial<Record<SupportedLocale, string>>
 }
 
-const { currentLang, currentPath, label, languageNames, getSwitchLabel } = Astro.props
+const { currentLang, currentPath, label, languageNames, getSwitchLabel, alternatePaths } =
+  Astro.props
 
 function switchLocale(targetLang: SupportedLocale): string {
   const pathWithoutLang = currentPath.replace(/^\/(vi|en)/, '')
@@ -21,7 +23,7 @@ const languageLinks = SUPPORTED_LOCALES.map((locale, index) => {
   const name = languageNames[locale] ?? locale.toUpperCase()
 
   return {
-    href: switchLocale(locale),
+    href: alternatePaths?.[locale] ?? switchLocale(locale),
     isCurrent: currentLang === locale,
     isLast: index === SUPPORTED_LOCALES.length - 1,
     label: getSwitchLabel(name),

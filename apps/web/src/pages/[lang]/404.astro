@@ -4,7 +4,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 import { isValidLocale } from '@/lib/content-utils'
 import { DEFAULT_LOCALE, getTranslations, type Language } from '@/lib/i18n'
 import { getBlogPath, getHomePath } from '@/lib/routes'
-import { SITE } from '@/lib/site'
+import { getSiteOrigin, SITE } from '@/lib/site'
+import { createSeoDocument } from '@/lib/seo'
 
 export const prerender = true
 
@@ -15,6 +16,7 @@ export function getStaticPaths() {
 const langParam = Astro.params.lang
 const lang: Language = langParam && isValidLocale(langParam) ? langParam : DEFAULT_LOCALE
 const i18n = getTranslations(lang)
+const siteOrigin = getSiteOrigin()
 const homePath = lang === 'vi' ? '/vi/' : getHomePath(lang)
 const blogPath = getBlogPath(lang)
 const tracePath = `${Astro.url.host}${Astro.url.pathname}`
@@ -37,14 +39,16 @@ const copy = {
   tracePrefix: i18n.errors.tracePrefix,
   viewBlog: i18n.errors.viewBlog,
 }
+const seo = createSeoDocument({
+  title: `${i18n.errors.notFound} | ${SITE.name}`,
+  description: i18n.errors.description404,
+  lang,
+  kind: 'noncanonical',
+  siteOrigin,
+})
 ---
 
-<BaseLayout
-  title={`${i18n.errors.notFound} | ${SITE.name}`}
-  lang={lang}
-  noindex
-  currentPath={`/${lang}`}
->
+<BaseLayout seo={seo} currentPath={`/${lang}`}>
   <NotFoundPage
     blogPath={blogPath}
     copy={copy}

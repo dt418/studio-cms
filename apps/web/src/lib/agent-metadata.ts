@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { z } from 'zod'
+import { getSiteOrigin } from './site'
 
 const here = dirname(fileURLToPath(import.meta.url))
 
@@ -34,11 +35,7 @@ export interface ApiCatalogLink {
 }
 
 export function getSiteUrl(): URL {
-  const site = import.meta.env.SITE
-  if (!site) {
-    throw new Error('SITE_URL is not set; build cannot derive getSiteUrl()')
-  }
-  return new URL(site)
+  return new URL(getSiteOrigin())
 }
 
 export function getLocales(): Locale[] {
@@ -52,12 +49,6 @@ export function getContentSignals(): ContentSignal {
 export function getApiCatalogLinks(): ApiCatalogLink[] {
   return [
     {
-      rel: 'search',
-      href: '/search',
-      type: 'text/html',
-      title: 'Blog search',
-    },
-    {
       rel: 'alternate',
       href: '/rss.xml',
       type: 'application/rss+xml',
@@ -65,7 +56,7 @@ export function getApiCatalogLinks(): ApiCatalogLink[] {
     },
     {
       rel: 'sitemap',
-      href: '/sitemap-index.xml',
+      href: '/sitemap.xml',
       type: 'application/xml',
       title: 'Sitemap',
     },

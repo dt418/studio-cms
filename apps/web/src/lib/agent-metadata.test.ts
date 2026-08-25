@@ -66,12 +66,13 @@ describe('getContentSignals', () => {
 })
 
 describe('getApiCatalogLinks', () => {
-  it('includes search, RSS, sitemap, and /auth.md', () => {
+  it('includes RSS, sitemap, and /auth.md without stale search routes', () => {
     const rels = getApiCatalogLinks().map((l) => l.rel)
-    expect(rels).toContain('search')
     expect(rels).toContain('alternate')
     expect(rels).toContain('sitemap')
     expect(rels).toContain('service-doc')
+    expect(getApiCatalogLinks().find((l) => l.rel === 'sitemap')?.href).toBe('/sitemap.xml')
+    expect(getApiCatalogLinks().some((l) => l.href === '/search')).toBe(false)
     const authLink = getApiCatalogLinks().find((l) => l.rel === 'service-doc')
     expect(authLink?.href).toBe('/auth.md')
   })
@@ -89,12 +90,12 @@ describe('getApiCatalogLinks', () => {
 describe('buildLinkHeaderValue', () => {
   it('emits RFC 8288 Link header with rel and type per link', () => {
     const value = buildLinkHeaderValue()
-    expect(value).toContain('</search>; rel="search"')
     expect(value).toContain('</rss.xml>; rel="alternate"')
+    expect(value).toContain('</sitemap.xml>; rel="sitemap"')
     expect(value).toContain('</auth.md>; rel="service-doc"')
     expect(value).toContain('</.well-known/agent-skills/index.json>; rel="agent-skills"')
     const parts = value.split(', ')
-    expect(parts.length).toBeGreaterThanOrEqual(8)
+    expect(parts.length).toBeGreaterThanOrEqual(7)
   })
 })
 

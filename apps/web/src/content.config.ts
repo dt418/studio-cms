@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content'
 import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
+import { isHttpWithoutCredentialsOrFragment } from './lib/site'
 
 export const posts = defineCollection({
   loader: glob({
@@ -38,8 +39,16 @@ export const posts = defineCollection({
     noindex: z.boolean().default(false),
 
     // 🔗 SEO
-    description: z.string().optional(), // fallback = excerpt
-    canonicalUrl: z.url().optional(),
+    description: z.string().trim().min(1).optional(), // fallback = excerpt
+    canonicalUrl: z
+      .string()
+      .trim()
+      .pipe(z.url())
+      .refine(
+        isHttpWithoutCredentialsOrFragment,
+        'Canonical URL must use http or https without credentials or fragments'
+      )
+      .optional(),
 
     // 📚 Series (rất mạnh cho SEO)
     series: z.string().optional(),
@@ -47,6 +56,12 @@ export const posts = defineCollection({
 
     // 🌐 Language
     language: z.enum(['vi', 'en']).default('vi'),
+    translationKey: z
+      .string()
+      .trim()
+      .min(1)
+      .regex(/^[A-Za-z0-9][A-Za-z0-9._:-]*$/, 'Invalid translation key')
+      .optional(),
 
     // ⚡ Optional nhưng hữu ích
     readingTime: z.number().optional(),

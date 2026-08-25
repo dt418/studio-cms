@@ -1,12 +1,11 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import { Button } from './ui/button'
-import { Search as SearchIcon } from 'lucide-react'
-import { InputGroupInput, InputGroup, InputGroupAddon } from './ui/input-group'
-import { FilterSelect } from './ui/FilterSelect'
+import Icon from '@/components/Icon.astro'
+import FilterSelect from './ui/FilterSelect.astro'
 import { formatDate } from '@/lib/date'
 import { getSlug } from '@/lib/content-graph'
 import { getPostPath } from '@/lib/routes'
+import { resolvePostDescription } from '@/lib/seo'
 import type { DateLocale } from '@/lib/date'
 
 interface FilterI18n {
@@ -46,6 +45,7 @@ const { posts, categories, tags, initialCategory, initialTag, i18n, locale = 'en
 const serializedPosts = posts.map((post) => {
   const data = {
     ...post.data,
+    description: resolvePostDescription(post),
     slug: getSlug(post),
     path: getPostPath(post),
     publishedAt: post.data.publishedAt.toISOString(),
@@ -70,24 +70,33 @@ const sortbyOptions: { value: string; label: string }[] = [
   <form id="filter-form" class="flex flex-wrap gap-3" autocomplete="off">
     <!-- SEARCH -->
     <div class="relative min-w-[200px] flex-1">
-      <InputGroup className="input w-full">
-        <InputGroupInput
+      <div
+        class="group/input-group border-input has-disabled:bg-input/50 has-[[data-slot=input-group-control]:focus-visible]:border-ring has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 dark:bg-input/30 dark:has-disabled:bg-input/80 relative flex h-8 w-full min-w-0 items-center rounded-none border transition-colors outline-none has-[[data-slot=input-group-control]:focus-visible]:ring-1"
+        role="group"
+      >
+        <input
           type="search"
           id="filter-search"
           placeholder={i18n?.searchPlaceholder ?? 'Search posts...'}
+          data-slot="input-group-control"
+          class="border-input flex-1 rounded-none border-0 bg-transparent px-3 py-1 text-xs shadow-none ring-0 outline-none focus-visible:ring-0 dark:bg-transparent"
         />
-        <InputGroupAddon>
-          <SearchIcon />
-        </InputGroupAddon>
-      </InputGroup>
+        <div
+          role="group"
+          data-slot="input-group-addon"
+          data-align="inline-start"
+          class="text-muted-foreground order-first flex h-auto cursor-text items-center justify-center gap-2 py-1.5 pl-2 text-xs font-medium select-none"
+        >
+          <Icon name="search" size={16} />
+        </div>
+      </div>
     </div>
 
     <!-- CATEGORY -->
     <div class="w-full sm:w-auto sm:min-w-40">
-      <input type="hidden" id="filter-category" />
+      <input type="hidden" id="filter-category" value={initialCategory ?? ''} />
 
       <FilterSelect
-        client:load
         name="category"
         options={categories}
         {...initialCategory && { value: initialCategory }}
@@ -98,10 +107,9 @@ const sortbyOptions: { value: string; label: string }[] = [
 
     <!-- TAG -->
     <div class="w-full sm:w-auto sm:min-w-40">
-      <input type="hidden" id="filter-tag" />
+      <input type="hidden" id="filter-tag" value={initialTag ?? ''} />
 
       <FilterSelect
-        client:load
         name="tag"
         options={tags}
         {...initialTag && { value: initialTag }}
@@ -115,7 +123,6 @@ const sortbyOptions: { value: string; label: string }[] = [
       <input type="hidden" id="filter-sort" />
 
       <FilterSelect
-        client:load
         name="sort"
         options={sortbyOptions}
         placeholder={i18n?.sortBy ?? 'Sort By'}
@@ -124,15 +131,14 @@ const sortbyOptions: { value: string; label: string }[] = [
     </div>
 
     <!-- RESET -->
-    <Button
+    <button
       id="filter-reset"
       type="button"
       title={i18n?.clearTitle ?? 'Clear search and reset filters'}
-      className="w-full rounded-none sm:w-auto sm:min-w-20"
-      variant="outline"
+      class="group/button border-border bg-background hover:bg-muted hover:text-foreground inline-flex h-8 w-full shrink-0 items-center justify-center rounded-none border px-2.5 text-xs font-medium whitespace-nowrap transition-all outline-none sm:w-auto sm:min-w-20"
     >
       {i18n?.reset ?? 'Reset'}
-    </Button>
+    </button>
   </form>
 
   <div id="filter-results-count" class="text-muted-foreground text-sm"></div>
@@ -198,6 +204,16 @@ const sortbyOptions: { value: string; label: string }[] = [
   function init() {
     if (initialized) return
     initialized = true
+
+    // Static blog pages cannot receive query params at build time, so seed the
+    // hidden filter input from the browser URL when arriving from a tag cloud.
+    const tagFromUrl = new URLSearchParams(window.location.search).get('tag')
+    const tagInput = document.getElementById('filter-tag') as HTMLInputElement | null
+    if (tagInput && tagFromUrl) {
+      tagInput.value = tagFromUrl
+      window.dispatchEvent(new Event('filter-selection-sync'))
+    }
+
     initBlogFilter()
     setupFilterBridge()
   }

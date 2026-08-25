@@ -32,4 +32,16 @@ Edit Markdown/MDX files under `apps/web/src/content/posts/{vi,en}`. Validate fro
 
 ## Hooks
 
-Lefthook runs lint, typecheck, and formatting checks for staged files. Never bypass hooks with `--no-verify`.
+Lefthook runs lint, typecheck, and formatting checks for staged matching files before commit. Agents must run `pnpm check` and `git diff --check` before invoking `git commit`. Never bypass hooks with `--no-verify`.
+
+Agent integrations use the same quality gate:
+
+- Codex reads the repository `AGENTS.md` and `.codex/README.md` rule.
+- Claude Code runs `.claude/settings.json`'s `PreToolUse` guard.
+- OpenCode loads `.opencode/plugins/commit-quality-gate.ts` and its matching rule.
+
+Each integration delegates to `scripts/agent-commit-guard.mjs` or `pnpm check`;
+Lefthook remains the final Git-level enforcement layer for staged files.
+
+The pre-push hook runs the test suite and full build sequentially. This avoids
+Vitest worker starvation when Astro/Vite consumes the same local resources.

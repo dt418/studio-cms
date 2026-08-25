@@ -7,6 +7,7 @@ publishedAt: 2026-05-08
 updatedAt: 2026-05-20
 tags: ['9router', 'vps', 'ai', 'proxy', 'cloudflare-tunnel', 'pm2', 'api-gateway']
 language: 'en'
+translationKey: 'cai-dat-9router-api-proxy-tren-vps'
 category: 'tutorials'
 faq:
   - question: 'Why place an API proxy in front of AI providers?'

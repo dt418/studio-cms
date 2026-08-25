@@ -1,29 +1,93 @@
 ---
-import {
-  SpotlightCard as SpotlightCardPrimitive,
-  type SpotlightCardProps,
-} from '@/components/ui/spotlight-card'
-
 interface Props {
   as?: 'div' | 'article' | 'a'
   class?: string
   href?: string
-  spotlightColor?: SpotlightCardProps['spotlightColor']
+  spotlightColor?: string
 }
 
 const { as = 'div', class: className, href, spotlightColor } = Astro.props as Props
+const cardClass =
+  'border-border bg-card/30 relative overflow-hidden rounded-xl border p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-2xl'
+const color = spotlightColor ?? 'color-mix(in oklch, var(--foreground) 12%, transparent)'
 
 if (as === 'a' && !href) {
   throw new Error('SpotlightCard with as="a" requires an href prop')
 }
 ---
 
-<SpotlightCardPrimitive
-  client:visible
-  {...as !== 'div' && { as }}
-  {...href && { href }}
-  {...className && { className }}
-  {...spotlightColor && { spotlightColor }}
->
-  <slot />
-</SpotlightCardPrimitive>
+{
+  as === 'a' && href ? (
+    <a
+      href={href}
+      class:list={[cardClass, className]}
+      data-slot="spotlight-card"
+      data-spotlight-card
+      data-spotlight-color={color}
+    >
+      <div
+        data-spotlight-overlay
+        class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-in-out"
+      />
+      <div class="relative z-10">
+        <slot />
+      </div>
+    </a>
+  ) : as === 'article' ? (
+    <article
+      class:list={[cardClass, className]}
+      data-slot="spotlight-card"
+      data-spotlight-card
+      data-spotlight-color={color}
+    >
+      <div
+        data-spotlight-overlay
+        class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-in-out"
+      />
+      <div class="relative z-10">
+        <slot />
+      </div>
+    </article>
+  ) : (
+    <div
+      class:list={[cardClass, className]}
+      data-slot="spotlight-card"
+      data-spotlight-card
+      data-spotlight-color={color}
+    >
+      <div
+        data-spotlight-overlay
+        class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-in-out"
+      />
+      <div class="relative z-10">
+        <slot />
+      </div>
+    </div>
+  )
+}
+
+<script>
+  const initSpotlightCards = () => {
+    for (const card of document.querySelectorAll<HTMLElement>('[data-spotlight-card]')) {
+      if (card.dataset.spotlightBound === 'true') continue
+      card.dataset.spotlightBound = 'true'
+      const overlay = card.querySelector<HTMLElement>('[data-spotlight-overlay]')
+      if (!overlay) continue
+      const color = card.dataset.spotlightColor ?? 'transparent'
+      const setOpacity = (value: number) => {
+        overlay.style.opacity = String(value)
+      }
+      card.addEventListener('mousemove', (event) => {
+        const rect = card.getBoundingClientRect()
+        overlay.style.background = `radial-gradient(circle at ${event.clientX - rect.left}px ${event.clientY - rect.top}px, ${color}, transparent 80%)`
+      })
+      card.addEventListener('mouseenter', () => setOpacity(0.6))
+      card.addEventListener('mouseleave', () => setOpacity(0))
+      card.addEventListener('focus', () => setOpacity(0.6), true)
+      card.addEventListener('blur', () => setOpacity(0), true)
+    }
+  }
+
+  document.addEventListener('astro:page-load', initSpotlightCards)
+  initSpotlightCards()
+</script>

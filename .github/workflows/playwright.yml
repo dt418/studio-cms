@@ -33,6 +33,7 @@ jobs:
         run: pnpm test:e2e
         env:
           SITE_URL: http://localhost:4321
+          SKIP_WEB_BUILD: true
       - uses: actions/upload-artifact@v7
         if: always()
         with:

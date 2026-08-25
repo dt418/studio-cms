@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro'
-import { getLocalizedPosts, type SupportedLocale } from '@/lib/cms'
+import { getLocalizedPosts, type SupportedLocale } from '@/lib/content-queries'
 import { getTranslations } from '@/lib/i18n'
+import { getPostPath } from '@/lib/routes'
+import { getSiteOrigin, toAbsoluteUrl } from '@/lib/site'
 import { isValidLocale } from '@/lib/content-utils'
 
 export const prerender = true
@@ -13,10 +15,10 @@ export async function getStaticPaths() {
   }))
 }
 
-export const GET: APIRoute = async ({ params, site }) => {
+export const GET: APIRoute = async ({ params }) => {
   const langParam = params.lang ?? 'vi'
   const lang: SupportedLocale = isValidLocale(langParam) ? langParam : 'vi'
-  const origin = site?.origin ?? ''
+  const origin = getSiteOrigin()
   const i18n = getTranslations(lang)
   const posts = await getLocalizedPosts(lang)
 
@@ -28,7 +30,7 @@ export const GET: APIRoute = async ({ params, site }) => {
   lines.push(`Total posts: ${posts.length}`)
   lines.push('')
   for (const post of posts) {
-    lines.push(`- [${post.data.title}](${origin}/${lang}/blog/${post.id})`)
+    lines.push(`- [${post.data.title}](${toAbsoluteUrl(getPostPath(post), origin)})`)
   }
   lines.push('')
 

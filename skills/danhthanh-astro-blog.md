@@ -7,7 +7,7 @@ Use this skill when changing blog routes, RSS, sitemap behavior, post visibility
 - This is a pnpm + Turborepo workspace with the public Astro 7 static site in `apps/web`.
 - `apps/web` owns the public blog, RSS, search, sitemap, and generated OG/search artifacts.
 - All content is file-based Markdown/MDX in `apps/web/src/content/posts` and is rendered at build time.
-- Public posts come from `apps/web/src/content/posts/**/*.{md,mdx}` through `apps/web/src/content.config.ts` and `apps/web/src/lib/cms.ts`.
+- Public posts come from `apps/web/src/content/posts/**/*.{md,mdx}` through `apps/web/src/content.config.ts` and `apps/web/src/lib/content-queries.ts`.
 - Prefer `@/*` imports within each app over deep relative imports.
 
 ## Routing Rules
@@ -35,12 +35,12 @@ Use this skill when changing blog routes, RSS, sitemap behavior, post visibility
 ## Tests To Update
 
 - Update `apps/web/src/lib/routes.test.ts` when route helper behavior changes.
-- Update `apps/web/src/lib/cms.test.ts` when post querying or visibility behavior changes.
+- Update focused `apps/web/src/lib/*queries*.test.ts` coverage when post querying or visibility behavior changes.
 - Add focused tests before broad verification when changing routing or visibility.
 
 ## Verification
 
-- Focused route/visibility check: `pnpm test -- apps/web/src/lib/routes.test.ts apps/web/src/lib/cms.test.ts`
+- Focused route/visibility check: `pnpm test -- apps/web/src/lib/routes.test.ts`
 - Pattern guard: `pnpm lint:patterns`
 - Full project check: `pnpm check`
 - Run `pnpm build` when changing RSS, sitemap, search index generation, generated OG image behavior, or Astro config.

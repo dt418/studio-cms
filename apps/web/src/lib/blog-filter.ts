@@ -3,6 +3,7 @@ import { filterPosts } from './filter'
 interface SerializedPostData {
   title: string
   excerpt: string
+  description: string
   publishedAt: string
   tags: string[]
   category: string
@@ -48,7 +49,7 @@ function renderCard(post: SerializedPost, i18n: FilterI18n): string {
   const minutes = Math.max(1, Math.ceil(words / 200))
   const pathAttr = escapeHtml(post.data.path)
   const title = escapeHtml(post.data.title)
-  const excerpt = escapeHtml(post.data.excerpt)
+  const excerpt = escapeHtml(post.data.description)
   const formattedDate = escapeHtml(post.data.formattedDate)
 
   const tagsHtml = post.data.tags
