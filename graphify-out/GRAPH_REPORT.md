@@ -4,13 +4,13 @@ Regenerate with `pnpm harness:context` after source, workspace, or harness chang
 
 ## Summary
 
-- Nodes: 238
-- Edges: 568
-- Context fingerprint: `5caa08ab5255e81fb0e91bc40d66d16613c5223849aadad3856aadf8b410e6eb`
+- Nodes: 255
+- Edges: 592
+- Context fingerprint: `f19c626bea5228f1b4fbeffe515917e43bd95597e0d9875b544549c1b6c1154d`
 
 ## High-connectivity nodes
 
-- `workspace:root` (212 links)
+- `workspace:root` (228 links)
 - `file:apps/web/src/lib/routes.ts` (26 links)
 - `file:apps/web/src/lib/site.ts` (26 links)
 - `file:apps/web/src/lib/content-utils.ts` (24 links)

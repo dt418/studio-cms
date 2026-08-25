@@ -82,7 +82,9 @@ export interface NonCanonicalSeoPageInput extends SeoPageInputBase {
 }
 
 export type SeoPageInput =
-  IndexableSeoPageInput | NoindexContentSeoPageInput | NonCanonicalSeoPageInput
+  | IndexableSeoPageInput
+  | NoindexContentSeoPageInput
+  | NonCanonicalSeoPageInput
 
 export function normalizeCanonicalUrl(value: string): string {
   const canonical = value.trim()
