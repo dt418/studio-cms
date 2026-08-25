@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "required": ["task_id", "status"],
+  "properties": {
+    "task_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    }
+  }
+}

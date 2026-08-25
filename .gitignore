@@ -3,7 +3,6 @@ dist/
 .output/
 .vercel/
 .turbo/
-graphify-out/
 # generated types
 .astro/
 
@@ -32,8 +31,10 @@ pnpm-debug.log*
 # one-repo submodule
 .one-repo
 
-# claude config (private)
-.claude/
+# claude config (private, except project commands)
+.claude/*
+!.claude/commands/
+!.claude/commands/*.md
 
 # session files
 session-ses_*
@@ -45,8 +46,8 @@ session-ses_*
 .idea/
 
 .agents
+.harness/npm-cache/
 .augment
-.claude
 .continue
 .cursor
 .gemini

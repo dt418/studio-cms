@@ -8,16 +8,13 @@
     },
     "shadcn": {
       "type": "local",
-      "command": [
-        "npx",
-        "shadcn@latest",
-        "mcp"
-      ],
+      "command": ["npx", "shadcn@latest", "mcp"],
       "enabled": true
     }
   },
   "plugin": [
     ".opencode/plugins/graphify.js",
+    ".opencode/plugins/harness-guard.ts",
     ".opencode/plugins/no-verify-guard.ts",
     ".opencode/plugins/commit-quality-gate.ts"
   ]

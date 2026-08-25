@@ -1,0 +1,4 @@
+{
+  "default": "deny",
+  "allowed": ["read", "write-workspace", "run-verification"]
+}

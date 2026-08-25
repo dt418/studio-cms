@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "required": ["version", "activeFeature", "features"],
+  "properties": {
+    "version": {
+      "type": "number"
+    },
+    "activeFeature": {
+      "type": ["string", "null"]
+    },
+    "features": {
+      "type": "array"
+    }
+  }
+}
