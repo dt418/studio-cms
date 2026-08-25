@@ -227,6 +227,26 @@ test('context graph is stable when locale comparison behavior differs', async ()
   }
 })
 
+test('context graph fingerprint ignores checkout line-ending conversion', async () => {
+  const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-line-endings-'))
+
+  try {
+    await mkdir(path.join(target, 'src'), { recursive: true })
+    await writeFile(path.join(target, 'package.json'), JSON.stringify({ name: 'fixture' }), 'utf8')
+    await writeFile(path.join(target, 'AGENTS.md'), '# Fixture instructions\n', 'utf8')
+    await writeFile(path.join(target, 'src', 'index.ts'), 'export const fixture = true\n', 'utf8')
+
+    const generated = await runCli(['context', '--target', target], target)
+    assert.equal(generated.code, 0, generated.stderr)
+
+    await writeFile(path.join(target, 'src', 'index.ts'), 'export const fixture = true\r\n', 'utf8')
+    const checked = await runCli(['context', '--target', target, '--check'], target)
+    assert.equal(checked.code, 0, checked.stderr)
+  } finally {
+    await rm(target, { recursive: true, force: true })
+  }
+})
+
 test('context detects Codex instruction changes and ignores local skill cache files', async () => {
   const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-context-inputs-'))
 

@@ -152,7 +152,7 @@ async function contextFingerprint(target, files) {
   for (const filePath of files) {
     hash.update(filePath)
     hash.update('\0')
-    hash.update(await readFile(path.join(target, filePath)))
+    hash.update((await readFile(path.join(target, filePath), 'utf8')).replaceAll('\r\n', '\n'))
     hash.update('\0')
   }
   return hash.digest('hex')
