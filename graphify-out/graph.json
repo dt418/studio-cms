@@ -1,0 +1,4088 @@
+{
+  "version": 2,
+  "root": "studio-cms",
+  "fingerprints": {
+    "context": "98143ea6c1de05dfe79997cc2367136717ccafbf4af563de1face18a967758d4"
+  },
+  "nodes": [
+    {
+      "id": "file:.claude/commands/harness-context.md",
+      "kind": "context",
+      "label": "harness-context.md",
+      "path": ".claude/commands/harness-context.md"
+    },
+    {
+      "id": "file:.claude/commands/harness-documentation-sync.md",
+      "kind": "context",
+      "label": "harness-documentation-sync.md",
+      "path": ".claude/commands/harness-documentation-sync.md"
+    },
+    {
+      "id": "file:.claude/commands/harness-init.md",
+      "kind": "context",
+      "label": "harness-init.md",
+      "path": ".claude/commands/harness-init.md"
+    },
+    {
+      "id": "file:.claude/commands/harness-orchestrate.md",
+      "kind": "context",
+      "label": "harness-orchestrate.md",
+      "path": ".claude/commands/harness-orchestrate.md"
+    },
+    {
+      "id": "file:.claude/commands/harness-status.md",
+      "kind": "context",
+      "label": "harness-status.md",
+      "path": ".claude/commands/harness-status.md"
+    },
+    {
+      "id": "file:.claude/commands/harness-validate.md",
+      "kind": "context",
+      "label": "harness-validate.md",
+      "path": ".claude/commands/harness-validate.md"
+    },
+    {
+      "id": "file:.claude/commands/harness-verify.md",
+      "kind": "context",
+      "label": "harness-verify.md",
+      "path": ".claude/commands/harness-verify.md"
+    },
+    {
+      "id": "file:.codex/README.md",
+      "kind": "context",
+      "label": "README.md",
+      "path": ".codex/README.md"
+    },
+    {
+      "id": "file:.github/workflows/harness-portability.yml",
+      "kind": "context",
+      "label": "harness-portability.yml",
+      "path": ".github/workflows/harness-portability.yml"
+    },
+    {
+      "id": "file:.github/workflows/playwright.yml",
+      "kind": "context",
+      "label": "playwright.yml",
+      "path": ".github/workflows/playwright.yml"
+    },
+    {
+      "id": "file:.harness/commands.json",
+      "kind": "harness",
+      "label": "commands.json",
+      "path": ".harness/commands.json"
+    },
+    {
+      "id": "file:.harness/external-skills.json",
+      "kind": "harness",
+      "label": "external-skills.json",
+      "path": ".harness/external-skills.json"
+    },
+    {
+      "id": "file:.harness/feature-list.json",
+      "kind": "harness",
+      "label": "feature-list.json",
+      "path": ".harness/feature-list.json"
+    },
+    {
+      "id": "file:.harness/init.mjs",
+      "kind": "harness",
+      "label": "init.mjs",
+      "path": ".harness/init.mjs"
+    },
+    {
+      "id": "file:.harness/manifest.json",
+      "kind": "harness",
+      "label": "manifest.json",
+      "path": ".harness/manifest.json"
+    },
+    {
+      "id": "file:.harness/orchestration.json",
+      "kind": "harness",
+      "label": "orchestration.json",
+      "path": ".harness/orchestration.json"
+    },
+    {
+      "id": "file:.harness/policies/merge.json",
+      "kind": "harness",
+      "label": "merge.json",
+      "path": ".harness/policies/merge.json"
+    },
+    {
+      "id": "file:.harness/policies/permissions.json",
+      "kind": "harness",
+      "label": "permissions.json",
+      "path": ".harness/policies/permissions.json"
+    },
+    {
+      "id": "file:.harness/schemas/decision.schema.json",
+      "kind": "harness",
+      "label": "decision.schema.json",
+      "path": ".harness/schemas/decision.schema.json"
+    },
+    {
+      "id": "file:.harness/schemas/feature-list.schema.json",
+      "kind": "harness",
+      "label": "feature-list.schema.json",
+      "path": ".harness/schemas/feature-list.schema.json"
+    },
+    {
+      "id": "file:.harness/schemas/patch.schema.json",
+      "kind": "harness",
+      "label": "patch.schema.json",
+      "path": ".harness/schemas/patch.schema.json"
+    },
+    {
+      "id": "file:.harness/schemas/report.schema.json",
+      "kind": "harness",
+      "label": "report.schema.json",
+      "path": ".harness/schemas/report.schema.json"
+    },
+    {
+      "id": "file:.harness/schemas/review.schema.json",
+      "kind": "harness",
+      "label": "review.schema.json",
+      "path": ".harness/schemas/review.schema.json"
+    },
+    {
+      "id": "file:.harness/schemas/task.schema.json",
+      "kind": "harness",
+      "label": "task.schema.json",
+      "path": ".harness/schemas/task.schema.json"
+    },
+    {
+      "id": "file:.harness/session-handoff.md",
+      "kind": "harness",
+      "label": "session-handoff.md",
+      "path": ".harness/session-handoff.md"
+    },
+    {
+      "id": "file:.harness/state.json",
+      "kind": "harness",
+      "label": "state.json",
+      "path": ".harness/state.json"
+    },
+    {
+      "id": "file:.opencode/commands/harness-context.md",
+      "kind": "context",
+      "label": "harness-context.md",
+      "path": ".opencode/commands/harness-context.md"
+    },
+    {
+      "id": "file:.opencode/commands/harness-documentation-sync.md",
+      "kind": "context",
+      "label": "harness-documentation-sync.md",
+      "path": ".opencode/commands/harness-documentation-sync.md"
+    },
+    {
+      "id": "file:.opencode/commands/harness-init.md",
+      "kind": "context",
+      "label": "harness-init.md",
+      "path": ".opencode/commands/harness-init.md"
+    },
+    {
+      "id": "file:.opencode/commands/harness-orchestrate.md",
+      "kind": "context",
+      "label": "harness-orchestrate.md",
+      "path": ".opencode/commands/harness-orchestrate.md"
+    },
+    {
+      "id": "file:.opencode/commands/harness-status.md",
+      "kind": "context",
+      "label": "harness-status.md",
+      "path": ".opencode/commands/harness-status.md"
+    },
+    {
+      "id": "file:.opencode/commands/harness-validate.md",
+      "kind": "context",
+      "label": "harness-validate.md",
+      "path": ".opencode/commands/harness-validate.md"
+    },
+    {
+      "id": "file:.opencode/commands/harness-verify.md",
+      "kind": "context",
+      "label": "harness-verify.md",
+      "path": ".opencode/commands/harness-verify.md"
+    },
+    {
+      "id": "file:.opencode/plugins/commit-quality-gate.ts",
+      "kind": "source",
+      "label": "commit-quality-gate.ts",
+      "path": ".opencode/plugins/commit-quality-gate.ts"
+    },
+    {
+      "id": "file:.opencode/plugins/graphify.js",
+      "kind": "source",
+      "label": "graphify.js",
+      "path": ".opencode/plugins/graphify.js"
+    },
+    {
+      "id": "file:.opencode/plugins/harness-guard.ts",
+      "kind": "source",
+      "label": "harness-guard.ts",
+      "path": ".opencode/plugins/harness-guard.ts"
+    },
+    {
+      "id": "file:.opencode/plugins/no-verify-guard.ts",
+      "kind": "source",
+      "label": "no-verify-guard.ts",
+      "path": ".opencode/plugins/no-verify-guard.ts"
+    },
+    {
+      "id": "file:AGENTS.md",
+      "kind": "instructions",
+      "label": "AGENTS.md",
+      "path": "AGENTS.md"
+    },
+    {
+      "id": "file:agents/AGENTS.md",
+      "kind": "context",
+      "label": "AGENTS.md",
+      "path": "agents/AGENTS.md"
+    },
+    {
+      "id": "file:agents/CLAUDE.md",
+      "kind": "context",
+      "label": "CLAUDE.md",
+      "path": "agents/CLAUDE.md"
+    },
+    {
+      "id": "file:agents/e2e-tester.md",
+      "kind": "context",
+      "label": "e2e-tester.md",
+      "path": "agents/e2e-tester.md"
+    },
+    {
+      "id": "file:agents/orchestration-runtime-adapters.md",
+      "kind": "context",
+      "label": "orchestration-runtime-adapters.md",
+      "path": "agents/orchestration-runtime-adapters.md"
+    },
+    {
+      "id": "file:agents/README.md",
+      "kind": "context",
+      "label": "README.md",
+      "path": "agents/README.md"
+    },
+    {
+      "id": "file:agents/templates/ceo.md",
+      "kind": "context",
+      "label": "ceo.md",
+      "path": "agents/templates/ceo.md"
+    },
+    {
+      "id": "file:agents/templates/community/director.md",
+      "kind": "context",
+      "label": "director.md",
+      "path": "agents/templates/community/director.md"
+    },
+    {
+      "id": "file:agents/templates/community/moderator.md",
+      "kind": "context",
+      "label": "moderator.md",
+      "path": "agents/templates/community/moderator.md"
+    },
+    {
+      "id": "file:agents/templates/community/support.md",
+      "kind": "context",
+      "label": "support.md",
+      "path": "agents/templates/community/support.md"
+    },
+    {
+      "id": "file:agents/templates/marketing/ads.md",
+      "kind": "context",
+      "label": "ads.md",
+      "path": "agents/templates/marketing/ads.md"
+    },
+    {
+      "id": "file:agents/templates/marketing/director.md",
+      "kind": "context",
+      "label": "director.md",
+      "path": "agents/templates/marketing/director.md"
+    },
+    {
+      "id": "file:agents/templates/marketing/seo.md",
+      "kind": "context",
+      "label": "seo.md",
+      "path": "agents/templates/marketing/seo.md"
+    },
+    {
+      "id": "file:agents/templates/marketing/social.md",
+      "kind": "context",
+      "label": "social.md",
+      "path": "agents/templates/marketing/social.md"
+    },
+    {
+      "id": "file:agents/templates/marketing/writer.md",
+      "kind": "context",
+      "label": "writer.md",
+      "path": "agents/templates/marketing/writer.md"
+    },
+    {
+      "id": "file:agents/templates/README.md",
+      "kind": "context",
+      "label": "README.md",
+      "path": "agents/templates/README.md"
+    },
+    {
+      "id": "file:apps/web/src/__mocks__/astro-content.ts",
+      "kind": "source",
+      "label": "astro-content.ts",
+      "path": "apps/web/src/__mocks__/astro-content.ts"
+    },
+    {
+      "id": "file:apps/web/src/components/About/AboutContact.astro",
+      "kind": "source",
+      "label": "AboutContact.astro",
+      "path": "apps/web/src/components/About/AboutContact.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/About/AboutHero.astro",
+      "kind": "source",
+      "label": "AboutHero.astro",
+      "path": "apps/web/src/components/About/AboutHero.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/About/AboutPrinciples.astro",
+      "kind": "source",
+      "label": "AboutPrinciples.astro",
+      "path": "apps/web/src/components/About/AboutPrinciples.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/ArchiveSection.astro",
+      "kind": "source",
+      "label": "ArchiveSection.astro",
+      "path": "apps/web/src/components/ArchiveSection.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/ArticleContent.astro",
+      "kind": "source",
+      "label": "ArticleContent.astro",
+      "path": "apps/web/src/components/Blog/ArticleContent.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/AuthorCard.astro",
+      "kind": "source",
+      "label": "AuthorCard.astro",
+      "path": "apps/web/src/components/Blog/AuthorCard.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/BackLink.astro",
+      "kind": "source",
+      "label": "BackLink.astro",
+      "path": "apps/web/src/components/Blog/BackLink.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/BlogHeader.astro",
+      "kind": "source",
+      "label": "BlogHeader.astro",
+      "path": "apps/web/src/components/Blog/BlogHeader.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/Breadcrumb.astro",
+      "kind": "source",
+      "label": "Breadcrumb.astro",
+      "path": "apps/web/src/components/Blog/Breadcrumb.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/CategoryCloud.astro",
+      "kind": "source",
+      "label": "CategoryCloud.astro",
+      "path": "apps/web/src/components/Blog/CategoryCloud.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/CoverImage.astro",
+      "kind": "source",
+      "label": "CoverImage.astro",
+      "path": "apps/web/src/components/Blog/CoverImage.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/PostFAQ.astro",
+      "kind": "source",
+      "label": "PostFAQ.astro",
+      "path": "apps/web/src/components/Blog/PostFAQ.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/PostHeader.astro",
+      "kind": "source",
+      "label": "PostHeader.astro",
+      "path": "apps/web/src/components/Blog/PostHeader.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/PostHero.astro",
+      "kind": "source",
+      "label": "PostHero.astro",
+      "path": "apps/web/src/components/Blog/PostHero.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/PostMetaCard.astro",
+      "kind": "source",
+      "label": "PostMetaCard.astro",
+      "path": "apps/web/src/components/Blog/PostMetaCard.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/PostMetadata.astro",
+      "kind": "source",
+      "label": "PostMetadata.astro",
+      "path": "apps/web/src/components/Blog/PostMetadata.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/PostNavigation.astro",
+      "kind": "source",
+      "label": "PostNavigation.astro",
+      "path": "apps/web/src/components/Blog/PostNavigation.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/PostNavLink.astro",
+      "kind": "source",
+      "label": "PostNavLink.astro",
+      "path": "apps/web/src/components/Blog/PostNavLink.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/RelatedPosts.astro",
+      "kind": "source",
+      "label": "RelatedPosts.astro",
+      "path": "apps/web/src/components/Blog/RelatedPosts.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/StatsGrid.astro",
+      "kind": "source",
+      "label": "StatsGrid.astro",
+      "path": "apps/web/src/components/Blog/StatsGrid.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/TableOfContents.astro",
+      "kind": "source",
+      "label": "TableOfContents.astro",
+      "path": "apps/web/src/components/Blog/TableOfContents.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/TagCloud.astro",
+      "kind": "source",
+      "label": "TagCloud.astro",
+      "path": "apps/web/src/components/Blog/TagCloud.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Blog/TagsList.astro",
+      "kind": "source",
+      "label": "TagsList.astro",
+      "path": "apps/web/src/components/Blog/TagsList.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/BlogCard.astro",
+      "kind": "source",
+      "label": "BlogCard.astro",
+      "path": "apps/web/src/components/BlogCard.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/BlogFilter.astro",
+      "kind": "source",
+      "label": "BlogFilter.astro",
+      "path": "apps/web/src/components/BlogFilter.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/CTAButtons.astro",
+      "kind": "source",
+      "label": "CTAButtons.astro",
+      "path": "apps/web/src/components/CTAButtons.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/FeaturedWork.astro",
+      "kind": "source",
+      "label": "FeaturedWork.astro",
+      "path": "apps/web/src/components/FeaturedWork.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/HeroSection.astro",
+      "kind": "source",
+      "label": "HeroSection.astro",
+      "path": "apps/web/src/components/HeroSection.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/Icon.astro",
+      "kind": "source",
+      "label": "Icon.astro",
+      "path": "apps/web/src/components/Icon.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/LanguageSwitcher.astro",
+      "kind": "source",
+      "label": "LanguageSwitcher.astro",
+      "path": "apps/web/src/components/LanguageSwitcher.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/MarqueeSection.astro",
+      "kind": "source",
+      "label": "MarqueeSection.astro",
+      "path": "apps/web/src/components/MarqueeSection.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/MetricCard.astro",
+      "kind": "source",
+      "label": "MetricCard.astro",
+      "path": "apps/web/src/components/MetricCard.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/MetricCardContent.astro",
+      "kind": "source",
+      "label": "MetricCardContent.astro",
+      "path": "apps/web/src/components/MetricCardContent.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/NotFoundPage.astro",
+      "kind": "source",
+      "label": "NotFoundPage.astro",
+      "path": "apps/web/src/components/NotFoundPage.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/PostCard.astro",
+      "kind": "source",
+      "label": "PostCard.astro",
+      "path": "apps/web/src/components/PostCard.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/PostCardContent.astro",
+      "kind": "source",
+      "label": "PostCardContent.astro",
+      "path": "apps/web/src/components/PostCardContent.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/SectionHeader.astro",
+      "kind": "source",
+      "label": "SectionHeader.astro",
+      "path": "apps/web/src/components/SectionHeader.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/SpotlightCard.astro",
+      "kind": "source",
+      "label": "SpotlightCard.astro",
+      "path": "apps/web/src/components/SpotlightCard.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/StatsBadge.astro",
+      "kind": "source",
+      "label": "StatsBadge.astro",
+      "path": "apps/web/src/components/StatsBadge.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/TagCloudSection.astro",
+      "kind": "source",
+      "label": "TagCloudSection.astro",
+      "path": "apps/web/src/components/TagCloudSection.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/ui/button.tsx",
+      "kind": "source",
+      "label": "button.tsx",
+      "path": "apps/web/src/components/ui/button.tsx"
+    },
+    {
+      "id": "file:apps/web/src/components/ui/FilterSelect.astro",
+      "kind": "source",
+      "label": "FilterSelect.astro",
+      "path": "apps/web/src/components/ui/FilterSelect.astro"
+    },
+    {
+      "id": "file:apps/web/src/components/ui/FilterSelect.tsx",
+      "kind": "source",
+      "label": "FilterSelect.tsx",
+      "path": "apps/web/src/components/ui/FilterSelect.tsx"
+    },
+    {
+      "id": "file:apps/web/src/components/ui/input-group.tsx",
+      "kind": "source",
+      "label": "input-group.tsx",
+      "path": "apps/web/src/components/ui/input-group.tsx"
+    },
+    {
+      "id": "file:apps/web/src/components/ui/input.tsx",
+      "kind": "source",
+      "label": "input.tsx",
+      "path": "apps/web/src/components/ui/input.tsx"
+    },
+    {
+      "id": "file:apps/web/src/components/ui/select.tsx",
+      "kind": "source",
+      "label": "select.tsx",
+      "path": "apps/web/src/components/ui/select.tsx"
+    },
+    {
+      "id": "file:apps/web/src/components/ui/spotlight-card.tsx",
+      "kind": "source",
+      "label": "spotlight-card.tsx",
+      "path": "apps/web/src/components/ui/spotlight-card.tsx"
+    },
+    {
+      "id": "file:apps/web/src/components/ui/textarea.tsx",
+      "kind": "source",
+      "label": "textarea.tsx",
+      "path": "apps/web/src/components/ui/textarea.tsx"
+    },
+    {
+      "id": "file:apps/web/src/content.config.ts",
+      "kind": "source",
+      "label": "content.config.ts",
+      "path": "apps/web/src/content.config.ts"
+    },
+    {
+      "id": "file:apps/web/src/env.d.ts",
+      "kind": "source",
+      "label": "env.d.ts",
+      "path": "apps/web/src/env.d.ts"
+    },
+    {
+      "id": "file:apps/web/src/layouts/BaseLayout.astro",
+      "kind": "source",
+      "label": "BaseLayout.astro",
+      "path": "apps/web/src/layouts/BaseLayout.astro"
+    },
+    {
+      "id": "file:apps/web/src/lib/agent-metadata.test.ts",
+      "kind": "source",
+      "label": "agent-metadata.test.ts",
+      "path": "apps/web/src/lib/agent-metadata.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/agent-metadata.ts",
+      "kind": "source",
+      "label": "agent-metadata.ts",
+      "path": "apps/web/src/lib/agent-metadata.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/blog-filter.ts",
+      "kind": "source",
+      "label": "blog-filter.ts",
+      "path": "apps/web/src/lib/blog-filter.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/content-graph.test.ts",
+      "kind": "source",
+      "label": "content-graph.test.ts",
+      "path": "apps/web/src/lib/content-graph.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/content-graph.ts",
+      "kind": "source",
+      "label": "content-graph.ts",
+      "path": "apps/web/src/lib/content-graph.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/content-queries.test.ts",
+      "kind": "source",
+      "label": "content-queries.test.ts",
+      "path": "apps/web/src/lib/content-queries.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/content-queries.ts",
+      "kind": "source",
+      "label": "content-queries.ts",
+      "path": "apps/web/src/lib/content-queries.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/content-utils.ts",
+      "kind": "source",
+      "label": "content-utils.ts",
+      "path": "apps/web/src/lib/content-utils.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/cover-images.ts",
+      "kind": "source",
+      "label": "cover-images.ts",
+      "path": "apps/web/src/lib/cover-images.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/date.test.ts",
+      "kind": "source",
+      "label": "date.test.ts",
+      "path": "apps/web/src/lib/date.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/date.ts",
+      "kind": "source",
+      "label": "date.ts",
+      "path": "apps/web/src/lib/date.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/featured-work.test.ts",
+      "kind": "source",
+      "label": "featured-work.test.ts",
+      "path": "apps/web/src/lib/featured-work.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/featured-work.ts",
+      "kind": "source",
+      "label": "featured-work.ts",
+      "path": "apps/web/src/lib/featured-work.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/filter.test.ts",
+      "kind": "source",
+      "label": "filter.test.ts",
+      "path": "apps/web/src/lib/filter.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/filter.ts",
+      "kind": "source",
+      "label": "filter.ts",
+      "path": "apps/web/src/lib/filter.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/group.test.ts",
+      "kind": "source",
+      "label": "group.test.ts",
+      "path": "apps/web/src/lib/group.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/group.ts",
+      "kind": "source",
+      "label": "group.ts",
+      "path": "apps/web/src/lib/group.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/heading-slugs.test.ts",
+      "kind": "source",
+      "label": "heading-slugs.test.ts",
+      "path": "apps/web/src/lib/heading-slugs.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/i18n/en.ts",
+      "kind": "source",
+      "label": "en.ts",
+      "path": "apps/web/src/lib/i18n/en.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/i18n/index.ts",
+      "kind": "source",
+      "label": "index.ts",
+      "path": "apps/web/src/lib/i18n/index.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/i18n/vi.ts",
+      "kind": "source",
+      "label": "vi.ts",
+      "path": "apps/web/src/lib/i18n/vi.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/og-image.test.ts",
+      "kind": "source",
+      "label": "og-image.test.ts",
+      "path": "apps/web/src/lib/og-image.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/og-image.ts",
+      "kind": "source",
+      "label": "og-image.ts",
+      "path": "apps/web/src/lib/og-image.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/post-visibility.test.ts",
+      "kind": "source",
+      "label": "post-visibility.test.ts",
+      "path": "apps/web/src/lib/post-visibility.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/post-visibility.ts",
+      "kind": "source",
+      "label": "post-visibility.ts",
+      "path": "apps/web/src/lib/post-visibility.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/post.ts",
+      "kind": "source",
+      "label": "post.ts",
+      "path": "apps/web/src/lib/post.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/reading-time.test.ts",
+      "kind": "source",
+      "label": "reading-time.test.ts",
+      "path": "apps/web/src/lib/reading-time.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/reading-time.ts",
+      "kind": "source",
+      "label": "reading-time.ts",
+      "path": "apps/web/src/lib/reading-time.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/routes.test.ts",
+      "kind": "source",
+      "label": "routes.test.ts",
+      "path": "apps/web/src/lib/routes.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/routes.ts",
+      "kind": "source",
+      "label": "routes.ts",
+      "path": "apps/web/src/lib/routes.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/seo.test.ts",
+      "kind": "source",
+      "label": "seo.test.ts",
+      "path": "apps/web/src/lib/seo.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/seo.ts",
+      "kind": "source",
+      "label": "seo.ts",
+      "path": "apps/web/src/lib/seo.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/site.test.ts",
+      "kind": "source",
+      "label": "site.test.ts",
+      "path": "apps/web/src/lib/site.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/site.ts",
+      "kind": "source",
+      "label": "site.ts",
+      "path": "apps/web/src/lib/site.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/sitemap-manifest.test.ts",
+      "kind": "source",
+      "label": "sitemap-manifest.test.ts",
+      "path": "apps/web/src/lib/sitemap-manifest.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/sitemap-manifest.ts",
+      "kind": "source",
+      "label": "sitemap-manifest.ts",
+      "path": "apps/web/src/lib/sitemap-manifest.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/utils.test.ts",
+      "kind": "source",
+      "label": "utils.test.ts",
+      "path": "apps/web/src/lib/utils.test.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/utils.ts",
+      "kind": "source",
+      "label": "utils.ts",
+      "path": "apps/web/src/lib/utils.ts"
+    },
+    {
+      "id": "file:apps/web/src/middleware.ts",
+      "kind": "source",
+      "label": "middleware.ts",
+      "path": "apps/web/src/middleware.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/.well-known/agent-skills/[id]/SKILL.md.ts",
+      "kind": "source",
+      "label": "SKILL.md.ts",
+      "path": "apps/web/src/pages/.well-known/agent-skills/[id]/SKILL.md.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/.well-known/agent-skills/index.json.ts",
+      "kind": "source",
+      "label": "index.json.ts",
+      "path": "apps/web/src/pages/.well-known/agent-skills/index.json.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/.well-known/api-catalog.ts",
+      "kind": "source",
+      "label": "api-catalog.ts",
+      "path": "apps/web/src/pages/.well-known/api-catalog.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/.well-known/dns-aid.json.ts",
+      "kind": "source",
+      "label": "dns-aid.json.ts",
+      "path": "apps/web/src/pages/.well-known/dns-aid.json.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/.well-known/mcp/server-card.json.ts",
+      "kind": "source",
+      "label": "server-card.json.ts",
+      "path": "apps/web/src/pages/.well-known/mcp/server-card.json.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/.well-known/oauth-authorization-server.ts",
+      "kind": "source",
+      "label": "oauth-authorization-server.ts",
+      "path": "apps/web/src/pages/.well-known/oauth-authorization-server.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/.well-known/oauth-protected-resource.ts",
+      "kind": "source",
+      "label": "oauth-protected-resource.ts",
+      "path": "apps/web/src/pages/.well-known/oauth-protected-resource.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/.well-known/openid-configuration.ts",
+      "kind": "source",
+      "label": "openid-configuration.ts",
+      "path": "apps/web/src/pages/.well-known/openid-configuration.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/[lang]/404.astro",
+      "kind": "source",
+      "label": "404.astro",
+      "path": "apps/web/src/pages/[lang]/404.astro"
+    },
+    {
+      "id": "file:apps/web/src/pages/[lang]/about.astro",
+      "kind": "source",
+      "label": "about.astro",
+      "path": "apps/web/src/pages/[lang]/about.astro"
+    },
+    {
+      "id": "file:apps/web/src/pages/[lang]/about.md.ts",
+      "kind": "source",
+      "label": "about.md.ts",
+      "path": "apps/web/src/pages/[lang]/about.md.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/[lang]/blog.md.ts",
+      "kind": "source",
+      "label": "blog.md.ts",
+      "path": "apps/web/src/pages/[lang]/blog.md.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "kind": "source",
+      "label": "[slug].astro",
+      "path": "apps/web/src/pages/[lang]/blog/[slug].astro"
+    },
+    {
+      "id": "file:apps/web/src/pages/[lang]/blog/index.astro",
+      "kind": "source",
+      "label": "index.astro",
+      "path": "apps/web/src/pages/[lang]/blog/index.astro"
+    },
+    {
+      "id": "file:apps/web/src/pages/[lang]/categories/[category].astro",
+      "kind": "source",
+      "label": "[category].astro",
+      "path": "apps/web/src/pages/[lang]/categories/[category].astro"
+    },
+    {
+      "id": "file:apps/web/src/pages/[lang]/index.astro",
+      "kind": "source",
+      "label": "index.astro",
+      "path": "apps/web/src/pages/[lang]/index.astro"
+    },
+    {
+      "id": "file:apps/web/src/pages/[lang]/index.md.ts",
+      "kind": "source",
+      "label": "index.md.ts",
+      "path": "apps/web/src/pages/[lang]/index.md.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
+      "kind": "source",
+      "label": "[tag].astro",
+      "path": "apps/web/src/pages/[lang]/tags/[tag].astro"
+    },
+    {
+      "id": "file:apps/web/src/pages/404.astro",
+      "kind": "source",
+      "label": "404.astro",
+      "path": "apps/web/src/pages/404.astro"
+    },
+    {
+      "id": "file:apps/web/src/pages/api/posts.json.ts",
+      "kind": "source",
+      "label": "posts.json.ts",
+      "path": "apps/web/src/pages/api/posts.json.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/auth.md.ts",
+      "kind": "source",
+      "label": "auth.md.ts",
+      "path": "apps/web/src/pages/auth.md.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/index.astro",
+      "kind": "source",
+      "label": "index.astro",
+      "path": "apps/web/src/pages/index.astro"
+    },
+    {
+      "id": "file:apps/web/src/pages/robots.txt.ts",
+      "kind": "source",
+      "label": "robots.txt.ts",
+      "path": "apps/web/src/pages/robots.txt.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/rss.xml.ts",
+      "kind": "source",
+      "label": "rss.xml.ts",
+      "path": "apps/web/src/pages/rss.xml.ts"
+    },
+    {
+      "id": "file:apps/web/src/pages/sitemap.xml.ts",
+      "kind": "source",
+      "label": "sitemap.xml.ts",
+      "path": "apps/web/src/pages/sitemap.xml.ts"
+    },
+    {
+      "id": "file:apps/web/src/test-helpers.ts",
+      "kind": "source",
+      "label": "test-helpers.ts",
+      "path": "apps/web/src/test-helpers.ts"
+    },
+    {
+      "id": "file:apps/web/src/test-setup.ts",
+      "kind": "source",
+      "label": "test-setup.ts",
+      "path": "apps/web/src/test-setup.ts"
+    },
+    {
+      "id": "file:apps/web/src/types/post.ts",
+      "kind": "source",
+      "label": "post.ts",
+      "path": "apps/web/src/types/post.ts"
+    },
+    {
+      "id": "file:CLAUDE.md",
+      "kind": "instructions",
+      "label": "CLAUDE.md",
+      "path": "CLAUDE.md"
+    },
+    {
+      "id": "file:opencode.json",
+      "kind": "context",
+      "label": "opencode.json",
+      "path": "opencode.json"
+    },
+    {
+      "id": "file:package.json",
+      "kind": "manifest",
+      "label": "package.json",
+      "path": "package.json"
+    },
+    {
+      "id": "file:scripts/agent-commit-guard.mjs",
+      "kind": "source",
+      "label": "agent-commit-guard.mjs",
+      "path": "scripts/agent-commit-guard.mjs"
+    },
+    {
+      "id": "file:scripts/lint-patterns.mjs",
+      "kind": "source",
+      "label": "lint-patterns.mjs",
+      "path": "scripts/lint-patterns.mjs"
+    },
+    {
+      "id": "file:scripts/run-seo-preview.mjs",
+      "kind": "source",
+      "label": "run-seo-preview.mjs",
+      "path": "scripts/run-seo-preview.mjs"
+    },
+    {
+      "id": "file:scripts/vault-sync.mjs",
+      "kind": "source",
+      "label": "vault-sync.mjs",
+      "path": "scripts/vault-sync.mjs"
+    },
+    {
+      "id": "file:skills-lock.json",
+      "kind": "skills",
+      "label": "skills-lock.json",
+      "path": "skills-lock.json"
+    },
+    {
+      "id": "file:skills/a11y-audit.md",
+      "kind": "skills",
+      "label": "a11y-audit.md",
+      "path": "skills/a11y-audit.md"
+    },
+    {
+      "id": "file:skills/astro_hybrid_sesarch.md",
+      "kind": "skills",
+      "label": "astro_hybrid_sesarch.md",
+      "path": "skills/astro_hybrid_sesarch.md"
+    },
+    {
+      "id": "file:skills/danhthanh-astro-blog.md",
+      "kind": "skills",
+      "label": "danhthanh-astro-blog.md",
+      "path": "skills/danhthanh-astro-blog.md"
+    },
+    {
+      "id": "file:skills/danhthanh-tailwind-theme.md",
+      "kind": "skills",
+      "label": "danhthanh-tailwind-theme.md",
+      "path": "skills/danhthanh-tailwind-theme.md"
+    },
+    {
+      "id": "file:skills/danhthanh-verification.md",
+      "kind": "skills",
+      "label": "danhthanh-verification.md",
+      "path": "skills/danhthanh-verification.md"
+    },
+    {
+      "id": "file:skills/design-system-blog.md",
+      "kind": "skills",
+      "label": "design-system-blog.md",
+      "path": "skills/design-system-blog.md"
+    },
+    {
+      "id": "file:skills/generate_detail_page.md",
+      "kind": "skills",
+      "label": "generate_detail_page.md",
+      "path": "skills/generate_detail_page.md"
+    },
+    {
+      "id": "file:skills/github-actions-latest.md",
+      "kind": "skills",
+      "label": "github-actions-latest.md",
+      "path": "skills/github-actions-latest.md"
+    },
+    {
+      "id": "file:skills/harness-creator/SKILL.md",
+      "kind": "skills",
+      "label": "SKILL.md",
+      "path": "skills/harness-creator/SKILL.md"
+    },
+    {
+      "id": "file:skills/migrate-shadcn-preset.md",
+      "kind": "skills",
+      "label": "migrate-shadcn-preset.md",
+      "path": "skills/migrate-shadcn-preset.md"
+    },
+    {
+      "id": "file:skills/page-generation-flow.md",
+      "kind": "skills",
+      "label": "page-generation-flow.md",
+      "path": "skills/page-generation-flow.md"
+    },
+    {
+      "id": "file:skills/playwright-e2e-testing.md",
+      "kind": "skills",
+      "label": "playwright-e2e-testing.md",
+      "path": "skills/playwright-e2e-testing.md"
+    },
+    {
+      "id": "file:skills/project-overview.md",
+      "kind": "skills",
+      "label": "project-overview.md",
+      "path": "skills/project-overview.md"
+    },
+    {
+      "id": "file:skills/prompt-optimizer.md",
+      "kind": "skills",
+      "label": "prompt-optimizer.md",
+      "path": "skills/prompt-optimizer.md"
+    },
+    {
+      "id": "file:skills/seo-performance.md",
+      "kind": "skills",
+      "label": "seo-performance.md",
+      "path": "skills/seo-performance.md"
+    },
+    {
+      "id": "file:tools/harness/scripts/harness.mjs",
+      "kind": "source",
+      "label": "harness.mjs",
+      "path": "tools/harness/scripts/harness.mjs"
+    },
+    {
+      "id": "file:tools/harness/scripts/harness.test.mjs",
+      "kind": "source",
+      "label": "harness.test.mjs",
+      "path": "tools/harness/scripts/harness.test.mjs"
+    },
+    {
+      "id": "package:@astrojs/rss",
+      "kind": "dependency",
+      "label": "@astrojs/rss"
+    },
+    {
+      "id": "package:@base-ui/react",
+      "kind": "dependency",
+      "label": "@base-ui/react"
+    },
+    {
+      "id": "package:@phosphor-icons/react",
+      "kind": "dependency",
+      "label": "@phosphor-icons/react"
+    },
+    {
+      "id": "package:@testing-library/jest-dom",
+      "kind": "dependency",
+      "label": "@testing-library/jest-dom"
+    },
+    {
+      "id": "package:astro",
+      "kind": "dependency",
+      "label": "astro"
+    },
+    {
+      "id": "package:astro:assets",
+      "kind": "dependency",
+      "label": "astro:assets"
+    },
+    {
+      "id": "package:astro:content",
+      "kind": "dependency",
+      "label": "astro:content"
+    },
+    {
+      "id": "package:astro:middleware",
+      "kind": "dependency",
+      "label": "astro:middleware"
+    },
+    {
+      "id": "package:class-variance-authority",
+      "kind": "dependency",
+      "label": "class-variance-authority"
+    },
+    {
+      "id": "package:clsx",
+      "kind": "dependency",
+      "label": "clsx"
+    },
+    {
+      "id": "package:fs",
+      "kind": "dependency",
+      "label": "fs"
+    },
+    {
+      "id": "package:node:assert",
+      "kind": "dependency",
+      "label": "node:assert"
+    },
+    {
+      "id": "package:node:child_process",
+      "kind": "dependency",
+      "label": "node:child_process"
+    },
+    {
+      "id": "package:node:crypto",
+      "kind": "dependency",
+      "label": "node:crypto"
+    },
+    {
+      "id": "package:node:fs",
+      "kind": "dependency",
+      "label": "node:fs"
+    },
+    {
+      "id": "package:node:http",
+      "kind": "dependency",
+      "label": "node:http"
+    },
+    {
+      "id": "package:node:os",
+      "kind": "dependency",
+      "label": "node:os"
+    },
+    {
+      "id": "package:node:path",
+      "kind": "dependency",
+      "label": "node:path"
+    },
+    {
+      "id": "package:node:test",
+      "kind": "dependency",
+      "label": "node:test"
+    },
+    {
+      "id": "package:node:url",
+      "kind": "dependency",
+      "label": "node:url"
+    },
+    {
+      "id": "package:path",
+      "kind": "dependency",
+      "label": "path"
+    },
+    {
+      "id": "package:react",
+      "kind": "dependency",
+      "label": "react"
+    },
+    {
+      "id": "package:tailwind-merge",
+      "kind": "dependency",
+      "label": "tailwind-merge"
+    },
+    {
+      "id": "package:vitest",
+      "kind": "dependency",
+      "label": "vitest"
+    },
+    {
+      "id": "package:zod",
+      "kind": "dependency",
+      "label": "zod"
+    },
+    {
+      "id": "workspace:root",
+      "kind": "workspace",
+      "label": "studio-cms"
+    }
+  ],
+  "edges": [
+    {
+      "from": "file:.opencode/plugins/graphify.js",
+      "to": "package:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:.opencode/plugins/graphify.js",
+      "to": "package:path",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ArchiveSection.astro",
+      "to": "file:apps/web/src/lib/content-graph.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ArchiveSection.astro",
+      "to": "file:apps/web/src/lib/date.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ArchiveSection.astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ArchiveSection.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/ArticleContent.astro",
+      "to": "file:apps/web/src/components/Blog/AuthorCard.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/ArticleContent.astro",
+      "to": "file:apps/web/src/components/Blog/PostNavigation.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/ArticleContent.astro",
+      "to": "file:apps/web/src/components/Blog/TagsList.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/ArticleContent.astro",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/AuthorCard.astro",
+      "to": "file:apps/web/src/lib/post.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/CategoryCloud.astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/CategoryCloud.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/CategoryCloud.astro",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/CoverImage.astro",
+      "to": "file:apps/web/src/lib/cover-images.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/CoverImage.astro",
+      "to": "package:astro:assets",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/PostFAQ.astro",
+      "to": "file:apps/web/src/components/Icon.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/PostHeader.astro",
+      "to": "file:apps/web/src/components/Blog/Breadcrumb.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/PostHeader.astro",
+      "to": "file:apps/web/src/components/Blog/CoverImage.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/PostHeader.astro",
+      "to": "file:apps/web/src/components/Blog/PostMetadata.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/PostHeader.astro",
+      "to": "file:apps/web/src/components/Blog/TagsList.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/PostHero.astro",
+      "to": "file:apps/web/src/components/Blog/PostHeader.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/PostNavigation.astro",
+      "to": "file:apps/web/src/components/Blog/PostNavLink.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/PostNavigation.astro",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/PostNavLink.astro",
+      "to": "file:apps/web/src/lib/date.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/PostNavLink.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/PostNavLink.astro",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/RelatedPosts.astro",
+      "to": "file:apps/web/src/components/BlogCard.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/RelatedPosts.astro",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/TagCloud.astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/TagCloud.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/TagCloud.astro",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/TagsList.astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/TagsList.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/Blog/TagsList.astro",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogCard.astro",
+      "to": "file:apps/web/src/components/Blog/TagsList.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogCard.astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogCard.astro",
+      "to": "file:apps/web/src/lib/cover-images.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogCard.astro",
+      "to": "file:apps/web/src/lib/date.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogCard.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogCard.astro",
+      "to": "package:astro:assets",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogCard.astro",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogFilter.astro",
+      "to": "file:apps/web/src/components/Icon.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogFilter.astro",
+      "to": "file:apps/web/src/components/ui/FilterSelect.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogFilter.astro",
+      "to": "file:apps/web/src/lib/blog-filter.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogFilter.astro",
+      "to": "file:apps/web/src/lib/content-graph.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogFilter.astro",
+      "to": "file:apps/web/src/lib/date.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogFilter.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogFilter.astro",
+      "to": "file:apps/web/src/lib/seo.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/BlogFilter.astro",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/FeaturedWork.astro",
+      "to": "file:apps/web/src/lib/content-queries.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/FeaturedWork.astro",
+      "to": "file:apps/web/src/lib/date.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/FeaturedWork.astro",
+      "to": "file:apps/web/src/lib/featured-work.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/FeaturedWork.astro",
+      "to": "file:apps/web/src/lib/reading-time.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/FeaturedWork.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/HeroSection.astro",
+      "to": "file:apps/web/src/components/CTAButtons.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/HeroSection.astro",
+      "to": "file:apps/web/src/components/StatsBadge.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/HeroSection.astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/LanguageSwitcher.astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/MetricCard.astro",
+      "to": "file:apps/web/src/components/MetricCardContent.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/MetricCard.astro",
+      "to": "file:apps/web/src/components/SpotlightCard.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/NotFoundPage.astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/NotFoundPage.astro",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/NotFoundPage.astro",
+      "to": "file:apps/web/src/lib/utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/PostCard.astro",
+      "to": "file:apps/web/src/components/PostCardContent.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/PostCard.astro",
+      "to": "file:apps/web/src/components/SpotlightCard.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/PostCard.astro",
+      "to": "file:apps/web/src/lib/date.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/PostCard.astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/PostCard.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/PostCard.astro",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/PostCardContent.astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/PostCardContent.astro",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/button.tsx",
+      "to": "file:apps/web/src/lib/utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/button.tsx",
+      "to": "package:@base-ui/react",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/button.tsx",
+      "to": "package:class-variance-authority",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/FilterSelect.tsx",
+      "to": "file:apps/web/src/lib/utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/FilterSelect.tsx",
+      "to": "package:react",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/input-group.tsx",
+      "to": "file:apps/web/src/components/ui/button.tsx",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/input-group.tsx",
+      "to": "file:apps/web/src/components/ui/input.tsx",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/input-group.tsx",
+      "to": "file:apps/web/src/components/ui/textarea.tsx",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/input-group.tsx",
+      "to": "file:apps/web/src/lib/utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/input-group.tsx",
+      "to": "package:class-variance-authority",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/input-group.tsx",
+      "to": "package:react",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/input.tsx",
+      "to": "file:apps/web/src/lib/utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/input.tsx",
+      "to": "package:@base-ui/react",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/input.tsx",
+      "to": "package:react",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/select.tsx",
+      "to": "file:apps/web/src/lib/utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/select.tsx",
+      "to": "package:@base-ui/react",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/select.tsx",
+      "to": "package:@phosphor-icons/react",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/select.tsx",
+      "to": "package:react",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/spotlight-card.tsx",
+      "to": "file:apps/web/src/lib/utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/spotlight-card.tsx",
+      "to": "package:@base-ui/react",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/spotlight-card.tsx",
+      "to": "package:react",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/textarea.tsx",
+      "to": "file:apps/web/src/lib/utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/ui/textarea.tsx",
+      "to": "package:react",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/content.config.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/content.config.ts",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/content.config.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/layouts/BaseLayout.astro",
+      "to": "file:apps/web/src/components/Icon.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/layouts/BaseLayout.astro",
+      "to": "file:apps/web/src/components/LanguageSwitcher.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/layouts/BaseLayout.astro",
+      "to": "file:apps/web/src/lib/agent-metadata.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/layouts/BaseLayout.astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/layouts/BaseLayout.astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/layouts/BaseLayout.astro",
+      "to": "file:apps/web/src/lib/seo.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/layouts/BaseLayout.astro",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/layouts/BaseLayout.astro",
+      "to": "file:apps/web/src/styles/app.css",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/agent-metadata.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/agent-metadata.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/agent-metadata.ts",
+      "to": "package:node:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/agent-metadata.ts",
+      "to": "package:node:path",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/agent-metadata.ts",
+      "to": "package:node:url",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/agent-metadata.ts",
+      "to": "package:zod",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/blog-filter.ts",
+      "to": "file:apps/web/src/lib/filter.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/content-graph.test.ts",
+      "to": "file:apps/web/src/lib/content-graph.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/content-graph.test.ts",
+      "to": "file:apps/web/src/test-helpers.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/content-graph.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/content-graph.ts",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/content-graph.ts",
+      "to": "file:apps/web/src/lib/post-visibility.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/content-graph.ts",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/content-queries.test.ts",
+      "to": "file:apps/web/src/lib/post-visibility.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/content-queries.test.ts",
+      "to": "file:apps/web/src/test-helpers.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/content-queries.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/content-queries.ts",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/content-queries.ts",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/content-utils.ts",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/cover-images.ts",
+      "to": "file:apps/web/src/assets/og/building-saas-astro-studiocms.webp",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/cover-images.ts",
+      "to": "file:apps/web/src/assets/og/getting-started-with-astro-5.webp",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/cover-images.ts",
+      "to": "file:apps/web/src/assets/og/mastering-typescript-generics.webp",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/cover-images.ts",
+      "to": "file:apps/web/src/assets/og/setup-9router-api-proxy-on-vps.webp",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/cover-images.ts",
+      "to": "file:apps/web/src/assets/og/tailwindcss-4-migration-guide.webp",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/cover-images.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/date.test.ts",
+      "to": "file:apps/web/src/lib/date.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/date.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/featured-work.test.ts",
+      "to": "file:apps/web/src/lib/featured-work.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/featured-work.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/filter.test.ts",
+      "to": "file:apps/web/src/lib/filter.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/filter.test.ts",
+      "to": "file:apps/web/src/test-helpers.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/filter.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/group.test.ts",
+      "to": "file:apps/web/src/lib/group.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/group.test.ts",
+      "to": "file:apps/web/src/test-helpers.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/group.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/group.ts",
+      "to": "file:apps/web/src/types/post.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/heading-slugs.test.ts",
+      "to": "file:apps/web/rehype-vietnamese-slug.mjs",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/heading-slugs.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/i18n/en.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/i18n/index.ts",
+      "to": "file:apps/web/src/lib/i18n/en.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/i18n/index.ts",
+      "to": "file:apps/web/src/lib/i18n/vi.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/i18n/vi.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/og-image.test.ts",
+      "to": "file:apps/web/src/lib/og-image.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/og-image.test.ts",
+      "to": "file:apps/web/src/lib/post.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/og-image.test.ts",
+      "to": "package:node:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/og-image.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/og-image.ts",
+      "to": "file:apps/web/src/lib/post.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/og-image.ts",
+      "to": "package:node:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/og-image.ts",
+      "to": "package:node:path",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/post-visibility.test.ts",
+      "to": "file:apps/web/src/lib/post-visibility.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/post-visibility.test.ts",
+      "to": "file:apps/web/src/test-helpers.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/post-visibility.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/post-visibility.ts",
+      "to": "file:apps/web/src/lib/content-queries.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/post-visibility.ts",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/post.ts",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/reading-time.test.ts",
+      "to": "file:apps/web/src/lib/reading-time.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/reading-time.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/routes.test.ts",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/routes.test.ts",
+      "to": "file:apps/web/src/test-helpers.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/routes.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/routes.ts",
+      "to": "file:apps/web/src/lib/content-queries.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/seo.test.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/seo.test.ts",
+      "to": "file:apps/web/src/test-helpers.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/seo.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/seo.ts",
+      "to": "file:apps/web/src/lib/content-queries.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/seo.ts",
+      "to": "file:apps/web/src/lib/post-visibility.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/seo.ts",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/seo.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/site.test.ts",
+      "to": "file:apps/web/astro.config.mjs",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/site.test.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/site.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/sitemap-manifest.test.ts",
+      "to": "file:apps/web/src/lib/sitemap-manifest.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/sitemap-manifest.test.ts",
+      "to": "file:apps/web/src/test-helpers.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/sitemap-manifest.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/sitemap-manifest.ts",
+      "to": "file:apps/web/src/lib/content-queries.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/sitemap-manifest.ts",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/sitemap-manifest.ts",
+      "to": "file:apps/web/src/lib/post-visibility.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/sitemap-manifest.ts",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/sitemap-manifest.ts",
+      "to": "file:apps/web/src/lib/seo.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/sitemap-manifest.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/utils.test.ts",
+      "to": "file:apps/web/src/lib/post.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/utils.test.ts",
+      "to": "file:apps/web/src/lib/utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/utils.test.ts",
+      "to": "file:apps/web/src/test-helpers.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/utils.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/utils.ts",
+      "to": "package:clsx",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/utils.ts",
+      "to": "package:tailwind-merge",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/middleware.ts",
+      "to": "file:apps/web/src/lib/agent-metadata.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/middleware.ts",
+      "to": "package:astro:middleware",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/agent-skills/[id]/SKILL.md.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/agent-skills/[id]/SKILL.md.ts",
+      "to": "package:node:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/agent-skills/[id]/SKILL.md.ts",
+      "to": "package:node:path",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/agent-skills/index.json.ts",
+      "to": "file:apps/web/src/lib/agent-metadata.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/agent-skills/index.json.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/api-catalog.ts",
+      "to": "file:apps/web/src/lib/agent-metadata.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/api-catalog.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/dns-aid.json.ts",
+      "to": "file:apps/web/src/lib/agent-metadata.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/dns-aid.json.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/mcp/server-card.json.ts",
+      "to": "file:apps/web/src/lib/agent-metadata.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/mcp/server-card.json.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/oauth-authorization-server.ts",
+      "to": "file:apps/web/src/lib/agent-metadata.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/oauth-authorization-server.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/oauth-protected-resource.ts",
+      "to": "file:apps/web/src/lib/agent-metadata.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/oauth-protected-resource.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/openid-configuration.ts",
+      "to": "file:apps/web/src/lib/agent-metadata.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/.well-known/openid-configuration.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/404.astro",
+      "to": "file:apps/web/src/components/NotFoundPage.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/404.astro",
+      "to": "file:apps/web/src/layouts/BaseLayout.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/404.astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/404.astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/404.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/404.astro",
+      "to": "file:apps/web/src/lib/seo.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/404.astro",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.astro",
+      "to": "file:apps/web/src/components/About/AboutContact.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.astro",
+      "to": "file:apps/web/src/components/About/AboutHero.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.astro",
+      "to": "file:apps/web/src/components/About/AboutPrinciples.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.astro",
+      "to": "file:apps/web/src/layouts/BaseLayout.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.astro",
+      "to": "file:apps/web/src/lib/content-queries.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.astro",
+      "to": "file:apps/web/src/lib/post.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.astro",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.md.ts",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.md.ts",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.md.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.md.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog.md.ts",
+      "to": "file:apps/web/src/lib/content-queries.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog.md.ts",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog.md.ts",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog.md.ts",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog.md.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog.md.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/rehype-vietnamese-slug.mjs",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/components/Blog/ArticleContent.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/components/Blog/PostFAQ.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/components/Blog/PostHero.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/components/Blog/PostMetaCard.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/components/Blog/RelatedPosts.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/components/Blog/TableOfContents.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/layouts/BaseLayout.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/lib/cover-images.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/lib/date.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/lib/post-visibility.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/lib/post.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/lib/reading-time.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/index.astro",
+      "to": "file:apps/web/src/components/Blog/BlogHeader.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/index.astro",
+      "to": "file:apps/web/src/components/Blog/StatsGrid.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/index.astro",
+      "to": "file:apps/web/src/components/BlogFilter.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/index.astro",
+      "to": "file:apps/web/src/layouts/BaseLayout.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/index.astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/index.astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/index.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/blog/index.astro",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/categories/[category].astro",
+      "to": "file:apps/web/src/components/Blog/BackLink.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/categories/[category].astro",
+      "to": "file:apps/web/src/components/Blog/CategoryCloud.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/categories/[category].astro",
+      "to": "file:apps/web/src/components/BlogCard.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/categories/[category].astro",
+      "to": "file:apps/web/src/components/BlogFilter.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/categories/[category].astro",
+      "to": "file:apps/web/src/layouts/BaseLayout.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/categories/[category].astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/categories/[category].astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/categories/[category].astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/categories/[category].astro",
+      "to": "file:apps/web/src/lib/seo.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/categories/[category].astro",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.astro",
+      "to": "file:apps/web/src/components/ArchiveSection.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.astro",
+      "to": "file:apps/web/src/components/FeaturedWork.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.astro",
+      "to": "file:apps/web/src/components/HeroSection.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.astro",
+      "to": "file:apps/web/src/components/MetricCard.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.astro",
+      "to": "file:apps/web/src/components/SectionHeader.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.astro",
+      "to": "file:apps/web/src/components/TagCloudSection.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.astro",
+      "to": "file:apps/web/src/layouts/BaseLayout.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.astro",
+      "to": "file:apps/web/src/lib/seo.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.astro",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.md.ts",
+      "to": "file:apps/web/src/lib/content-queries.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.md.ts",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.md.ts",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.md.ts",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.md.ts",
+      "to": "file:apps/web/src/lib/seo.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.md.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/index.md.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
+      "to": "file:apps/web/src/components/Blog/BackLink.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
+      "to": "file:apps/web/src/components/Blog/TagCloud.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
+      "to": "file:apps/web/src/components/BlogCard.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
+      "to": "file:apps/web/src/components/BlogFilter.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
+      "to": "file:apps/web/src/layouts/BaseLayout.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
+      "to": "file:apps/web/src/lib/seo.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/components/NotFoundPage.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/layouts/BaseLayout.astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/lib/seo.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/404.astro",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/api/posts.json.ts",
+      "to": "file:apps/web/src/lib/content-queries.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/api/posts.json.ts",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/api/posts.json.ts",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/api/posts.json.ts",
+      "to": "file:apps/web/src/lib/seo.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/api/posts.json.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/auth.md.ts",
+      "to": "file:apps/web/src/lib/agent-metadata.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/auth.md.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/index.astro",
+      "to": "file:apps/web/src/lib/i18n",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/robots.txt.ts",
+      "to": "file:apps/web/src/lib/agent-metadata.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/robots.txt.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/robots.txt.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/rss.xml.ts",
+      "to": "file:apps/web/src/lib/content-queries.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/rss.xml.ts",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/rss.xml.ts",
+      "to": "file:apps/web/src/lib/seo.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/rss.xml.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/rss.xml.ts",
+      "to": "package:@astrojs/rss",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/sitemap.xml.ts",
+      "to": "file:apps/web/src/lib/content-queries.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/sitemap.xml.ts",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/sitemap.xml.ts",
+      "to": "file:apps/web/src/lib/sitemap-manifest.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/sitemap.xml.ts",
+      "to": "package:astro",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/test-helpers.ts",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/test-setup.ts",
+      "to": "package:@testing-library/jest-dom",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/types/post.ts",
+      "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:scripts/agent-commit-guard.mjs",
+      "to": "package:node:child_process",
+      "type": "imports"
+    },
+    {
+      "from": "file:scripts/lint-patterns.mjs",
+      "to": "package:node:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:scripts/lint-patterns.mjs",
+      "to": "package:node:path",
+      "type": "imports"
+    },
+    {
+      "from": "file:scripts/run-seo-preview.mjs",
+      "to": "package:node:child_process",
+      "type": "imports"
+    },
+    {
+      "from": "file:scripts/run-seo-preview.mjs",
+      "to": "package:node:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:scripts/run-seo-preview.mjs",
+      "to": "package:node:http",
+      "type": "imports"
+    },
+    {
+      "from": "file:scripts/run-seo-preview.mjs",
+      "to": "package:node:path",
+      "type": "imports"
+    },
+    {
+      "from": "file:scripts/run-seo-preview.mjs",
+      "to": "package:node:url",
+      "type": "imports"
+    },
+    {
+      "from": "file:scripts/vault-sync.mjs",
+      "to": "package:node:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:scripts/vault-sync.mjs",
+      "to": "package:node:path",
+      "type": "imports"
+    },
+    {
+      "from": "file:scripts/vault-sync.mjs",
+      "to": "package:node:url",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/harness.mjs",
+      "to": "package:node:child_process",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/harness.mjs",
+      "to": "package:node:crypto",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/harness.mjs",
+      "to": "package:node:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/harness.mjs",
+      "to": "package:node:path",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/harness.test.mjs",
+      "to": "package:node:assert",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/harness.test.mjs",
+      "to": "package:node:child_process",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/harness.test.mjs",
+      "to": "package:node:crypto",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/harness.test.mjs",
+      "to": "package:node:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/harness.test.mjs",
+      "to": "package:node:os",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/harness.test.mjs",
+      "to": "package:node:path",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/harness.test.mjs",
+      "to": "package:node:test",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/harness.test.mjs",
+      "to": "package:node:url",
+      "type": "imports"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.claude/commands/harness-context.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.claude/commands/harness-documentation-sync.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.claude/commands/harness-init.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.claude/commands/harness-orchestrate.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.claude/commands/harness-status.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.claude/commands/harness-validate.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.claude/commands/harness-verify.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.codex/README.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.github/workflows/harness-portability.yml",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.github/workflows/playwright.yml",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/commands.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/external-skills.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/feature-list.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/init.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/manifest.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/orchestration.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/policies/merge.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/policies/permissions.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/schemas/decision.schema.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/schemas/feature-list.schema.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/schemas/patch.schema.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/schemas/report.schema.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/schemas/review.schema.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/schemas/task.schema.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/session-handoff.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/state.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.opencode/commands/harness-context.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.opencode/commands/harness-documentation-sync.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.opencode/commands/harness-init.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.opencode/commands/harness-orchestrate.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.opencode/commands/harness-status.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.opencode/commands/harness-validate.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.opencode/commands/harness-verify.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.opencode/plugins/commit-quality-gate.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.opencode/plugins/graphify.js",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.opencode/plugins/harness-guard.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.opencode/plugins/no-verify-guard.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:AGENTS.md",
+      "type": "governed-by"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/AGENTS.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/CLAUDE.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/e2e-tester.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/orchestration-runtime-adapters.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/README.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/templates/ceo.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/templates/community/director.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/templates/community/moderator.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/templates/community/support.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/templates/marketing/ads.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/templates/marketing/director.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/templates/marketing/seo.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/templates/marketing/social.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/templates/marketing/writer.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:agents/templates/README.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/__mocks__/astro-content.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/About/AboutContact.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/About/AboutHero.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/About/AboutPrinciples.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/ArchiveSection.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/ArticleContent.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/AuthorCard.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/BackLink.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/BlogHeader.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/Breadcrumb.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/CategoryCloud.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/CoverImage.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/PostFAQ.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/PostHeader.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/PostHero.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/PostMetaCard.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/PostMetadata.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/PostNavigation.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/PostNavLink.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/RelatedPosts.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/StatsGrid.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/TableOfContents.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/TagCloud.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Blog/TagsList.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/BlogCard.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/BlogFilter.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/CTAButtons.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/FeaturedWork.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/HeroSection.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/Icon.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/LanguageSwitcher.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/MarqueeSection.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/MetricCard.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/MetricCardContent.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/NotFoundPage.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/PostCard.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/PostCardContent.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/SectionHeader.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/SpotlightCard.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/StatsBadge.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/TagCloudSection.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/ui/button.tsx",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/ui/FilterSelect.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/ui/FilterSelect.tsx",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/ui/input-group.tsx",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/ui/input.tsx",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/ui/select.tsx",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/ui/spotlight-card.tsx",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/components/ui/textarea.tsx",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content.config.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/env.d.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/layouts/BaseLayout.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/agent-metadata.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/agent-metadata.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/blog-filter.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/content-graph.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/content-graph.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/content-queries.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/content-queries.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/cover-images.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/date.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/date.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/featured-work.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/featured-work.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/filter.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/filter.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/group.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/group.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/heading-slugs.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/i18n/en.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/i18n/vi.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/og-image.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/og-image.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/post-visibility.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/post-visibility.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/post.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/reading-time.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/reading-time.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/routes.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/seo.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/seo.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/site.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/site.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/sitemap-manifest.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/sitemap-manifest.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/utils.test.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/utils.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/middleware.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/.well-known/agent-skills/[id]/SKILL.md.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/.well-known/agent-skills/index.json.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/.well-known/api-catalog.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/.well-known/dns-aid.json.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/.well-known/mcp/server-card.json.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/.well-known/oauth-authorization-server.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/.well-known/oauth-protected-resource.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/.well-known/openid-configuration.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/[lang]/404.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/[lang]/about.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/[lang]/about.md.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/[lang]/blog.md.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/[lang]/blog/index.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/[lang]/categories/[category].astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/[lang]/index.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/[lang]/index.md.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/404.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/api/posts.json.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/auth.md.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/index.astro",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/robots.txt.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/rss.xml.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/pages/sitemap.xml.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/test-helpers.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/test-setup.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/types/post.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:CLAUDE.md",
+      "type": "governed-by"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:opencode.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:package.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:scripts/agent-commit-guard.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:scripts/lint-patterns.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:scripts/run-seo-preview.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:scripts/vault-sync.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills-lock.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/a11y-audit.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/astro_hybrid_sesarch.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/danhthanh-astro-blog.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/danhthanh-tailwind-theme.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/danhthanh-verification.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/design-system-blog.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/generate_detail_page.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/github-actions-latest.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/harness-creator/SKILL.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/migrate-shadcn-preset.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/page-generation-flow.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/playwright-e2e-testing.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/project-overview.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/prompt-optimizer.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:skills/seo-performance.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:tools/harness/scripts/harness.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:tools/harness/scripts/harness.test.mjs",
+      "type": "contains"
+    }
+  ]
+}

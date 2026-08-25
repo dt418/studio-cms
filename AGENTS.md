@@ -64,3 +64,12 @@
 - `opencode.json` enables Astro docs and shadcn MCP servers; use current docs for Astro/shadcn/library API questions instead of relying on memory.
 - `components.json` configures shadcn with TSX, `@/components/ui`, `@/lib/utils`, Tailwind CSS at `src/styles/app.css`, and no RSC.
 - Existing broader guidance lives in `CODING_RULES.md`; keep this file shorter and only duplicate rules that prevent likely mistakes.
+
+## Harness Orchestration
+
+- `.harness/` is shared state for Codex, Claude, Pi, OMP, and OpenCode. Record task, decision, patch, review, and report artifacts there rather than relying on a chat transcript.
+- Treat `.harness/feature-list.json` as the bounded queue and `.harness/session-handoff.md` as the restart record. Work one active feature at a time; record blockers, files changed, verification evidence, and the next action before ending a session.
+- Start a multi-agent task with `pnpm harness:orchestrate -- --role planning --runtime <codex|claude|pi|omp|opencode>`. `spec-creator`, planning, and QA use `tera-high`; implementation and tester use `luna-max`; `documentation-sync`, reviewer, and observer use `tera-medium`. `documentation-sync` runs after QA/review, updates factual documentation/context/handoff artifacts, and does not change production code. Escalate reviewer to `tera-high` with `--risk high` for authentication, authorization, data migration, payment, or security changes.
+- On a fresh clone, run `pnpm harness:skills:sync`, then `pnpm harness:skills:verify`, to install and validate the checked-in Caveman lock and installed-skill hashes. Do not use skills from a missing or unverified `.agents/skills` directory.
+- Use `pnpm harness:status` to inspect readiness, `pnpm harness:context` after source/workspace/instruction/skill-lock/harness changes, `pnpm harness:context:check` before commit, `pnpm harness:validate` before commit, and `pnpm harness:verify` for the portable verification gate. These commands are Node-based and run on Windows, Linux, and macOS.
+- OpenCode and Claude have `/harness-init`, `/harness-status`, `/harness-context`, `/harness-validate`, `/harness-verify`, and `/harness-orchestrate`; Codex, Pi, and OMP run the same terminal commands. See `agents/orchestration-runtime-adapters.md` for every runtime and its model-routing contract.

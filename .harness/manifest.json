@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "verification": {
+    "entrypoint": ".harness/init.mjs",
+    "commands": ["pnpm check", "pnpm typecheck", "pnpm lint", "pnpm test", "pnpm build"]
+  },
+  "policies": {
+    "default": "deny",
+    "merge": "human-or-lead-agent-only"
+  },
+  "state": {
+    "tasks": "tasks/",
+    "decisions": "decisions/",
+    "reports": "reports/",
+    "featureList": "feature-list.json",
+    "handoff": "session-handoff.md"
+  }
+}

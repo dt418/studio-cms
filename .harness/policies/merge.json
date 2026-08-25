@@ -1,0 +1,4 @@
+{
+  "allowedRoles": ["human", "lead-agent"],
+  "requireVerification": true
+}
