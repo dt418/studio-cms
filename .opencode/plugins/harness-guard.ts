@@ -1,26 +1,27 @@
-const COMMIT_COMMAND = /(?:^|[;&|()])\s*git\s+commit\b/
+const COMMIT_COMMAND = /(?:^|[;&|()\n])\s*git\s+commit\b/
 const VALIDATION_COMMAND =
-  /(?:^|[;&|()])\s*(?:pnpm\s+harness:validate\b|node\s+tools\/harness\/scripts\/harness\.mjs\s+validate\b)/
+  /(?:^|[;&|()\n])\s*(?:pnpm\s+harness:validate\b|node\s+tools\/harness\/scripts\/harness\.mjs\s+validate\b)/
 const CONTEXT_CHECK_COMMAND =
-  /(?:^|[;&|()])\s*(?:pnpm\s+harness:context:check\b|node\s+tools\/harness\/scripts\/harness\.mjs\s+context\b[^\n]*--check\b)/
+  /(?:^|[;&|()\n])\s*(?:pnpm\s+harness:context:check\b|node\s+tools\/harness\/scripts\/harness\.mjs\s+context\b[^\n]*--check\b)/
 
 type ShellInput = { tool: string }
 type ShellOutput = { args?: { command?: string } }
 
+function gateIsSafe(command: string, pattern: RegExp, commitPosition: number) {
+  const prefix = command.slice(0, commitPosition)
+  return pattern.test(prefix) && prefix.includes('&&') && !/[;\n]|\|\|/.test(prefix)
+}
 function guardedCommand(command: string) {
   const commitPosition = command.search(COMMIT_COMMAND)
   if (commitPosition < 0) return command
 
   const missingGates = []
-  if (
-    command.search(CONTEXT_CHECK_COMMAND) < 0 ||
-    command.search(CONTEXT_CHECK_COMMAND) > commitPosition
-  )
+  if (!gateIsSafe(command, CONTEXT_CHECK_COMMAND, commitPosition))
     missingGates.push('pnpm harness:context:check')
-  if (command.search(VALIDATION_COMMAND) < 0 || command.search(VALIDATION_COMMAND) > commitPosition)
+  if (!gateIsSafe(command, VALIDATION_COMMAND, commitPosition))
     missingGates.push('pnpm harness:validate')
 
-  return missingGates.length ? `${missingGates.join(' && ')} && ${command}` : command
+  return missingGates.length ? `${missingGates.join(' && ')} && ( ${command} )` : command
 }
 
 export const HarnessGuardPlugin = async () => ({

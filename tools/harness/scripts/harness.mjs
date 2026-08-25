@@ -76,6 +76,14 @@ async function isFile(filePath) {
   }
 }
 
+async function isDirectory(directoryPath) {
+  try {
+    return (await stat(directoryPath)).isDirectory()
+  } catch {
+    return false
+  }
+}
+
 async function directoryEntries(directory) {
   try {
     return await readdir(directory, { withFileTypes: true })
@@ -139,7 +147,9 @@ async function discoverSourceFiles(target) {
   ]
   for (const container of ['apps', 'packages']) {
     for (const entry of await directoryEntries(path.join(target, container))) {
-      if (entry.isDirectory()) roots.push(path.join(target, container, entry.name, 'src'))
+      if (!entry.isDirectory()) continue
+      const workspaceDirectory = path.join(target, container, entry.name)
+      roots.push(path.join(workspaceDirectory, 'src'), path.join(workspaceDirectory, 'scripts'))
     }
   }
   const files = await Promise.all(roots.map((directory) => sourceFiles(directory, target)))
@@ -157,6 +167,7 @@ async function discoverContextFiles(target, sources) {
     path.join(target, '.claude', 'commands'),
     path.join(target, '.opencode', 'commands'),
     path.join(target, '.opencode', 'plugins'),
+    path.join(target, '.pi', 'prompts'),
     path.join(target, 'src', 'content', 'posts'),
   ]
   const discovered = await Promise.all(
@@ -437,6 +448,72 @@ function defaultManifest(commands) {
   }
 }
 
+const RUNTIME_ADAPTERS = [
+  { runtime: 'codex', directory: ['.codex', 'skills'], format: 'skill' },
+  { runtime: 'claude', directory: ['.claude', 'commands'], format: 'command' },
+  { runtime: 'pi', directory: ['.pi', 'prompts'], format: 'prompt' },
+]
+const RUNTIME_COMMANDS = [
+  'context',
+  'documentation-sync',
+  'init',
+  'orchestrate',
+  'status',
+  'validate',
+  'verify',
+]
+
+function runtimeCommand(runtime, command) {
+  if (command === 'documentation-sync')
+    return `pnpm harness:orchestrate -- --role documentation-sync --runtime ${runtime} --json`
+  if (command === 'orchestrate')
+    return `pnpm harness:orchestrate -- --role planning --runtime ${runtime} --json`
+  return `pnpm harness:${command}`
+}
+
+function runtimeAdapterSource(runtime, command, format) {
+  const description = `Run the ${command} harness workflow for ${runtime}.`
+  const commandLine = runtimeCommand(runtime, command)
+  if (format === 'skill')
+    return [
+      '---',
+      `name: harness-${command}`,
+      `description: ${description}`,
+      '---',
+      '',
+      `Run \`${commandLine}\` from the repository root and report its result.`,
+      '',
+    ].join('\n')
+  return [
+    '---',
+    `description: ${description}`,
+    '---',
+    '',
+    `Run \`${commandLine}\` from the repository root and report its result.`,
+    '',
+  ].join('\n')
+}
+
+async function initializeRuntimeAdapters(target, force) {
+  for (const adapter of RUNTIME_ADAPTERS) {
+    const directory = path.join(target, ...adapter.directory)
+    for (const command of RUNTIME_COMMANDS) {
+      const filePath =
+        adapter.format === 'skill'
+          ? path.join(directory, `harness-${command}`, 'SKILL.md')
+          : path.join(directory, `harness-${command}.md`)
+      if (force || !(await exists(filePath))) {
+        await mkdir(path.dirname(filePath), { recursive: true })
+        await writeFile(
+          filePath,
+          runtimeAdapterSource(adapter.runtime, command, adapter.format),
+          'utf8'
+        )
+      }
+    }
+  }
+}
+
 function sessionHandoffTemplate() {
   return [
     '# Session Handoff',
@@ -478,6 +555,7 @@ async function initialize(target, force = false) {
       await writeFile(path.join(artifactDirectory, '.gitkeep'), '', 'utf8')
     })
   )
+  await initializeRuntimeAdapters(target, force)
   const files = {
     'orchestration.json': orchestration(),
     'external-skills.json': { version: 1, skills: [] },
@@ -523,7 +601,23 @@ async function initialize(target, force = false) {
       },
     },
   }
-  await writeJson(path.join(directory, 'manifest.json'), defaultManifest(commands))
+  const manifestPath = path.join(directory, 'manifest.json')
+  if (force || !(await exists(manifestPath)))
+    await writeJson(manifestPath, defaultManifest(commands))
+  else {
+    try {
+      const existing = JSON.parse(await readFile(manifestPath, 'utf8'))
+      if (isRecord(existing)) {
+        const verification = isRecord(existing.verification) ? existing.verification : {}
+        await writeJson(manifestPath, {
+          ...existing,
+          verification: { ...verification, commands },
+        })
+      }
+    } catch {
+      // Preserve malformed manifests so validation reports them.
+    }
+  }
   await writeJson(path.join(directory, 'commands.json'), commands)
   for (const [relativePath, value] of Object.entries(files)) {
     const filePath = path.join(directory, relativePath)
@@ -544,6 +638,20 @@ function isRecord(value) {
 
 function areStrings(value) {
   return Array.isArray(value) && value.every((item) => typeof item === 'string')
+}
+
+function validSkillDeclaration(skill) {
+  if (!isRecord(skill) || typeof skill.source !== 'string' || !skill.source.trim()) return false
+  if (!Array.isArray(skill.expected) || skill.expected.length === 0 || !areStrings(skill.expected))
+    return false
+  if (!isRecord(skill.lockHashes) || !isRecord(skill.contentHashes)) return false
+  return skill.expected.every(
+    (name) =>
+      typeof skill.lockHashes[name] === 'string' &&
+      skill.lockHashes[name].length > 0 &&
+      typeof skill.contentHashes[name] === 'string' &&
+      skill.contentHashes[name].length > 0
+  )
 }
 
 function validJsonArtifact(file, value) {
@@ -576,7 +684,11 @@ function validJsonArtifact(file, value) {
       areStrings(value.sharedState)
     )
   if (file === 'external-skills.json')
-    return typeof value.version === 'number' && Array.isArray(value.skills)
+    return (
+      typeof value.version === 'number' &&
+      Array.isArray(value.skills) &&
+      value.skills.every(validSkillDeclaration)
+    )
   if (file === 'state.json')
     return (
       typeof value.version === 'number' &&
@@ -645,6 +757,22 @@ async function validate(target, json = false) {
         invalid.push(file)
     }
     subsystems[name] = { pass: missing.length === 0 && invalid.length === 0, missing, invalid }
+  }
+  try {
+    const manifest = JSON.parse(await readFile(path.join(directory, 'manifest.json'), 'utf8'))
+    const stateDirectories = ['tasks', 'decisions', 'patches', 'reviews', 'reports']
+    for (const key of stateDirectories) {
+      const relativePath = manifest.state?.[key]
+      if (
+        typeof relativePath !== 'string' ||
+        !(await isDirectory(path.join(directory, relativePath)))
+      )
+        subsystems.state.missing.push(`${key} directory`)
+    }
+    subsystems.state.pass =
+      subsystems.state.missing.length === 0 && subsystems.state.invalid.length === 0
+  } catch {
+    // The lifecycle subsystem reports malformed or missing manifests.
   }
   const hasInstructions =
     (await exists(path.join(target, 'AGENTS.md'))) || (await exists(path.join(target, 'CLAUDE.md')))

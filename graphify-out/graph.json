@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "5caa08ab5255e81fb0e91bc40d66d16613c5223849aadad3856aadf8b410e6eb"
+    "context": "f19c626bea5228f1b4fbeffe515917e43bd95597e0d9875b544549c1b6c1154d"
   },
   "nodes": [
     {
@@ -52,6 +52,48 @@
       "kind": "context",
       "label": "README.md",
       "path": ".codex/README.md"
+    },
+    {
+      "id": "file:.codex/skills/harness-context/SKILL.md",
+      "kind": "context",
+      "label": "SKILL.md",
+      "path": ".codex/skills/harness-context/SKILL.md"
+    },
+    {
+      "id": "file:.codex/skills/harness-documentation-sync/SKILL.md",
+      "kind": "context",
+      "label": "SKILL.md",
+      "path": ".codex/skills/harness-documentation-sync/SKILL.md"
+    },
+    {
+      "id": "file:.codex/skills/harness-init/SKILL.md",
+      "kind": "context",
+      "label": "SKILL.md",
+      "path": ".codex/skills/harness-init/SKILL.md"
+    },
+    {
+      "id": "file:.codex/skills/harness-orchestrate/SKILL.md",
+      "kind": "context",
+      "label": "SKILL.md",
+      "path": ".codex/skills/harness-orchestrate/SKILL.md"
+    },
+    {
+      "id": "file:.codex/skills/harness-status/SKILL.md",
+      "kind": "context",
+      "label": "SKILL.md",
+      "path": ".codex/skills/harness-status/SKILL.md"
+    },
+    {
+      "id": "file:.codex/skills/harness-validate/SKILL.md",
+      "kind": "context",
+      "label": "SKILL.md",
+      "path": ".codex/skills/harness-validate/SKILL.md"
+    },
+    {
+      "id": "file:.codex/skills/harness-verify/SKILL.md",
+      "kind": "context",
+      "label": "SKILL.md",
+      "path": ".codex/skills/harness-verify/SKILL.md"
     },
     {
       "id": "file:.github/workflows/harness-portability.yml",
@@ -228,6 +270,48 @@
       "path": ".opencode/plugins/no-verify-guard.ts"
     },
     {
+      "id": "file:.pi/prompts/harness-context.md",
+      "kind": "context",
+      "label": "harness-context.md",
+      "path": ".pi/prompts/harness-context.md"
+    },
+    {
+      "id": "file:.pi/prompts/harness-documentation-sync.md",
+      "kind": "context",
+      "label": "harness-documentation-sync.md",
+      "path": ".pi/prompts/harness-documentation-sync.md"
+    },
+    {
+      "id": "file:.pi/prompts/harness-init.md",
+      "kind": "context",
+      "label": "harness-init.md",
+      "path": ".pi/prompts/harness-init.md"
+    },
+    {
+      "id": "file:.pi/prompts/harness-orchestrate.md",
+      "kind": "context",
+      "label": "harness-orchestrate.md",
+      "path": ".pi/prompts/harness-orchestrate.md"
+    },
+    {
+      "id": "file:.pi/prompts/harness-status.md",
+      "kind": "context",
+      "label": "harness-status.md",
+      "path": ".pi/prompts/harness-status.md"
+    },
+    {
+      "id": "file:.pi/prompts/harness-validate.md",
+      "kind": "context",
+      "label": "harness-validate.md",
+      "path": ".pi/prompts/harness-validate.md"
+    },
+    {
+      "id": "file:.pi/prompts/harness-verify.md",
+      "kind": "context",
+      "label": "harness-verify.md",
+      "path": ".pi/prompts/harness-verify.md"
+    },
+    {
       "id": "file:AGENTS.md",
       "kind": "instructions",
       "label": "AGENTS.md",
@@ -340,6 +424,18 @@
       "kind": "context",
       "label": "package.json",
       "path": "apps/web/package.json"
+    },
+    {
+      "id": "file:apps/web/scripts/generate-agent-skills-index.mjs",
+      "kind": "source",
+      "label": "generate-agent-skills-index.mjs",
+      "path": "apps/web/scripts/generate-agent-skills-index.mjs"
+    },
+    {
+      "id": "file:apps/web/scripts/generate-og-image.mjs",
+      "kind": "source",
+      "label": "generate-og-image.mjs",
+      "path": "apps/web/scripts/generate-og-image.mjs"
     },
     {
       "id": "file:apps/web/src/__mocks__/astro-content.ts",
@@ -1388,6 +1484,11 @@
       "label": "react"
     },
     {
+      "id": "package:sharp",
+      "kind": "dependency",
+      "label": "sharp"
+    },
+    {
       "id": "package:tailwind-merge",
       "kind": "dependency",
       "label": "tailwind-merge"
@@ -1417,6 +1518,46 @@
     {
       "from": "file:.opencode/plugins/graphify.js",
       "to": "package:path",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/scripts/generate-agent-skills-index.mjs",
+      "to": "package:node:crypto",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/scripts/generate-agent-skills-index.mjs",
+      "to": "package:node:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/scripts/generate-agent-skills-index.mjs",
+      "to": "package:node:path",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/scripts/generate-agent-skills-index.mjs",
+      "to": "package:node:url",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/scripts/generate-og-image.mjs",
+      "to": "package:node:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/scripts/generate-og-image.mjs",
+      "to": "package:node:path",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/scripts/generate-og-image.mjs",
+      "to": "package:node:url",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/scripts/generate-og-image.mjs",
+      "to": "package:sharp",
       "type": "imports"
     },
     {
@@ -3231,6 +3372,41 @@
     },
     {
       "from": "workspace:root",
+      "to": "file:.codex/skills/harness-context/SKILL.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.codex/skills/harness-documentation-sync/SKILL.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.codex/skills/harness-init/SKILL.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.codex/skills/harness-orchestrate/SKILL.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.codex/skills/harness-status/SKILL.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.codex/skills/harness-validate/SKILL.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.codex/skills/harness-verify/SKILL.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
       "to": "file:.github/workflows/harness-portability.yml",
       "type": "contains"
     },
@@ -3376,6 +3552,41 @@
     },
     {
       "from": "workspace:root",
+      "to": "file:.pi/prompts/harness-context.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.pi/prompts/harness-documentation-sync.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.pi/prompts/harness-init.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.pi/prompts/harness-orchestrate.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.pi/prompts/harness-status.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.pi/prompts/harness-validate.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.pi/prompts/harness-verify.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
       "to": "file:AGENTS.md",
       "type": "governed-by"
     },
@@ -3467,6 +3678,16 @@
     {
       "from": "workspace:root",
       "to": "file:apps/web/package.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/scripts/generate-agent-skills-index.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/scripts/generate-og-image.mjs",
       "type": "contains"
     },
     {
