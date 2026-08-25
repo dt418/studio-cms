@@ -1,25 +1,36 @@
 const COMMIT_COMMAND = /(?:^|[;&|()])\s*git\s+commit\b/
-const HAS_VALIDATION = /harness:validate|tools\/harness\/scripts\/harness\.mjs\s+validate/
-const HAS_CONTEXT_CHECK =
-  /harness:context:check|tools\/harness\/scripts\/harness\.mjs\s+context[^\n]*--check/
+const VALIDATION_COMMAND =
+  /(?:^|[;&|()])\s*(?:pnpm\s+harness:validate\b|node\s+tools\/harness\/scripts\/harness\.mjs\s+validate\b)/
+const CONTEXT_CHECK_COMMAND =
+  /(?:^|[;&|()])\s*(?:pnpm\s+harness:context:check\b|node\s+tools\/harness\/scripts\/harness\.mjs\s+context\b[^\n]*--check\b)/
 
-export default {
-  name: 'harness-guard',
-  hooks: [
-    {
-      event: 'tool.execute.before',
-      handler: (input: { tool: string; command?: string }) => {
-        if (input.tool !== 'bash' && input.tool !== 'shell') return
-        if (
-          !input.command ||
-          !COMMIT_COMMAND.test(input.command) ||
-          (HAS_VALIDATION.test(input.command) && HAS_CONTEXT_CHECK.test(input.command))
-        )
-          return
-        return {
-          command: `pnpm harness:context:check && pnpm harness:validate && ${input.command}`,
-        }
-      },
-    },
-  ],
+type ShellInput = { tool: string }
+type ShellOutput = { args?: { command?: string } }
+
+function guardedCommand(command: string) {
+  const commitPosition = command.search(COMMIT_COMMAND)
+  if (commitPosition < 0) return command
+
+  const missingGates = []
+  if (
+    command.search(CONTEXT_CHECK_COMMAND) < 0 ||
+    command.search(CONTEXT_CHECK_COMMAND) > commitPosition
+  )
+    missingGates.push('pnpm harness:context:check')
+  if (command.search(VALIDATION_COMMAND) < 0 || command.search(VALIDATION_COMMAND) > commitPosition)
+    missingGates.push('pnpm harness:validate')
+
+  return missingGates.length ? `${missingGates.join(' && ')} && ${command}` : command
 }
+
+export const HarnessGuardPlugin = async () => ({
+  'tool.execute.before': async (input: ShellInput, output: ShellOutput) => {
+    if (input.tool !== 'bash' && input.tool !== 'shell') return
+    const command = output.args?.command
+    if (typeof command !== 'string') return
+    const guarded = guardedCommand(command)
+    if (guarded !== command && output.args) output.args.command = guarded
+  },
+})
+
+export default HarnessGuardPlugin

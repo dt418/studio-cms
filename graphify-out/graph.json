@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "38581559fbcc1cbd5b3731fc1b4de7f7bbdad9515354c028734fde44afbca97e"
+    "context": "5caa08ab5255e81fb0e91bc40d66d16613c5223849aadad3856aadf8b410e6eb"
   },
   "nodes": [
     {
@@ -330,6 +330,18 @@
       "path": "agents/templates/marketing/writer.md"
     },
     {
+      "id": "file:apps/web/astro.config.mjs",
+      "kind": "context",
+      "label": "astro.config.mjs",
+      "path": "apps/web/astro.config.mjs"
+    },
+    {
+      "id": "file:apps/web/package.json",
+      "kind": "context",
+      "label": "package.json",
+      "path": "apps/web/package.json"
+    },
+    {
       "id": "file:apps/web/src/__mocks__/astro-content.ts",
       "kind": "source",
       "label": "astro-content.ts",
@@ -628,6 +640,78 @@
       "kind": "source",
       "label": "content.config.ts",
       "path": "apps/web/src/content.config.ts"
+    },
+    {
+      "id": "file:apps/web/src/content/posts/en/building-saas-astro-studiocms.md",
+      "kind": "context",
+      "label": "building-saas-astro-studiocms.md",
+      "path": "apps/web/src/content/posts/en/building-saas-astro-studiocms.md"
+    },
+    {
+      "id": "file:apps/web/src/content/posts/en/cai-dat-9router-api-proxy-tren-vps.md",
+      "kind": "context",
+      "label": "cai-dat-9router-api-proxy-tren-vps.md",
+      "path": "apps/web/src/content/posts/en/cai-dat-9router-api-proxy-tren-vps.md"
+    },
+    {
+      "id": "file:apps/web/src/content/posts/en/getting-started-with-astro-5.md",
+      "kind": "context",
+      "label": "getting-started-with-astro-5.md",
+      "path": "apps/web/src/content/posts/en/getting-started-with-astro-5.md"
+    },
+    {
+      "id": "file:apps/web/src/content/posts/en/mastering-typescript-generics.md",
+      "kind": "context",
+      "label": "mastering-typescript-generics.md",
+      "path": "apps/web/src/content/posts/en/mastering-typescript-generics.md"
+    },
+    {
+      "id": "file:apps/web/src/content/posts/en/seo-e2e-noindex.md",
+      "kind": "context",
+      "label": "seo-e2e-noindex.md",
+      "path": "apps/web/src/content/posts/en/seo-e2e-noindex.md"
+    },
+    {
+      "id": "file:apps/web/src/content/posts/en/tailwindcss-4-migration-guide.md",
+      "kind": "context",
+      "label": "tailwindcss-4-migration-guide.md",
+      "path": "apps/web/src/content/posts/en/tailwindcss-4-migration-guide.md"
+    },
+    {
+      "id": "file:apps/web/src/content/posts/vi/building-saas-astro-studiocms.md",
+      "kind": "context",
+      "label": "building-saas-astro-studiocms.md",
+      "path": "apps/web/src/content/posts/vi/building-saas-astro-studiocms.md"
+    },
+    {
+      "id": "file:apps/web/src/content/posts/vi/cai-dat-9router-api-proxy-tren-vps.md",
+      "kind": "context",
+      "label": "cai-dat-9router-api-proxy-tren-vps.md",
+      "path": "apps/web/src/content/posts/vi/cai-dat-9router-api-proxy-tren-vps.md"
+    },
+    {
+      "id": "file:apps/web/src/content/posts/vi/getting-started-with-astro-5.md",
+      "kind": "context",
+      "label": "getting-started-with-astro-5.md",
+      "path": "apps/web/src/content/posts/vi/getting-started-with-astro-5.md"
+    },
+    {
+      "id": "file:apps/web/src/content/posts/vi/mastering-typescript-generics.md",
+      "kind": "context",
+      "label": "mastering-typescript-generics.md",
+      "path": "apps/web/src/content/posts/vi/mastering-typescript-generics.md"
+    },
+    {
+      "id": "file:apps/web/src/content/posts/vi/seo-e2e-noindex.md",
+      "kind": "context",
+      "label": "seo-e2e-noindex.md",
+      "path": "apps/web/src/content/posts/vi/seo-e2e-noindex.md"
+    },
+    {
+      "id": "file:apps/web/src/content/posts/vi/tailwindcss-4-migration-guide.md",
+      "kind": "context",
+      "label": "tailwindcss-4-migration-guide.md",
+      "path": "apps/web/src/content/posts/vi/tailwindcss-4-migration-guide.md"
     },
     {
       "id": "file:apps/web/src/env.d.ts",
@@ -1044,6 +1128,12 @@
       "path": "apps/web/src/types/post.ts"
     },
     {
+      "id": "file:apps/web/tsconfig.json",
+      "kind": "context",
+      "label": "tsconfig.json",
+      "path": "apps/web/tsconfig.json"
+    },
+    {
       "id": "file:opencode.json",
       "kind": "context",
       "label": "opencode.json",
@@ -1341,7 +1431,7 @@
     },
     {
       "from": "file:apps/web/src/components/ArchiveSection.astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -1606,7 +1696,7 @@
     },
     {
       "from": "file:apps/web/src/components/HeroSection.astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -1626,7 +1716,7 @@
     },
     {
       "from": "file:apps/web/src/components/NotFoundPage.astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -1656,7 +1746,7 @@
     },
     {
       "from": "file:apps/web/src/components/PostCard.astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -1671,7 +1761,7 @@
     },
     {
       "from": "file:apps/web/src/components/PostCardContent.astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -1831,7 +1921,7 @@
     },
     {
       "from": "file:apps/web/src/layouts/BaseLayout.astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -2391,7 +2481,7 @@
     },
     {
       "from": "file:apps/web/src/pages/404.astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -2426,7 +2516,7 @@
     },
     {
       "from": "file:apps/web/src/pages/[lang]/404.astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -2476,7 +2566,7 @@
     },
     {
       "from": "file:apps/web/src/pages/[lang]/about.astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -2501,7 +2591,7 @@
     },
     {
       "from": "file:apps/web/src/pages/[lang]/about.md.ts",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -2526,7 +2616,7 @@
     },
     {
       "from": "file:apps/web/src/pages/[lang]/blog.md.ts",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -2601,7 +2691,7 @@
     },
     {
       "from": "file:apps/web/src/pages/[lang]/blog/[slug].astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -2661,7 +2751,7 @@
     },
     {
       "from": "file:apps/web/src/pages/[lang]/blog/index.astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -2706,7 +2796,7 @@
     },
     {
       "from": "file:apps/web/src/pages/[lang]/categories/[category].astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -2766,7 +2856,7 @@
     },
     {
       "from": "file:apps/web/src/pages/[lang]/index.astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -2796,7 +2886,7 @@
     },
     {
       "from": "file:apps/web/src/pages/[lang]/index.md.ts",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -2851,7 +2941,7 @@
     },
     {
       "from": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -2906,7 +2996,7 @@
     },
     {
       "from": "file:apps/web/src/pages/index.astro",
-      "to": "file:apps/web/src/lib/i18n",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
       "type": "imports"
     },
     {
@@ -3371,6 +3461,16 @@
     },
     {
       "from": "workspace:root",
+      "to": "file:apps/web/astro.config.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/package.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
       "to": "file:apps/web/src/__mocks__/astro-content.ts",
       "type": "contains"
     },
@@ -3617,6 +3717,66 @@
     {
       "from": "workspace:root",
       "to": "file:apps/web/src/content.config.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content/posts/en/building-saas-astro-studiocms.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content/posts/en/cai-dat-9router-api-proxy-tren-vps.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content/posts/en/getting-started-with-astro-5.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content/posts/en/mastering-typescript-generics.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content/posts/en/seo-e2e-noindex.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content/posts/en/tailwindcss-4-migration-guide.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content/posts/vi/building-saas-astro-studiocms.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content/posts/vi/cai-dat-9router-api-proxy-tren-vps.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content/posts/vi/getting-started-with-astro-5.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content/posts/vi/mastering-typescript-generics.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content/posts/vi/seo-e2e-noindex.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content/posts/vi/tailwindcss-4-migration-guide.md",
       "type": "contains"
     },
     {
@@ -3962,6 +4122,11 @@
     {
       "from": "workspace:root",
       "to": "file:apps/web/src/types/post.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/tsconfig.json",
       "type": "contains"
     },
     {

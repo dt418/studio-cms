@@ -61,6 +61,11 @@ test('init creates a Node verification entrypoint and validate recognizes it', a
     const report = JSON.parse(validated.stdout)
     assert.equal(report.score, 100)
     assert.equal(report.subsystems.verification.pass, true)
+    const manifest = JSON.parse(
+      await readFile(path.join(target, '.harness', 'manifest.json'), 'utf8')
+    )
+    assert.equal(manifest.state.patches, 'patches/')
+    assert.equal(manifest.state.reviews, 'reviews/')
   } finally {
     await rm(target, { recursive: true, force: true })
   }
@@ -96,6 +101,27 @@ test('validate rejects malformed required harness JSON', async () => {
     await writeFile(path.join(target, '.harness', 'orchestration.json'), '{invalid json', 'utf8')
 
     const validated = await runCli(['validate', '--target', target, '--json'], target)
+    assert.equal(validated.code, 1)
+    const report = JSON.parse(validated.stdout)
+    assert.equal(report.subsystems.lifecycle.pass, false)
+    assert.deepEqual(report.subsystems.lifecycle.invalid, ['orchestration.json'])
+  } finally {
+    await rm(target, { recursive: true, force: true })
+  }
+})
+
+test('validate rejects a structurally incomplete orchestration config', async () => {
+  const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-orchestration-validation-'))
+
+  try {
+    await writeFile(path.join(target, 'package.json'), JSON.stringify({ name: 'fixture' }), 'utf8')
+    await runCli(['init', '--target', target], target)
+    await writeFile(path.join(target, '.harness', 'orchestration.json'), '{}', 'utf8')
+
+    const validated = await runCli(
+      ['validate', '--target', target, '--json', '--min-score', '100'],
+      target
+    )
     assert.equal(validated.code, 1)
     const report = JSON.parse(validated.stdout)
     assert.equal(report.subsystems.lifecycle.pass, false)
@@ -196,6 +222,45 @@ test('context graph is portable across checkout directory names', async () => {
   } finally {
     await rm(firstTarget, { recursive: true, force: true })
     await rm(secondTarget, { recursive: true, force: true })
+  }
+})
+
+test('context resolves directory imports to index files', async () => {
+  const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-context-index-import-'))
+
+  try {
+    await mkdir(path.join(target, 'src', 'lib', 'i18n'), { recursive: true })
+    await writeFile(path.join(target, 'package.json'), JSON.stringify({ name: 'fixture' }), 'utf8')
+    await writeFile(path.join(target, 'AGENTS.md'), '# Fixture instructions\n', 'utf8')
+    await writeFile(path.join(target, 'src', 'index.ts'), "import './lib/i18n'\n", 'utf8')
+    await writeFile(
+      path.join(target, 'src', 'lib', 'i18n', 'index.ts'),
+      'export const locale = "en"\n',
+      'utf8'
+    )
+
+    await runCli(['context', '--target', target], target)
+    const graph = JSON.parse(
+      await readFile(path.join(target, 'graphify-out', 'graph.json'), 'utf8')
+    )
+    assert.ok(
+      graph.edges.some(
+        (edge) =>
+          edge.from === 'file:src/index.ts' &&
+          edge.to === 'file:src/lib/i18n/index.ts' &&
+          edge.type === 'imports'
+      )
+    )
+    assert.ok(
+      !graph.edges.some(
+        (edge) =>
+          edge.from === 'file:src/index.ts' &&
+          edge.to === 'file:src/lib/i18n' &&
+          edge.type === 'imports'
+      )
+    )
+  } finally {
+    await rm(target, { recursive: true, force: true })
   }
 })
 
@@ -333,6 +398,54 @@ test('context detects workflow changes that alter the portable gate', async () =
   }
 })
 
+test('context detects application config and post content changes', async () => {
+  const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-context-workspace-inputs-'))
+
+  try {
+    await mkdir(path.join(target, 'apps', 'web', 'src', 'content', 'posts'), { recursive: true })
+    await writeFile(path.join(target, 'package.json'), JSON.stringify({ name: 'fixture' }), 'utf8')
+    await writeFile(path.join(target, 'apps', 'web', 'package.json'), '{"name":"web"}\n', 'utf8')
+    await writeFile(path.join(target, 'apps', 'web', 'tsconfig.json'), '{}\n', 'utf8')
+    await writeFile(
+      path.join(target, 'apps', 'web', 'astro.config.mjs'),
+      'export default {}\n',
+      'utf8'
+    )
+    await writeFile(
+      path.join(target, 'apps', 'web', 'src', 'content', 'posts', 'post.mdx'),
+      '# Initial post\n',
+      'utf8'
+    )
+
+    await runCli(['context', '--target', target], target)
+    const graph = JSON.parse(
+      await readFile(path.join(target, 'graphify-out', 'graph.json'), 'utf8')
+    )
+    for (const filePath of [
+      'apps/web/package.json',
+      'apps/web/tsconfig.json',
+      'apps/web/astro.config.mjs',
+      'apps/web/src/content/posts/post.mdx',
+    ]) {
+      assert.ok(
+        graph.nodes.some((node) => node.id === `file:${filePath}`),
+        filePath
+      )
+    }
+
+    await writeFile(
+      path.join(target, 'apps', 'web', 'src', 'content', 'posts', 'post.mdx'),
+      '# Changed post\n',
+      'utf8'
+    )
+    const changedPost = await runCli(['context', '--target', target, '--check'], target)
+    assert.equal(changedPost.code, 1)
+    assert.match(changedPost.stderr, /out of date/)
+  } finally {
+    await rm(target, { recursive: true, force: true })
+  }
+})
+
 test('orchestrate reports the model routing for an implementation role', async () => {
   const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-orchestration-'))
 
@@ -440,6 +553,37 @@ test('init preserves existing shared state unless force is requested', async () 
     const initialized = await runCli(['init', '--target', target], target)
     assert.equal(initialized.code, 0, initialized.stderr)
     assert.equal(JSON.parse(await readFile(statePath, 'utf8')).currentTask, 'TASK-42')
+  } finally {
+    await rm(target, { recursive: true, force: true })
+  }
+})
+
+test('init refreshes package-derived verification commands', async () => {
+  const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-init-refresh-'))
+
+  try {
+    await writeFile(
+      path.join(target, 'package.json'),
+      JSON.stringify({ name: 'fixture', scripts: { test: 'node --version' } }),
+      'utf8'
+    )
+    await runCli(['init', '--target', target], target)
+    await writeFile(
+      path.join(target, 'package.json'),
+      JSON.stringify({ name: 'fixture', scripts: { build: 'node --version' } }),
+      'utf8'
+    )
+
+    const initialized = await runCli(['init', '--target', target], target)
+    assert.equal(initialized.code, 0, initialized.stderr)
+    assert.deepEqual(
+      JSON.parse(await readFile(path.join(target, '.harness', 'commands.json'), 'utf8')),
+      ['npm run build']
+    )
+    const manifest = JSON.parse(
+      await readFile(path.join(target, '.harness', 'manifest.json'), 'utf8')
+    )
+    assert.deepEqual(manifest.verification.commands, ['npm run build'])
   } finally {
     await rm(target, { recursive: true, force: true })
   }

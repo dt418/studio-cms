@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { access, mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
+import { access, mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises'
 import { spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import path from 'node:path'
@@ -7,7 +7,9 @@ import path from 'node:path'
 const HARNESS_DIRECTORY = '.harness'
 const CONTEXT_OUTPUT_DIRECTORY = 'graphify-out'
 const SOURCE_EXTENSIONS = new Set(['.astro', '.cjs', '.js', '.jsx', '.mjs', '.ts', '.tsx'])
-const CONTEXT_EXTENSIONS = new Set([...SOURCE_EXTENSIONS, '.json', '.md', '.yaml', '.yml'])
+const CONTEXT_EXTENSIONS = new Set([...SOURCE_EXTENSIONS, '.json', '.md', '.mdx', '.yaml', '.yml'])
+const WORKSPACE_CONFIG_PATTERN =
+  /^(?:package\.json|tsconfig(?:\.[^/]+)?\.json|astro\.config\.(?:cjs|js|mjs|ts))$/
 
 function parseArgs(argv) {
   const [command = 'help', ...tokens] = argv
@@ -63,7 +65,15 @@ function compareText(left, right) {
 }
 
 function normalizeLineEndings(source) {
-  return source.replaceAll('\r\n', '\n')
+  return source.replace(/\r\n?/g, '\n')
+}
+
+async function isFile(filePath) {
+  try {
+    return (await stat(filePath)).isFile()
+  } catch {
+    return false
+  }
 }
 
 async function directoryEntries(directory) {
@@ -98,6 +108,28 @@ async function filesWithExtensions(directory, root, extensions) {
   return files
 }
 
+async function workspaceContextFiles(target) {
+  const files = []
+  for (const container of ['apps', 'packages']) {
+    for (const entry of await directoryEntries(path.join(target, container))) {
+      if (!entry.isDirectory()) continue
+      const workspaceDirectory = path.join(target, container, entry.name)
+      for (const config of await directoryEntries(workspaceDirectory)) {
+        if (config.isFile() && WORKSPACE_CONFIG_PATTERN.test(config.name))
+          files.push(toPosix(path.relative(target, path.join(workspaceDirectory, config.name))))
+      }
+      files.push(
+        ...(await filesWithExtensions(
+          path.join(workspaceDirectory, 'src', 'content', 'posts'),
+          target,
+          new Set(['.md', '.mdx'])
+        ))
+      )
+    }
+  }
+  return files
+}
+
 async function discoverSourceFiles(target) {
   const roots = [
     path.join(target, 'src'),
@@ -125,11 +157,13 @@ async function discoverContextFiles(target, sources) {
     path.join(target, '.claude', 'commands'),
     path.join(target, '.opencode', 'commands'),
     path.join(target, '.opencode', 'plugins'),
+    path.join(target, 'src', 'content', 'posts'),
   ]
   const discovered = await Promise.all(
     directories.map((directory) => filesWithExtensions(directory, target, CONTEXT_EXTENSIONS))
   )
-  return [...new Set([...sources, ...rootFiles, ...discovered.flat()])].sort()
+  const workspaceFiles = await workspaceContextFiles(target)
+  return [...new Set([...sources, ...rootFiles, ...workspaceFiles, ...discovered.flat()])].sort()
 }
 
 async function existingContextFiles(target, sources) {
@@ -215,7 +249,7 @@ async function resolveRelativeImport(target, sourceFile, specifier) {
     ...[...SOURCE_EXTENSIONS].map((extension) => path.join(base, `index${extension}`)),
   ]
   for (const candidate of candidates) {
-    if (await exists(candidate)) return toPosix(path.relative(target, candidate))
+    if (await isFile(candidate)) return toPosix(path.relative(target, candidate))
   }
   return null
 }
@@ -394,6 +428,8 @@ function defaultManifest(commands) {
     state: {
       tasks: 'tasks/',
       decisions: 'decisions/',
+      patches: 'patches/',
+      reviews: 'reviews/',
       reports: 'reports/',
       featureList: 'feature-list.json',
       handoff: 'session-handoff.md',
@@ -443,8 +479,6 @@ async function initialize(target, force = false) {
     })
   )
   const files = {
-    'manifest.json': defaultManifest(commands),
-    'commands.json': commands,
     'orchestration.json': orchestration(),
     'external-skills.json': { version: 1, skills: [] },
     'state.json': { version: 1, currentTask: null, updatedAt: null },
@@ -489,6 +523,8 @@ async function initialize(target, force = false) {
       },
     },
   }
+  await writeJson(path.join(directory, 'manifest.json'), defaultManifest(commands))
+  await writeJson(path.join(directory, 'commands.json'), commands)
   for (const [relativePath, value] of Object.entries(files)) {
     const filePath = path.join(directory, relativePath)
     if (force || !(await exists(filePath))) await writeJson(filePath, value)
@@ -500,6 +536,75 @@ async function initialize(target, force = false) {
     await writeFile(handoffPath, sessionHandoffTemplate(), 'utf8')
   await context(target)
   console.log(`Harness initialized at ${directory}`)
+}
+
+function isRecord(value) {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function areStrings(value) {
+  return Array.isArray(value) && value.every((item) => typeof item === 'string')
+}
+
+function validJsonArtifact(file, value) {
+  if (file === 'commands.json') return areStrings(value)
+  if (!isRecord(value)) return false
+  if (file === 'manifest.json')
+    return (
+      typeof value.version === 'number' &&
+      isRecord(value.verification) &&
+      typeof value.verification.entrypoint === 'string' &&
+      areStrings(value.verification.commands) &&
+      isRecord(value.policies) &&
+      typeof value.policies.default === 'string' &&
+      typeof value.policies.merge === 'string' &&
+      isRecord(value.state) &&
+      ['tasks', 'decisions', 'patches', 'reviews', 'reports', 'featureList', 'handoff'].every(
+        (key) => typeof value.state[key] === 'string'
+      )
+    )
+  if (file === 'orchestration.json')
+    return (
+      typeof value.version === 'number' &&
+      typeof value.defaultRuntime === 'string' &&
+      isRecord(value.roles) &&
+      Object.keys(value.roles).length > 0 &&
+      Object.values(value.roles).every((model) => typeof model === 'string') &&
+      Array.isArray(value.runtimes) &&
+      value.runtimes.every((runtime) => typeof runtime === 'string') &&
+      isRecord(value.riskEscalations) &&
+      areStrings(value.sharedState)
+    )
+  if (file === 'external-skills.json')
+    return typeof value.version === 'number' && Array.isArray(value.skills)
+  if (file === 'state.json')
+    return (
+      typeof value.version === 'number' &&
+      (typeof value.currentTask === 'string' || value.currentTask === null) &&
+      (typeof value.updatedAt === 'string' || value.updatedAt === null)
+    )
+  if (file === 'feature-list.json')
+    return (
+      typeof value.version === 'number' &&
+      (typeof value.activeFeature === 'string' || value.activeFeature === null) &&
+      Array.isArray(value.features)
+    )
+  if (file === 'policies/permissions.json')
+    return typeof value.default === 'string' && areStrings(value.allowed)
+  if (file === 'policies/merge.json')
+    return areStrings(value.allowedRoles) && typeof value.requireVerification === 'boolean'
+  if (file.startsWith('schemas/'))
+    return value.type === 'object' && areStrings(value.required) && isRecord(value.properties)
+  return true
+}
+
+async function validateJsonFile(filePath, relativePath) {
+  try {
+    const value = JSON.parse(await readFile(filePath, 'utf8'))
+    return validJsonArtifact(relativePath, value)
+  } catch {
+    return false
+  }
 }
 
 async function validate(target, json = false) {
@@ -536,13 +641,8 @@ async function validate(target, json = false) {
         missing.push(file)
         continue
       }
-      if (path.extname(file) === '.json') {
-        try {
-          JSON.parse(await readFile(filePath, 'utf8'))
-        } catch {
-          invalid.push(file)
-        }
-      }
+      if (path.extname(file) === '.json' && !(await validateJsonFile(filePath, file)))
+        invalid.push(file)
     }
     subsystems[name] = { pass: missing.length === 0 && invalid.length === 0, missing, invalid }
   }

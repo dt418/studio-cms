@@ -11,6 +11,8 @@
   "state": {
     "tasks": "tasks/",
     "decisions": "decisions/",
+    "patches": "patches/",
+    "reviews": "reviews/",
     "reports": "reports/",
     "featureList": "feature-list.json",
     "handoff": "session-handoff.md"
