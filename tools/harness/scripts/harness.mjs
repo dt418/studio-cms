@@ -62,6 +62,10 @@ function compareText(left, right) {
   return left === right ? 0 : left < right ? -1 : 1
 }
 
+function normalizeLineEndings(source) {
+  return source.replaceAll('\r\n', '\n')
+}
+
 async function directoryEntries(directory) {
   try {
     return await readdir(directory, { withFileTypes: true })
@@ -152,7 +156,7 @@ async function contextFingerprint(target, files) {
   for (const filePath of files) {
     hash.update(filePath)
     hash.update('\0')
-    hash.update((await readFile(path.join(target, filePath), 'utf8')).replaceAll('\r\n', '\n'))
+    hash.update(normalizeLineEndings(await readFile(path.join(target, filePath), 'utf8')))
     hash.update('\0')
   }
   return hash.digest('hex')
@@ -314,8 +318,12 @@ async function context(target, check = false) {
   const reportPath = path.join(outputDirectory, 'GRAPH_REPORT.md')
 
   if (check) {
-    const currentGraph = (await exists(graphPath)) ? await readFile(graphPath, 'utf8') : ''
-    const currentReport = (await exists(reportPath)) ? await readFile(reportPath, 'utf8') : ''
+    const currentGraph = (await exists(graphPath))
+      ? normalizeLineEndings(await readFile(graphPath, 'utf8'))
+      : ''
+    const currentReport = (await exists(reportPath))
+      ? normalizeLineEndings(await readFile(reportPath, 'utf8'))
+      : ''
     if (currentGraph !== graphSource || currentReport !== reportSource) {
       console.error('Context graph is out of date. Run "pnpm harness:context".')
       process.exitCode = 1
