@@ -83,16 +83,14 @@ const featuredMarkLabel = featuredPost?.data.category ?? ''
                 <time class="text-muted-foreground font-mono text-[0.66rem] tracking-[0.18em] uppercase">
                   {formatDate(featuredPost.data.publishedAt, lang)}
                 </time>
-                {
-                  featuredReadingTime !== undefined && (
-                    <span
-                      data-testid="featured-reading-time"
-                      class="text-muted-foreground/50 font-mono text-[0.66rem] tracking-[0.16em] uppercase"
-                    >
-                      {featuredReadingTime} {i18n.minRead}
-                    </span>
-                  )
-                }
+                {featuredReadingTime !== undefined && (
+                  <span
+                    data-testid="featured-reading-time"
+                    class="text-muted-foreground/50 font-mono text-[0.66rem] tracking-[0.16em] uppercase"
+                  >
+                    {featuredReadingTime} {i18n.minRead}
+                  </span>
+                )}
               </div>
 
               <h3 class="text-foreground group-hover:text-primary max-w-3xl font-serif text-3xl leading-[1.08] font-bold tracking-tight transition-colors sm:text-4xl lg:text-5xl">
