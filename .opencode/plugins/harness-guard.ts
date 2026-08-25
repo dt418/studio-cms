@@ -1,8 +1,8 @@
-const COMMIT_COMMAND = /(?:^|[;&|()])\s*git\s+commit\b/
+const COMMIT_COMMAND = /(?:^|[;&|()\n])\s*git\s+commit\b/
 const VALIDATION_COMMAND =
-  /(?:^|[;&|()])\s*(?:pnpm\s+harness:validate\b|node\s+tools\/harness\/scripts\/harness\.mjs\s+validate\b)/
+  /(?:^|[;&|()\n])\s*(?:pnpm\s+harness:validate\b|node\s+tools\/harness\/scripts\/harness\.mjs\s+validate\b)/
 const CONTEXT_CHECK_COMMAND =
-  /(?:^|[;&|()])\s*(?:pnpm\s+harness:context:check\b|node\s+tools\/harness\/scripts\/harness\.mjs\s+context\b[^\n]*--check\b)/
+  /(?:^|[;&|()\n])\s*(?:pnpm\s+harness:context:check\b|node\s+tools\/harness\/scripts\/harness\.mjs\s+context\b[^\n]*--check\b)/
 
 type ShellInput = { tool: string }
 type ShellOutput = { args?: { command?: string } }

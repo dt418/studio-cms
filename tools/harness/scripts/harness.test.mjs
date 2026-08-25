@@ -10,6 +10,10 @@ import { spawn } from 'node:child_process'
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url))
 const cliPath = path.join(scriptDirectory, 'harness.mjs')
 const graphifyPluginPath = path.resolve(scriptDirectory, '../../../.opencode/plugins/graphify.js')
+const harnessGuardPath = path.resolve(
+  scriptDirectory,
+  '../../../.opencode/plugins/harness-guard.ts'
+)
 
 function runCli(args, cwd, env = {}) {
   return new Promise((resolve, reject) => {
@@ -28,6 +32,36 @@ function runCli(args, cwd, env = {}) {
     })
     child.on('error', reject)
     child.on('close', (code) => resolve({ code, stdout, stderr }))
+  })
+}
+
+function runGuard(command) {
+  const source = [
+    `import createPlugin from ${JSON.stringify(pathToFileURL(harnessGuardPath).href)}`,
+    'const plugin = await createPlugin()',
+    `const output = { args: { command: ${JSON.stringify(command)} } }`,
+    "await plugin['tool.execute.before']({ tool: 'shell' }, output)",
+    'process.stdout.write(output.args.command)',
+  ].join('\n')
+  return new Promise((resolve, reject) => {
+    const child = spawn(
+      process.execPath,
+      ['--experimental-strip-types', '--input-type=module', '-e', source],
+      { stdio: ['ignore', 'pipe', 'pipe'] }
+    )
+    let stdout = ''
+    let stderr = ''
+    child.stdout.on('data', (chunk) => {
+      stdout += chunk
+    })
+    child.stderr.on('data', (chunk) => {
+      stderr += chunk
+    })
+    child.on('error', reject)
+    child.on('close', (code) => {
+      if (code === 0) resolve(stdout)
+      else reject(new Error(stderr || `guard exited with code ${code}`))
+    })
   })
 }
 
@@ -834,4 +868,13 @@ test('Graphify plugin emits a portable reminder without rewriting shell commands
     console.warn = originalWarn
     await rm(target, { recursive: true, force: true })
   }
+})
+
+test('Harness guard gates multiline commit commands', async () => {
+  const guarded = await runGuard('echo x\ngit commit -m x')
+
+  assert.equal(
+    guarded,
+    'pnpm harness:context:check && pnpm harness:validate && echo x\ngit commit -m x'
+  )
 })
