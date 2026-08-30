@@ -1,5 +1,46 @@
 import { SITE } from '@/lib/site'
 
+const tagSeoDescriptions: Record<string, string> = {
+  astro:
+    'Bài viết về Astro 5, kiến trúc islands và cách dùng Astro cùng StudioCMS để xây dựng website nội dung hoặc ứng dụng SaaS hiệu năng cao.',
+  'web-development':
+    'Kinh nghiệm phát triển web với Astro 5, kiến trúc islands, StudioCMS và quy trình xây dựng ứng dụng SaaS nhanh, dễ bảo trì.',
+  '9router':
+    'Hướng dẫn cài đặt 9router API Proxy trên VPS, quản lý nhiều API key AI, xoay vòng provider và kiểm soát chi phí sử dụng.',
+  vps: 'Hướng dẫn triển khai 9router API Proxy trên VPS với PM2 và Cloudflared, kèm cách vận hành, kiểm tra trạng thái và bảo vệ credentials.',
+  ai: 'Bài viết về quản lý nhiều API key AI qua 9router, xoay vòng OpenAI, Anthropic và Google provider, ẩn credentials và kiểm soát chi phí.',
+  proxy:
+    'Hướng dẫn xây dựng và vận hành API proxy với 9router, PM2 và Cloudflared để quản lý provider, API key và truy cập từ bên ngoài.',
+  'cloudflare-tunnel':
+    'Cách dùng Cloudflare Tunnel để công khai 9router API Proxy an toàn, mapping domain, quản lý tunnel và tránh mở trực tiếp cổng VPS.',
+  pm2: 'Hướng dẫn chạy 9router API Proxy bằng PM2 trên VPS, quản lý tiến trình, kiểm tra trạng thái và duy trì dịch vụ ổn định.',
+  'api-gateway':
+    'Bài viết về dùng 9router như API gateway cho nhiều nhà cung cấp AI, hỗ trợ xoay vòng key, ẩn credentials và kiểm soát chi phí.',
+  performance:
+    'Kỹ thuật xây dựng website hiệu năng cao với Astro 5, static HTML và kiến trúc islands chỉ tải JavaScript khi cần tương tác.',
+  tailwindcss:
+    'Cẩm nang migrate lên TailwindCSS 4, từ cài đặt và cấu hình Vite đến breaking changes, CSS configuration và plugin mới.',
+  css: 'Hướng dẫn nâng cấp CSS với TailwindCSS 4, gồm cấu hình mới, thay đổi plugin, breaking changes và các bước migrate an toàn.',
+  frontend:
+    'Kiến thức frontend qua quá trình migrate TailwindCSS 4, xử lý cấu hình Vite, CSS mới, plugin changes và tương thích dự án.',
+  saas: 'Hướng dẫn xây dựng ứng dụng SaaS với Astro cho frontend và StudioCMS để quản lý nội dung, tối ưu SEO, RSS và tìm kiếm.',
+  studiocms:
+    'Cách kết hợp StudioCMS với Astro để quản lý nội dung cho ứng dụng SaaS, thiết lập collection, SEO, RSS và tìm kiếm bằng Fuse.js.',
+  typescript:
+    'Học TypeScript Generics từ hàm generic, constraints và interface đến Repository Pattern để viết mã tái sử dụng, an toàn kiểu.',
+  programming:
+    'Kiến thức lập trình TypeScript qua Generics, constraints, generic interface và Repository Pattern cho mã dễ tái sử dụng, mở rộng và an toàn kiểu.',
+  generics:
+    'Làm chủ TypeScript Generics với generic function, constraints, interface và Repository Pattern để xây dựng mã tái sử dụng, an toàn kiểu.',
+}
+
+const categorySeoDescriptions: Record<string, string> = {
+  tutorials:
+    'Các bài hướng dẫn thực hành về Astro, TypeScript Generics, 9router API Proxy, VPS, PM2, Cloudflared và phát triển web hiện đại.',
+  guides:
+    'Các bài cẩm nang chuyên sâu về migrate TailwindCSS 4 và xây dựng ứng dụng SaaS với Astro, StudioCMS cùng kiến trúc frontend hiện đại.',
+}
+
 export const vi = {
   nav: {
     writing: 'Bài viết',
@@ -55,7 +96,8 @@ export const vi = {
   },
   blog: {
     archive: 'Bài viết',
-    description: 'Bài viết về lập trình, công nghệ và kinh nghiệm phát triển sản phẩm.',
+    description:
+      'Khám phá bài viết, hướng dẫn và ghi chú kỹ thuật về Astro, TypeScript, TailwindCSS, API proxy, hiệu năng và phát triển web hiện đại.',
     stats: {
       publishedNotes: 'Bài đã xuất bản',
       categories: 'Chủ đề',
@@ -74,7 +116,7 @@ export const vi = {
     notesLabel: 'ghi chú',
     minRead: 'phút đọc',
     description:
-      'Blog chia sẻ kinh nghiệm lập trình thực tế, từ TypeScript đến kiến trúc web hiện đại.',
+      'Blog của Danh Thanh chia sẻ kinh nghiệm thực tế về TypeScript, Astro, kiến trúc web, hiệu năng và cách xây dựng sản phẩm hiện đại.',
     topicStrip: [
       'Astro 7 Islands',
       'TypeScript Generics',
@@ -92,7 +134,8 @@ export const vi = {
   },
   about: {
     pageTitle: 'Về tôi',
-    metaDescription: 'Thông tin về tác giả, định hướng nội dung và cách liên hệ hợp tác.',
+    metaDescription:
+      'Tìm hiểu về Danh Thanh, định hướng chia sẻ kỹ thuật, nguyên tắc làm việc, công nghệ sử dụng và cách liên hệ hợp tác.',
     eyebrow: 'Software engineer / creator',
     monogramLabel: 'Biểu trưng Danh Thanh',
     intro:
@@ -175,9 +218,13 @@ export const vi = {
     blog: 'Blog',
     about: 'Về tôi',
     postsTagged: (tag: string) => `Bài viết gắn tag: ${tag}`,
-    allPostsTaggedWith: (tag: string) => `Tất cả bài viết gắn tag ${tag}`,
+    allPostsTaggedWith: (tag: string) =>
+      tagSeoDescriptions[tag] ??
+      `Khám phá bài viết về ${tag} trên DanhThanh.dev, với hướng dẫn thực tế, ví dụ kỹ thuật và kinh nghiệm phát triển sản phẩm web hiện đại.`,
     postsIn: (category: string) => `Bài viết trong ${category}`,
-    allPostsInCategory: (category: string) => `Tất cả bài viết trong danh mục ${category}`,
+    allPostsInCategory: (category: string) =>
+      categorySeoDescriptions[category] ??
+      `Khám phá các bài viết thuộc danh mục ${category} trên DanhThanh.dev, gồm hướng dẫn thực tế và kinh nghiệm xây dựng sản phẩm web hiện đại.`,
   },
   tags: {
     title: 'Thẻ:',

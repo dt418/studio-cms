@@ -3,7 +3,7 @@ import { getPostPath, getBlogPath, getCategoryPath, getHomePath, getTagPath } fr
 import { getPostLocale } from './content-utils'
 import { isSitemapEligiblePost } from './seo'
 import { isPublicPost } from './post-visibility'
-import { normalizeSiteOrigin, toAbsoluteUrl } from './site'
+import { normalizeSiteOrigin, toAbsoluteUrl, toCanonicalUrl } from './site'
 
 export interface SitemapRecord {
   loc: string
@@ -22,18 +22,18 @@ export function buildSitemapManifest(posts: Post[], siteOrigin: string): Sitemap
     const localePosts = publicPosts
       .filter((post) => getPostLocale(post) === locale)
       .sort((left, right) =>
-        toAbsoluteUrl(getPostPath(left), origin).localeCompare(
-          toAbsoluteUrl(getPostPath(right), origin)
+        toCanonicalUrl(getPostPath(left), origin).localeCompare(
+          toCanonicalUrl(getPostPath(right), origin)
         )
       )
     const home = toAbsoluteUrl(getHomePath(locale), origin)
-    const about = toAbsoluteUrl(`/${locale}/about`, origin)
+    const about = toCanonicalUrl(`/${locale}/about`, origin)
     records.push({ loc: home, changefreq: 'daily', priority: '1.0' })
     records.push({ loc: about })
 
     if (localePosts.length > 0) {
       records.push({
-        loc: toAbsoluteUrl(getBlogPath(locale), origin),
+        loc: toCanonicalUrl(getBlogPath(locale), origin),
         changefreq: 'weekly',
         priority: '0.9',
       })
@@ -41,7 +41,7 @@ export function buildSitemapManifest(posts: Post[], siteOrigin: string): Sitemap
 
     for (const post of canonicalPosts.filter((entry) => getPostLocale(entry) === locale)) {
       records.push({
-        loc: toAbsoluteUrl(getPostPath(post), origin),
+        loc: toCanonicalUrl(getPostPath(post), origin),
         lastmod: post.data.updatedAt ?? post.data.publishedAt,
       })
     }
@@ -51,7 +51,7 @@ export function buildSitemapManifest(posts: Post[], siteOrigin: string): Sitemap
       const tagPosts = localePosts.filter((post) => post.data.tags.includes(tag))
       const lastmod = latestContentDate(tagPosts)
       records.push({
-        loc: toAbsoluteUrl(getTagPath(tag, locale), origin),
+        loc: toCanonicalUrl(getTagPath(tag, locale), origin),
         ...(lastmod && { lastmod }),
       })
     }
@@ -61,7 +61,7 @@ export function buildSitemapManifest(posts: Post[], siteOrigin: string): Sitemap
       const categoryPosts = localePosts.filter((post) => post.data.category === category)
       const lastmod = latestContentDate(categoryPosts)
       records.push({
-        loc: toAbsoluteUrl(getCategoryPath(category, locale), origin),
+        loc: toCanonicalUrl(getCategoryPath(category, locale), origin),
         ...(lastmod && { lastmod }),
       })
     }

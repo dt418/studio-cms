@@ -2,6 +2,7 @@
 title: 'Mastering TypeScript Generics'
 slug: 'mastering-typescript-generics'
 excerpt: 'Deep dive into TypeScript generics and learn how to write reusable, type-safe code.'
+description: 'Explore TypeScript Generics from functions, constraints, and interfaces to Repository Pattern examples for reusable, type-safe code.'
 coverImage: '/og/mastering-typescript-generics.webp'
 publishedAt: 2025-02-10
 updatedAt: 2025-02-10

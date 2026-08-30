@@ -1,6 +1,5 @@
 ---
-import type { SupportedLocale } from '@/lib/content-utils'
-import { SUPPORTED_LOCALES } from '@/lib/content-utils'
+import { getLocalizedPath, type SupportedLocale, SUPPORTED_LOCALES } from '@/lib/content-utils'
 
 interface Props {
   currentLang: SupportedLocale
@@ -16,7 +15,7 @@ const { currentLang, currentPath, label, languageNames, getSwitchLabel, alternat
 
 function switchLocale(targetLang: SupportedLocale): string {
   const pathWithoutLang = currentPath.replace(/^\/(vi|en)/, '')
-  return `/${targetLang}${pathWithoutLang || '/blog'}`
+  return getLocalizedPath(targetLang, pathWithoutLang || '/blog')
 }
 
 const languageLinks = SUPPORTED_LOCALES.map((locale, index) => {

@@ -2,7 +2,7 @@
 title: 'Làm chủ Generics trong TypeScript'
 slug: 'mastering-typescript-generics'
 excerpt: 'Deep dive vào TypeScript generics và học cách viết code reusable, type-safe.'
-description: 'Mô tả tùy chỉnh cho bài viết Generics trong TypeScript.'
+description: 'Khám phá TypeScript Generics từ hàm generic, constraints và interface đến Repository Pattern để viết mã tái sử dụng và an toàn kiểu.'
 coverImage: '/og/mastering-typescript-generics.webp'
 publishedAt: 2025-02-10
 updatedAt: 2025-02-10

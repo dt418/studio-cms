@@ -4,10 +4,10 @@ import AboutHero from '@/components/About/AboutHero.astro'
 import AboutPrinciples from '@/components/About/AboutPrinciples.astro'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import { getTranslations } from '@/lib/i18n'
-import { getSiteOrigin, SITE, toAbsoluteUrl } from '@/lib/site'
+import { getSiteOrigin, SITE, toCanonicalUrl } from '@/lib/site'
 import { isValidLocale } from '@/lib/content-utils'
 import { getAuthorInitials } from '@/lib/post'
-import { getHomePath, RSS_PATH } from '@/lib/routes'
+import { getAboutPath, getHomePath, RSS_PATH } from '@/lib/routes'
 import type { SupportedLocale } from '@/lib/content-queries'
 import {
   buildBreadcrumbList,
@@ -61,12 +61,13 @@ const contactItems = [
   },
 ]
 
-const canonicalUrl = toAbsoluteUrl(`/${lang}/about`, siteUrl)
+const aboutPath = getAboutPath(lang)
+const canonicalUrl = toCanonicalUrl(aboutPath, siteUrl)
 const seo = createSeoDocument({
   kind: 'indexable',
   title: `${about.pageTitle} | ${SITE.name}`,
   description: about.metaDescription,
-  path: `/${lang}/about`,
+  path: aboutPath,
   lang,
   siteOrigin: siteUrl,
   alternates: getLocaleNeutralAlternates('/about', siteUrl),
@@ -82,7 +83,7 @@ const seo = createSeoDocument({
     }),
     buildBreadcrumbList({
       homeLabel: i18n.schema.home,
-      homeUrl: toAbsoluteUrl(getHomePath(lang), siteUrl),
+      homeUrl: toCanonicalUrl(getHomePath(lang), siteUrl),
       currentLabel: i18n.schema.about,
       currentUrl: canonicalUrl,
     }),
@@ -90,13 +91,15 @@ const seo = createSeoDocument({
 })
 ---
 
-<BaseLayout seo={seo} currentPath={`/${lang}/about`}>
+<BaseLayout seo={seo} currentPath={aboutPath}>
   <section class="container py-14 sm:py-20 lg:py-24">
     <nav
       class="text-muted-foreground mb-6 flex items-center gap-2 text-sm"
       aria-label={i18n.breadcrumb.label}
     >
-      <a href={`/${lang}`} class="hover:text-foreground transition-colors">{i18n.schema.home}</a>
+      <a href={getHomePath(lang)} class="hover:text-foreground transition-colors"
+        >{i18n.schema.home}</a
+      >
       <span aria-hidden="true" class="text-muted-foreground/40">/</span>
       <span class="text-foreground" aria-current="page">{i18n.schema.about}</span>
     </nav>

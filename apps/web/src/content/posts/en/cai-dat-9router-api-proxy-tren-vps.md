@@ -2,6 +2,7 @@
 title: 'Set Up 9router API Proxy on VPS with PM2 and Cloudflared'
 slug: 'cai-dat-9router-api-proxy-tren-vps'
 excerpt: 'Detailed guide to setting up a 9router API proxy on a VPS using PM2 and Cloudflared Tunnel. Manage multiple AI API keys (OpenAI, Anthropic, Google), rotate providers, hide credentials, and control costs.'
+description: 'Set up a 9router API proxy on a VPS with PM2 and Cloudflared, manage multiple AI API keys, rotate providers, and protect credentials.'
 coverImage: '/og/setup-9router-api-proxy-on-vps.webp'
 publishedAt: 2026-05-08
 updatedAt: 2026-05-20

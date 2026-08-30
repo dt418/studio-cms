@@ -10,11 +10,16 @@ import {
   getAllCategories,
   type SupportedLocale,
 } from '@/lib/content-queries'
-import { getSiteOrigin, SITE, toAbsoluteUrl } from '@/lib/site'
+import { getSiteOrigin, SITE, toCanonicalUrl } from '@/lib/site'
 import { getTranslations } from '@/lib/i18n'
 import { getTagPath, getBlogPath, getHomePath } from '@/lib/routes'
 import { isValidLocale, SUPPORTED_LOCALES } from '@/lib/content-utils'
-import { buildBreadcrumbList, buildCollectionPageSchema, createSeoDocument } from '@/lib/seo'
+import {
+  buildBreadcrumbList,
+  buildCollectionPageSchema,
+  createSeoDocument,
+  getLocaleNeutralAlternates,
+} from '@/lib/seo'
 
 export const prerender = true
 
@@ -68,7 +73,7 @@ const alternatePaths = Object.fromEntries(
 ) as Partial<Record<SupportedLocale, string>>
 
 const tagPath = getTagPath(tag, lang)
-const canonicalUrl = toAbsoluteUrl(tagPath, siteUrl)
+const canonicalUrl = toCanonicalUrl(tagPath, siteUrl)
 
 const jsonLd = [
   buildCollectionPageSchema({
@@ -81,9 +86,9 @@ const jsonLd = [
   }),
   buildBreadcrumbList({
     homeLabel: i18n.schema.home,
-    homeUrl: toAbsoluteUrl(getHomePath(lang), siteUrl),
+    homeUrl: toCanonicalUrl(getHomePath(lang), siteUrl),
     blogLabel: i18n.schema.blog,
-    blogUrl: toAbsoluteUrl(getBlogPath(lang), siteUrl),
+    blogUrl: toCanonicalUrl(getBlogPath(lang), siteUrl),
     currentLabel: tag,
     currentUrl: canonicalUrl,
   }),
@@ -95,6 +100,7 @@ const seo = createSeoDocument({
   path: tagPath,
   lang,
   siteOrigin: siteUrl,
+  alternates: getLocaleNeutralAlternates(`/tags/${encodeURIComponent(tag)}`, siteUrl),
   jsonLd,
 })
 ---

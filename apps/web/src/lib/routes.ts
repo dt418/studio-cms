@@ -27,6 +27,10 @@ export function getBlogPath(locale: SupportedLocale): string {
   return getLocalizedPath(locale, '/blog')
 }
 
+export function getAboutPath(locale: SupportedLocale): string {
+  return getLocalizedPath(locale, '/about')
+}
+
 export function getHomePath(locale: SupportedLocale): string {
   return getLocalizedPath(locale, '/')
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { resolveConfiguredSiteUrl } from '../../astro.config.mjs'
-import { normalizeSiteOrigin, toAbsoluteUrl } from './site'
+import { normalizeSiteOrigin, toAbsoluteUrl, toCanonicalUrl } from './site'
 
 describe('resolveConfiguredSiteUrl', () => {
   it('requires an explicit production origin', () => {
@@ -38,5 +38,13 @@ describe('site URL primitives', () => {
   it('normalizes origins and builds absolute paths', () => {
     expect(normalizeSiteOrigin('https://seo.test/')).toBe('https://seo.test')
     expect(toAbsoluteUrl('/vi/', 'https://seo.test')).toBe('https://seo.test/vi/')
+  })
+
+  it('builds canonical route URLs with a trailing slash', () => {
+    expect(toCanonicalUrl('/vi/', 'https://seo.test')).toBe('https://seo.test/vi/')
+    expect(toCanonicalUrl('/vi/about', 'https://seo.test')).toBe('https://seo.test/vi/about/')
+    expect(toCanonicalUrl('/vi/blog/post?view=full', 'https://seo.test')).toBe(
+      'https://seo.test/vi/blog/post/?view=full'
+    )
   })
 })

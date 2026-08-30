@@ -3,6 +3,7 @@ title: 'Cài đặt 9router API Proxy trên VPS với PM2 và Cloudflared'
 slug: 'cai-dat-9router-api-proxy-tren-vps'
 translationKey: 'cai-dat-9router-api-proxy-tren-vps'
 excerpt: 'Hướng dẫn chi tiết cách cài đặt 9router API proxy trên VPS dùng PM2 và Cloudflared Tunnel. Quản lý nhiều API key AI (OpenAI, Anthropic, Google), xoay vòng provider, ẩn credentials và kiểm soát chi phí.'
+description: 'Hướng dẫn cài đặt 9router API Proxy trên VPS bằng PM2 và Cloudflared, quản lý nhiều API key AI, xoay vòng provider và bảo vệ credentials.'
 coverImage: '/og/setup-9router-api-proxy-on-vps.webp'
 publishedAt: 2026-05-08
 updatedAt: 2026-05-20

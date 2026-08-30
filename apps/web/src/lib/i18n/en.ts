@@ -1,5 +1,46 @@
 import { SITE } from '@/lib/site'
 
+const tagSeoDescriptions: Record<string, string> = {
+  astro:
+    'Articles on Astro 5, islands architecture, and using Astro with StudioCMS to build fast content sites and maintainable SaaS applications.',
+  'web-development':
+    'Practical web development with Astro 5, islands architecture, StudioCMS, and patterns for building fast, maintainable SaaS products.',
+  '9router':
+    'Learn to deploy a 9router API proxy on a VPS, manage multiple AI API keys, rotate providers, protect credentials, and control costs.',
+  vps: 'Deploy and operate a 9router API proxy on a VPS with PM2 and Cloudflared, including status checks, remote access, and credential protection.',
+  ai: 'Manage OpenAI, Anthropic, and Google API keys through 9router, rotate providers, hide credentials, and control AI usage costs.',
+  proxy:
+    'Build and run an API proxy with 9router, PM2, and Cloudflared to manage providers, API keys, secure credentials, and remote access.',
+  'cloudflare-tunnel':
+    'Use Cloudflare Tunnel to expose a 9router API proxy safely, map domains, manage tunnel services, and avoid opening VPS ports directly.',
+  pm2: 'Run a 9router API proxy with PM2 on a VPS, manage the process, verify service health, and keep deployments stable.',
+  'api-gateway':
+    'Use 9router as an API gateway for multiple AI providers, with key rotation, hidden credentials, remote access, and cost controls.',
+  performance:
+    'Build fast websites with Astro 5, static HTML, and islands architecture that ships browser JavaScript only when interaction requires it.',
+  tailwindcss:
+    'Migrate to TailwindCSS 4 with guidance on installation, Vite setup, CSS configuration, breaking changes, plugins, and migration steps.',
+  css: 'Upgrade project CSS with TailwindCSS 4, covering new configuration, plugin changes, breaking behavior, and a safer migration workflow.',
+  frontend:
+    'Frontend guidance for migrating to TailwindCSS 4, including Vite integration, CSS configuration, plugin changes, and compatibility work.',
+  saas: 'Build a SaaS product with Astro on the frontend and StudioCMS for content, including collections, SEO, RSS, and search.',
+  studiocms:
+    'Use StudioCMS with Astro to manage SaaS content, configure collections, implement SEO and RSS, and add search with Fuse.js.',
+  typescript:
+    'Master TypeScript Generics through generic functions, constraints, interfaces, and Repository Pattern examples for reusable, type-safe code.',
+  programming:
+    'Improve TypeScript programming with Generics, constraints, generic interfaces, and Repository Pattern code that stays reusable and type-safe.',
+  generics:
+    'Learn TypeScript Generics through functions, constraints, interfaces, and Repository Pattern examples that produce reusable, type-safe code.',
+}
+
+const categorySeoDescriptions: Record<string, string> = {
+  tutorials:
+    'Practical tutorials on Astro, TypeScript Generics, 9router API Proxy, VPS, PM2, Cloudflared, and modern web development.',
+  guides:
+    'In-depth guides to TailwindCSS 4 migration and building SaaS applications with Astro, StudioCMS, and modern frontend architecture.',
+}
+
 export const en = {
   nav: {
     writing: 'writing',
@@ -55,7 +96,8 @@ export const en = {
   },
   blog: {
     archive: 'Archive',
-    description: 'Build logs, hackathon writeups, and technical notes.',
+    description:
+      'Explore build logs, tutorials, and technical notes on Astro, TypeScript, TailwindCSS, API proxies, performance, and modern web development.',
     stats: {
       publishedNotes: 'Published notes',
       categories: 'Categories',
@@ -73,7 +115,8 @@ export const en = {
     featuredIndex: 'featured / 01',
     notesLabel: 'notes',
     minRead: 'min read',
-    description: SITE.description as string,
+    description:
+      'Danh Thanh shares practical lessons on TypeScript, Astro, web architecture, performance, and shipping maintainable modern products.',
     topicStrip: [
       'Astro 7 Islands',
       'TypeScript Generics',
@@ -92,7 +135,8 @@ export const en = {
   },
   about: {
     pageTitle: 'About',
-    metaDescription: 'About the author, writing focus, and collaboration contact.',
+    metaDescription:
+      'Learn about Danh Thanh, his engineering focus, working principles, core technology stack, and ways to connect or collaborate.',
     eyebrow: 'Software engineer / creator',
     monogramLabel: 'Danh Thanh monogram',
     intro:
@@ -175,9 +219,13 @@ export const en = {
     blog: 'Blog',
     about: 'About',
     postsTagged: (tag: string) => `Posts tagged: ${tag}`,
-    allPostsTaggedWith: (tag: string) => `All posts tagged with ${tag}`,
+    allPostsTaggedWith: (tag: string) =>
+      tagSeoDescriptions[tag] ??
+      `Explore ${tag} articles on DanhThanh.dev with practical guidance, technical examples, and lessons for building maintainable modern web products.`,
     postsIn: (category: string) => `Posts in ${category}`,
-    allPostsInCategory: (category: string) => `All posts in category ${category}`,
+    allPostsInCategory: (category: string) =>
+      categorySeoDescriptions[category] ??
+      `Explore ${category} articles on DanhThanh.dev with practical tutorials, technical examples, and lessons from building modern web products.`,
   },
   tags: {
     title: 'Tag:',

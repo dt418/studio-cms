@@ -23,7 +23,12 @@ export function getPostSlug(post: CollectionEntry<'posts'>): string {
 
 export function getLocalizedPath(locale: SupportedLocale, path: string): string {
   const cleanPath = path.startsWith('/') ? path : `/${path}`
-  return `/${locale}${cleanPath}`
+  const localizedPath = `/${locale}${cleanPath}`
+  const suffixIndex = localizedPath.search(/[?#]/)
+  const pathname = suffixIndex === -1 ? localizedPath : localizedPath.slice(0, suffixIndex)
+  const suffix = suffixIndex === -1 ? '' : localizedPath.slice(suffixIndex)
+  if (pathname === '/' || pathname.endsWith('/')) return localizedPath
+  return `${pathname}/${suffix}`
 }
 
 export function getCanonicalUrl(locale: SupportedLocale, path: string, siteUrl: string): string {
