@@ -17,7 +17,7 @@ test.describe('Blog Listing Page', () => {
   })
 
   test('displays blog description', async ({ page }) => {
-    const description = page.locator('p:has-text("Bài viết về lập trình")')
+    const description = page.locator('p:has-text("hướng dẫn và ghi chú kỹ thuật")')
     await expect(description).toBeVisible()
   })
 
@@ -66,13 +66,13 @@ test.describe('Blog Listing Page', () => {
 
   test('navigation from home page works', async ({ page }) => {
     await page.goto('/')
-    const blogLink = page.locator('header nav.nav-links a[href="/vi/blog"]')
+    const blogLink = page.locator('header nav.nav-links a[href="/vi/blog/"]')
     await blogLink.click()
-    await expect(page).toHaveURL('/vi/blog')
+    await expect(page).toHaveURL('/vi/blog/')
   })
 
   test('back to home navigation via header', async ({ page }) => {
-    const homeLink = page.locator('header a[href="/vi"]').first()
+    const homeLink = page.locator('header a[href="/vi/"]').first()
     await expect(homeLink).toBeVisible()
 
     await homeLink.click()

@@ -63,15 +63,21 @@ const category =
 const posts = await getPostsByCategory(category, lang)
 const allCategories = await getAllCategories(lang)
 const allTags = await getAllTags(lang)
-const alternatePaths = Object.fromEntries(
+const categoryLocales = (
   await Promise.all(
-    SUPPORTED_LOCALES.map(async (locale) => [
-      locale,
-      (await getAllCategories(locale)).includes(category)
-        ? getCategoryPath(category, locale)
-        : getBlogPath(locale),
-    ])
+    SUPPORTED_LOCALES.map(
+      async (locale) => [locale, (await getAllCategories(locale)).includes(category)] as const
+    )
   )
+)
+  .filter(([, available]) => available)
+  .map(([locale]) => locale)
+
+const alternatePaths = Object.fromEntries(
+  SUPPORTED_LOCALES.map((locale) => [
+    locale,
+    categoryLocales.includes(locale) ? getCategoryPath(category, locale) : getBlogPath(locale),
+  ])
 ) as Partial<Record<SupportedLocale, string>>
 
 const categoryPath = getCategoryPath(category, lang)
@@ -102,7 +108,11 @@ const seo = createSeoDocument({
   path: categoryPath,
   lang,
   siteOrigin: siteUrl,
-  alternates: getLocaleNeutralAlternates(`/categories/${encodeURIComponent(category)}`, siteUrl),
+  alternates: getLocaleNeutralAlternates(
+    `/categories/${encodeURIComponent(category)}`,
+    siteUrl,
+    categoryLocales
+  ),
   jsonLd,
 })
 ---

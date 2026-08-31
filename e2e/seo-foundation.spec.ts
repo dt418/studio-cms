@@ -10,7 +10,7 @@ const SEO_FIXTURE = {
 const PUBLIC_DESCRIPTION_FIXTURE = {
   slug: 'mastering-typescript-generics',
   locale: 'vi' as const,
-  path: '/vi/blog/mastering-typescript-generics',
+  path: '/vi/blog/mastering-typescript-generics/',
   description:
     'Khám phá TypeScript Generics từ hàm generic, constraints và interface đến Repository Pattern để viết mã tái sử dụng và an toàn kiểu.',
   category: 'tutorials',
@@ -167,7 +167,7 @@ async function expectPublicSeo(page: Page, path: string, expectLocaleAlternates 
   if (expectLocaleAlternates) {
     await expect(page.locator('link[hreflang="vi"]')).toHaveAttribute('href', /^http/)
     await expect(page.locator('link[hreflang="en"]')).toHaveAttribute('href', /^http/)
-    const defaultPath = new URL(path, ORIGIN).pathname.replace(/^\/(?:vi|en)(?=\/|$)/, '/vi')
+    let defaultPath = new URL(path, ORIGIN).pathname.replace(/^\/(?:vi|en)(?=\/|$)/, '/vi')
     if (defaultPath !== '/' && !defaultPath.endsWith('/')) defaultPath += '/'
     await expect(page.locator('link[hreflang="x-default"]')).toHaveAttribute(
       'href',
@@ -267,7 +267,7 @@ test.describe('served SEO HTML', () => {
     }
   })
 
-  test('long article titles keep content title without brand overflow', async ({ request }) => {
+  test('long article titles truncate content but keep the brand suffix', async ({ request }) => {
     for (const path of [
       '/vi/blog/cai-dat-9router-api-proxy-tren-vps',
       '/en/blog/cai-dat-9router-api-proxy-tren-vps',
@@ -275,7 +275,8 @@ test.describe('served SEO HTML', () => {
       const html = await (await request.get(path)).text()
       const title = html.match(/<title>([^<]*)<\/title>/i)?.[1] ?? ''
       expect(title.length, path).toBeLessThanOrEqual(60)
-      expect(title, path).not.toContain(` | ${'DanhThanh.dev'}`)
+      expect(title, path).toMatch(/\| DanhThanh\.dev$/)
+      expect(title.startsWith('…'), path).toBe(false)
       expect(readMetaContent(html, 'property', 'og:title'), path).toBe(title)
       expect(readMetaContent(html, 'name', 'twitter:title'), path).toBe(title)
     }
@@ -322,10 +323,12 @@ test.describe('served SEO HTML', () => {
       const links = readTagAttributes(html, 'link').filter(
         (attributes) => attributes.rel === 'alternate' && attributes.hreflang
       )
-      expect(links.map((link) => link.hreflang), location).toEqual(
-        expect.arrayContaining(['vi', 'en'])
-      )
-      for (const link of links) expect(sitemapSet.has(link.href), `${location}: ${link.href}`).toBe(true)
+      expect(
+        links.map((link) => link.hreflang),
+        location
+      ).toEqual(expect.arrayContaining(['vi', 'en']))
+      for (const link of links)
+        expect(sitemapSet.has(link.href), `${location}: ${link.href}`).toBe(true)
     }
   })
 

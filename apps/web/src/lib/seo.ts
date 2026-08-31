@@ -89,9 +89,7 @@ export interface NonCanonicalSeoPageInput extends SeoPageInputBase {
 }
 
 export type SeoPageInput =
-  | IndexableSeoPageInput
-  | NoindexContentSeoPageInput
-  | NonCanonicalSeoPageInput
+  IndexableSeoPageInput | NoindexContentSeoPageInput | NonCanonicalSeoPageInput
 
 export function normalizeCanonicalUrl(value: string): string {
   const canonical = value.trim()
@@ -228,8 +226,15 @@ export function resolvePostDescription(post: Post): string {
 }
 
 export function resolveSeoTitle(title: string, siteName: string, maxLength = 60): string {
-  const brandedTitle = `${title} | ${siteName}`
-  return brandedTitle.length <= maxLength ? brandedTitle : title
+  const suffix = ` | ${siteName}`
+  const budget = maxLength - suffix.length
+  if (budget < 1) return siteName
+  if (title.length <= budget) return `${title}${suffix}`
+  const truncated = `${title
+    .slice(0, budget - 1)
+    .replace(/\s+\S*$/, '')
+    .trimEnd()}…`
+  return `${truncated}${suffix}`
 }
 
 export function resolvePostCanonical(post: Post, siteOrigin: string): string {
@@ -289,8 +294,12 @@ export function getPostAlternateLinks(
     )
 }
 
-export function getLocaleNeutralAlternates(path: string, siteOrigin: string): AlternateLink[] {
-  return SUPPORTED_LOCALES.map((locale) => ({
+export function getLocaleNeutralAlternates(
+  path: string,
+  siteOrigin: string,
+  locales: readonly SupportedLocale[] = SUPPORTED_LOCALES
+): AlternateLink[] {
+  return locales.map((locale) => ({
     locale,
     href: toCanonicalUrl(getLocalizedPath(locale, path), siteOrigin),
   }))

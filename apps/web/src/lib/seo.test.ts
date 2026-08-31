@@ -111,10 +111,12 @@ describe('SEO title resolution', () => {
     expect(resolveSeoTitle('Short post', 'DanhThanh.dev')).toBe('Short post | DanhThanh.dev')
   })
 
-  it('drops the brand suffix when combined title exceeds 60 characters', () => {
+  it('truncates the content and keeps the brand suffix for long titles', () => {
     const title = 'Set Up 9router API Proxy on VPS with PM2 and Cloudflared'
-    expect(resolveSeoTitle(title, 'DanhThanh.dev')).toBe(title)
-    expect(resolveSeoTitle(title, 'DanhThanh.dev')).toHaveLength(56)
+    const result = resolveSeoTitle(title, 'DanhThanh.dev')
+    expect(result.startsWith('Set Up 9router')).toBe(true)
+    expect(result).toMatch(/… \| DanhThanh\.dev$/)
+    expect(result.length).toBeLessThanOrEqual(60)
   })
 })
 
