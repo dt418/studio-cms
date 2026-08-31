@@ -1,12 +1,16 @@
 ---
+import { getBlogPath } from '@/lib/routes'
+import type { SupportedLocale } from '@/lib/content-utils'
+
 export interface Props {
   tags: Array<{ name: string; count: number }>
-  lang: string
+  lang: SupportedLocale
   title: string
   linkText: string
 }
 
 const { tags, lang, title, linkText } = Astro.props
+const blogPath = getBlogPath(lang)
 
 const delayMap: Record<string, string> = {
   '0': 'animation-delay: 0ms',
@@ -28,7 +32,7 @@ const delayMap: Record<string, string> = {
         {title}
       </p>
       <a
-        href={`/${lang}/blog`}
+        href={blogPath}
         class="group text-muted-foreground hover:text-primary font-mono text-[0.68rem] tracking-[0.18em] uppercase transition-all duration-300"
       >
         <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">
@@ -43,7 +47,7 @@ const delayMap: Record<string, string> = {
       {
         tags.map(({ name, count }, index) => (
           <a
-            href={`/${lang}/blog?tag=${encodeURIComponent(name)}`}
+            href={`${blogPath}?tag=${encodeURIComponent(name)}`}
             style={delayMap[index.toString()] ?? ''}
             class="animate-fade-in-up border-border text-muted-foreground hover:border-primary hover:text-primary group relative inline-flex items-center gap-2 rounded border px-3 py-1.5 text-xs opacity-0 transition-all duration-300 hover:-ml-0.5 hover:bg-white/[0.03]"
           >

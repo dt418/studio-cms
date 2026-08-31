@@ -3,6 +3,7 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   resolve: {
     alias: {
+      '@': new URL('./src', import.meta.url).pathname,
       'astro:content': new URL('./src/__mocks__/astro-content.ts', import.meta.url).pathname,
     },
   },

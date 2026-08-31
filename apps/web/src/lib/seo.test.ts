@@ -11,6 +11,7 @@ import {
   isSitemapEligiblePost,
   resolvePostCanonical,
   resolveSeoImage,
+  resolveSeoTitle,
   resolvePostDescription,
   serializeJsonLd,
 } from './seo'
@@ -59,7 +60,7 @@ describe('post SEO resolution', () => {
       'https://canonical.example/articles/hello-world'
     )
     expect(resolvePostCanonical(makePost({ slug: 'hello-world' }), siteOrigin)).toBe(
-      'https://example.test/vi/blog/hello-world'
+      'https://example.test/vi/blog/hello-world/'
     )
   })
 
@@ -92,7 +93,7 @@ describe('post SEO resolution', () => {
       getPostAlternateLinks(overriddenSibling, [current, overriddenSibling], siteOrigin)
     ).toEqual([])
     expect(getPostAlternateLinks(current, [current, overriddenSibling], siteOrigin)).toEqual([
-      { locale: 'vi', href: `${siteOrigin}/vi/blog/hello-world` },
+      { locale: 'vi', href: `${siteOrigin}/vi/blog/hello-world/` },
     ])
 
     const queryOverride = makePost({
@@ -105,7 +106,35 @@ describe('post SEO resolution', () => {
   })
 })
 
+describe('SEO title resolution', () => {
+  it('keeps the brand suffix when combined title fits', () => {
+    expect(resolveSeoTitle('Short post', 'DanhThanh.dev')).toBe('Short post | DanhThanh.dev')
+  })
+
+  it('truncates the content and keeps the brand suffix for long titles', () => {
+    const title = 'Set Up 9router API Proxy on VPS with PM2 and Cloudflared'
+    const result = resolveSeoTitle(title, 'DanhThanh.dev')
+    expect(result.startsWith('Set Up 9router')).toBe(true)
+    expect(result).toMatch(/… \| DanhThanh\.dev$/)
+    expect(result.length).toBeLessThanOrEqual(60)
+  })
+})
+
 describe('hreflang and normalized SEO documents', () => {
+  it('derives social image alt text from page title', () => {
+    const seo = createSeoDocument({
+      kind: 'indexable',
+      title: 'TypeScript Generics | DanhThanh.dev',
+      description: 'Description',
+      path: '/vi/blog/mastering-typescript-generics',
+      lang: 'vi',
+      siteOrigin,
+      jsonLd: [],
+    })
+
+    expect(seo.openGraph?.imageAlt).toBe('TypeScript Generics | DanhThanh.dev')
+  })
+
   it('distinguishes noncanonical and noindex-content documents', () => {
     const noncanonical = createSeoDocument({
       kind: 'noncanonical',
@@ -127,7 +156,7 @@ describe('hreflang and normalized SEO documents', () => {
       siteOrigin,
       jsonLd: [{ '@type': 'Article' }],
     })
-    expect(noindex.canonical).toBe(`${siteOrigin}/vi/blog/private`)
+    expect(noindex.canonical).toBe(`${siteOrigin}/vi/blog/private/`)
     expect(noindex.alternates).toEqual([])
     expect(noindex.jsonLd).toHaveLength(1)
   })
@@ -219,8 +248,8 @@ describe('hreflang and normalized SEO documents', () => {
     expect(
       getPostAlternateLinks(current, [current, sibling, unpaired, hidden], siteOrigin)
     ).toEqual([
-      { locale: 'vi', href: 'https://example.test/vi/blog/bonjour' },
-      { locale: 'en', href: 'https://example.test/en/blog/hello' },
+      { locale: 'vi', href: 'https://example.test/vi/blog/bonjour/' },
+      { locale: 'en', href: 'https://example.test/en/blog/hello/' },
     ])
     expect(getPostAlternateLinks(unpaired, [unpaired], siteOrigin)).toEqual([])
   })

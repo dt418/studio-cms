@@ -56,3 +56,10 @@ export function toAbsoluteUrl(path: string, siteOrigin = getSiteOrigin()): strin
   const origin = normalizeSiteOrigin(siteOrigin)
   return new URL(path, `${origin}/`).href
 }
+
+export function toCanonicalUrl(path: string, siteOrigin = getSiteOrigin()): string {
+  const origin = normalizeSiteOrigin(siteOrigin)
+  const url = new URL(path, `${origin}/`)
+  if (url.pathname !== '/' && !url.pathname.endsWith('/')) url.pathname += '/'
+  return url.href
+}

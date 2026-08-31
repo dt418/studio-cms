@@ -121,6 +121,6 @@ test.describe('Tags Page', () => {
 
     const blogLink = page.getByRole('link', { name: /Quay lại Blog/i })
     await blogLink.click()
-    await expect(page).toHaveURL('/vi/blog')
+    await expect(page).toHaveURL('/vi/blog/')
   })
 })

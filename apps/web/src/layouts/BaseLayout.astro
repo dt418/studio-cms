@@ -6,6 +6,7 @@ import { getTranslations } from '@/lib/i18n'
 import { getWebMCPTools } from '@/lib/agent-metadata'
 import { serializeJsonLd, type SeoDocument } from '@/lib/seo'
 import type { SupportedLocale } from '@/lib/content-utils'
+import { getAboutPath, getBlogPath, getHomePath } from '@/lib/routes'
 import Icon from '@/components/Icon.astro'
 
 export interface Props {
@@ -23,6 +24,9 @@ const i18n = getTranslations(lang)
 const isHomepage = currentPath === `/${lang}/` || currentPath === `/${lang}`
 const isBlogActive = isHomepage || currentPath.includes(`/${lang}/blog`)
 const isAboutActive = currentPath.includes(`/${lang}/about`)
+const homePath = getHomePath(lang)
+const blogPath = getBlogPath(lang)
+const aboutPath = getAboutPath(lang)
 
 const webMCPTools = getWebMCPTools()
 const webMCPPayload = JSON.stringify({ tools: webMCPTools })
@@ -33,7 +37,11 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title={i18n.rss.title} href="/rss.xml" />
     <meta name="theme-color" content="rgb(14 13 12)" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="rgb(246 245 241)" media="(prefers-color-scheme: light)" />
@@ -72,6 +80,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
     {openGraph && <meta property="og:type" content={openGraph.type} />}
     {openGraph && <meta property="og:url" content={openGraph.url} />}
     {openGraph && <meta property="og:image" content={openGraph.image.url} />}
+    {openGraph && <meta property="og:image:alt" content={openGraph.imageAlt} />}
     {openGraph && <meta property="og:image:width" content={String(openGraph.image.width)} />}
     {openGraph && <meta property="og:image:height" content={String(openGraph.image.height)} />}
     {openGraph && <meta property="og:image:type" content={openGraph.image.type} />}
@@ -94,13 +103,14 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
     {openGraph && <meta name="twitter:title" content={title} />}
     {openGraph && <meta name="twitter:description" content={description} />}
     {openGraph && <meta name="twitter:image" content={openGraph.image.url} />}
+    {openGraph && <meta name="twitter:image:alt" content={openGraph.imageAlt} />}
     {
       openGraph?.type === 'article' && author && (
         <meta name="twitter:creator" content={SITE.social.twitter} />
       )
     }
 
-    {openGraph?.type === 'article' && author && <meta name="author" content={author} />}
+    <meta name="author" content={author ?? SITE.author} />
 
     {
       seo.jsonLd.length > 0 && (
@@ -205,11 +215,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
 
     <header class="border-border bg-background/90 sticky top-0 z-50 border-b backdrop-blur-xl">
       <div class="container flex h-16 items-center justify-between gap-4">
-        <a
-          href={`/${lang}`}
-          class="group flex items-center gap-2.5"
-          aria-label={i18n.nav.brandHome}
-        >
+        <a href={homePath} class="group flex items-center gap-2.5" aria-label={i18n.nav.brandHome}>
           <span
             class="bg-foreground text-background group-hover:bg-primary flex h-8 w-8 items-center justify-center rounded font-mono text-xs font-bold transition-colors"
           >
@@ -222,7 +228,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
 
         <nav class="nav-links hidden items-center gap-8 md:flex" aria-label={i18n.nav.primary}>
           <a
-            href={`/${lang}`}
+            href={homePath}
             class:list={[
               'nav-link inline-flex items-center gap-1.5 font-mono text-[0.68rem] tracking-[0.16em] uppercase transition-colors',
               isHomepage
@@ -234,7 +240,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
             {i18n.schema.home}
           </a>
           <a
-            href={`/${lang}/blog`}
+            href={blogPath}
             class:list={[
               'nav-link inline-flex items-center gap-1.5 font-mono text-[0.68rem] tracking-[0.16em] uppercase transition-colors',
               isBlogActive && !isHomepage
@@ -246,7 +252,7 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
             {i18n.nav.writing}
           </a>
           <a
-            href={`/${lang}/about`}
+            href={aboutPath}
             class:list={[
               'nav-link inline-flex items-center gap-1.5 font-mono text-[0.68rem] tracking-[0.16em] uppercase transition-colors',
               isAboutActive
@@ -301,17 +307,17 @@ const webMCPPayload = JSON.stringify({ tools: webMCPTools })
             >
               <nav class="flex flex-col gap-1 font-mono text-xs tracking-[0.16em] uppercase">
                 <a
-                  href={`/${lang}`}
+                  href={homePath}
                   class="hover:bg-card hover:text-primary inline-flex items-center gap-2 rounded px-3 py-3"
                   ><Icon name="house" size={14} strokeWidth={1.75} />{i18n.schema.home}</a
                 >
                 <a
-                  href={`/${lang}/blog`}
+                  href={blogPath}
                   class="hover:bg-card hover:text-primary inline-flex items-center gap-2 rounded px-3 py-3"
                   ><Icon name="book-open-text" size={14} strokeWidth={1.75} />{i18n.nav.writing}</a
                 >
                 <a
-                  href={`/${lang}/about`}
+                  href={aboutPath}
                   class="hover:bg-card hover:text-primary inline-flex items-center gap-2 rounded px-3 py-3"
                   ><Icon name="user-round" size={14} strokeWidth={1.75} />{i18n.nav.about}</a
                 >

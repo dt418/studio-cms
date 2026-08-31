@@ -2,7 +2,7 @@ import { getAllPosts } from '@/lib/content-queries'
 import { getPostLocale, getPostSlug } from '@/lib/content-utils'
 import { getPostPath } from '@/lib/routes'
 import { resolvePostCanonical, resolvePostDescription } from '@/lib/seo'
-import { getSiteOrigin, toAbsoluteUrl } from '@/lib/site'
+import { getSiteOrigin, toCanonicalUrl } from '@/lib/site'
 
 export const prerender = true
 
@@ -10,7 +10,7 @@ export async function GET() {
   const origin = getSiteOrigin()
   const posts = await getAllPosts()
   const postsData = posts.map((post) => {
-    const localUrl = toAbsoluteUrl(getPostPath(post), origin)
+    const localUrl = toCanonicalUrl(getPostPath(post), origin)
     const canonicalUrl = resolvePostCanonical(post, origin)
     return {
       slug: getPostSlug(post),

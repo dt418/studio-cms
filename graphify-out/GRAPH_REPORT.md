@@ -4,19 +4,19 @@ Regenerate with `pnpm harness:context` after source, workspace, or harness chang
 
 ## Summary
 
-- Nodes: 256
-- Edges: 593
-- Context fingerprint: `ba45c2cda171cdeb046ef7f4aaafae74a70ca747984a1a63eb3fc113c884ea42`
+- Nodes: 261
+- Edges: 604
+- Context fingerprint: `89095296df09037d262bc7c9bda156d3f2edaf5b21d2a78b70a86da62ebe1b65`
 
 ## High-connectivity nodes
 
-- `workspace:root` (229 links)
-- `file:apps/web/src/lib/routes.ts` (26 links)
-- `file:apps/web/src/lib/site.ts` (26 links)
-- `file:apps/web/src/lib/content-utils.ts` (24 links)
-- `file:apps/web/src/lib/i18n/index.ts` (21 links)
+- `workspace:root` (234 links)
+- `file:apps/web/src/lib/routes.ts` (31 links)
+- `file:apps/web/src/lib/content-utils.ts` (26 links)
+- `file:apps/web/src/lib/site.ts` (25 links)
+- `file:apps/web/src/lib/i18n/index.ts` (22 links)
 - `file:apps/web/src/pages/[lang]/blog/[slug].astro` (19 links)
 - `package:astro:content` (19 links)
-- `file:apps/web/src/layouts/BaseLayout.astro` (17 links)
+- `file:apps/web/src/layouts/BaseLayout.astro` (18 links)
 - `file:apps/web/src/lib/agent-metadata.ts` (17 links)
-- `file:apps/web/src/lib/seo.ts` (16 links)
+- `package:vitest` (17 links)

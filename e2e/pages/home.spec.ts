@@ -36,7 +36,7 @@ test.describe('Home Page', () => {
     const cta = page.getByTestId('hero-cta')
     const readBlogCTA = cta.getByRole('link', { name: 'Đọc blog', exact: true })
     await expect(readBlogCTA).toBeVisible()
-    await expect(readBlogCTA).toHaveAttribute('href', '/vi/blog')
+    await expect(readBlogCTA).toHaveAttribute('href', '/vi/blog/')
 
     const rssCTA = cta.getByRole('link', { name: 'RSS', exact: true })
     await expect(rssCTA).toBeVisible()
@@ -78,7 +78,9 @@ test.describe('Home Page', () => {
     await expect(featured.getByTestId('featured-mark')).toHaveText(expectedMark)
     await expect(categoryBadge).toBeVisible()
     await expect(markLabel).toBeVisible()
-    expect((await markLabel.textContent())?.trim()).toBe((await categoryBadge.textContent())?.trim())
+    expect((await markLabel.textContent())?.trim()).toBe(
+      (await categoryBadge.textContent())?.trim()
+    )
   })
 
   test('archive section displays', async ({ page }) => {
@@ -90,12 +92,12 @@ test.describe('Home Page', () => {
   })
 
   test('navigation links work', async ({ page }) => {
-    const blogLink = page.locator('header nav.nav-links a[href="/vi/blog"]')
+    const blogLink = page.locator('header nav.nav-links a[href="/vi/blog/"]')
     await expect(blogLink).toBeVisible()
     await expect(blogLink).toContainText('viết')
 
     await blogLink.click()
-    await expect(page).toHaveURL('/vi/blog')
+    await expect(page).toHaveURL('/vi/blog/')
   })
 
   test('footer displays correctly', async ({ page }) => {

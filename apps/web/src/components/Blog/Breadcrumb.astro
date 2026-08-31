@@ -1,4 +1,6 @@
 ---
+import { getBlogPath, getHomePath } from '@/lib/routes'
+
 interface Props {
   title: string
   lang?: string
@@ -10,12 +12,13 @@ interface Props {
 }
 
 const { title, lang = '', i18n = { home: 'Home', blog: 'Blog', label: 'Breadcrumb' } } = Astro.props
+const locale = lang === 'en' ? 'en' : 'vi'
 ---
 
 <nav class="text-muted-foreground flex items-center gap-2 text-sm" aria-label={i18n.label}>
-  <a href={`/${lang}`} class="hover:text-foreground transition-colors">{i18n.home}</a>
+  <a href={getHomePath(locale)} class="hover:text-foreground transition-colors">{i18n.home}</a>
   <span aria-hidden="true" class="text-muted-foreground/40">/</span>
-  <a href={`/${lang}/blog`} class="hover:text-foreground transition-colors">{i18n.blog}</a>
+  <a href={getBlogPath(locale)} class="hover:text-foreground transition-colors">{i18n.blog}</a>
   <span aria-hidden="true" class="text-muted-foreground/40">/</span>
   <span class="text-foreground max-w-50 truncate" aria-current="page">{title}</span>
 </nav>

@@ -2,6 +2,7 @@
 title: 'Bắt đầu với Astro 5'
 slug: 'getting-started-with-astro-5'
 excerpt: 'Học cách xây dựng website nhanh, tập trung vào nội dung với Astro 5 và kiến trúc islands.'
+description: 'Học cách xây dựng website nhanh với Astro 5, kiến trúc islands, content collections và JavaScript chỉ tải khi thành phần cần tương tác.'
 coverImage: '/og/getting-started-with-astro-5.webp'
 publishedAt: 2026-04-30
 updatedAt: 2026-04-30

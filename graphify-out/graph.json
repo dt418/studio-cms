@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "ba45c2cda171cdeb046ef7f4aaafae74a70ca747984a1a63eb3fc113c884ea42"
+    "context": "89095296df09037d262bc7c9bda156d3f2edaf5b21d2a78b70a86da62ebe1b65"
   },
   "nodes": [
     {
@@ -46,6 +46,12 @@
       "kind": "context",
       "label": "harness-verify.md",
       "path": ".claude/commands/harness-verify.md"
+    },
+    {
+      "id": "file:.claude/commands/seo-e2e-workflow.md",
+      "kind": "context",
+      "label": "seo-e2e-workflow.md",
+      "path": ".claude/commands/seo-e2e-workflow.md"
     },
     {
       "id": "file:.codex/AGENTS.md",
@@ -100,6 +106,12 @@
       "kind": "context",
       "label": "SKILL.md",
       "path": ".codex/skills/harness-verify/SKILL.md"
+    },
+    {
+      "id": "file:.codex/skills/seo-e2e-workflow/SKILL.md",
+      "kind": "context",
+      "label": "SKILL.md",
+      "path": ".codex/skills/seo-e2e-workflow/SKILL.md"
     },
     {
       "id": "file:.github/workflows/harness-portability.yml",
@@ -252,6 +264,12 @@
       "path": ".opencode/commands/harness-verify.md"
     },
     {
+      "id": "file:.opencode/commands/seo-e2e-workflow.md",
+      "kind": "context",
+      "label": "seo-e2e-workflow.md",
+      "path": ".opencode/commands/seo-e2e-workflow.md"
+    },
+    {
       "id": "file:.opencode/plugins/commit-quality-gate.ts",
       "kind": "source",
       "label": "commit-quality-gate.ts",
@@ -316,6 +334,12 @@
       "kind": "context",
       "label": "harness-verify.md",
       "path": ".pi/prompts/harness-verify.md"
+    },
+    {
+      "id": "file:.pi/prompts/seo-e2e-workflow.md",
+      "kind": "context",
+      "label": "seo-e2e-workflow.md",
+      "path": ".pi/prompts/seo-e2e-workflow.md"
     },
     {
       "id": "file:AGENTS.md",
@@ -946,6 +970,12 @@
       "kind": "source",
       "label": "index.ts",
       "path": "apps/web/src/lib/i18n/index.ts"
+    },
+    {
+      "id": "file:apps/web/src/lib/i18n/seo-descriptions.test.ts",
+      "kind": "source",
+      "label": "seo-descriptions.test.ts",
+      "path": "apps/web/src/lib/i18n/seo-descriptions.test.ts"
     },
     {
       "id": "file:apps/web/src/lib/i18n/vi.ts",
@@ -1612,6 +1642,11 @@
       "type": "imports"
     },
     {
+      "from": "file:apps/web/src/components/Blog/Breadcrumb.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
       "from": "file:apps/web/src/components/Blog/CategoryCloud.astro",
       "to": "file:apps/web/src/lib/content-utils.ts",
       "type": "imports"
@@ -1807,6 +1842,11 @@
       "type": "imports"
     },
     {
+      "from": "file:apps/web/src/components/CTAButtons.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
       "from": "file:apps/web/src/components/FeaturedWork.astro",
       "to": "file:apps/web/src/lib/content-queries.ts",
       "type": "imports"
@@ -1914,6 +1954,16 @@
     {
       "from": "file:apps/web/src/components/PostCardContent.astro",
       "to": "package:astro:content",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/TagCloudSection.astro",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/TagCloudSection.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
       "type": "imports"
     },
     {
@@ -2069,6 +2119,11 @@
     {
       "from": "file:apps/web/src/layouts/BaseLayout.astro",
       "to": "file:apps/web/src/lib/i18n/index.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/layouts/BaseLayout.astro",
+      "to": "file:apps/web/src/lib/routes.ts",
       "type": "imports"
     },
     {
@@ -2292,6 +2347,16 @@
       "type": "imports"
     },
     {
+      "from": "file:apps/web/src/lib/i18n/seo-descriptions.test.ts",
+      "to": "file:apps/web/src/lib/i18n/index.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/i18n/seo-descriptions.test.ts",
+      "to": "package:vitest",
+      "type": "imports"
+    },
+    {
       "from": "file:apps/web/src/lib/i18n/vi.ts",
       "to": "file:apps/web/src/lib/site.ts",
       "type": "imports"
@@ -2373,6 +2438,11 @@
     },
     {
       "from": "file:apps/web/src/lib/routes.test.ts",
+      "to": "file:apps/web/src/lib/content-utils.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/lib/routes.test.ts",
       "to": "file:apps/web/src/lib/routes.ts",
       "type": "imports"
     },
@@ -2419,11 +2489,6 @@
     {
       "from": "file:apps/web/src/lib/seo.ts",
       "to": "file:apps/web/src/lib/routes.ts",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/lib/seo.ts",
-      "to": "file:apps/web/src/lib/site.ts",
       "type": "imports"
     },
     {
@@ -2743,6 +2808,11 @@
     },
     {
       "from": "file:apps/web/src/pages/[lang]/about.md.ts",
+      "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/pages/[lang]/about.md.ts",
       "to": "file:apps/web/src/lib/site.ts",
       "type": "imports"
     },
@@ -2953,11 +3023,6 @@
     },
     {
       "from": "file:apps/web/src/pages/[lang]/categories/[category].astro",
-      "to": "file:apps/web/src/lib/seo.ts",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/pages/[lang]/categories/[category].astro",
       "to": "file:apps/web/src/lib/site.ts",
       "type": "imports"
     },
@@ -3094,11 +3159,6 @@
     {
       "from": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
       "to": "file:apps/web/src/lib/routes.ts",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/pages/[lang]/tags/[tag].astro",
-      "to": "file:apps/web/src/lib/seo.ts",
       "type": "imports"
     },
     {
@@ -3373,6 +3433,11 @@
     },
     {
       "from": "workspace:root",
+      "to": "file:.claude/commands/seo-e2e-workflow.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
       "to": "file:.codex/AGENTS.md",
       "type": "contains"
     },
@@ -3414,6 +3479,11 @@
     {
       "from": "workspace:root",
       "to": "file:.codex/skills/harness-verify/SKILL.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.codex/skills/seo-e2e-workflow/SKILL.md",
       "type": "contains"
     },
     {
@@ -3543,6 +3613,11 @@
     },
     {
       "from": "workspace:root",
+      "to": "file:.opencode/commands/seo-e2e-workflow.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
       "to": "file:.opencode/plugins/commit-quality-gate.ts",
       "type": "contains"
     },
@@ -3594,6 +3669,11 @@
     {
       "from": "workspace:root",
       "to": "file:.pi/prompts/harness-verify.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.pi/prompts/seo-e2e-workflow.md",
       "type": "contains"
     },
     {
@@ -4119,6 +4199,11 @@
     {
       "from": "workspace:root",
       "to": "file:apps/web/src/lib/i18n/index.ts",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/lib/i18n/seo-descriptions.test.ts",
       "type": "contains"
     },
     {

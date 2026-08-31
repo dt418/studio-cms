@@ -16,12 +16,12 @@
 - `pnpm build` runs `turbo run build`; each app's Astro/Vite loads `.env` from its own directory automatically.
 - `pnpm check` runs `pnpm lint:patterns && pnpm lint && pnpm format:check && pnpm test && pnpm typecheck`.
 - Focused unit tests: `pnpm test -- src/lib/filter.test.ts` or another `src/**/*.test.{ts,tsx}` file.
-- E2E tests: `pnpm test:e2e`; Playwright config starts the dev server on port 4321 and tests Chromium, Firefox, and WebKit.
-- For CI-like E2E setup, build the static web app with `SITE_URL=http://localhost:4321` before `pnpm test:e2e`.
+- E2E tests: `pnpm test:e2e`; the webServer (`scripts/run-seo-preview.mjs`) builds the static site and serves `apps/web/dist` on port 4321 for Chromium, Firefox, and WebKit.
+- CI-like E2E setup: build the static web app with `SITE_URL=http://localhost:4321 pnpm web:build` first, then run Playwright with `SKIP_WEB_BUILD=true` to reuse that dist instead of rebuilding in-runner.
 
 ## Verification And Hooks
 
-- Lefthook pre-commit runs lint, typecheck, and `format:check` in parallel for staged TS/TSX/Astro/CSS/JSON/MD files; a11y-pattern and Markdown checks run alongside them when their file globs match.
+- Lefthook pre-commit runs lint, typecheck, and `format:check` in parallel for staged TS/TSX/Astro/CSS/JSON/MD files; a11y-pattern and Markdown checks run alongside them when their file globs match. It also runs `pnpm harness:context:check` on every commit — if it reports the context graph out of date, run `pnpm harness:context` and commit the refreshed `graphify-out/`.
 - Before an agent invokes `git commit`, it must run `pnpm check` and `git diff --check`. If either command fails, fix the underlying issue and rerun the checks before retrying the commit.
 - Lefthook pre-push runs `pnpm test` and `pnpm build` sequentially to avoid Vitest worker starvation while Astro/Vite builds.
 - Commit messages are checked by commitlint; use Conventional Commits style such as `fix: prevent search overflow`.
@@ -64,6 +64,7 @@
 - `opencode.json` enables Astro docs and shadcn MCP servers; use current docs for Astro/shadcn/library API questions instead of relying on memory.
 - `components.json` configures shadcn with TSX, `@/components/ui`, `@/lib/utils`, Tailwind CSS at `src/styles/app.css`, and no RSC.
 - Existing broader guidance lives in `CODING_RULES.md`; keep this file shorter and only duplicate rules that prevent likely mistakes.
+- The SEO & e2e workflow knowledge lives in `.codex/skills/seo-e2e-workflow/SKILL.md` and is exposed per runtime: Codex reads the SKILL.md directly, Claude and OpenCode have `/seo-e2e-workflow`, Pi uses `.pi/prompts/seo-e2e-workflow.md`, and OMP gets the summary through this file.
 
 ## Harness Orchestration
 

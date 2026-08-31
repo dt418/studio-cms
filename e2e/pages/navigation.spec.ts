@@ -4,16 +4,16 @@ test.describe('Navigation', () => {
   test('header navigation works', async ({ page }) => {
     await page.goto('/')
 
-    const branding = page.locator('header a[href="/vi"]').first()
+    const branding = page.locator('header a[href="/vi/"]').first()
     await expect(branding).toBeVisible()
     await expect(branding).toContainText('DT')
 
-    const blogLink = page.locator('header nav.nav-links a[href="/vi/blog"]')
+    const blogLink = page.locator('header nav.nav-links a[href="/vi/blog/"]')
     await expect(blogLink).toBeVisible()
     await expect(blogLink).toContainText('viết')
 
     await blogLink.click()
-    await expect(page).toHaveURL('/vi/blog')
+    await expect(page).toHaveURL('/vi/blog/')
   })
 
   test('header has RSS link', async ({ page }) => {
@@ -81,7 +81,7 @@ test.describe('Navigation', () => {
   test('navigation from blog to home works', async ({ page }) => {
     await page.goto('/vi/blog')
 
-    const homeLink = page.locator('header a[href="/vi"]').first()
+    const homeLink = page.locator('header a[href="/vi/"]').first()
     await expect(homeLink).toBeVisible()
 
     await homeLink.click()

@@ -3,6 +3,7 @@ import { getTranslations } from '@/lib/i18n'
 import { SITE } from '@/lib/site'
 import { getSiteOrigin } from '@/lib/site'
 import { isValidLocale } from '@/lib/content-utils'
+import { getAboutPath } from '@/lib/routes'
 
 export const prerender = true
 
@@ -40,7 +41,7 @@ export const GET: APIRoute = ({ params }) => {
     '',
     `[${contact}](mailto:${SITE.email})`,
     '',
-    `Source: <${origin}/${lang}/about>`,
+    `Source: <${origin}${getAboutPath(lang)}>`,
     '',
   ].join('\n')
 

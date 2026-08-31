@@ -10,11 +10,16 @@ import {
   getAllCategories,
   type SupportedLocale,
 } from '@/lib/content-queries'
-import { getSiteOrigin, SITE, toAbsoluteUrl } from '@/lib/site'
+import { getSiteOrigin, SITE, toCanonicalUrl } from '@/lib/site'
 import { getTranslations } from '@/lib/i18n'
 import { getTagPath, getBlogPath, getHomePath } from '@/lib/routes'
 import { isValidLocale, SUPPORTED_LOCALES } from '@/lib/content-utils'
-import { buildBreadcrumbList, buildCollectionPageSchema, createSeoDocument } from '@/lib/seo'
+import {
+  buildBreadcrumbList,
+  buildCollectionPageSchema,
+  createSeoDocument,
+  getLocaleNeutralAlternates,
+} from '@/lib/seo'
 
 export const prerender = true
 
@@ -58,17 +63,25 @@ const tag =
 const posts = await getPostsByTag(tag, lang)
 const allTags = await getAllTags(lang)
 const allCategories = await getAllCategories(lang)
-const alternatePaths = Object.fromEntries(
+const tagLocales = (
   await Promise.all(
-    SUPPORTED_LOCALES.map(async (locale) => [
-      locale,
-      (await getAllTags(locale)).includes(tag) ? getTagPath(tag, locale) : getBlogPath(locale),
-    ])
+    SUPPORTED_LOCALES.map(
+      async (locale) => [locale, (await getAllTags(locale)).includes(tag)] as const
+    )
   )
+)
+  .filter(([, available]) => available)
+  .map(([locale]) => locale)
+
+const alternatePaths = Object.fromEntries(
+  SUPPORTED_LOCALES.map((locale) => [
+    locale,
+    tagLocales.includes(locale) ? getTagPath(tag, locale) : getBlogPath(locale),
+  ])
 ) as Partial<Record<SupportedLocale, string>>
 
 const tagPath = getTagPath(tag, lang)
-const canonicalUrl = toAbsoluteUrl(tagPath, siteUrl)
+const canonicalUrl = toCanonicalUrl(tagPath, siteUrl)
 
 const jsonLd = [
   buildCollectionPageSchema({
@@ -81,9 +94,9 @@ const jsonLd = [
   }),
   buildBreadcrumbList({
     homeLabel: i18n.schema.home,
-    homeUrl: toAbsoluteUrl(getHomePath(lang), siteUrl),
+    homeUrl: toCanonicalUrl(getHomePath(lang), siteUrl),
     blogLabel: i18n.schema.blog,
-    blogUrl: toAbsoluteUrl(getBlogPath(lang), siteUrl),
+    blogUrl: toCanonicalUrl(getBlogPath(lang), siteUrl),
     currentLabel: tag,
     currentUrl: canonicalUrl,
   }),
@@ -95,6 +108,7 @@ const seo = createSeoDocument({
   path: tagPath,
   lang,
   siteOrigin: siteUrl,
+  alternates: getLocaleNeutralAlternates(`/tags/${encodeURIComponent(tag)}`, siteUrl, tagLocales),
   jsonLd,
 })
 ---

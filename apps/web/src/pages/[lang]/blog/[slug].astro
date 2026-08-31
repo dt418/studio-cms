@@ -14,7 +14,7 @@ import {
 } from '@/lib/content-queries'
 import { readingTime } from '@/lib/reading-time'
 import { render } from 'astro:content'
-import { getSiteOrigin, SITE, toAbsoluteUrl } from '@/lib/site'
+import { getSiteOrigin, SITE, toCanonicalUrl } from '@/lib/site'
 import { getAdjacentPosts } from '@/lib/post'
 import { getOptimizedCoverImage } from '@/lib/cover-images'
 import { formatDate } from '@/lib/date'
@@ -30,6 +30,7 @@ import {
   resolvePostCanonical,
   resolvePostDescription,
   resolveSeoImage,
+  resolveSeoTitle,
 } from '@/lib/seo'
 import { createSafeSlug, getUniqueId } from '../../../../rehype-vietnamese-slug.mjs'
 import type { CollectionEntry } from 'astro:content'
@@ -104,6 +105,7 @@ const readingTimeMin = readingTime(bodyText)
 
 const i18n = getTranslations(lang)
 const description = resolvePostDescription(post)
+const seoTitle = resolveSeoTitle(title, SITE.name)
 
 const currentIndex = allPosts.findIndex((entry) => getPostSlug(entry) === slug)
 const { prev: prevPost, next: nextPost } = getAdjacentPosts(allPosts, currentIndex)
@@ -150,9 +152,9 @@ const articleJsonLd = buildArticleSchema({
 
 const breadcrumbJsonLd = buildBreadcrumbList({
   homeLabel: i18n.schema.home,
-  homeUrl: toAbsoluteUrl(getHomePath(lang), siteUrl),
+  homeUrl: toCanonicalUrl(getHomePath(lang), siteUrl),
   blogLabel: i18n.schema.blog,
-  blogUrl: toAbsoluteUrl(getBlogPath(lang), siteUrl),
+  blogUrl: toCanonicalUrl(getBlogPath(lang), siteUrl),
   currentLabel: title,
   currentUrl: canonicalUrl,
 })
@@ -179,7 +181,7 @@ const pageJsonLd = faqJsonLd
 
 const seo = createSeoDocument({
   kind: post.data.noindex ? 'noindex-content' : 'indexable',
-  title: `${title} | ${SITE.name}`,
+  title: seoTitle,
   description,
   path: postPath,
   canonicalUrl,

@@ -10,8 +10,9 @@ const SEO_FIXTURE = {
 const PUBLIC_DESCRIPTION_FIXTURE = {
   slug: 'mastering-typescript-generics',
   locale: 'vi' as const,
-  path: '/vi/blog/mastering-typescript-generics',
-  description: 'Mô tả tùy chỉnh cho bài viết Generics trong TypeScript.',
+  path: '/vi/blog/mastering-typescript-generics/',
+  description:
+    'Khám phá TypeScript Generics từ hàm generic, constraints và interface đến Repository Pattern để viết mã tái sử dụng và an toàn kiểu.',
   category: 'tutorials',
   tags: ['typescript', 'programming', 'generics'],
 }
@@ -62,6 +63,46 @@ function parseSitemapLocations(xml: string): string[] {
   return [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => decodeXml(match[1] ?? ''))
 }
 
+function readTagAttributes(html: string, tagName: 'link' | 'meta'): Array<Record<string, string>> {
+  return [...html.matchAll(new RegExp(`<${tagName}\\b[^>]*>`, 'gi'))].map((match) =>
+    Object.fromEntries(
+      [...match[0].matchAll(/\s([:\w-]+)=(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g)].map((attribute) => [
+        attribute[1],
+        attribute[2] ?? attribute[3] ?? attribute[4] ?? '',
+      ])
+    )
+  )
+}
+
+function readMetaContent(
+  html: string,
+  key: 'name' | 'property',
+  value: string
+): string | undefined {
+  return readTagAttributes(html, 'meta').find((attributes) => attributes[key] === value)?.content
+}
+
+function readAnchorHrefs(html: string): string[] {
+  return [...html.matchAll(/<a\b[^>]*\bhref=(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi)].map(
+    (match) => match[1] ?? match[2] ?? match[3] ?? ''
+  )
+}
+
+function readPngDimensions(data: Uint8Array): { width: number; height: number } {
+  const view = new DataView(data.buffer, data.byteOffset, data.byteLength)
+  return { width: view.getUint32(16), height: view.getUint32(20) }
+}
+
+function readJsonLdHtml(html: string): SchemaNode[] {
+  const scripts = [
+    ...html.matchAll(/<script\b[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi),
+  ]
+  expect(scripts).toHaveLength(1)
+  const parsed = JSON.parse(scripts[0]?.[1] ?? '[]') as unknown
+  expect(Array.isArray(parsed)).toBe(true)
+  return parsed as SchemaNode[]
+}
+
 async function getApiPosts(request: APIRequestContext): Promise<ApiPost[]> {
   const response = await request.get('/api/posts.json')
   expect(response.ok()).toBe(true)
@@ -103,18 +144,31 @@ function expectBreadcrumbs(nodes: SchemaNode[]): void {
   const crumbs = breadcrumb?.itemListElement ?? []
   expect(crumbs.length).toBeGreaterThanOrEqual(2)
   expect(crumbs.map((crumb) => crumb.position)).toEqual(crumbs.map((_, index) => index + 1))
-  for (const crumb of crumbs) expect(crumb.item).toMatch(/^https?:\/\//)
+  for (const crumb of crumbs) {
+    expect(crumb.item).toMatch(/^https?:\/\//)
+    const pathname = new URL(crumb.item ?? '').pathname
+    if (pathname !== '/') expect(pathname).toMatch(/\/$/)
+  }
 }
 
 async function expectPublicSeo(page: Page, path: string, expectLocaleAlternates = true) {
   await page.goto(path)
   await expect(page.locator('link[rel="canonical"]')).toHaveCount(1)
+  const expectedCanonical = new URL(path, ORIGIN)
+  if (expectedCanonical.pathname !== '/' && !expectedCanonical.pathname.endsWith('/')) {
+    expectedCanonical.pathname += '/'
+  }
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    expectedCanonical.href
+  )
   await expect(page.locator('meta[name="robots"]')).toHaveCount(1)
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow')
   if (expectLocaleAlternates) {
     await expect(page.locator('link[hreflang="vi"]')).toHaveAttribute('href', /^http/)
     await expect(page.locator('link[hreflang="en"]')).toHaveAttribute('href', /^http/)
-    const defaultPath = new URL(path, ORIGIN).pathname.replace(/^\/(?:vi|en)(?=\/|$)/, '/vi')
+    let defaultPath = new URL(path, ORIGIN).pathname.replace(/^\/(?:vi|en)(?=\/|$)/, '/vi')
+    if (defaultPath !== '/' && !defaultPath.endsWith('/')) defaultPath += '/'
     await expect(page.locator('link[hreflang="x-default"]')).toHaveAttribute(
       'href',
       `${ORIGIN}${defaultPath}`
@@ -128,6 +182,156 @@ async function expectPublicSeo(page: Page, path: string, expectLocaleAlternates 
 }
 
 test.describe('served SEO HTML', () => {
+  test('documents declare the complete favicon set', async ({ request }) => {
+    const html = await (await request.get('/vi/')).text()
+    expect(readTagAttributes(html, 'link')).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          rel: 'icon',
+          type: 'image/png',
+          href: '/favicon-96x96.png',
+          sizes: '96x96',
+        }),
+        expect.objectContaining({ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }),
+        expect.objectContaining({ rel: 'shortcut icon', href: '/favicon.ico' }),
+        expect.objectContaining({
+          rel: 'apple-touch-icon',
+          sizes: '180x180',
+          href: '/apple-touch-icon.png',
+        }),
+        expect.objectContaining({ rel: 'manifest', href: '/site.webmanifest' }),
+      ])
+    )
+  })
+
+  test('favicon files expose valid image sizes and manifest metadata', async ({ request }) => {
+    for (const [path, size] of [
+      ['/favicon-96x96.png', 96],
+      ['/apple-touch-icon.png', 180],
+      ['/web-app-manifest-192x192.png', 192],
+      ['/web-app-manifest-512x512.png', 512],
+    ] as const) {
+      const response = await request.get(path)
+      expect(response.status(), path).toBe(200)
+      expect(response.headers()['content-type'], path).toContain('image/png')
+      expect(readPngDimensions(await response.body()), path).toEqual({ width: size, height: size })
+    }
+
+    const ico = await request.get('/favicon.ico')
+    expect(ico.status()).toBe(200)
+    expect(ico.headers()['content-type']).toContain('image/x-icon')
+    const icoBody = await ico.body()
+    expect([...icoBody.subarray(0, 4)]).toEqual([0, 0, 1, 0])
+
+    const manifest = await request.get('/site.webmanifest')
+    expect(manifest.status()).toBe(200)
+    expect(manifest.headers()['content-type']).toContain('application/manifest+json')
+    expect(await manifest.json()).toMatchObject({
+      name: 'DanhThanh.dev',
+      short_name: 'DanhThanh.dev',
+      theme_color: '#0e0d0c',
+      background_color: '#f6f5f1',
+      icons: [
+        {
+          src: '/web-app-manifest-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: '/web-app-manifest-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+      ],
+    })
+  })
+
+  test('indexable pages expose correct author metadata for their document type', async ({
+    request,
+  }) => {
+    const sitemap = parseSitemapLocations(await (await request.get('/sitemap.xml')).text())
+    const articlePaths = new Set(
+      (await getApiPosts(request)).map((post) => new URL(post.url, ORIGIN).pathname)
+    )
+
+    for (const location of sitemap) {
+      const path = new URL(location).pathname
+      const html = await (await request.get(path)).text()
+      const title = html.match(/<title>([^<]*)<\/title>/i)?.[1]
+      expect(readMetaContent(html, 'name', 'author'), location).toBe('Danh Thanh')
+      expect(readMetaContent(html, 'property', 'og:image:alt'), location).toBe(title)
+      expect(readMetaContent(html, 'name', 'twitter:image:alt'), location).toBe(title)
+      expect(readMetaContent(html, 'property', 'article:author'), location).toBe(
+        articlePaths.has(path) ? 'Danh Thanh' : undefined
+      )
+    }
+  })
+
+  test('long article titles truncate content but keep the brand suffix', async ({ request }) => {
+    for (const path of [
+      '/vi/blog/cai-dat-9router-api-proxy-tren-vps',
+      '/en/blog/cai-dat-9router-api-proxy-tren-vps',
+    ]) {
+      const html = await (await request.get(path)).text()
+      const title = html.match(/<title>([^<]*)<\/title>/i)?.[1] ?? ''
+      expect(title.length, path).toBeLessThanOrEqual(60)
+      expect(title, path).toMatch(/\| DanhThanh\.dev$/)
+      expect(title.startsWith('…'), path).toBe(false)
+      expect(readMetaContent(html, 'property', 'og:title'), path).toBe(title)
+      expect(readMetaContent(html, 'name', 'twitter:title'), path).toBe(title)
+    }
+  })
+
+  test('indexable pages expose trailing-slash breadcrumb URLs', async ({ request }) => {
+    const sitemap = parseSitemapLocations(await (await request.get('/sitemap.xml')).text())
+
+    for (const location of sitemap) {
+      const path = new URL(location).pathname
+      const html = await (await request.get(path)).text()
+      const breadcrumb = readJsonLdHtml(html).find((node) => node['@type'] === 'BreadcrumbList')
+      if (!breadcrumb) continue
+
+      for (const crumb of breadcrumb?.itemListElement ?? []) {
+        const pathname = new URL(crumb.item ?? '').pathname
+        if (pathname !== '/') expect(pathname, location).toMatch(/\/$/)
+      }
+    }
+  })
+
+  test('indexable pages use trailing-slash localized internal links', async ({ request }) => {
+    const sitemap = parseSitemapLocations(await (await request.get('/sitemap.xml')).text())
+
+    for (const location of sitemap) {
+      const path = new URL(location).pathname
+      const html = await (await request.get(path)).text()
+      for (const href of readAnchorHrefs(html)) {
+        if (!href.startsWith('/') || href.startsWith('//')) continue
+        const pathname = new URL(href, ORIGIN).pathname
+        if (!/^\/(?:vi|en)(?:\/|$)/.test(pathname)) continue
+        if (pathname !== '/') expect(pathname, `${location}: ${href}`).toMatch(/\/$/)
+      }
+    }
+  })
+
+  test('taxonomy pages expose reciprocal hreflang links', async ({ request }) => {
+    const sitemap = parseSitemapLocations(await (await request.get('/sitemap.xml')).text())
+    const sitemapSet = new Set(sitemap)
+
+    for (const location of sitemap.filter((entry) => /\/(?:tags|categories)\//.test(entry))) {
+      const path = new URL(location).pathname
+      const html = await (await request.get(path)).text()
+      const links = readTagAttributes(html, 'link').filter(
+        (attributes) => attributes.rel === 'alternate' && attributes.hreflang
+      )
+      expect(
+        links.map((link) => link.hreflang),
+        location
+      ).toEqual(expect.arrayContaining(['vi', 'en']))
+      for (const link of links)
+        expect(sitemapSet.has(link.href), `${location}: ${link.href}`).toBe(true)
+    }
+  })
+
   test('localized index/list routes render exact schema families', async ({ page }) => {
     const cases: Array<[string, string[], boolean]> = [
       ['/vi/', ['WebSite', 'Person'], true],
@@ -136,8 +340,8 @@ test.describe('served SEO HTML', () => {
       ['/en/about', ['ProfilePage', 'BreadcrumbList'], true],
       ['/vi/blog', ['CollectionPage', 'BreadcrumbList'], true],
       ['/en/blog', ['CollectionPage', 'BreadcrumbList'], true],
-      ['/vi/categories/tutorials', ['CollectionPage', 'BreadcrumbList'], false],
-      ['/vi/tags/typescript', ['CollectionPage', 'BreadcrumbList'], false],
+      ['/vi/categories/tutorials', ['CollectionPage', 'BreadcrumbList'], true],
+      ['/vi/tags/typescript', ['CollectionPage', 'BreadcrumbList'], true],
     ]
 
     for (const [path, expectedTypes, hasAlternates] of cases) {
@@ -245,6 +449,7 @@ test.describe('served discovery surfaces', () => {
     for (const location of locations) {
       expect(location).toMatch(ORIGIN_PATTERN)
       const parsed = new URL(location)
+      if (parsed.pathname !== '/') expect(parsed.pathname).toMatch(/\/$/)
       expect(parsed.pathname).not.toMatch(/\/(?:api|search|pagefind|\.well-known)(?:\/|$)/)
       expect(parsed.pathname).not.toMatch(/(?:\.md|\.xml)$/)
       expect(parsed.pathname).not.toMatch(/(?:404|draft|private|noindex)/i)

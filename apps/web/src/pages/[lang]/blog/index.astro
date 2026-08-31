@@ -9,7 +9,7 @@ import {
   getAllCategories,
   type SupportedLocale,
 } from '@/lib/content-queries'
-import { getSiteOrigin, SITE, toAbsoluteUrl } from '@/lib/site'
+import { getSiteOrigin, SITE, toCanonicalUrl } from '@/lib/site'
 import { getTranslations } from '@/lib/i18n'
 import { getBlogPath, getHomePath } from '@/lib/routes'
 import { isValidLocale } from '@/lib/content-utils'
@@ -47,7 +47,7 @@ const stats = [
 ]
 
 const blogPath = getBlogPath(lang)
-const canonicalUrl = toAbsoluteUrl(blogPath, siteUrl)
+const canonicalUrl = toCanonicalUrl(blogPath, siteUrl)
 const seo = createSeoDocument({
   kind: 'indexable',
   title: `${i18n.blog.archive} | ${SITE.name}`,
@@ -67,7 +67,7 @@ const seo = createSeoDocument({
     }),
     buildBreadcrumbList({
       homeLabel: i18n.schema.home,
-      homeUrl: toAbsoluteUrl(getHomePath(lang), siteUrl),
+      homeUrl: toCanonicalUrl(getHomePath(lang), siteUrl),
       currentLabel: i18n.schema.blog,
       currentUrl: canonicalUrl,
     }),

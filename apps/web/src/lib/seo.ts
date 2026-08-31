@@ -7,7 +7,12 @@ import {
 } from './content-utils'
 import { isPublicPost } from './post-visibility'
 import { getPostPath } from './routes'
-import { isHttpWithoutCredentialsOrFragment, normalizeSiteOrigin, toAbsoluteUrl } from './site'
+import {
+  isHttpWithoutCredentialsOrFragment,
+  normalizeSiteOrigin,
+  toAbsoluteUrl,
+  toCanonicalUrl,
+} from './site'
 
 export type RobotsDirective = 'index, follow' | 'noindex, nofollow'
 export type SeoImageType = 'image/png' | 'image/webp'
@@ -43,6 +48,7 @@ export interface SeoDocument {
     type: 'website' | 'article'
     url: string
     image: SeoImage
+    imageAlt: string
     publishedTime?: string
     modifiedTime?: string
   }
@@ -61,6 +67,7 @@ interface SeoContentPageInput extends SeoPageInputBase {
   path: string
   canonicalUrl?: string
   image?: SeoImage | SeoImageInput
+  imageAlt?: string
   type?: 'website' | 'article'
   publishedTime?: Date
   modifiedTime?: Date
@@ -82,9 +89,7 @@ export interface NonCanonicalSeoPageInput extends SeoPageInputBase {
 }
 
 export type SeoPageInput =
-  | IndexableSeoPageInput
-  | NoindexContentSeoPageInput
-  | NonCanonicalSeoPageInput
+  IndexableSeoPageInput | NoindexContentSeoPageInput | NonCanonicalSeoPageInput
 
 export function normalizeCanonicalUrl(value: string): string {
   const canonical = value.trim()
@@ -188,13 +193,15 @@ export function createSeoDocument(input: SeoPageInput): SeoDocument {
     }
   }
 
-  const canonical = normalizeCanonicalUrl(input.canonicalUrl ?? toAbsoluteUrl(input.path, origin))
+  const canonical = normalizeCanonicalUrl(input.canonicalUrl ?? toCanonicalUrl(input.path, origin))
   const alternates = input.kind === 'indexable' ? dedupeAlternates(input.alternates) : []
   const image = resolveSeoImage(input.image, origin)
+  const imageAlt = input.imageAlt?.trim() || input.title
   const openGraph = {
     type: input.type ?? 'website',
     url: canonical,
     image,
+    imageAlt,
     ...(input.publishedTime && { publishedTime: input.publishedTime.toISOString() }),
     ...(input.modifiedTime && { modifiedTime: input.modifiedTime.toISOString() }),
   }
@@ -218,9 +225,21 @@ export function resolvePostDescription(post: Post): string {
   return post.data.description?.trim() || post.data.excerpt
 }
 
+export function resolveSeoTitle(title: string, siteName: string, maxLength = 60): string {
+  const suffix = ` | ${siteName}`
+  const budget = maxLength - suffix.length
+  if (budget < 1) return siteName
+  if (title.length <= budget) return `${title}${suffix}`
+  const truncated = `${title
+    .slice(0, budget - 1)
+    .replace(/\s+\S*$/, '')
+    .trimEnd()}…`
+  return `${truncated}${suffix}`
+}
+
 export function resolvePostCanonical(post: Post, siteOrigin: string): string {
   const supplied = post.data.canonicalUrl?.trim()
-  return supplied ? normalizeCanonicalUrl(supplied) : toAbsoluteUrl(getPostPath(post), siteOrigin)
+  return supplied ? normalizeCanonicalUrl(supplied) : toCanonicalUrl(getPostPath(post), siteOrigin)
 }
 
 export function isExternalCanonical(post: Post, siteOrigin: string): boolean {
@@ -235,7 +254,7 @@ export function isExternalCanonical(post: Post, siteOrigin: string): boolean {
 export function isNonLocalCanonical(post: Post, siteOrigin: string): boolean {
   if (!post.data.canonicalUrl?.trim()) return false
   const origin = normalizeSiteOrigin(siteOrigin)
-  const generatedUrl = toAbsoluteUrl(getPostPath(post), origin)
+  const generatedUrl = toCanonicalUrl(getPostPath(post), origin)
   return resolvePostCanonical(post, origin) !== generatedUrl
 }
 
@@ -264,7 +283,7 @@ export function getPostAlternateLinks(
     )
     .map((post) => ({
       locale: getPostLocale(post),
-      href: toAbsoluteUrl(getPostPath(post), siteOrigin),
+      href: toCanonicalUrl(getPostPath(post), siteOrigin),
     }))
     .filter(
       (link, index, links) => links.findIndex((item) => item.locale === link.locale) === index
@@ -275,10 +294,14 @@ export function getPostAlternateLinks(
     )
 }
 
-export function getLocaleNeutralAlternates(path: string, siteOrigin: string): AlternateLink[] {
-  return SUPPORTED_LOCALES.map((locale) => ({
+export function getLocaleNeutralAlternates(
+  path: string,
+  siteOrigin: string,
+  locales: readonly SupportedLocale[] = SUPPORTED_LOCALES
+): AlternateLink[] {
+  return locales.map((locale) => ({
     locale,
-    href: toAbsoluteUrl(getLocalizedPath(locale, path), siteOrigin),
+    href: toCanonicalUrl(getLocalizedPath(locale, path), siteOrigin),
   }))
 }
 
@@ -368,7 +391,7 @@ export function buildWebsiteSchema(
   const websiteId = `${origin}/#website`
   const personId = `${origin}/#person`
   const websiteUrl = toAbsoluteUrl('/vi/', origin)
-  const personUrl = toAbsoluteUrl('/vi/about', origin)
+  const personUrl = toCanonicalUrl('/vi/about', origin)
   return [
     {
       '@context': 'https://schema.org',
@@ -506,7 +529,7 @@ export function buildArticleSchema(input: {
     author: {
       '@type': 'Person',
       name: input.author,
-      url: toAbsoluteUrl('/vi/about', origin),
+      url: toCanonicalUrl('/vi/about', origin),
       '@id': `${origin}/#person`,
     },
     publisher: {
