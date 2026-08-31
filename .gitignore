@@ -46,6 +46,7 @@ session-ses_*
 .idea/
 
 .agents
+.pi/skills
 .harness/npm-cache/
 .augment
 .continue

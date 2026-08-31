@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "9fc0412d9f0ab64b43f905585a300955a5eb750a813c9a1da355f324f3182ca8"
+    "context": "89095296df09037d262bc7c9bda156d3f2edaf5b21d2a78b70a86da62ebe1b65"
   },
   "nodes": [
     {
@@ -264,6 +264,12 @@
       "path": ".opencode/commands/harness-verify.md"
     },
     {
+      "id": "file:.opencode/commands/seo-e2e-workflow.md",
+      "kind": "context",
+      "label": "seo-e2e-workflow.md",
+      "path": ".opencode/commands/seo-e2e-workflow.md"
+    },
+    {
       "id": "file:.opencode/plugins/commit-quality-gate.ts",
       "kind": "source",
       "label": "commit-quality-gate.ts",
@@ -328,6 +334,12 @@
       "kind": "context",
       "label": "harness-verify.md",
       "path": ".pi/prompts/harness-verify.md"
+    },
+    {
+      "id": "file:.pi/prompts/seo-e2e-workflow.md",
+      "kind": "context",
+      "label": "seo-e2e-workflow.md",
+      "path": ".pi/prompts/seo-e2e-workflow.md"
     },
     {
       "id": "file:AGENTS.md",
@@ -3601,6 +3613,11 @@
     },
     {
       "from": "workspace:root",
+      "to": "file:.opencode/commands/seo-e2e-workflow.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
       "to": "file:.opencode/plugins/commit-quality-gate.ts",
       "type": "contains"
     },
@@ -3652,6 +3669,11 @@
     {
       "from": "workspace:root",
       "to": "file:.pi/prompts/harness-verify.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.pi/prompts/seo-e2e-workflow.md",
       "type": "contains"
     },
     {

@@ -64,6 +64,7 @@
 - `opencode.json` enables Astro docs and shadcn MCP servers; use current docs for Astro/shadcn/library API questions instead of relying on memory.
 - `components.json` configures shadcn with TSX, `@/components/ui`, `@/lib/utils`, Tailwind CSS at `src/styles/app.css`, and no RSC.
 - Existing broader guidance lives in `CODING_RULES.md`; keep this file shorter and only duplicate rules that prevent likely mistakes.
+- The SEO & e2e workflow knowledge lives in `.codex/skills/seo-e2e-workflow/SKILL.md` and is exposed per runtime: Codex reads the SKILL.md directly, Claude and OpenCode have `/seo-e2e-workflow`, Pi uses `.pi/prompts/seo-e2e-workflow.md`, and OMP gets the summary through this file.
 
 ## Harness Orchestration
 
