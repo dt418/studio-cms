@@ -1,6 +1,8 @@
 pre-commit:
   parallel: true
   commands:
+    harness-context:
+      run: pnpm harness:context:check
     lint:
       glob: '*.{ts,tsx,astro}'
       run: pnpm exec eslint --config eslint.config.js {staged_files}

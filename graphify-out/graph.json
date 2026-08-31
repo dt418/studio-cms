@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "15e816cc6118287f58dde444b4ab6566e20b18017a433af58a59396af787f97b"
+    "context": "9fc0412d9f0ab64b43f905585a300955a5eb750a813c9a1da355f324f3182ca8"
   },
   "nodes": [
     {
@@ -46,6 +46,12 @@
       "kind": "context",
       "label": "harness-verify.md",
       "path": ".claude/commands/harness-verify.md"
+    },
+    {
+      "id": "file:.claude/commands/seo-e2e-workflow.md",
+      "kind": "context",
+      "label": "seo-e2e-workflow.md",
+      "path": ".claude/commands/seo-e2e-workflow.md"
     },
     {
       "id": "file:.codex/AGENTS.md",
@@ -100,6 +106,12 @@
       "kind": "context",
       "label": "SKILL.md",
       "path": ".codex/skills/harness-verify/SKILL.md"
+    },
+    {
+      "id": "file:.codex/skills/seo-e2e-workflow/SKILL.md",
+      "kind": "context",
+      "label": "SKILL.md",
+      "path": ".codex/skills/seo-e2e-workflow/SKILL.md"
     },
     {
       "id": "file:.github/workflows/harness-portability.yml",
@@ -3409,6 +3421,11 @@
     },
     {
       "from": "workspace:root",
+      "to": "file:.claude/commands/seo-e2e-workflow.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
       "to": "file:.codex/AGENTS.md",
       "type": "contains"
     },
@@ -3450,6 +3467,11 @@
     {
       "from": "workspace:root",
       "to": "file:.codex/skills/harness-verify/SKILL.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.codex/skills/seo-e2e-workflow/SKILL.md",
       "type": "contains"
     },
     {
