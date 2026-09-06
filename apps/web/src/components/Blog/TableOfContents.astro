@@ -15,15 +15,16 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 3)
 {
   filteredHeadings.length > 0 && (
     <nav id="toc" class="sticky top-24 hidden lg:block" aria-label={i18n.tableOfContents}>
-      <p class="text-muted-foreground/60 mb-4 text-xs font-semibold tracking-wider uppercase">
-        {i18n.onThisPage}
-      </p>
-      <ul class="border-border space-y-1 border-l p-4">
+      <div class="mb-4 flex items-center gap-3">
+        <span class="bg-primary h-px w-8"></span>
+        <p class="editorial-kicker">{i18n.onThisPage}</p>
+      </div>
+      <ul class="border-border space-y-1 border-l py-2 pl-4">
         {filteredHeadings.map((heading) => (
           <li>
             <a
               href={`#${heading.slug}`}
-              class="toc-link text-muted-foreground hover:text-foreground -ml-px block border-l-2 border-transparent py-1.5 text-sm transition-all duration-200"
+              class="toc-link text-muted-foreground hover:text-foreground -ml-px block border-l-2 border-transparent py-1.5 pr-2 text-sm leading-6 transition-all duration-200"
               data-depth={heading.depth}
             >
               {heading.text}
