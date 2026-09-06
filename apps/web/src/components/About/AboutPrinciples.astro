@@ -11,24 +11,32 @@ interface Props {
 const { principleIndex, principleTitle, principleBody, stackIndex, stackTitle, stack } = Astro.props
 ---
 
-<div class="grid gap-6 py-12 md:grid-cols-2 lg:py-16">
-  <article class="border-border bg-card/30 rounded-xl border p-6 sm:p-8">
-    <div class="mb-5 flex items-start gap-4">
+<div class="grid gap-0 py-12 md:grid-cols-2 lg:py-18">
+  <article class="border-border border-b py-8 pr-0 md:border-r md:border-b-0 md:pr-10 lg:py-10 lg:pr-14">
+    <div class="mb-5 flex items-center gap-4">
       <span class="text-primary font-mono text-xs tracking-[0.18em]">{principleIndex}</span>
-      <h2 class="font-serif text-2xl font-bold tracking-tight sm:text-3xl">{principleTitle}</h2>
+      <span class="bg-border h-px flex-1" aria-hidden="true"></span>
     </div>
-    <p class="text-muted-foreground max-w-prose text-sm leading-7 sm:text-base">{principleBody}</p>
+    <h2 class="editorial-display text-3xl leading-tight font-semibold tracking-[-0.035em] sm:text-4xl">
+      {principleTitle}
+    </h2>
+    <p class="text-muted-foreground mt-5 max-w-prose text-sm leading-7 text-pretty sm:text-base sm:leading-8">
+      {principleBody}
+    </p>
   </article>
 
-  <article class="border-border bg-card/30 rounded-xl border p-6 sm:p-8">
-    <div class="mb-5 flex items-start gap-4">
+  <article class="border-border py-8 md:pl-10 lg:py-10 lg:pl-14">
+    <div class="mb-5 flex items-center gap-4">
       <span class="text-primary font-mono text-xs tracking-[0.18em]">{stackIndex}</span>
-      <h2 class="font-serif text-2xl font-bold tracking-tight sm:text-3xl">{stackTitle}</h2>
+      <span class="bg-border h-px flex-1" aria-hidden="true"></span>
     </div>
-    <div class="flex flex-wrap gap-2">
+    <h2 class="editorial-display text-3xl leading-tight font-semibold tracking-[-0.035em] sm:text-4xl">
+      {stackTitle}
+    </h2>
+    <div class="mt-6 flex flex-wrap gap-x-5 gap-y-3">
       {
         stack.map((item) => (
-          <span class="border-border bg-background text-muted-foreground rounded border px-3 py-2 font-mono text-xs">
+          <span class="text-foreground border-border border-b pb-1 font-mono text-xs tracking-[0.06em]">
             {item}
           </span>
         ))
