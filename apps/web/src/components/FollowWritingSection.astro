@@ -1,0 +1,52 @@
+---
+import { getBlogPath } from '@/lib/routes'
+
+interface Props {
+  lang?: 'vi' | 'en'
+}
+
+const { lang = 'vi' } = Astro.props
+const blogPath = getBlogPath(lang)
+const copy =
+  lang === 'vi'
+    ? {
+        eyebrow: 'Theo dõi',
+        title: 'Nhận những bài viết mới.',
+        description: 'Theo dõi RSS để nhận bài mới mà không cần tài khoản hay hộp thư trung gian.',
+        rss: 'Theo dõi RSS',
+        archive: 'Xem toàn bộ bài viết',
+      }
+    : {
+        eyebrow: 'Follow along',
+        title: 'Keep up with new writing.',
+        description: 'Follow the RSS feed for new posts without an account or an email middleman.',
+        rss: 'Follow RSS',
+        archive: 'Browse all writing',
+      }
+---
+
+<section class="approved-follow-section border-border border-b bg-card/32">
+  <div class="container py-10 sm:py-12 lg:py-14">
+    <div class="approved-follow-panel relative overflow-hidden border border-border bg-background px-5 py-7 sm:px-8 sm:py-9 lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-12 lg:px-10">
+      <div class="relative z-10 max-w-2xl">
+        <p class="editorial-kicker">{copy.eyebrow}</p>
+        <h2 class="editorial-display mt-3 text-3xl leading-tight font-semibold tracking-[-0.04em] sm:text-4xl">
+          {copy.title}
+        </h2>
+        <p class="text-muted-foreground mt-2 max-w-xl text-sm leading-6 sm:text-base sm:leading-7">
+          {copy.description}
+        </p>
+      </div>
+
+      <div class="relative z-10 mt-6 flex flex-wrap gap-3 lg:mt-0 lg:justify-end">
+        <a href="/rss.xml" class="btn btn-primary min-h-11 px-5">
+          {copy.rss}
+          <span aria-hidden="true">→</span>
+        </a>
+        <a href={blogPath} class="btn btn-outline min-h-11 px-5">{copy.archive}</a>
+      </div>
+
+      <div class="approved-follow-panel__landscape pointer-events-none absolute inset-y-0 right-0 w-[48%] opacity-20" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
