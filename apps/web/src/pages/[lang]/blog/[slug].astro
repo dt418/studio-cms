@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import PostMetaCard from '@/components/Blog/PostMetaCard.astro'
 import TableOfContents from '@/components/Blog/TableOfContents.astro'
 import PostHero from '@/components/Blog/PostHero.astro'
 import ArticleContent from '@/components/Blog/ArticleContent.astro'
@@ -95,12 +94,10 @@ const {
 } = post.data
 
 const formattedDate = formatDate(publishedAt, lang)
-const updatedDate = updatedAt ? formatDate(updatedAt, lang) : null
 const publishedTime = publishedAt.toISOString()
 const modifiedTime = updatedAt?.toISOString() ?? publishedTime
 
 const bodyText = post.body ?? ''
-const wordCount = bodyText.trim().split(/\s+/).filter(Boolean).length
 const readingTimeMin = readingTime(bodyText)
 
 const i18n = getTranslations(lang)
@@ -233,8 +230,8 @@ const seo = createSeoDocument({
       {...coverImage && { coverImage }}
     />
 
-    <div class="container py-8 lg:py-12">
-      <div class="mx-auto grid grid-cols-1 gap-8 lg:grid-cols-[200px_1fr_240px] lg:gap-12">
+    <div class="container py-8 sm:py-10 lg:py-12">
+      <div class="article-reading-shell grid grid-cols-1 gap-8 lg:grid-cols-[180px_minmax(0,1fr)] lg:gap-12 xl:gap-16">
         <aside class="order-2 lg:order-1">
           <TableOfContents headings={normalizedHeadings} i18n={i18n.post} />
         </aside>
@@ -248,18 +245,6 @@ const seo = createSeoDocument({
         >
           <Content />
         </ArticleContent>
-
-        <aside class="order-3 hidden lg:block">
-          <PostMetaCard
-            author={author}
-            publishedAt={formattedDate}
-            publishedAtIso={publishedTime}
-            readingTime={readingTimeMin}
-            wordCount={wordCount}
-            i18n={i18n.post}
-            {...updatedDate && { updatedAt: updatedDate, updatedAtIso: modifiedTime }}
-          />
-        </aside>
       </div>
     </div>
 
