@@ -15,29 +15,32 @@ interface Props {
 const { title, items } = Astro.props
 ---
 
-<section class="border-border bg-card/30 rounded-xl border p-6 sm:p-8 lg:p-10">
-  <h2 class="font-serif text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
-  <div class="mt-8 grid gap-3 font-mono text-xs sm:grid-cols-2">
-    {
-      items.map((item) => (
-        <a
-          href={item.href}
-          {...(item.external ? { target: '_blank', rel: 'noreferrer' } : {})}
-          class="border-border text-muted-foreground hover:border-primary hover:text-primary group flex items-center justify-between gap-4 rounded border px-4 py-4 transition-colors"
-        >
-          <span class="flex min-w-0 items-center gap-3">
-            <span class="text-primary shrink-0" aria-hidden="true">
-              {item.marker}
+<section class="border-border border-t py-12 sm:py-14 lg:py-16">
+  <div class="grid gap-8 lg:grid-cols-[minmax(0,0.45fr)_minmax(0,1fr)] lg:items-start">
+    <div>
+      <span class="editorial-kicker">{title}</span>
+      <h2 class="editorial-display mt-4 max-w-md text-3xl leading-tight font-semibold tracking-[-0.035em] sm:text-4xl">
+        {title}
+      </h2>
+    </div>
+
+    <div class="divide-border border-border divide-y border-y font-mono text-xs">
+      {
+        items.map((item) => (
+          <a
+            href={item.href}
+            {...(item.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+            class="text-muted-foreground hover:text-primary group grid gap-3 py-4 transition-colors sm:grid-cols-[44px_140px_minmax(0,1fr)_auto] sm:items-center"
+          >
+            <span class="text-primary" aria-hidden="true">{item.marker}</span>
+            <span class="text-foreground">{item.label}</span>
+            <span class="truncate">{item.value}</span>
+            <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">
+              {item.external ? '↗' : '→'}
             </span>
-            <span class="truncate">
-              {item.label}: {item.value}
-            </span>
-          </span>
-          <span class="shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true">
-            {item.external ? '↗' : '→'}
-          </span>
-        </a>
-      ))
-    }
+          </a>
+        ))
+      }
+    </div>
   </div>
 </section>
