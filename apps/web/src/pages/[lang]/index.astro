@@ -2,7 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import HeroSection from '@/components/HeroSection.astro'
 import FeaturedWork from '@/components/FeaturedWork.astro'
-import ArchiveSection from '@/components/ArchiveSection.astro'
+import FollowWritingSection from '@/components/FollowWritingSection.astro'
 import TagCloudSection from '@/components/TagCloudSection.astro'
 import {
   getLocalizedPosts,
@@ -35,7 +35,6 @@ const categories = await getAllCategories(lang)
 const allTags = await getAllTags(lang)
 const featuredPost = posts[0] ?? null
 const recentPosts = posts.slice(1, 4)
-const archivePosts = posts
 const homepageDescription = i18n.home.description
 
 const tagCounts = posts.reduce((acc, post) => {
@@ -90,5 +89,5 @@ const seo = createSeoDocument({
     linkText={i18n.archive.openFullArchive}
   />
 
-  <ArchiveSection posts={archivePosts} lang={lang} />
+  <FollowWritingSection lang={lang} />
 </BaseLayout>
