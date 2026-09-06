@@ -1,62 +1,23 @@
-name: Harness context graph push
+name: Harness portability
 
 on:
   pull_request:
 
-permissions:
-  contents: write
-
 jobs:
-  refresh-context:
-    if: github.event.pull_request.head.ref == 'codex/editorial-cinematic-redesign'
-    runs-on: ubuntu-latest
+  harness:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v6
         with:
           node-version: 22
-      - name: Restore final portability workflow in working tree
-        shell: bash
-        run: |
-          cat > .github/workflows/harness-portability.yml <<'EOF'
-          name: Harness portability
-
-          on:
-            pull_request:
-
-          jobs:
-            harness:
-              strategy:
-                fail-fast: false
-                matrix:
-                  os: [ubuntu-latest, windows-latest, macos-latest]
-              runs-on: ${{ matrix.os }}
-              steps:
-                - uses: actions/checkout@v6
-                - uses: pnpm/action-setup@v5
-                - uses: actions/setup-node@v6
-                  with:
-                    node-version: 22
-                # Harness scripts use only Node built-ins; skip dependency installation so
-                # this portability gate is not coupled to native-package build approvals.
-                - run: pnpm harness:test
-                - run: pnpm harness:context:check
-                - run: pnpm harness:validate
-          EOF
-      - name: Regenerate context graph for final workflow
-        run: pnpm harness:context
-      - name: Commit graph snapshot only
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add graphify-out/
-          if git diff --cached --quiet; then
-            echo "Context graph already current"
-            exit 0
-          fi
-          git commit -m "chore: regenerate harness context"
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+      # Harness scripts use only Node built-ins; skip dependency installation so
+      # this portability gate is not coupled to native-package build approvals.
+      - run: pnpm harness:test
+      - run: pnpm harness:context:check
+      - run: pnpm harness:validate
