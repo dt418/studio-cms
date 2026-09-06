@@ -111,6 +111,16 @@
     box-shadow: var(--editorial-shadow-soft);
   }
 
+  .card-hover,
+  [data-testid='featured-work'] {
+    box-shadow: none;
+  }
+
+  .card-hover:hover,
+  [data-testid='featured-work']:hover {
+    box-shadow: var(--editorial-shadow-soft);
+  }
+
   .editorial-masthead {
     position: relative;
     overflow: hidden;
@@ -161,21 +171,35 @@
     clip-path: polygon(0 100%, 18% 44%, 32% 65%, 48% 20%, 64% 58%, 78% 34%, 100% 72%, 100% 100%);
   }
 
-  .not-found-editorial {
+  .not-found-editorial,
+  main[class*='bg-[#050608]'] {
     background:
       radial-gradient(circle at 78% 22%, color-mix(in oklch, var(--primary) 14%, transparent), transparent 28%),
-      linear-gradient(180deg, var(--background), color-mix(in oklch, var(--card) 50%, var(--background)));
-    color: var(--foreground);
+      linear-gradient(180deg, var(--background), color-mix(in oklch, var(--card) 50%, var(--background))) !important;
+    color: var(--foreground) !important;
   }
 
-  .not-found-editorial .big-404 {
+  main[class*='bg-[#050608]'] .big-404 {
     font-family: var(--editorial-display);
     color: var(--foreground) !important;
   }
 
-  .not-found-editorial .glitch-red,
-  .not-found-editorial .glitch-cyan {
+  main[class*='bg-[#050608]'] .glitch-red,
+  main[class*='bg-[#050608]'] .glitch-cyan,
+  main[class*='bg-[#050608]'] .status-pulse-ring {
     display: none;
+  }
+
+  main[class*='bg-[#050608]'] h1,
+  main[class*='bg-[#050608]'] p,
+  main[class*='bg-[#050608]'] span {
+    color: inherit;
+  }
+
+  main[class*='bg-[#050608]'] section[aria-label] > div:first-child {
+    border-color: var(--editorial-line);
+    background: color-mix(in oklch, var(--card) 84%, transparent);
+    box-shadow: var(--editorial-shadow-soft);
   }
 }
 
