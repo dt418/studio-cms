@@ -46,47 +46,46 @@ function escapeHtml(value: string | number | boolean): string {
 
 function renderCard(post: SerializedPost, i18n: FilterI18n): string {
   const words = post.body ? post.body.split(/\s+/).filter(Boolean).length : 0
-  const minutes = Math.max(1, Math.ceil(words / 200))
+  const minutes = post.data.readingTime ?? Math.max(1, Math.ceil(words / 200))
   const pathAttr = escapeHtml(post.data.path)
   const title = escapeHtml(post.data.title)
   const excerpt = escapeHtml(post.data.description)
   const formattedDate = escapeHtml(post.data.formattedDate)
   const category = escapeHtml(post.data.category)
+  const cover = post.data.coverImage ? escapeHtml(post.data.coverImage) : ''
 
   const tagsHtml = post.data.tags
-    .slice(0, 4)
+    .slice(0, 3)
     .map(
       (tag) =>
-        `<span class="inline-flex items-center border-b border-border pb-0.5 text-[0.66rem] font-mono tracking-[0.06em] text-muted-foreground">${escapeHtml(tag)}</span>`
+        `<span class="inline-flex items-center rounded-sm bg-muted px-2 py-1 text-[0.6rem] font-mono tracking-[0.04em] text-muted-foreground">${escapeHtml(tag)}</span>`
     )
     .join('')
 
-  const tagsOverflow =
-    post.data.tags.length > 4
-      ? `<span class="inline-flex items-center border-b border-border pb-0.5 text-[0.66rem] font-mono tracking-[0.06em] text-muted-foreground">+${post.data.tags.length - 4}</span>`
-      : ''
+  const coverHtml = cover
+    ? `<div class="relative aspect-[16/10] overflow-hidden bg-muted"><img src="${cover}" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.025]" /></div>`
+    : `<div class="approved-card-fallback aspect-[16/10]" aria-hidden="true"></div>`
 
   return `
-    <article data-testid="blog-post-card" class="post-card group grid gap-4 border-b border-border py-7 transition-colors duration-200 sm:grid-cols-[120px_minmax(0,1fr)_auto] sm:items-start sm:gap-7">
-      <div class="flex items-center gap-3 pt-1 sm:block">
-        <span class="editorial-kicker">${category}</span>
-        <time class="text-xs font-mono text-muted-foreground tabular-nums sm:mt-2 sm:block">${formattedDate}</time>
-      </div>
-      <a href="${pathAttr}" class="block min-w-0">
-        <h2 class="editorial-display text-2xl leading-[1.08] font-semibold tracking-[-0.03em] text-foreground transition-colors group-hover:text-primary sm:text-3xl">${title}</h2>
-        <p class="mt-2 max-w-3xl text-sm leading-7 text-muted-foreground line-clamp-2">${excerpt}</p>
-        <div class="mt-4 flex flex-wrap gap-x-3 gap-y-2">${tagsHtml}${tagsOverflow}</div>
+    <article data-testid="blog-post-card" class="group overflow-hidden rounded-lg border border-border bg-background transition-colors duration-200 hover:border-primary/45">
+      <a href="${pathAttr}" class="flex h-full flex-col">
+        ${coverHtml}
+        <div class="flex flex-1 flex-col p-4 sm:p-5">
+          <div class="mb-3 flex items-center justify-between gap-4">
+            <span class="editorial-kicker">${category}</span>
+            <time class="text-[0.62rem] font-mono text-muted-foreground tabular-nums">${formattedDate}</time>
+          </div>
+          <h2 class="editorial-display text-[1.55rem] leading-[1.08] font-semibold tracking-[-0.03em] text-foreground transition-colors group-hover:text-primary sm:text-[1.7rem]">${title}</h2>
+          <p class="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">${excerpt}</p>
+          <div class="mt-4 flex flex-wrap gap-1.5">${tagsHtml}</div>
+          <div class="mt-auto flex items-center justify-between gap-4 pt-6">
+            <span class="inline-flex items-center gap-1 text-[0.62rem] font-mono font-semibold uppercase tracking-[0.14em] text-primary">
+              ${escapeHtml(i18n.enter)} <span aria-hidden="true">→</span>
+            </span>
+            <span class="text-[0.62rem] font-mono text-muted-foreground/75 tabular-nums">${minutes} ${escapeHtml(i18n.min)}</span>
+          </div>
+        </div>
       </a>
-      <div class="flex items-center justify-between gap-4 pt-1 sm:flex-col sm:items-end">
-        <a href="${pathAttr}" class="group/enter inline-flex items-center gap-1 text-[0.66rem] font-mono font-semibold uppercase tracking-[0.16em] text-primary transition-colors">
-          <span>${escapeHtml(i18n.enter)}</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/enter:translate-x-0.5">
-            <path d="M5 12h14" />
-            <path d="m12 5 7 7-7 7" />
-          </svg>
-        </a>
-        <span class="text-xs font-mono text-muted-foreground/70 tabular-nums">${minutes} ${escapeHtml(i18n.min)}</span>
-      </div>
     </article>
   `
 }
@@ -126,6 +125,8 @@ export function initBlogFilter(): void {
     return
   }
 
+  resultsContainer.className = 'grid gap-4 md:grid-cols-2 xl:grid-cols-3'
+
   function applyFilters(): void {
     const query = searchInput!.value.toLowerCase().trim()
     const category = categoryInput!.value || ''
@@ -148,7 +149,7 @@ export function initBlogFilter(): void {
 
     if (result.length === 0) {
       resultsContainer!.innerHTML = `
-        <div class="text-center py-12 border border-dashed border-border rounded-lg">
+        <div class="md:col-span-2 xl:col-span-3 text-center py-12 border border-dashed border-border rounded-lg">
           <p class="text-muted-foreground">${escapeHtml(i18n.noMatch)}</p>
         </div>
       `
