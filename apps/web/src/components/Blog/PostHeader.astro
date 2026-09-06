@@ -36,7 +36,7 @@ const {
 } = Astro.props
 ---
 
-<div class="space-y-6">
+<div class="space-y-7">
   <Breadcrumb
     title={title}
     {...lang !== undefined ? { lang } : {}}
@@ -47,37 +47,32 @@ const {
     }}
   />
 
-  <!-- Title -->
-  <h1
-    class="text-foreground font-serif text-4xl leading-[1.05] font-bold tracking-tight md:text-5xl lg:text-7xl"
-  >
+  <div class="flex flex-wrap items-center gap-3">
+    <span class="editorial-kicker">{category}</span>
+    <span class="bg-border h-px w-10" aria-hidden="true"></span>
+    <PostMetadata
+      publishedAt={publishedAt}
+      publishedAtIso={publishedAtIso}
+      readingTime={readingTime}
+      i18n={{ minRead: i18n?.minRead ?? 'min read' }}
+    />
+  </div>
+
+  <h1 class="editorial-display max-w-5xl text-[clamp(3rem,6.6vw,6.5rem)] leading-[0.94] font-semibold tracking-[-0.055em]">
     {title}
   </h1>
 
-  <!-- Excerpt -->
-  <p class="text-muted-foreground max-w-2xl text-lg leading-relaxed md:text-xl">
+  <p class="text-muted-foreground max-w-3xl text-lg leading-8 text-pretty md:text-xl md:leading-9">
     {excerpt}
   </p>
 
-  <!-- Tags -->
   <div class="flex flex-wrap gap-2">
-    <span
-      class="bg-accent text-accent-foreground inline-flex items-center rounded border border-transparent px-3 py-1 font-mono text-xs font-semibold tracking-[0.16em] uppercase"
-    >
-      {category}
-    </span>
     <TagsList tags={tags} />
   </div>
-
-  <PostMetadata
-    publishedAt={publishedAt}
-    publishedAtIso={publishedAtIso}
-    readingTime={readingTime}
-    i18n={{ minRead: i18n?.minRead ?? 'min read' }}
-  />
-
-  <!-- Divider -->
-  <div class="bg-border h-px"></div>
 </div>
 
-{coverImage && <CoverImage coverImage={coverImage} title={title} />}
+{coverImage && (
+  <div class="editorial-surface mt-10 overflow-hidden rounded-[1.5rem] p-2 sm:mt-12 sm:p-3">
+    <CoverImage coverImage={coverImage} title={title} />
+  </div>
+)}
