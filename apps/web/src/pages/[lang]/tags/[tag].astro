@@ -112,29 +112,31 @@ const seo = createSeoDocument({
 
 <BaseLayout seo={seo} currentPath={tagPath} alternatePaths={alternatePaths}>
   <section class="border-b border-border/80">
-    <div class="container py-14 sm:py-20 lg:py-20">
+    <div class="container py-10 sm:py-13 lg:py-14">
       <BackLink href={getBlogPath(lang)} text={i18n.tags.backToBlog} />
-      <div class="mt-7 flex items-center gap-3">
-        <span class="bg-primary h-px w-10"></span>
+      <div class="mt-6 flex items-center gap-3">
+        <span class="bg-primary h-px w-8"></span>
         <span class="editorial-kicker">{i18n.tags.title}</span>
       </div>
-      <h1 class="editorial-display mt-5 text-[clamp(3.4rem,6vw,6.2rem)] leading-[0.92] font-semibold tracking-[-0.055em]">
+      <h1 class="editorial-display mt-4 text-[clamp(2.8rem,5vw,4.9rem)] leading-[0.95] font-semibold tracking-[-0.052em]">
         #{tag}
       </h1>
-      <p class="text-muted-foreground mt-5 max-w-xl text-lg leading-8">
+      <p class="text-muted-foreground mt-4 max-w-xl text-base leading-7 sm:text-lg">
         {posts.length} {i18n.tags.postsTaggedWith} "{tag}"
       </p>
     </div>
   </section>
 
-  <section class="container py-10 sm:py-14 lg:py-16">
-    <TagCloud tags={allTags} currentTag={tag} locale={lang} heading={i18n.tags.heading} />
+  <section class="container py-9 sm:py-11 lg:py-13">
+    <div class="border-border border-b pb-7">
+      <TagCloud tags={allTags} currentTag={tag} locale={lang} heading={i18n.tags.heading} />
+    </div>
 
-    <div class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+    <div class="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {posts.map((post) => <BlogCard post={post} />)}
     </div>
 
-    <div class="mt-16 border-t border-border pt-10">
+    <div class="mt-14 border-t border-border pt-8">
       <h2 class="editorial-kicker mb-5">{i18n.tags.searchFilter}</h2>
       <BlogFilter
         posts={posts}
