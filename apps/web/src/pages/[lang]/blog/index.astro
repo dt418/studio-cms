@@ -72,15 +72,13 @@ const seo = createSeoDocument({
     badge={i18n.blog.archive}
   />
 
-  <section class="container py-10 sm:py-14 lg:py-16">
-    <div class="editorial-surface rounded-[1.5rem] p-4 sm:p-6 lg:p-8">
-      <BlogFilter
-        posts={posts}
-        categories={categories}
-        tags={tags}
-        locale={lang}
-        i18n={i18n.filter}
-      />
-    </div>
+  <section class="container py-8 sm:py-10 lg:py-12">
+    <BlogFilter
+      posts={posts}
+      categories={categories}
+      tags={tags}
+      locale={lang}
+      i18n={i18n.filter}
+    />
   </section>
 </BaseLayout>
