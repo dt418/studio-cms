@@ -9,73 +9,59 @@ export interface Props {
   linkText: string
 }
 
-const { tags, lang, title, linkText } = Astro.props
+const { tags, lang, linkText } = Astro.props
 const blogPath = getBlogPath(lang)
-
-const delayMap: Record<string, string> = {
-  '0': 'animation-delay: 0ms',
-  '1': 'animation-delay: 75ms',
-  '2': 'animation-delay: 150ms',
-  '3': 'animation-delay: 225ms',
-  '4': 'animation-delay: 300ms',
-  '5': 'animation-delay: 375ms',
-  '6': 'animation-delay: 450ms',
-  '7': 'animation-delay: 525ms',
-  '8': 'animation-delay: 600ms',
-}
+const topics = tags.slice(0, 5)
+const heading = lang === 'vi' ? 'Khám phá chủ đề' : 'Explore topics'
+const description =
+  lang === 'vi' ? 'Những lĩnh vực mình thường viết về.' : 'The subjects I return to most often.'
+const articleLabel = lang === 'vi' ? 'bài viết' : 'posts'
 ---
 
-<section class="border-border bg-card/20 border-b">
-  <div class="container py-10 lg:py-12">
-    <div class="mb-8 flex items-end justify-between gap-3">
-      <p class="text-primary font-mono text-[0.66rem] tracking-[0.18em] uppercase">
-        {title}
-      </p>
-      <a
-        href={blogPath}
-        class="group text-muted-foreground hover:text-primary font-mono text-[0.68rem] tracking-[0.18em] uppercase transition-all duration-300"
-      >
-        <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">
-          {linkText}
-        </span>
-        <span class="ml-1 inline-block transition-transform duration-300 group-hover:translate-x-1">
-          →
-        </span>
+<section class="approved-topics border-border bg-background border-b">
+  <div class="container py-11 sm:py-14 lg:py-16">
+    <div class="mb-7 flex items-end justify-between gap-5">
+      <div>
+        <h2 class="editorial-display text-3xl leading-none font-semibold tracking-[-0.035em] sm:text-4xl">
+          {heading}
+        </h2>
+        <p class="text-muted-foreground mt-2 text-sm leading-6 sm:text-base">{description}</p>
+      </div>
+      <a href={blogPath} class="site-footer-link hidden sm:inline-flex">
+        {linkText} <span aria-hidden="true">→</span>
       </a>
     </div>
-    <div class="flex flex-wrap gap-2">
+
+    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
       {
-        tags.map(({ name, count }, index) => (
+        topics.map(({ name, count }, index) => (
           <a
             href={`${blogPath}?tag=${encodeURIComponent(name)}`}
-            style={delayMap[index.toString()] ?? ''}
-            class="animate-fade-in-up border-border text-muted-foreground hover:border-primary hover:text-primary group relative inline-flex items-center gap-2 rounded border px-3 py-1.5 text-xs opacity-0 transition-all duration-300 hover:-ml-0.5 hover:bg-white/[0.03]"
+            class="approved-topic-card group border-border hover:border-primary/45 relative min-h-[9.5rem] overflow-hidden border bg-card/55 p-4 transition-colors sm:p-5"
           >
-            <span class="bg-primary absolute inset-y-0 left-0 w-0.5 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            <span class="transition-colors duration-300">#{name}</span>
-            <span class="text-muted-foreground/40 text-[0.65rem] transition-colors duration-300">
-              {count}
-            </span>
+            <div class="flex items-start justify-between gap-4">
+              <span class="font-mono text-[0.58rem] tracking-[0.16em] text-muted-foreground/65 uppercase">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <span class="h-7 w-7 rounded-full border border-border transition-transform duration-300 group-hover:translate-x-1 group-hover:border-primary/50" aria-hidden="true" />
+            </div>
+            <div class="mt-7">
+              <h3 class="editorial-display text-foreground group-hover:text-primary text-xl leading-tight font-semibold tracking-[-0.025em] transition-colors">
+                {name}
+              </h3>
+              <p class="text-muted-foreground mt-2 font-mono text-[0.62rem] tracking-[0.08em] uppercase">
+                {count} {articleLabel}
+              </p>
+            </div>
           </a>
         ))
       }
     </div>
+
+    <div class="mt-6 sm:hidden">
+      <a href={blogPath} class="site-footer-link inline-flex">
+        {linkText} <span aria-hidden="true">→</span>
+      </a>
+    </div>
   </div>
 </section>
-
-<style>
-  @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in-up {
-    animation: fade-in-up 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-</style>
