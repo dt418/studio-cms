@@ -25,12 +25,11 @@ const { title, description, badge } = Astro.props
           {description}
         </p>
       </div>
-      <div class="hidden justify-self-end border-l border-border/70 pl-6 lg:block">
-        <div class="space-y-3 font-mono text-[0.64rem] tracking-[0.16em] text-muted-foreground uppercase">
-          <p>read</p>
-          <p>learn</p>
-          <p>build</p>
-          <p>share</p>
+      <div class="hidden justify-self-end lg:block" aria-hidden="true">
+        <div class="editorial-surface h-28 w-64 rounded-2xl">
+          <div class="absolute inset-x-5 top-6 h-px bg-border"></div>
+          <div class="absolute inset-x-10 top-12 h-px bg-border/70"></div>
+          <div class="absolute right-6 bottom-5 h-3 w-12 bg-primary/80"></div>
         </div>
       </div>
     </div>
