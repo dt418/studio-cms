@@ -116,25 +116,25 @@ const seo = createSeoDocument({
 
 <BaseLayout seo={seo} currentPath={categoryPath} alternatePaths={alternatePaths}>
   <section class="editorial-masthead">
-    <div class="container py-14 sm:py-20 lg:py-24">
+    <div class="container py-11 sm:py-14 lg:py-16">
       <div class="relative z-10 max-w-4xl">
         <BackLink href={getBlogPath(lang)} text={i18n.categories.backToBlog} />
-        <div class="mt-7 flex items-center gap-3">
-          <span class="bg-primary h-px w-10"></span>
+        <div class="mt-6 flex items-center gap-3">
+          <span class="bg-primary h-px w-8"></span>
           <span class="editorial-kicker">{i18n.categories.title}</span>
         </div>
-        <h1 class="editorial-display mt-5 text-[clamp(3.6rem,7vw,7rem)] leading-[0.9] font-semibold tracking-[-0.06em]">
+        <h1 class="editorial-display mt-4 text-[clamp(2.9rem,5.4vw,5.2rem)] leading-[0.94] font-semibold tracking-[-0.055em]">
           {category}
         </h1>
-        <p class="text-muted-foreground mt-6 max-w-2xl text-lg leading-8">
+        <p class="text-muted-foreground mt-4 max-w-2xl text-base leading-7 sm:text-lg">
           {posts.length} {i18n.categories.postsIn} "{category}"
         </p>
       </div>
     </div>
   </section>
 
-  <section class="container py-12 sm:py-16 lg:py-20">
-    <div class="editorial-surface rounded-[1.5rem] p-5 sm:p-7">
+  <section class="container py-9 sm:py-11 lg:py-14">
+    <div class="border-border border-b pb-7">
       <CategoryCloud
         categories={allCategories}
         currentCategory={category}
@@ -143,11 +143,11 @@ const seo = createSeoDocument({
       />
     </div>
 
-    <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+    <div class="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {posts.map((post) => <BlogCard post={post} />)}
     </div>
 
-    <div class="mt-16 border-t border-border pt-10">
+    <div class="mt-14 border-t border-border pt-8">
       <h2 class="editorial-kicker mb-5">{i18n.categories.searchFilter}</h2>
       <BlogFilter
         posts={posts}
