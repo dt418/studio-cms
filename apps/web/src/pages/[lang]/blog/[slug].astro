@@ -95,7 +95,6 @@ const {
 
 const formattedDate = formatDate(publishedAt, lang)
 const publishedTime = publishedAt.toISOString()
-const modifiedTime = updatedAt?.toISOString() ?? publishedTime
 
 const bodyText = post.body ?? ''
 const readingTimeMin = readingTime(bodyText)
