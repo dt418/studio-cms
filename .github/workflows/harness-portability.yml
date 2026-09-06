@@ -1,10 +1,13 @@
-name: Harness context export
+name: Harness context graph push
 
 on:
   pull_request:
 
+permissions:
+  contents: write
+
 jobs:
-  export-context:
+  refresh-context:
     if: github.event.pull_request.head.ref == 'codex/editorial-cinematic-redesign'
     runs-on: ubuntu-latest
     steps:
@@ -15,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 22
-      - name: Restore final portability workflow
+      - name: Restore final portability workflow in working tree
         shell: bash
         run: |
           cat > .github/workflows/harness-portability.yml <<'EOF'
@@ -43,11 +46,17 @@ jobs:
                 - run: pnpm harness:context:check
                 - run: pnpm harness:validate
           EOF
-      - name: Regenerate context graph
+      - name: Regenerate context graph for final workflow
         run: pnpm harness:context
-      - uses: actions/upload-artifact@v7
-        with:
-          name: final-harness-context
-          path: |
-            .github/workflows/harness-portability.yml
-            graphify-out/
+      - name: Commit graph snapshot only
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add graphify-out/
+          if git diff --cached --quiet; then
+            echo "Context graph already current"
+            exit 0
+          fi
+          git commit -m "chore: regenerate harness context"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
