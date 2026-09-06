@@ -73,7 +73,7 @@ const seo = createSeoDocument({
     allTags={allTags.length}
     i18n={i18n.hero}
     lang={lang}
-    heroImage={featuredPost?.data.coverImage}
+    {...featuredPost?.data.coverImage ? { heroImage: featuredPost.data.coverImage } : {}}
   />
 
   <FeaturedWork
