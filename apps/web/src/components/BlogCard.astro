@@ -18,19 +18,19 @@ const postPath = getPostPath(post)
 const optimizedCoverImage = coverImage ? getOptimizedCoverImage(coverImage) : undefined
 ---
 
-<article class="card-hover group flex flex-col">
+<article class="editorial-card group flex h-full flex-col overflow-hidden rounded-[1.25rem]">
   <a href={postPath} class="flex min-h-11 flex-1 flex-col" aria-label={title}>
     {
       coverImage && (
-        <div class="bg-muted -m-6 -mt-6 mb-4 aspect-video overflow-hidden">
+        <div class="bg-muted aspect-[16/9] overflow-hidden">
           {optimizedCoverImage ? (
             <Image
               src={optimizedCoverImage}
               alt={title}
-              class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
               sizes="(max-width: 768px) calc(100vw - 2rem), 400px"
               width="640"
-              height="336"
+              height="360"
               layout="constrained"
               loading="lazy"
               decoding="async"
@@ -39,10 +39,10 @@ const optimizedCoverImage = coverImage ? getOptimizedCoverImage(coverImage) : un
             <Image
               src={coverImage}
               alt={title}
-              class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
               sizes="(max-width: 768px) calc(100vw - 2rem), 400px"
               width="640"
-              height="336"
+              height="360"
               layout="constrained"
               loading="lazy"
               decoding="async"
@@ -51,21 +51,26 @@ const optimizedCoverImage = coverImage ? getOptimizedCoverImage(coverImage) : un
         </div>
       )
     }
-    <div class="mb-3 flex items-center gap-2">
-      <span
-        class="text-muted-foreground/50 border-border border px-2 py-1 font-mono text-[0.62rem] tracking-[0.22em] uppercase"
-        >{category}</span
-      >
-      <time class="text-muted-foreground/40 font-mono text-[0.68rem] tracking-[0.26em] uppercase">
-        {formattedDate}
-      </time>
+
+    <div class="flex flex-1 flex-col p-5 sm:p-6">
+      <div class="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2">
+        <span class="editorial-kicker">{category}</span>
+        <span class="bg-border h-px w-6" aria-hidden="true"></span>
+        <time class="text-muted-foreground font-mono text-[0.66rem] tracking-[0.12em] uppercase">
+          {formattedDate}
+        </time>
+      </div>
+
+      <h2 class="editorial-display text-foreground text-2xl leading-[1.08] font-semibold tracking-[-0.035em] text-pretty sm:text-[1.7rem]">
+        {title}
+      </h2>
+      <p class="text-muted-foreground mt-3 line-clamp-3 text-sm leading-7 text-pretty">
+        {excerpt}
+      </p>
+
+      <div class="mt-auto pt-6">
+        <TagsList tags={tags} post={post} />
+      </div>
     </div>
-    <h2 class="text-foreground mb-2 line-clamp-2 text-lg font-semibold tracking-tight">
-      {title}
-    </h2>
-    <p class="text-muted-foreground/70 mb-4 line-clamp-3 text-sm">
-      {excerpt}
-    </p>
   </a>
-  <TagsList tags={tags} post={post} />
 </article>
