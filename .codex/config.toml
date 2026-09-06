@@ -5,13 +5,13 @@ approval_policy = "on-request"
 sandbox_mode = "workspace-write"
 web_search = "live"
 
+# NOTE: No project-level [mcp_servers.context7]: the global ~/.codex/config.toml
+# already provides context7 over HTTP with auth. A stdio block here deep-merges
+# with the global {url, http_headers} entry and fails bootstrap with
+# `url is not supported for stdio in mcp_servers.context7`.
 [mcp_servers.github]
 command = "npx"
 args = ["-y", "@modelcontextprotocol/server-github"]
-
-[mcp_servers.context7]
-command = "npx"
-args = ["-y", "@upstash/context7-mcp@latest"]
 
 [mcp_servers.exa]
 url = "https://mcp.exa.ai/mcp"
@@ -46,3 +46,6 @@ config_file = "agents/reviewer.toml"
 [agents.docs_researcher]
 description = "Documentation specialist that verifies APIs, framework behavior, and release notes."
 config_file = "agents/docs-researcher.toml"
+
+[sandbox_workspace_write]
+network_access = true
