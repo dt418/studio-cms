@@ -51,39 +51,41 @@ function renderCard(post: SerializedPost, i18n: FilterI18n): string {
   const title = escapeHtml(post.data.title)
   const excerpt = escapeHtml(post.data.description)
   const formattedDate = escapeHtml(post.data.formattedDate)
+  const category = escapeHtml(post.data.category)
 
   const tagsHtml = post.data.tags
     .slice(0, 4)
     .map(
       (tag) =>
-        `<span class="inline-flex items-center rounded-sm bg-white/5 px-2 py-0.5 text-xs font-mono text-muted-foreground/50">${escapeHtml(tag)}</span>`
+        `<span class="inline-flex items-center border-b border-border pb-0.5 text-[0.66rem] font-mono tracking-[0.06em] text-muted-foreground">${escapeHtml(tag)}</span>`
     )
     .join('')
 
   const tagsOverflow =
     post.data.tags.length > 4
-      ? `<span class="inline-flex items-center rounded-sm bg-white/5 px-2 py-0.5 text-xs font-mono text-muted-foreground/50">+${post.data.tags.length - 4}</span>`
+      ? `<span class="inline-flex items-center border-b border-border pb-0.5 text-[0.66rem] font-mono tracking-[0.06em] text-muted-foreground">+${post.data.tags.length - 4}</span>`
       : ''
 
   return `
-    <article data-testid="blog-post-card" class="post-card group grid grid-cols-[120px_1fr_auto] gap-4 sm:gap-6 py-7 border-b border-white/5 items-start last:border-b-0 hover:bg-white/[0.01] transition-colors duration-200 rounded-lg -mx-4 px-4">
-      <div class="pt-0.5">
-        <time class="text-sm font-mono text-muted-foreground tabular-nums">${formattedDate}</time>
+    <article data-testid="blog-post-card" class="post-card group grid gap-4 border-b border-border py-7 transition-colors duration-200 sm:grid-cols-[120px_minmax(0,1fr)_auto] sm:items-start sm:gap-7">
+      <div class="flex items-center gap-3 pt-1 sm:block">
+        <span class="editorial-kicker">${category}</span>
+        <time class="text-xs font-mono text-muted-foreground tabular-nums sm:mt-2 sm:block">${formattedDate}</time>
       </div>
       <a href="${pathAttr}" class="block min-w-0">
-        <h2 class="text-lg font-semibold leading-snug tracking-tight text-foreground/90 group-hover:text-foreground transition-colors mb-1.5">${title}</h2>
-        <p class="text-sm leading-relaxed text-muted-foreground/70 line-clamp-2 mb-3">${excerpt}</p>
-        <div class="flex flex-wrap gap-1.5">${tagsHtml}${tagsOverflow}</div>
+        <h2 class="editorial-display text-2xl leading-[1.08] font-semibold tracking-[-0.03em] text-foreground transition-colors group-hover:text-primary sm:text-3xl">${title}</h2>
+        <p class="mt-2 max-w-3xl text-sm leading-7 text-muted-foreground line-clamp-2">${excerpt}</p>
+        <div class="mt-4 flex flex-wrap gap-x-3 gap-y-2">${tagsHtml}${tagsOverflow}</div>
       </a>
-      <div class="pt-0.5 pl-4 flex flex-col items-end gap-1">
-        <a href="${pathAttr}" class="group/enter inline-flex items-center gap-1 text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground/40 hover:text-foreground transition-colors">
+      <div class="flex items-center justify-between gap-4 pt-1 sm:flex-col sm:items-end">
+        <a href="${pathAttr}" class="group/enter inline-flex items-center gap-1 text-[0.66rem] font-mono font-semibold uppercase tracking-[0.16em] text-primary transition-colors">
           <span>${escapeHtml(i18n.enter)}</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/enter:translate-x-0.5">
             <path d="M5 12h14" />
             <path d="m12 5 7 7-7 7" />
           </svg>
         </a>
-        <span class="text-xs font-mono text-muted-foreground/30 tabular-nums">${minutes} ${escapeHtml(i18n.min)}</span>
+        <span class="text-xs font-mono text-muted-foreground/70 tabular-nums">${minutes} ${escapeHtml(i18n.min)}</span>
       </div>
     </article>
   `
