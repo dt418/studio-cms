@@ -1,0 +1,197 @@
+/* Editorial Field Journal + Cinematic Developer Portfolio */
+
+:root {
+  --editorial-paper: color-mix(in oklch, var(--background) 94%, oklch(94% 0.02 80));
+  --editorial-ink: var(--foreground);
+  --editorial-line: color-mix(in oklch, var(--border) 78%, var(--foreground) 22%);
+  --editorial-shadow: 0 24px 70px color-mix(in oklch, var(--foreground) 10%, transparent);
+  --editorial-shadow-soft: 0 12px 36px color-mix(in oklch, var(--foreground) 7%, transparent);
+  --editorial-display: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+}
+
+.dark {
+  --editorial-paper: color-mix(in oklch, var(--background) 95%, oklch(24% 0.015 70));
+  --editorial-line: color-mix(in oklch, var(--border) 82%, var(--foreground) 18%);
+  --editorial-shadow: 0 30px 90px color-mix(in oklch, black 42%, transparent);
+  --editorial-shadow-soft: 0 14px 44px color-mix(in oklch, black 30%, transparent);
+}
+
+@layer components {
+  .editorial-display {
+    font-family: var(--editorial-display);
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    text-wrap: balance;
+  }
+
+  .editorial-kicker {
+    color: var(--primary);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 650;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .editorial-rule {
+    border-color: var(--editorial-line);
+  }
+
+  .editorial-surface {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--editorial-line);
+    background:
+      radial-gradient(circle at 82% 10%, color-mix(in oklch, var(--primary) 10%, transparent), transparent 34%),
+      linear-gradient(145deg, color-mix(in oklch, var(--card) 90%, transparent), color-mix(in oklch, var(--background) 94%, transparent));
+    box-shadow: var(--editorial-shadow-soft);
+  }
+
+  .editorial-surface::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.22;
+    background-image: radial-gradient(color-mix(in oklch, var(--foreground) 16%, transparent) 0.45px, transparent 0.45px);
+    background-size: 10px 10px;
+    mix-blend-mode: soft-light;
+  }
+
+  .cinematic-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-bottom: 1px solid var(--editorial-line);
+    background:
+      radial-gradient(circle at 78% 26%, color-mix(in oklch, var(--primary) 18%, transparent), transparent 34%),
+      linear-gradient(120deg, var(--editorial-paper) 0 54%, color-mix(in oklch, var(--card) 82%, var(--background)) 54% 100%);
+  }
+
+  .cinematic-hero::before {
+    content: '';
+    position: absolute;
+    inset: auto -8% -28% 46%;
+    height: 72%;
+    z-index: -1;
+    opacity: 0.62;
+    filter: saturate(0.72);
+    background:
+      radial-gradient(ellipse at 22% 66%, color-mix(in oklch, var(--foreground) 12%, transparent) 0 18%, transparent 19%),
+      radial-gradient(ellipse at 52% 76%, color-mix(in oklch, var(--foreground) 10%, transparent) 0 24%, transparent 25%),
+      radial-gradient(ellipse at 78% 70%, color-mix(in oklch, var(--foreground) 8%, transparent) 0 20%, transparent 21%);
+    clip-path: polygon(0 54%, 14% 34%, 24% 48%, 40% 18%, 54% 45%, 68% 30%, 84% 50%, 100% 28%, 100% 100%, 0 100%);
+  }
+
+  .cinematic-panel {
+    min-height: 22rem;
+    border: 1px solid var(--editorial-line);
+    background:
+      radial-gradient(circle at 76% 18%, color-mix(in oklch, var(--primary) 22%, transparent), transparent 28%),
+      linear-gradient(155deg, color-mix(in oklch, var(--foreground) 92%, black), color-mix(in oklch, var(--foreground) 72%, var(--background)));
+    color: var(--background);
+    box-shadow: var(--editorial-shadow);
+  }
+
+  .cinematic-panel-grid {
+    background-image:
+      linear-gradient(color-mix(in oklch, white 8%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklch, white 8%, transparent) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .editorial-card {
+    border: 1px solid var(--editorial-line);
+    background: color-mix(in oklch, var(--card) 82%, transparent);
+    transition: transform 260ms var(--ease-out-expo), border-color 260ms ease, box-shadow 260ms ease;
+  }
+
+  .editorial-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in oklch, var(--primary) 52%, var(--editorial-line));
+    box-shadow: var(--editorial-shadow-soft);
+  }
+
+  .editorial-masthead {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--editorial-line);
+    background:
+      radial-gradient(circle at 86% 34%, color-mix(in oklch, var(--primary) 10%, transparent), transparent 30%),
+      linear-gradient(180deg, color-mix(in oklch, var(--background) 98%, transparent), color-mix(in oklch, var(--card) 46%, transparent));
+  }
+
+  .editorial-masthead::after {
+    content: '';
+    position: absolute;
+    right: 3%;
+    bottom: -2.8rem;
+    width: min(32rem, 42vw);
+    height: 8rem;
+    opacity: 0.12;
+    background: var(--foreground);
+    clip-path: polygon(0 100%, 14% 44%, 28% 68%, 42% 18%, 58% 70%, 72% 38%, 88% 76%, 100% 54%, 100% 100%);
+  }
+
+  .article-hero-shell {
+    border-bottom: 1px solid var(--editorial-line);
+    background: linear-gradient(180deg, color-mix(in oklch, var(--background) 98%, transparent), color-mix(in oklch, var(--card) 34%, transparent));
+  }
+
+  .article-reading-shell {
+    max-width: 76rem;
+    margin-inline: auto;
+  }
+
+  .about-editorial-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(2rem, 5vw, 5rem);
+    border-bottom: 1px solid var(--editorial-line);
+  }
+
+  .about-editorial-hero::after {
+    content: '';
+    position: absolute;
+    right: -5%;
+    bottom: -28%;
+    width: 44%;
+    height: 80%;
+    opacity: 0.12;
+    background: var(--foreground);
+    clip-path: polygon(0 100%, 18% 44%, 32% 65%, 48% 20%, 64% 58%, 78% 34%, 100% 72%, 100% 100%);
+  }
+
+  .not-found-editorial {
+    background:
+      radial-gradient(circle at 78% 22%, color-mix(in oklch, var(--primary) 14%, transparent), transparent 28%),
+      linear-gradient(180deg, var(--background), color-mix(in oklch, var(--card) 50%, var(--background)));
+    color: var(--foreground);
+  }
+
+  .not-found-editorial .big-404 {
+    font-family: var(--editorial-display);
+    color: var(--foreground) !important;
+  }
+
+  .not-found-editorial .glitch-red,
+  .not-found-editorial .glitch-cyan {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .cinematic-hero {
+    background: linear-gradient(180deg, var(--editorial-paper), color-mix(in oklch, var(--card) 58%, var(--background)));
+  }
+
+  .cinematic-panel {
+    min-height: 17rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editorial-card,
+  .editorial-card:hover {
+    transform: none;
+  }
+}
