@@ -1,8 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import HeroSection from '@/components/HeroSection.astro'
-import SectionHeader from '@/components/SectionHeader.astro'
-import MetricCard from '@/components/MetricCard.astro'
 import FeaturedWork from '@/components/FeaturedWork.astro'
 import ArchiveSection from '@/components/ArchiveSection.astro'
 import TagCloudSection from '@/components/TagCloudSection.astro'
@@ -31,44 +29,19 @@ export async function getStaticPaths() {
 const langParam = Astro.params.lang ?? 'vi'
 const lang = isValidLocale(langParam) ? langParam : 'vi'
 const siteUrl = getSiteOrigin()
-
 const i18n = getTranslations(lang)
 const posts = await getLocalizedPosts(lang)
 const categories = await getAllCategories(lang)
 const allTags = await getAllTags(lang)
-
 const featuredPost = posts[0] ?? null
 const recentPosts = posts.slice(1, 4)
 const archivePosts = posts
-
 const homepageDescription = i18n.home.description
-
-const metrics = [
-  {
-    label: i18n.blog.stats.publishedNotes,
-    value: `${posts.length} ${i18n.blog.stats.publishedNotes.toLowerCase()}`,
-    category: i18n.blog.stats.categories,
-    description: i18n.home.metrics.postsDescription,
-  },
-  {
-    label: i18n.blog.stats.categories,
-    value: `${categories.length} ${i18n.blog.stats.categories.toLowerCase()}`,
-    category: i18n.blog.stats.tags,
-    description: i18n.home.metrics.topicsDescription,
-  },
-  {
-    label: i18n.blog.stats.tags,
-    value: `${allTags.length} ${i18n.hero.tags}`,
-    category: i18n.blog.stats.archiveSnapshot,
-    description: i18n.home.metrics.tagsDescription,
-  },
-]
 
 const tagCounts = posts.reduce((acc, post) => {
   post.data.tags.forEach((tag) => {
     acc.set(tag, (acc.get(tag) ?? 0) + 1)
   })
-
   return acc
 }, new Map<string, number>())
 
@@ -100,80 +73,6 @@ const seo = createSeoDocument({
     allTags={allTags.length}
     i18n={i18n.hero}
     lang={lang}
-  >
-    <div slot="terminal" class="hidden items-end justify-end lg:flex">
-      <div class="border-border bg-card/30 w-full max-w-lg border p-6">
-        <div class="border-border mb-6 space-y-3 border-b pb-4">
-          <p class="text-muted-foreground/50 font-mono text-[0.68rem] tracking-[0.28em] uppercase">
-            {i18n.hero.focus.title}
-          </p>
-          <div class="text-muted-foreground/80 space-y-3 text-sm">
-            {
-              i18n.hero.focus.items.map((item, index) => (
-                <div class="border-border/70 flex items-center justify-between border-b pb-2 last:border-b-0 last:pb-0">
-                  <span>{item}</span>
-                  <span class="text-primary font-mono text-xs tabular-nums">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-        <div class="grid grid-cols-3 gap-3">
-          <div class="space-y-1">
-            <p
-              class="text-muted-foreground/40 font-mono text-[0.66rem] tracking-[0.28em] uppercase"
-            >
-              {i18n.hero.posts}
-            </p>
-            <p class="text-lg leading-none font-medium">{posts.length}</p>
-          </div>
-          <div class="space-y-1">
-            <p
-              class="text-muted-foreground/40 font-mono text-[0.66rem] tracking-[0.28em] uppercase"
-            >
-              {i18n.hero.topics}
-            </p>
-            <p class="text-lg leading-none font-medium">{categories.length}</p>
-          </div>
-          <div class="space-y-1">
-            <p
-              class="text-muted-foreground/40 font-mono text-[0.66rem] tracking-[0.28em] uppercase"
-            >
-              {i18n.hero.tags}
-            </p>
-            <p class="text-lg leading-none font-medium">{allTags.length}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </HeroSection>
-
-  <SectionHeader title={i18n.section.latestInsights}>
-    <h2 slot="header" class="mt-4 max-w-xl text-2xl font-semibold tracking-tight lg:text-3xl">
-      {i18n.section.practicalKnowledge}
-    </h2>
-    <div data-testid="home-metrics" class="mt-6 grid gap-4 sm:mt-8 sm:gap-5 lg:grid-cols-3">
-      {
-        metrics.map((item) => (
-          <MetricCard
-            label={item.label}
-            value={item.value}
-            category={item.category}
-            description={item.description}
-            spotlight
-          />
-        ))
-      }
-    </div>
-  </SectionHeader>
-
-  <TagCloudSection
-    tags={sortedTags.map(([name, count]) => ({ name, count }))}
-    lang={lang}
-    title={i18n.blog.stats.tags}
-    linkText={i18n.archive.openFullArchive}
   />
 
   <FeaturedWork
@@ -181,6 +80,13 @@ const seo = createSeoDocument({
     recentPosts={recentPosts}
     lang={lang}
     i18n={i18n.home}
+  />
+
+  <TagCloudSection
+    tags={sortedTags.map(([name, count]) => ({ name, count }))}
+    lang={lang}
+    title={i18n.blog.stats.tags}
+    linkText={i18n.archive.openFullArchive}
   />
 
   <ArchiveSection posts={archivePosts} lang={lang} />
