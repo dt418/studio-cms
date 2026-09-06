@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "89095296df09037d262bc7c9bda156d3f2edaf5b21d2a78b70a86da62ebe1b65"
+    "context": "b413db9ede6b9f7bd5a6624da4b1f58759f88e7f4d6ca487c4eb2ab466c47f5e"
   },
   "nodes": [
     {
@@ -1853,6 +1853,11 @@
     },
     {
       "from": "file:apps/web/src/components/FeaturedWork.astro",
+      "to": "file:apps/web/src/lib/cover-images.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/FeaturedWork.astro",
       "to": "file:apps/web/src/lib/date.ts",
       "type": "imports"
     },
@@ -1869,6 +1874,11 @@
     {
       "from": "file:apps/web/src/components/FeaturedWork.astro",
       "to": "file:apps/web/src/lib/routes.ts",
+      "type": "imports"
+    },
+    {
+      "from": "file:apps/web/src/components/FeaturedWork.astro",
+      "to": "package:astro:assets",
       "type": "imports"
     },
     {
@@ -2948,11 +2958,6 @@
     },
     {
       "from": "file:apps/web/src/pages/[lang]/blog/index.astro",
-      "to": "file:apps/web/src/components/Blog/StatsGrid.astro",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/pages/[lang]/blog/index.astro",
       "to": "file:apps/web/src/components/BlogFilter.astro",
       "type": "imports"
     },
@@ -3039,16 +3044,6 @@
     {
       "from": "file:apps/web/src/pages/[lang]/index.astro",
       "to": "file:apps/web/src/components/HeroSection.astro",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/pages/[lang]/index.astro",
-      "to": "file:apps/web/src/components/MetricCard.astro",
-      "type": "imports"
-    },
-    {
-      "from": "file:apps/web/src/pages/[lang]/index.astro",
-      "to": "file:apps/web/src/components/SectionHeader.astro",
       "type": "imports"
     },
     {
