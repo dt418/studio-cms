@@ -8,20 +8,31 @@ interface Props {
 const { title, description, badge } = Astro.props
 ---
 
-<section class="border-b border-white/5" style="view-transition-name: blog-header;">
-  <div class="container py-14 sm:py-20">
-    <div class="max-w-2xl">
-      <div class="mb-3 flex items-center gap-2">
-        <span
-          class="bg-accent text-accent-foreground inline-flex items-center rounded px-2.5 py-1 font-mono text-xs font-semibold tracking-[0.16em] uppercase"
-        >
-          {badge}
-        </span>
+<section class="editorial-masthead" style="view-transition-name: blog-header;">
+  <div class="container py-16 sm:py-24 lg:py-28">
+    <div class="relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.42fr)] lg:items-end">
+      <div class="max-w-4xl">
+        {badge && (
+          <div class="mb-5 flex items-center gap-3">
+            <span class="bg-primary h-px w-10"></span>
+            <span class="editorial-kicker">{badge}</span>
+          </div>
+        )}
+        <h1 class="editorial-display text-5xl leading-[0.94] font-semibold tracking-[-0.055em] sm:text-7xl lg:text-8xl">
+          {title}
+        </h1>
+        <p class="text-muted-foreground mt-6 max-w-2xl text-base leading-8 sm:text-lg sm:leading-9">
+          {description}
+        </p>
       </div>
-      <h1 class="mb-3 font-serif text-4xl font-bold tracking-tight lg:text-6xl">{title}</h1>
-      <p class="text-muted-foreground max-w-2xl text-base leading-relaxed sm:text-lg">
-        {description}
-      </p>
+      <div class="hidden justify-self-end border-l border-border/70 pl-6 lg:block">
+        <div class="space-y-3 font-mono text-[0.64rem] tracking-[0.16em] text-muted-foreground uppercase">
+          <p>read</p>
+          <p>learn</p>
+          <p>build</p>
+          <p>share</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
