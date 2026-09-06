@@ -46,9 +46,7 @@ export async function getStaticPaths() {
 const langParam = Astro.params.lang ?? 'vi'
 const lang = isValidLocale(langParam) ? langParam : 'vi'
 const siteUrl = getSiteOrigin()
-
 const i18n = getTranslations(lang)
-
 const rawCategory = Astro.params.category ?? ''
 const category =
   Astro.props.category ??
@@ -82,7 +80,6 @@ const alternatePaths = Object.fromEntries(
 
 const categoryPath = getCategoryPath(category, lang)
 const canonicalUrl = toCanonicalUrl(categoryPath, siteUrl)
-
 const jsonLd = [
   buildCollectionPageSchema({
     name: i18n.schema.postsIn(category),
@@ -118,29 +115,40 @@ const seo = createSeoDocument({
 ---
 
 <BaseLayout seo={seo} currentPath={categoryPath} alternatePaths={alternatePaths}>
-  <section class="container py-16">
-    <div class="mb-12">
-      <BackLink href={getBlogPath(lang)} text={i18n.categories.backToBlog} />
-      <h1 class="mb-2 text-4xl font-bold tracking-tight">{i18n.categories.title} {category}</h1>
-      <p class="text-muted-foreground text-lg">
-        {posts.length}
-        {i18n.categories.postsIn} "{category}"
-      </p>
+  <section class="editorial-masthead">
+    <div class="container py-14 sm:py-20 lg:py-24">
+      <div class="relative z-10 max-w-4xl">
+        <BackLink href={getBlogPath(lang)} text={i18n.categories.backToBlog} />
+        <div class="mt-7 flex items-center gap-3">
+          <span class="bg-primary h-px w-10"></span>
+          <span class="editorial-kicker">{i18n.categories.title}</span>
+        </div>
+        <h1 class="editorial-display mt-5 text-[clamp(3.6rem,7vw,7rem)] leading-[0.9] font-semibold tracking-[-0.06em]">
+          {category}
+        </h1>
+        <p class="text-muted-foreground mt-6 max-w-2xl text-lg leading-8">
+          {posts.length} {i18n.categories.postsIn} "{category}"
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container py-12 sm:py-16 lg:py-20">
+    <div class="editorial-surface rounded-[1.5rem] p-5 sm:p-7">
+      <CategoryCloud
+        categories={allCategories}
+        currentCategory={category}
+        locale={lang}
+        heading={i18n.categories.heading}
+      />
     </div>
 
-    <CategoryCloud
-      categories={allCategories}
-      currentCategory={category}
-      locale={lang}
-      heading={i18n.categories.heading}
-    />
-
-    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
       {posts.map((post) => <BlogCard post={post} />)}
     </div>
 
-    <div class="mt-12">
-      <h2 class="text-muted-foreground mb-4 text-sm font-medium">{i18n.categories.searchFilter}</h2>
+    <div class="mt-16 border-t border-border pt-10">
+      <h2 class="editorial-kicker mb-5">{i18n.categories.searchFilter}</h2>
       <BlogFilter
         posts={posts}
         categories={allCategories}
