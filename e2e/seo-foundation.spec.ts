@@ -16,6 +16,11 @@ const PUBLIC_DESCRIPTION_FIXTURE = {
   category: 'tutorials',
   tags: ['typescript', 'programming', 'generics'],
 }
+const LOCALE_SPECIFIC_TAXONOMY_FIXTURE = {
+  locale: 'vi' as const,
+  category: 'e2e-locale-only',
+  tag: 'e2e-locale-only',
+}
 
 interface ApiPost {
   slug: string
@@ -330,6 +335,17 @@ test.describe('served SEO HTML', () => {
       vi: getLocaleTermSets(apiPosts, 'vi'),
       en: getLocaleTermSets(apiPosts, 'en'),
     }
+    const fixtureLocale = LOCALE_SPECIFIC_TAXONOMY_FIXTURE.locale
+    const otherLocale = locales.find((locale) => locale !== fixtureLocale)
+    if (!otherLocale) throw new Error('Locale-specific taxonomy fixture needs another locale')
+    expect(localeTerms[fixtureLocale].tags.has(LOCALE_SPECIFIC_TAXONOMY_FIXTURE.tag)).toBe(true)
+    expect(localeTerms[otherLocale].tags.has(LOCALE_SPECIFIC_TAXONOMY_FIXTURE.tag)).toBe(false)
+    expect(
+      localeTerms[fixtureLocale].categories.has(LOCALE_SPECIFIC_TAXONOMY_FIXTURE.category)
+    ).toBe(true)
+    expect(localeTerms[otherLocale].categories.has(LOCALE_SPECIFIC_TAXONOMY_FIXTURE.category)).toBe(
+      false
+    )
 
     for (const location of sitemap.filter((entry) => /\/(?:tags|categories)\//.test(entry))) {
       const path = new URL(location).pathname
@@ -348,7 +364,13 @@ test.describe('served SEO HTML', () => {
       expect(
         links.map((link) => link.hreflang),
         location
-      ).toEqual(expect.arrayContaining(expectedLocales))
+      ).toEqual([...expectedLocales, ...(expectedLocales.includes('vi') ? ['x-default'] : [])])
+      const xDefault = links.find((link) => link.hreflang === 'x-default')
+      if (expectedLocales.includes('vi')) {
+        expect(xDefault?.href, location).toBe(links.find((link) => link.hreflang === 'vi')?.href)
+      } else {
+        expect(xDefault, location).toBeUndefined()
+      }
       for (const link of links)
         expect(sitemapSet.has(link.href), `${location}: ${link.href}`).toBe(true)
     }
