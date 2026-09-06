@@ -18,11 +18,11 @@ const postPath = getPostPath(post)
 const optimizedCoverImage = coverImage ? getOptimizedCoverImage(coverImage) : undefined
 ---
 
-<article class="editorial-card group flex h-full flex-col overflow-hidden rounded-[1.25rem]">
+<article class="editorial-card group flex h-full flex-col overflow-hidden rounded-lg">
   <a href={postPath} class="flex min-h-11 flex-1 flex-col" aria-label={title}>
     {
       coverImage && (
-        <div class="bg-muted aspect-[16/9] overflow-hidden">
+        <div class="bg-muted aspect-[16/10] overflow-hidden">
           {optimizedCoverImage ? (
             <Image
               src={optimizedCoverImage}
@@ -30,7 +30,7 @@ const optimizedCoverImage = coverImage ? getOptimizedCoverImage(coverImage) : un
               class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
               sizes="(max-width: 768px) calc(100vw - 2rem), 400px"
               width="640"
-              height="360"
+              height="400"
               layout="constrained"
               loading="lazy"
               decoding="async"
@@ -42,7 +42,7 @@ const optimizedCoverImage = coverImage ? getOptimizedCoverImage(coverImage) : un
               class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
               sizes="(max-width: 768px) calc(100vw - 2rem), 400px"
               width="640"
-              height="360"
+              height="400"
               layout="constrained"
               loading="lazy"
               decoding="async"
