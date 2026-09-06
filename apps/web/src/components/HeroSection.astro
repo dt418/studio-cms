@@ -14,51 +14,86 @@ export interface Props {
 const { posts, categories, allTags, i18n, lang = 'vi' } = Astro.props
 ---
 
-<section class="border-border border-b">
-  <div class="container py-12 sm:py-20">
-    <div class="mb-8 flex items-center justify-between gap-4">
-      <p
-        class="border-primary text-primary border-l-2 pl-3 font-mono text-[0.66rem] tracking-[0.18em] uppercase"
-      >
-        {i18n.tagline}
-      </p>
-      <div
-        class="text-muted-foreground flex items-center gap-2 font-mono text-[0.65rem] tracking-[0.16em] uppercase"
-      >
-        <span class="bg-primary h-2 w-2 animate-pulse rounded-full"></span>
-        <span class="hidden sm:inline">{i18n.activeNotes}</span>
-      </div>
-    </div>
-    <div class="grid grid-cols-1 items-end gap-10 lg:grid-cols-12">
-      <!-- Left Column -->
-      <div class="lg:col-span-8">
-        <div class="max-w-4xl">
-          <h1 class="font-serif text-5xl leading-[0.98] tracking-[-0.06em] sm:text-7xl md:text-8xl">
-            Danh <em class="text-primary font-serif italic">Thanh</em> Dev.
+<section class="cinematic-hero">
+  <div class="container py-14 sm:py-20 lg:py-24">
+    <div class="grid items-stretch gap-10 lg:grid-cols-[minmax(0,1.12fr)_minmax(360px,0.88fr)] lg:gap-12">
+      <div class="flex flex-col justify-between py-2 lg:py-6">
+        <div>
+          <div class="mb-7 flex items-center gap-4">
+            <span class="bg-primary h-px w-10"></span>
+            <p class="editorial-kicker">{i18n.tagline}</p>
+          </div>
+
+          <h1 class="editorial-display max-w-5xl text-[clamp(3.5rem,7vw,7.4rem)] leading-[0.9] font-semibold tracking-[-0.065em]">
+            Danh <em class="text-primary font-normal italic">Thanh</em> Dev.
           </h1>
-          <p
-            class="text-muted-foreground mt-5 max-w-2xl text-base leading-7 sm:text-lg sm:leading-8"
-          >
+
+          <p class="text-muted-foreground mt-7 max-w-2xl text-base leading-8 sm:text-lg sm:leading-9 lg:text-xl">
             {i18n.description}
           </p>
-        </div>
-        <div class="mt-9 max-w-xl space-y-4">
-          <div data-testid="hero-cta">
-            <CTAButtons i18n={i18n.cta} lang={lang} />
+
+          <div class="mt-9 max-w-xl space-y-5">
+            <div data-testid="hero-cta">
+              <CTAButtons i18n={i18n.cta} lang={lang} />
+            </div>
+            <div
+              data-testid="hero-stats"
+              class="flex flex-wrap items-center gap-x-5 gap-y-3 text-[0.68rem] tracking-[0.15em] uppercase"
+            >
+              <StatsBadge label={i18n.posts} value={posts} />
+              <StatsBadge label={i18n.topics} value={categories} />
+              <StatsBadge label={i18n.tags} value={allTags} />
+            </div>
           </div>
-          <div
-            data-testid="hero-stats"
-            class="hidden flex-wrap items-center gap-3 text-[0.68rem] tracking-[0.18em] uppercase sm:flex"
-          >
-            <StatsBadge label={i18n.posts} value={posts} />
-            <StatsBadge label={i18n.topics} value={categories} />
-            <StatsBadge label={i18n.tags} value={allTags} />
-          </div>
         </div>
+
+        <p class="text-muted-foreground mt-12 max-w-xl font-mono text-xs leading-6 tracking-[0.08em] lg:mt-16">
+          {i18n.activeNotes}
+        </p>
       </div>
-      <!-- Right Column - Terminal Panel -->
-      <div class="lg:col-span-4">
-        <slot name="terminal" />
+
+      <div class="cinematic-panel cinematic-panel-grid relative flex min-h-[30rem] flex-col justify-between overflow-hidden rounded-[1.75rem] p-6 sm:p-8 lg:min-h-[38rem] lg:p-10">
+        <div class="relative z-10 flex items-center justify-between gap-4">
+          <p class="font-mono text-[0.65rem] tracking-[0.2em] text-white/60 uppercase">
+            {i18n.focus.title}
+          </p>
+          <span class="border border-white/15 px-2 py-1 font-mono text-[0.6rem] tracking-[0.18em] text-white/60 uppercase">
+            {lang}
+          </span>
+        </div>
+
+        <div class="relative z-10 my-8 grid gap-3">
+          {
+            i18n.focus.items.map((item, index) => (
+              <div class="group border-b border-white/12 py-4 text-white/85 transition-colors hover:text-white">
+                <div class="flex items-end justify-between gap-6">
+                  <span class="editorial-display text-2xl leading-tight sm:text-3xl">{item}</span>
+                  <span class="font-mono text-xs tabular-nums text-white/40">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="relative z-10 grid grid-cols-3 gap-4 border-t border-white/12 pt-5">
+          <div>
+            <p class="font-mono text-[0.58rem] tracking-[0.18em] text-white/40 uppercase">{i18n.posts}</p>
+            <p class="mt-2 text-xl font-medium text-white">{posts}</p>
+          </div>
+          <div>
+            <p class="font-mono text-[0.58rem] tracking-[0.18em] text-white/40 uppercase">{i18n.topics}</p>
+            <p class="mt-2 text-xl font-medium text-white">{categories}</p>
+          </div>
+          <div>
+            <p class="font-mono text-[0.58rem] tracking-[0.18em] text-white/40 uppercase">{i18n.tags}</p>
+            <p class="mt-2 text-xl font-medium text-white">{allTags}</p>
+          </div>
+        </div>
+
+        <div class="pointer-events-none absolute -right-16 -bottom-24 h-72 w-72 rounded-full border border-white/10"></div>
+        <div class="pointer-events-none absolute -right-2 -bottom-10 h-44 w-44 rounded-full border border-primary/30"></div>
       </div>
     </div>
   </div>
