@@ -36,7 +36,7 @@ const {
 } = Astro.props
 ---
 
-<div class="space-y-7">
+<div class="space-y-6">
   <Breadcrumb
     title={title}
     {...lang !== undefined ? { lang } : {}}
@@ -49,7 +49,7 @@ const {
 
   <div class="flex flex-wrap items-center gap-3">
     <span class="editorial-kicker">{category}</span>
-    <span class="bg-border h-px w-10" aria-hidden="true"></span>
+    <span class="bg-border h-px w-8" aria-hidden="true"></span>
     <PostMetadata
       publishedAt={publishedAt}
       publishedAtIso={publishedAtIso}
@@ -58,11 +58,11 @@ const {
     />
   </div>
 
-  <h1 class="editorial-display max-w-5xl text-[clamp(3rem,6.6vw,6.5rem)] leading-[0.94] font-semibold tracking-[-0.055em]">
+  <h1 class="editorial-display max-w-[58rem] text-[clamp(2.8rem,5.6vw,5.15rem)] leading-[0.96] font-semibold tracking-[-0.052em]">
     {title}
   </h1>
 
-  <p class="text-muted-foreground max-w-3xl text-lg leading-8 text-pretty md:text-xl md:leading-9">
+  <p class="text-muted-foreground max-w-[46rem] text-base leading-7 text-pretty sm:text-lg sm:leading-8">
     {excerpt}
   </p>
 
@@ -72,7 +72,7 @@ const {
 </div>
 
 {coverImage && (
-  <div class="editorial-surface mt-10 overflow-hidden rounded-[1.5rem] p-2 sm:mt-12 sm:p-3">
+  <div class="mt-8 overflow-hidden border-y border-border sm:mt-10">
     <CoverImage coverImage={coverImage} title={title} />
   </div>
 )}
