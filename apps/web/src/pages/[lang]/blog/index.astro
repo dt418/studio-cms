@@ -2,7 +2,6 @@
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import BlogFilter from '@/components/BlogFilter.astro'
 import BlogHeader from '@/components/Blog/BlogHeader.astro'
-import StatsGrid from '@/components/Blog/StatsGrid.astro'
 import {
   getLocalizedPosts,
   getAllTags,
@@ -33,19 +32,10 @@ export async function getStaticPaths() {
 const langParam = Astro.params.lang ?? 'vi'
 const lang = isValidLocale(langParam) ? langParam : 'vi'
 const siteUrl = getSiteOrigin()
-
 const i18n = getTranslations(lang)
 const posts = await getLocalizedPosts(lang)
 const categories = await getAllCategories(lang)
 const tags = await getAllTags(lang)
-
-const stats = [
-  { value: posts.length, label: i18n.blog.stats.publishedNotes },
-  { value: categories.length, label: i18n.blog.stats.categories },
-  { value: tags.length, label: i18n.blog.stats.tags },
-  { value: new Date().getFullYear(), label: i18n.blog.stats.archiveSnapshot },
-]
-
 const blogPath = getBlogPath(lang)
 const canonicalUrl = toCanonicalUrl(blogPath, siteUrl)
 const seo = createSeoDocument({
@@ -82,14 +72,15 @@ const seo = createSeoDocument({
     badge={i18n.blog.archive}
   />
 
-  <section class="container py-10">
-    <StatsGrid stats={stats} />
-    <BlogFilter
-      posts={posts}
-      categories={categories}
-      tags={tags}
-      locale={lang}
-      i18n={i18n.filter}
-    />
+  <section class="container py-10 sm:py-14 lg:py-16">
+    <div class="editorial-surface rounded-[1.5rem] p-4 sm:p-6 lg:p-8">
+      <BlogFilter
+        posts={posts}
+        categories={categories}
+        tags={tags}
+        locale={lang}
+        i18n={i18n.filter}
+      />
+    </div>
   </section>
 </BaseLayout>
