@@ -47,169 +47,178 @@ const featuredMark = featuredPost ? getFeaturedMark(featuredPost.data.title) : '
 const featuredMarkLabel = featuredPost?.data.category ?? ''
 const featuredCover = featuredPost?.data.coverImage
 const optimizedFeaturedCover = featuredCover ? getOptimizedCoverImage(featuredCover) : undefined
+const sectionTitle = lang === 'vi' ? 'Bài viết nổi bật' : 'Featured writing'
+const sectionDescription =
+  lang === 'vi'
+    ? 'Những bài viết tâm đắc và hữu ích nhất, được chọn lọc kỹ càng.'
+    : 'A considered selection of practical writing worth starting with.'
+const allPostsLabel = lang === 'vi' ? 'Xem tất cả bài viết' : 'View all writing'
 ---
 
-<section class="border-border border-b">
-  <div class="container py-16 sm:py-20 lg:py-28">
-    <div class="mb-10 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.45fr)] lg:items-end">
-      <div class="max-w-3xl">
-        <div class="mb-4 flex items-center gap-3">
-          <span class="bg-primary h-px w-10"></span>
-          <p class="editorial-kicker">{i18n.featured}</p>
-        </div>
-        <h2 class="editorial-display max-w-3xl text-4xl leading-[0.98] font-semibold tracking-[-0.045em] sm:text-5xl lg:text-6xl">
-          {i18n.latestFromBlog}
+<section class="approved-featured border-border border-b bg-background">
+  <div class="container py-11 sm:py-14 lg:py-16">
+    <div class="mb-6 flex items-end justify-between gap-5 border-b border-border pb-4 sm:mb-7">
+      <div>
+        <h2 class="editorial-display text-3xl leading-none font-semibold tracking-[-0.035em] sm:text-4xl">
+          {sectionTitle}
         </h2>
-        <p class="text-muted-foreground mt-4 max-w-2xl text-base leading-8 sm:text-lg">
-          {i18n.recentDescription}
-        </p>
+        <p class="text-muted-foreground mt-2 text-sm leading-6 sm:text-base">{sectionDescription}</p>
       </div>
-      <div class="hidden justify-self-end lg:block" aria-hidden="true">
-        <div class="h-px w-40 bg-border"></div>
-      </div>
+      <a href={`/${lang}/blog/`} class="site-footer-link hidden sm:inline-flex">
+        {allPostsLabel} <span aria-hidden="true">→</span>
+      </a>
     </div>
 
     {
       featuredPost && (
-        <a
-          href={featuredPath}
-          data-testid="featured-work"
-          class="group editorial-surface relative mb-14 block overflow-hidden rounded-[1.6rem] transition-transform duration-300 hover:-translate-y-1"
-        >
-          <div class="grid min-h-[30rem] lg:grid-cols-[minmax(0,1.05fr)_minmax(340px,0.95fr)]">
-            <div class="flex flex-col justify-between p-6 sm:p-10 lg:p-12">
-              <div>
-                <div class="mb-6 flex flex-wrap items-center gap-3">
-                  <span data-testid="featured-category" class="editorial-kicker">
-                    {featuredPost.data.category}
-                  </span>
-                  <span class="bg-border h-px w-8" aria-hidden="true" />
-                  <time class="text-muted-foreground font-mono text-[0.66rem] tracking-[0.14em] uppercase">
-                    {formatDate(featuredPost.data.publishedAt, lang)}
-                  </time>
-                  {featuredReadingTime !== undefined && (
-                    <span
-                      data-testid="featured-reading-time"
-                      class="text-muted-foreground/70 font-mono text-[0.66rem] tracking-[0.14em] uppercase"
-                    >
-                      {featuredReadingTime} {i18n.minRead}
-                    </span>
-                  )}
-                </div>
-
-                <h3 class="editorial-display text-foreground group-hover:text-primary max-w-3xl text-4xl leading-[0.98] font-semibold tracking-[-0.045em] transition-colors sm:text-5xl lg:text-6xl">
-                  {featuredPost.data.title}
-                </h3>
-                <p class="text-muted-foreground mt-6 max-w-2xl text-base leading-8">
-                  {featuredPost.data.excerpt}
-                </p>
-              </div>
-
-              <div class="text-primary mt-10 flex items-center gap-2 font-mono text-[0.68rem] font-semibold tracking-[0.16em] uppercase">
-                <span>{i18n.readMore}</span>
-                <span class="inline-block transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
-                  →
-                </span>
-              </div>
-            </div>
-
-            <div class="border-border relative min-h-72 overflow-hidden border-t lg:border-t-0 lg:border-l">
-              {featuredCover ? (
-                optimizedFeaturedCover ? (
-                  <Image
-                    src={optimizedFeaturedCover}
-                    alt={featuredPost.data.title}
-                    width="960"
-                    height="720"
-                    layout="constrained"
-                    class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
-                    sizes="(max-width: 1024px) 100vw, 45vw"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                ) : (
-                  <Image
-                    src={featuredCover}
-                    alt={featuredPost.data.title}
-                    width="960"
-                    height="720"
-                    layout="constrained"
-                    class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
-                    sizes="(max-width: 1024px) 100vw, 45vw"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                )
+        <div class="grid gap-4 lg:grid-cols-[minmax(0,1.18fr)_minmax(22rem,0.82fr)] lg:gap-5">
+          <a
+            href={featuredPath}
+            data-testid="featured-work"
+            class="approved-feature-card group relative min-h-[27rem] overflow-hidden border border-border bg-card sm:min-h-[31rem] lg:min-h-[35rem]"
+          >
+            {featuredCover ? (
+              optimizedFeaturedCover ? (
+                <Image
+                  src={optimizedFeaturedCover}
+                  alt={featuredPost.data.title}
+                  width="1200"
+                  height="900"
+                  layout="constrained"
+                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.025]"
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  loading="lazy"
+                  decoding="async"
+                />
               ) : (
-                <div class="cinematic-panel cinematic-panel-grid flex h-full min-h-72 items-center justify-center p-8">
-                  <span class="editorial-display text-primary text-8xl leading-none font-semibold tracking-[-0.08em]">
-                    {featuredMark}
-                  </span>
-                </div>
-              )}
+                <Image
+                  src={featuredCover}
+                  alt={featuredPost.data.title}
+                  width="1200"
+                  height="900"
+                  layout="constrained"
+                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.025]"
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )
+            ) : (
+              <div class="approved-card-fallback absolute inset-0" aria-hidden="true" />
+            )}
 
-              <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-6 pt-20 text-white">
-                <span
-                  data-testid="featured-mark"
-                  class="editorial-display text-4xl leading-none font-semibold tracking-[-0.06em]"
-                >
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/38 to-black/10" aria-hidden="true"></div>
+
+            <div class="relative z-10 flex min-h-[inherit] flex-col justify-between p-5 text-white sm:p-7 lg:p-8">
+              <div class="flex items-start justify-between gap-4">
+                <span class="bg-primary px-2.5 py-1 font-mono text-[0.58rem] font-semibold tracking-[0.14em] text-white uppercase">
+                  {i18n.featured}
+                </span>
+                <span data-testid="featured-mark" class="editorial-display text-2xl font-semibold text-white/80">
                   {featuredMark}
                 </span>
-                <div class="mt-3 flex items-center justify-between gap-4">
-                  <span data-testid="featured-mark-label" class="font-mono text-[0.62rem] tracking-[0.18em] text-white/75 uppercase">
-                    {featuredMarkLabel}
-                  </span>
-                  <span class="border border-white/25 px-2 py-1 font-mono text-[0.58rem] tracking-[0.16em] text-white/75 uppercase">
-                    {i18n.featuredIndex}
-                  </span>
+              </div>
+
+              <div class="max-w-[42rem]">
+                <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[0.6rem] tracking-[0.1em] text-white/70 uppercase">
+                  <time>{formatDate(featuredPost.data.publishedAt, lang)}</time>
+                  <span aria-hidden="true">·</span>
+                  <span data-testid="featured-category">{featuredPost.data.category}</span>
+                  {featuredReadingTime !== undefined && (
+                    <>
+                      <span aria-hidden="true">·</span>
+                      <span data-testid="featured-reading-time">
+                        {featuredReadingTime} {i18n.minRead}
+                      </span>
+                    </>
+                  )}
                 </div>
+                <h3 class="editorial-display text-[clamp(2rem,4vw,3.8rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-white">
+                  {featuredPost.data.title}
+                </h3>
+                <p class="mt-4 line-clamp-3 max-w-2xl text-sm leading-6 text-white/76 sm:text-base sm:leading-7">
+                  {featuredPost.data.excerpt}
+                </p>
+                <div class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#ff8a67]">
+                  {i18n.readMore} <span aria-hidden="true">→</span>
+                </div>
+                <span data-testid="featured-mark-label" class="sr-only">{featuredMarkLabel}</span>
               </div>
             </div>
-          </div>
-        </a>
-      )
-    }
+          </a>
 
-    {
-      recentPosts.length > 0 && (
-        <div>
-          <div class="mb-5 flex items-center justify-between gap-4">
-            <p class="editorial-kicker">{i18n.recentLabel}</p>
-            <span class="text-muted-foreground font-mono text-[0.62rem] tracking-[0.16em] uppercase">
-              {recentPosts.length.toString().padStart(2, '0')} {i18n.notesLabel}
-            </span>
-          </div>
-          <div class="border-border divide-border divide-y border-y">
-            {recentPosts.map((post, index) => (
-              <a
-                href={getPostPath(post)}
-                class="group hover:bg-card/40 relative grid gap-4 px-2 py-7 transition-colors sm:grid-cols-[48px_minmax(0,1fr)_auto] sm:items-center sm:px-4"
-              >
-                <span class="text-muted-foreground/50 font-mono text-[0.68rem] tracking-[0.16em] tabular-nums">
-                  {String(index + 2).padStart(2, '0')}
-                </span>
-                <span class="min-w-0">
-                  <span class="mb-2 flex flex-wrap items-center gap-3">
-                    <span class="editorial-kicker">{post.data.category}</span>
-                    <time class="text-muted-foreground/70 font-mono text-[0.62rem] tracking-[0.12em] uppercase">
-                      {formatDate(post.data.publishedAt, lang)}
-                    </time>
-                  </span>
-                  <span class="editorial-display text-foreground group-hover:text-primary block max-w-4xl text-2xl leading-tight font-semibold tracking-[-0.025em] text-pretty transition-colors sm:text-3xl">
-                    {post.data.title}
-                  </span>
-                  <span class="text-muted-foreground mt-2 line-clamp-2 block max-w-3xl text-sm leading-6">
-                    {post.data.excerpt}
-                  </span>
-                </span>
-                <span class="text-primary font-mono text-[0.62rem] tracking-[0.16em] uppercase transition-transform duration-300 group-hover:translate-x-1">
-                  →
-                </span>
-              </a>
-            ))}
+          <div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+            {recentPosts.map((post, index) => {
+              const cover = post.data.coverImage
+              const optimizedCover = cover ? getOptimizedCoverImage(cover) : undefined
+              const postReadingTime =
+                post.data.readingTime ?? (post.body !== undefined ? readingTime(post.body) : undefined)
+
+              return (
+                <a
+                  href={getPostPath(post)}
+                  class="approved-supporting-card group grid min-h-[9.25rem] grid-cols-[8.5rem_minmax(0,1fr)] overflow-hidden border border-border bg-card transition-colors hover:border-primary/45 sm:grid-cols-1 lg:grid-cols-[10rem_minmax(0,1fr)]"
+                >
+                  <div class="relative min-h-[8.25rem] overflow-hidden bg-muted sm:min-h-32 lg:min-h-full">
+                    {cover ? (
+                      optimizedCover ? (
+                        <Image
+                          src={optimizedCover}
+                          alt=""
+                          width="420"
+                          height="300"
+                          layout="constrained"
+                          class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.035]"
+                          sizes="(max-width: 640px) 35vw, (max-width: 1024px) 30vw, 12vw"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      ) : (
+                        <Image
+                          src={cover}
+                          alt=""
+                          width="420"
+                          height="300"
+                          layout="constrained"
+                          class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.035]"
+                          sizes="(max-width: 640px) 35vw, (max-width: 1024px) 30vw, 12vw"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )
+                    ) : (
+                      <div class="approved-card-fallback absolute inset-0" aria-hidden="true" />
+                    )}
+                  </div>
+                  <div class="flex min-w-0 flex-col justify-between p-4 sm:p-4 lg:p-5">
+                    <div>
+                      <div class="mb-2 flex items-center justify-between gap-3">
+                        <span class="editorial-kicker">{post.data.category}</span>
+                        <span class="text-muted-foreground/55 font-mono text-[0.58rem] tabular-nums">
+                          {String(index + 2).padStart(2, '0')}
+                        </span>
+                      </div>
+                      <h3 class="editorial-display text-foreground group-hover:text-primary line-clamp-3 text-xl leading-[1.08] font-semibold tracking-[-0.025em] transition-colors">
+                        {post.data.title}
+                      </h3>
+                    </div>
+                    <div class="text-muted-foreground mt-4 flex flex-wrap gap-x-2 text-[0.66rem]">
+                      <time>{formatDate(post.data.publishedAt, lang)}</time>
+                      {postReadingTime !== undefined && <span>· {postReadingTime} {i18n.minRead}</span>}
+                    </div>
+                  </div>
+                </a>
+              )
+            })}
           </div>
         </div>
       )
     }
+
+    <div class="mt-6 sm:hidden">
+      <a href={`/${lang}/blog/`} class="site-footer-link inline-flex">
+        {allPostsLabel} <span aria-hidden="true">→</span>
+      </a>
+    </div>
   </div>
 </section>
