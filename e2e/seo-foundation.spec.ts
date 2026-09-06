@@ -111,6 +111,14 @@ async function getApiPosts(request: APIRequestContext): Promise<ApiPost[]> {
   return payload as ApiPost[]
 }
 
+function getLocaleTermSets(posts: ApiPost[], locale: 'vi' | 'en') {
+  const localePosts = posts.filter((post) => post.locale === locale)
+  return {
+    tags: new Set(localePosts.flatMap((post) => post.tags)),
+    categories: new Set(localePosts.map((post) => post.category)),
+  }
+}
+
 async function readJsonLd(page: Page): Promise<SchemaNode[]> {
   const scripts = page.locator('script[type="application/ld+json"]')
   const count = await scripts.count()
@@ -316,9 +324,23 @@ test.describe('served SEO HTML', () => {
   test('taxonomy pages expose reciprocal hreflang links', async ({ request }) => {
     const sitemap = parseSitemapLocations(await (await request.get('/sitemap.xml')).text())
     const sitemapSet = new Set(sitemap)
+    const apiPosts = await getApiPosts(request)
+    const locales = ['vi', 'en'] as const
+    const localeTerms = {
+      vi: getLocaleTermSets(apiPosts, 'vi'),
+      en: getLocaleTermSets(apiPosts, 'en'),
+    }
 
     for (const location of sitemap.filter((entry) => /\/(?:tags|categories)\//.test(entry))) {
       const path = new URL(location).pathname
+      const [, , kind, rawTerm] = path.split('/')
+      if ((kind !== 'tags' && kind !== 'categories') || !rawTerm)
+        throw new Error(`Unexpected taxonomy sitemap entry: ${location}`)
+      const term = decodeURIComponent(rawTerm)
+      const expectedLocales = locales.filter((locale) => {
+        const terms = localeTerms[locale]
+        return kind === 'tags' ? terms.tags.has(term) : terms.categories.has(term)
+      })
       const html = await (await request.get(path)).text()
       const links = readTagAttributes(html, 'link').filter(
         (attributes) => attributes.rel === 'alternate' && attributes.hreflang
@@ -326,7 +348,7 @@ test.describe('served SEO HTML', () => {
       expect(
         links.map((link) => link.hreflang),
         location
-      ).toEqual(expect.arrayContaining(['vi', 'en']))
+      ).toEqual(expect.arrayContaining(expectedLocales))
       for (const link of links)
         expect(sitemapSet.has(link.href), `${location}: ${link.href}`).toBe(true)
     }
