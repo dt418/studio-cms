@@ -1,13 +1,10 @@
-name: Harness context bootstrap
+name: Harness context export
 
 on:
   pull_request:
 
-permissions:
-  contents: write
-
 jobs:
-  refresh-context:
+  export-context:
     if: github.event.pull_request.head.ref == 'codex/editorial-cinematic-redesign'
     runs-on: ubuntu-latest
     steps:
@@ -48,11 +45,9 @@ jobs:
           EOF
       - name: Regenerate context graph
         run: pnpm harness:context
-      - name: Commit generated context
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .github/workflows/harness-portability.yml graphify-out/
-          git commit -m "chore: regenerate harness context"
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+      - uses: actions/upload-artifact@v7
+        with:
+          name: final-harness-context
+          path: |
+            .github/workflows/harness-portability.yml
+            graphify-out/
