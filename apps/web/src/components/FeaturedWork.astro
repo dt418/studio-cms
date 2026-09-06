@@ -1,9 +1,11 @@
 ---
+import { Image } from 'astro:assets'
 import type { Post } from '@/lib/content-queries'
 import { formatDate } from '@/lib/date'
 import { getPostPath } from '@/lib/routes'
 import { readingTime } from '@/lib/reading-time'
 import { getFeaturedMark } from '@/lib/featured-work'
+import { getOptimizedCoverImage } from '@/lib/cover-images'
 
 interface Props {
   featuredPost: Post | null
@@ -43,23 +45,27 @@ const featuredReadingTime =
   (featuredPost?.body !== undefined ? readingTime(featuredPost.body) : undefined)
 const featuredMark = featuredPost ? getFeaturedMark(featuredPost.data.title) : ''
 const featuredMarkLabel = featuredPost?.data.category ?? ''
+const featuredCover = featuredPost?.data.coverImage
+const optimizedFeaturedCover = featuredCover ? getOptimizedCoverImage(featuredCover) : undefined
 ---
 
 <section class="border-border border-b">
-  <div class="container py-14 lg:py-20">
-    <div
-      class="border-border mb-8 flex flex-col gap-3 border-b pb-5 sm:flex-row sm:items-end sm:justify-between"
-    >
+  <div class="container py-16 sm:py-20 lg:py-28">
+    <div class="mb-10 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.45fr)] lg:items-end">
       <div class="max-w-3xl">
-        <p class="text-primary font-mono text-[0.66rem] tracking-[0.18em] uppercase">
-          {i18n.featured}
-        </p>
-        <h2 class="mt-3 max-w-2xl font-serif text-3xl font-bold tracking-tight lg:text-4xl">
+        <div class="mb-4 flex items-center gap-3">
+          <span class="bg-primary h-px w-10"></span>
+          <p class="editorial-kicker">{i18n.featured}</p>
+        </div>
+        <h2 class="editorial-display max-w-3xl text-4xl leading-[0.98] font-semibold tracking-[-0.045em] sm:text-5xl lg:text-6xl">
           {i18n.latestFromBlog}
         </h2>
-        <p class="text-muted-foreground mt-3 max-w-2xl text-base leading-7 sm:text-lg">
+        <p class="text-muted-foreground mt-4 max-w-2xl text-base leading-8 sm:text-lg">
           {i18n.recentDescription}
         </p>
+      </div>
+      <div class="hidden justify-self-end lg:block" aria-hidden="true">
+        <div class="h-px w-40 bg-border"></div>
       </div>
     </div>
 
@@ -68,62 +74,99 @@ const featuredMarkLabel = featuredPost?.data.category ?? ''
         <a
           href={featuredPath}
           data-testid="featured-work"
-          class="group border-border bg-card/30 hover:border-primary relative mb-14 block overflow-hidden rounded-xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+          class="group editorial-surface relative mb-14 block overflow-hidden rounded-[1.6rem] transition-transform duration-300 hover:-translate-y-1"
         >
-          <span class="bg-primary absolute inset-y-0 left-0 w-1 origin-bottom scale-y-0 transition-transform duration-500 group-hover:scale-y-100" />
-          <div class="grid items-stretch lg:grid-cols-[minmax(0,1.4fr)_minmax(260px,0.6fr)]">
-            <div class="p-6 sm:p-10 lg:p-12">
-              <div class="mb-5 flex flex-wrap items-center gap-3">
-                <span
-                  data-testid="featured-category"
-                  class="bg-accent text-accent-foreground rounded px-2.5 py-1 font-mono text-[0.62rem] font-bold tracking-[0.16em] uppercase"
-                >
-                  {featuredPost.data.category}
-                </span>
-                <time class="text-muted-foreground font-mono text-[0.66rem] tracking-[0.18em] uppercase">
-                  {formatDate(featuredPost.data.publishedAt, lang)}
-                </time>
-                {featuredReadingTime !== undefined && (
-                  <span
-                    data-testid="featured-reading-time"
-                    class="text-muted-foreground/50 font-mono text-[0.66rem] tracking-[0.16em] uppercase"
-                  >
-                    {featuredReadingTime} {i18n.minRead}
+          <div class="grid min-h-[30rem] lg:grid-cols-[minmax(0,1.05fr)_minmax(340px,0.95fr)]">
+            <div class="flex flex-col justify-between p-6 sm:p-10 lg:p-12">
+              <div>
+                <div class="mb-6 flex flex-wrap items-center gap-3">
+                  <span data-testid="featured-category" class="editorial-kicker">
+                    {featuredPost.data.category}
                   </span>
-                )}
+                  <span class="bg-border h-px w-8" aria-hidden="true" />
+                  <time class="text-muted-foreground font-mono text-[0.66rem] tracking-[0.14em] uppercase">
+                    {formatDate(featuredPost.data.publishedAt, lang)}
+                  </time>
+                  {featuredReadingTime !== undefined && (
+                    <span
+                      data-testid="featured-reading-time"
+                      class="text-muted-foreground/70 font-mono text-[0.66rem] tracking-[0.14em] uppercase"
+                    >
+                      {featuredReadingTime} {i18n.minRead}
+                    </span>
+                  )}
+                </div>
+
+                <h3 class="editorial-display text-foreground group-hover:text-primary max-w-3xl text-4xl leading-[0.98] font-semibold tracking-[-0.045em] transition-colors sm:text-5xl lg:text-6xl">
+                  {featuredPost.data.title}
+                </h3>
+                <p class="text-muted-foreground mt-6 max-w-2xl text-base leading-8">
+                  {featuredPost.data.excerpt}
+                </p>
               </div>
 
-              <h3 class="text-foreground group-hover:text-primary max-w-3xl font-serif text-3xl leading-[1.08] font-bold tracking-tight transition-colors sm:text-4xl lg:text-5xl">
-                {featuredPost.data.title}
-              </h3>
-              <p class="text-muted-foreground mt-5 max-w-2xl text-sm leading-7 sm:text-base">
-                {featuredPost.data.excerpt}
-              </p>
-
-              <div class="text-primary mt-8 flex items-center gap-2 font-mono text-[0.66rem] font-semibold tracking-[0.18em] uppercase">
+              <div class="text-primary mt-10 flex items-center gap-2 font-mono text-[0.68rem] font-semibold tracking-[0.16em] uppercase">
                 <span>{i18n.readMore}</span>
-                <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                <span class="inline-block transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
                   →
                 </span>
               </div>
             </div>
 
-            <div class="border-border bg-background/70 flex min-h-64 flex-col items-center justify-center border-t p-8 lg:border-t-0 lg:border-l">
-              <span
-                data-testid="featured-mark"
-                class="text-primary font-serif text-8xl leading-none font-bold tracking-[-0.08em] transition-transform duration-500 group-hover:scale-105"
-              >
-                {featuredMark}
-              </span>
-              <span
-                data-testid="featured-mark-label"
-                class="text-muted-foreground mt-3 font-mono text-[0.62rem] tracking-[0.2em] uppercase"
-              >
-                {featuredMarkLabel}
-              </span>
-              <span class="border-primary/40 text-primary mt-7 border px-3 py-1 font-mono text-[0.58rem] tracking-[0.2em] uppercase">
-                {i18n.featuredIndex}
-              </span>
+            <div class="border-border relative min-h-72 overflow-hidden border-t lg:border-t-0 lg:border-l">
+              {featuredCover ? (
+                optimizedFeaturedCover ? (
+                  <Image
+                    src={optimizedFeaturedCover}
+                    alt={featuredPost.data.title}
+                    width="960"
+                    height="720"
+                    layout="constrained"
+                    class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <Image
+                    src={featuredCover}
+                    alt={featuredPost.data.title}
+                    width="960"
+                    height="720"
+                    layout="constrained"
+                    class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )
+              ) : (
+                <div class="cinematic-panel cinematic-panel-grid flex h-full min-h-72 items-center justify-center p-8">
+                  <span
+                    data-testid="featured-mark"
+                    class="editorial-display text-primary text-8xl leading-none font-semibold tracking-[-0.08em]"
+                  >
+                    {featuredMark}
+                  </span>
+                </div>
+              )}
+
+              <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-6 pt-20 text-white">
+                <span
+                  data-testid="featured-mark"
+                  class="editorial-display text-4xl leading-none font-semibold tracking-[-0.06em]"
+                >
+                  {featuredMark}
+                </span>
+                <div class="mt-3 flex items-center justify-between gap-4">
+                  <span data-testid="featured-mark-label" class="font-mono text-[0.62rem] tracking-[0.18em] text-white/75 uppercase">
+                    {featuredMarkLabel}
+                  </span>
+                  <span class="border border-white/25 px-2 py-1 font-mono text-[0.58rem] tracking-[0.16em] text-white/75 uppercase">
+                    {i18n.featuredIndex}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </a>
@@ -134,9 +177,7 @@ const featuredMarkLabel = featuredPost?.data.category ?? ''
       recentPosts.length > 0 && (
         <div>
           <div class="mb-5 flex items-center justify-between gap-4">
-            <p class="text-primary font-mono text-[0.66rem] tracking-[0.18em] uppercase">
-              {i18n.recentLabel}
-            </p>
+            <p class="editorial-kicker">{i18n.recentLabel}</p>
             <span class="text-muted-foreground font-mono text-[0.62rem] tracking-[0.16em] uppercase">
               {recentPosts.length.toString().padStart(2, '0')} {i18n.notesLabel}
             </span>
@@ -145,24 +186,22 @@ const featuredMarkLabel = featuredPost?.data.category ?? ''
             {recentPosts.map((post, index) => (
               <a
                 href={getPostPath(post)}
-                class="group hover:bg-card/40 relative grid gap-4 px-3 py-6 transition-colors sm:grid-cols-[48px_minmax(0,1fr)_auto] sm:items-center sm:px-4"
+                class="group hover:bg-card/40 relative grid gap-4 px-2 py-7 transition-colors sm:grid-cols-[48px_minmax(0,1fr)_auto] sm:items-center sm:px-4"
               >
                 <span class="text-muted-foreground/50 font-mono text-[0.68rem] tracking-[0.16em] tabular-nums">
                   {String(index + 2).padStart(2, '0')}
                 </span>
                 <span class="min-w-0">
                   <span class="mb-2 flex flex-wrap items-center gap-3">
-                    <span class="text-primary font-mono text-[0.62rem] tracking-[0.16em] uppercase">
-                      {post.data.category}
-                    </span>
-                    <time class="text-muted-foreground/60 font-mono text-[0.62rem] tracking-[0.16em] uppercase">
+                    <span class="editorial-kicker">{post.data.category}</span>
+                    <time class="text-muted-foreground/70 font-mono text-[0.62rem] tracking-[0.12em] uppercase">
                       {formatDate(post.data.publishedAt, lang)}
                     </time>
                   </span>
-                  <span class="text-foreground group-hover:text-primary block truncate font-serif text-xl font-bold tracking-tight transition-colors sm:text-2xl">
+                  <span class="editorial-display text-foreground group-hover:text-primary block max-w-4xl text-2xl leading-tight font-semibold tracking-[-0.025em] text-pretty transition-colors sm:text-3xl">
                     {post.data.title}
                   </span>
-                  <span class="text-muted-foreground mt-2 line-clamp-1 block text-sm">
+                  <span class="text-muted-foreground mt-2 line-clamp-2 block max-w-3xl text-sm leading-6">
                     {post.data.excerpt}
                   </span>
                 </span>
