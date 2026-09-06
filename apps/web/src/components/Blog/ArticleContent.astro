@@ -25,20 +25,17 @@ const { tags, author, prevPost, nextPost, i18n } = Astro.props
 ---
 
 <div class="order-1 min-w-0 lg:order-2">
-  <div class="prose prose-lg">
+  <div class="prose prose-lg mx-auto max-w-[74ch]">
     <slot />
   </div>
 
-  <!-- Tags -->
-  <footer class="border-border mt-12 border-t pt-8">
+  <footer class="border-border mx-auto mt-14 max-w-[74ch] border-t pt-8">
     <div class="mb-8 flex flex-wrap gap-2">
       <TagsList tags={tags} />
     </div>
 
-    <!-- Author Card -->
     <AuthorCard author={author} {...i18n?.author && { i18n: i18n.author }} />
 
-    <!-- Prev/Next Navigation -->
     <PostNavigation
       {...prevPost && { prevPost }}
       {...nextPost && { nextPost }}
