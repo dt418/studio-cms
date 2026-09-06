@@ -16,6 +16,11 @@ const PUBLIC_DESCRIPTION_FIXTURE = {
   category: 'tutorials',
   tags: ['typescript', 'programming', 'generics'],
 }
+const LOCALE_SPECIFIC_TAXONOMY_FIXTURE = {
+  locale: 'vi' as const,
+  category: 'e2e-locale-only',
+  tag: 'e2e-locale-only',
+}
 
 interface ApiPost {
   slug: string
@@ -109,6 +114,14 @@ async function getApiPosts(request: APIRequestContext): Promise<ApiPost[]> {
   const payload = (await response.json()) as unknown
   expect(Array.isArray(payload)).toBe(true)
   return payload as ApiPost[]
+}
+
+function getLocaleTermSets(posts: ApiPost[], locale: 'vi' | 'en') {
+  const localePosts = posts.filter((post) => post.locale === locale)
+  return {
+    tags: new Set(localePosts.flatMap((post) => post.tags)),
+    categories: new Set(localePosts.map((post) => post.category)),
+  }
 }
 
 async function readJsonLd(page: Page): Promise<SchemaNode[]> {
@@ -316,9 +329,34 @@ test.describe('served SEO HTML', () => {
   test('taxonomy pages expose reciprocal hreflang links', async ({ request }) => {
     const sitemap = parseSitemapLocations(await (await request.get('/sitemap.xml')).text())
     const sitemapSet = new Set(sitemap)
+    const apiPosts = await getApiPosts(request)
+    const locales = ['vi', 'en'] as const
+    const localeTerms = {
+      vi: getLocaleTermSets(apiPosts, 'vi'),
+      en: getLocaleTermSets(apiPosts, 'en'),
+    }
+    const fixtureLocale = LOCALE_SPECIFIC_TAXONOMY_FIXTURE.locale
+    const otherLocale = locales.find((locale) => locale !== fixtureLocale)
+    if (!otherLocale) throw new Error('Locale-specific taxonomy fixture needs another locale')
+    expect(localeTerms[fixtureLocale].tags.has(LOCALE_SPECIFIC_TAXONOMY_FIXTURE.tag)).toBe(true)
+    expect(localeTerms[otherLocale].tags.has(LOCALE_SPECIFIC_TAXONOMY_FIXTURE.tag)).toBe(false)
+    expect(
+      localeTerms[fixtureLocale].categories.has(LOCALE_SPECIFIC_TAXONOMY_FIXTURE.category)
+    ).toBe(true)
+    expect(localeTerms[otherLocale].categories.has(LOCALE_SPECIFIC_TAXONOMY_FIXTURE.category)).toBe(
+      false
+    )
 
     for (const location of sitemap.filter((entry) => /\/(?:tags|categories)\//.test(entry))) {
       const path = new URL(location).pathname
+      const [, , kind, rawTerm] = path.split('/')
+      if ((kind !== 'tags' && kind !== 'categories') || !rawTerm)
+        throw new Error(`Unexpected taxonomy sitemap entry: ${location}`)
+      const term = decodeURIComponent(rawTerm)
+      const expectedLocales = locales.filter((locale) => {
+        const terms = localeTerms[locale]
+        return kind === 'tags' ? terms.tags.has(term) : terms.categories.has(term)
+      })
       const html = await (await request.get(path)).text()
       const links = readTagAttributes(html, 'link').filter(
         (attributes) => attributes.rel === 'alternate' && attributes.hreflang
@@ -326,7 +364,13 @@ test.describe('served SEO HTML', () => {
       expect(
         links.map((link) => link.hreflang),
         location
-      ).toEqual(expect.arrayContaining(['vi', 'en']))
+      ).toEqual([...expectedLocales, ...(expectedLocales.includes('vi') ? ['x-default'] : [])])
+      const xDefault = links.find((link) => link.hreflang === 'x-default')
+      if (expectedLocales.includes('vi')) {
+        expect(xDefault?.href, location).toBe(links.find((link) => link.hreflang === 'vi')?.href)
+      } else {
+        expect(xDefault, location).toBeUndefined()
+      }
       for (const link of links)
         expect(sitemapSet.has(link.href), `${location}: ${link.href}`).toBe(true)
     }

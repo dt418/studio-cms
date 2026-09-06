@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "89095296df09037d262bc7c9bda156d3f2edaf5b21d2a78b70a86da62ebe1b65"
+    "context": "b41e4b3fe4f3d4d0324a6e5c2200bef3ea5b410b806941858bf35a22c35f9164"
   },
   "nodes": [
     {
@@ -826,6 +826,12 @@
       "kind": "context",
       "label": "mastering-typescript-generics.md",
       "path": "apps/web/src/content/posts/vi/mastering-typescript-generics.md"
+    },
+    {
+      "id": "file:apps/web/src/content/posts/vi/seo-e2e-locale-taxonomy.md",
+      "kind": "context",
+      "label": "seo-e2e-locale-taxonomy.md",
+      "path": "apps/web/src/content/posts/vi/seo-e2e-locale-taxonomy.md"
     },
     {
       "id": "file:apps/web/src/content/posts/vi/seo-e2e-noindex.md",
@@ -4079,6 +4085,11 @@
     {
       "from": "workspace:root",
       "to": "file:apps/web/src/content/posts/vi/mastering-typescript-generics.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:apps/web/src/content/posts/vi/seo-e2e-locale-taxonomy.md",
       "type": "contains"
     },
     {
