@@ -52,7 +52,7 @@ const optimizedCoverImage = coverImage ? getOptimizedCoverImage(coverImage) : un
       )
     }
 
-    <div class="flex flex-1 flex-col p-5 sm:p-6">
+    <div class="flex flex-1 flex-col p-5 pb-3 sm:p-6 sm:pb-3">
       <div class="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2">
         <span class="editorial-kicker">{category}</span>
         <span class="bg-border h-px w-6" aria-hidden="true"></span>
@@ -67,10 +67,10 @@ const optimizedCoverImage = coverImage ? getOptimizedCoverImage(coverImage) : un
       <p class="text-muted-foreground mt-3 line-clamp-3 text-sm leading-7 text-pretty">
         {excerpt}
       </p>
-
-      <div class="mt-auto pt-6">
-        <TagsList tags={tags} post={post} />
-      </div>
     </div>
   </a>
+
+  <div class="px-5 pb-5 sm:px-6 sm:pb-6">
+    <TagsList tags={tags} post={post} />
+  </div>
 </article>
