@@ -1,7 +1,6 @@
 ---
-import StatsBadge from './StatsBadge.astro'
-import CTAButtons from './CTAButtons.astro'
 import type { Translations } from '@/lib/i18n'
+import { getAboutPath, getBlogPath } from '@/lib/routes'
 
 export interface Props {
   posts: number
@@ -9,92 +8,105 @@ export interface Props {
   allTags: number
   i18n: Translations['hero']
   lang?: 'vi' | 'en'
+  heroImage?: string
 }
 
-const { posts, categories, allTags, i18n, lang = 'vi' } = Astro.props
+const { posts, categories, allTags, i18n, lang = 'vi', heroImage } = Astro.props
+const blogPath = getBlogPath(lang)
+const aboutPath = getAboutPath(lang)
+
+const copy =
+  lang === 'vi'
+    ? {
+        eyebrow: 'DEV · IDEAS · A BRIGHTER INTERNET',
+        lineOne: 'Xây sản phẩm tốt hơn.',
+        lineTwo: 'Chia sẻ điều học được.',
+        about: 'Về tôi',
+        postLabel: 'Bài viết',
+        topicLabel: 'Chủ đề',
+        tagLabel: 'Thẻ',
+        note: 'Những người phần mềm bắt đầu từ những người sẵn sàng học hỏi.',
+      }
+    : {
+        eyebrow: 'DEV · IDEAS · A BRIGHTER INTERNET',
+        lineOne: 'Build better products.',
+        lineTwo: 'Share what you learn.',
+        about: 'About me',
+        postLabel: 'Posts',
+        topicLabel: 'Topics',
+        tagLabel: 'Tags',
+        note: 'Better software starts with people willing to keep learning.',
+      }
 ---
 
-<section class="cinematic-hero">
-  <div class="container py-14 sm:py-20 lg:py-24">
-    <div class="grid items-stretch gap-10 lg:grid-cols-[minmax(0,1.12fr)_minmax(360px,0.88fr)] lg:gap-12">
-      <div class="flex flex-col justify-between py-2 lg:py-6">
-        <div>
-          <div class="mb-7 flex items-center gap-4">
-            <span class="bg-primary h-px w-10"></span>
-            <p class="editorial-kicker">{i18n.tagline}</p>
-          </div>
+<section class="approved-cinematic-hero relative isolate overflow-hidden border-b border-white/15 bg-[#1c211f] text-white">
+  {
+    heroImage ? (
+      <img
+        src={heroImage}
+        alt=""
+        aria-hidden="true"
+        class="approved-cinematic-hero__image absolute inset-0 h-full w-full object-cover"
+        width="1600"
+        height="900"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+    ) : (
+      <div class="approved-cinematic-hero__fallback absolute inset-0" aria-hidden="true" />
+    )
+  }
+  <div class="approved-cinematic-hero__veil absolute inset-0" aria-hidden="true"></div>
 
-          <h1 class="editorial-display max-w-5xl text-[clamp(3.5rem,7vw,7.4rem)] leading-[0.9] font-semibold tracking-[-0.065em]">
-            Danh <em class="text-primary font-normal italic">Thanh</em> Dev.
-          </h1>
-
-          <p class="text-muted-foreground mt-7 max-w-2xl text-base leading-8 sm:text-lg sm:leading-9 lg:text-xl">
-            {i18n.description}
-          </p>
-
-          <div class="mt-9 max-w-xl space-y-5">
-            <div data-testid="hero-cta">
-              <CTAButtons i18n={i18n.cta} lang={lang} />
-            </div>
-            <div
-              data-testid="hero-stats"
-              class="flex flex-wrap items-center gap-x-5 gap-y-3 text-[0.68rem] tracking-[0.15em] uppercase"
-            >
-              <StatsBadge label={i18n.posts} value={posts} />
-              <StatsBadge label={i18n.topics} value={categories} />
-              <StatsBadge label={i18n.tags} value={allTags} />
-            </div>
-          </div>
-        </div>
-
-        <p class="text-muted-foreground mt-12 max-w-xl font-mono text-xs leading-6 tracking-[0.08em] lg:mt-16">
-          {i18n.activeNotes}
+  <div class="container relative z-10 flex min-h-[clamp(34rem,72vh,46rem)] flex-col justify-between py-10 sm:py-14 lg:py-16">
+    <div class="max-w-[56rem] pt-6 sm:pt-10 lg:pt-14">
+      <div class="mb-5 flex items-center gap-3 sm:mb-7">
+        <span class="h-px w-8 bg-[#ff744a] sm:w-10"></span>
+        <p class="font-mono text-[0.62rem] font-semibold tracking-[0.2em] text-white/75 uppercase sm:text-[0.68rem]">
+          {copy.eyebrow}
         </p>
       </div>
 
-      <div class="cinematic-panel cinematic-panel-grid relative flex min-h-[30rem] flex-col justify-between overflow-hidden rounded-[1.75rem] p-6 sm:p-8 lg:min-h-[38rem] lg:p-10">
-        <div class="relative z-10 flex items-center justify-between gap-4">
-          <p class="font-mono text-[0.65rem] tracking-[0.2em] text-white/60 uppercase">
-            {i18n.focus.title}
-          </p>
-          <span class="border border-white/15 px-2 py-1 font-mono text-[0.6rem] tracking-[0.18em] text-white/60 uppercase">
-            {lang}
-          </span>
-        </div>
+      <h1 class="editorial-display max-w-[54rem] text-[clamp(3.35rem,6.5vw,6.65rem)] leading-[0.91] font-semibold tracking-[-0.065em] text-white text-shadow-sm">
+        <span class="block">{copy.lineOne}</span>
+        <span class="block">{copy.lineTwo}</span>
+      </h1>
 
-        <div class="relative z-10 my-8 grid gap-3">
-          {
-            i18n.focus.items.map((item, index) => (
-              <div class="group border-b border-white/12 py-4 text-white/85 transition-colors hover:text-white">
-                <div class="flex items-end justify-between gap-6">
-                  <span class="editorial-display text-2xl leading-tight sm:text-3xl">{item}</span>
-                  <span class="font-mono text-xs tabular-nums text-white/40">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                </div>
-              </div>
-            ))
-          }
-        </div>
+      <p class="mt-6 max-w-[39rem] text-[0.98rem] leading-7 text-white/82 sm:mt-7 sm:text-lg sm:leading-8">
+        {i18n.description}
+      </p>
 
-        <div class="relative z-10 grid grid-cols-3 gap-4 border-t border-white/12 pt-5">
-          <div>
-            <p class="font-mono text-[0.58rem] tracking-[0.18em] text-white/40 uppercase">{i18n.posts}</p>
-            <p class="mt-2 text-xl font-medium text-white">{posts}</p>
-          </div>
-          <div>
-            <p class="font-mono text-[0.58rem] tracking-[0.18em] text-white/40 uppercase">{i18n.topics}</p>
-            <p class="mt-2 text-xl font-medium text-white">{categories}</p>
-          </div>
-          <div>
-            <p class="font-mono text-[0.58rem] tracking-[0.18em] text-white/40 uppercase">{i18n.tags}</p>
-            <p class="mt-2 text-xl font-medium text-white">{allTags}</p>
-          </div>
-        </div>
-
-        <div class="pointer-events-none absolute -right-16 -bottom-24 h-72 w-72 rounded-full border border-white/10"></div>
-        <div class="pointer-events-none absolute -right-2 -bottom-10 h-44 w-44 rounded-full border border-primary/30"></div>
+      <div data-testid="hero-cta" class="mt-8 flex flex-wrap gap-3 sm:mt-9">
+        <a href={blogPath} class="approved-hero-btn approved-hero-btn--primary">
+          {i18n.cta.readBlog}
+          <span aria-hidden="true">→</span>
+        </a>
+        <a href={aboutPath} class="approved-hero-btn approved-hero-btn--secondary">
+          {copy.about}
+        </a>
       </div>
+    </div>
+
+    <div class="mt-12 grid gap-5 border-t border-white/22 pt-5 sm:grid-cols-[auto_auto_auto_1fr] sm:items-end sm:gap-8 lg:mt-16 lg:pt-6">
+      <div data-testid="hero-stats" class="contents">
+        <div class="min-w-20">
+          <p class="editorial-display text-2xl leading-none font-semibold sm:text-3xl">{posts}+</p>
+          <p class="mt-1.5 font-mono text-[0.58rem] tracking-[0.14em] text-white/62 uppercase">{copy.postLabel}</p>
+        </div>
+        <div class="min-w-20">
+          <p class="editorial-display text-2xl leading-none font-semibold sm:text-3xl">{categories}+</p>
+          <p class="mt-1.5 font-mono text-[0.58rem] tracking-[0.14em] text-white/62 uppercase">{copy.topicLabel}</p>
+        </div>
+        <div class="min-w-20">
+          <p class="editorial-display text-2xl leading-none font-semibold sm:text-3xl">{allTags}+</p>
+          <p class="mt-1.5 font-mono text-[0.58rem] tracking-[0.14em] text-white/62 uppercase">{copy.tagLabel}</p>
+        </div>
+      </div>
+
+      <p class="hidden max-w-sm justify-self-end text-right text-sm leading-6 text-white/68 sm:block">
+        “{copy.note}”
+      </p>
     </div>
   </div>
 </section>
