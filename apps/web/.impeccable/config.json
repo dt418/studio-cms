@@ -1,0 +1,7 @@
+{
+  "buildPath": "comp",
+  "buildPathPolicy": {
+    "comp": "Default for new major visual surfaces and substantial redesigns: homepage/landing surfaces, portfolio and project showcases, author/about pages, and major new sections. Generate comps before implementation to establish composition, hierarchy, rhythm, typography, imagery, and responsive intent; implementation should closely match the approved direction.",
+    "code": "Use for narrow utilitarian/content work and incremental work inside an established surface: article templates, tag/search/RSS surfaces, minor design-system extensions, small responsive/accessibility fixes, and maintenance where visual direction is fully defined."
+  }
+}
