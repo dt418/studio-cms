@@ -6,7 +6,7 @@ Regenerate with `pnpm harness:context` after source, workspace, or harness chang
 
 - Nodes: 262
 - Edges: 605
-- Context fingerprint: `ff2b1900efe65e3a634383cb12c329105a69a6eb814a46d863c7390e2e5e790f`
+- Context fingerprint: `fe32a4484117dfce5a22807ce9c23cb7cb1d4d908d8dde3603c7b1dca1d96c4e`
 
 ## High-connectivity nodes
 
