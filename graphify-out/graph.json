@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "09f1bb549bb3b8556f82fe478a3acff5509e2a15d7615fcc81215e7228d8a4db"
+    "context": "004c92c1dc1fde9dc66d62e442ac7253510280b8bce95fe154b63ac5e2c406b5"
   },
   "nodes": [
     {
@@ -172,12 +172,6 @@
       "kind": "harness",
       "label": "permissions.json",
       "path": ".harness/policies/permissions.json"
-    },
-    {
-      "id": "file:.harness/reports/impeccable-audit-2026-09-11.md",
-      "kind": "harness",
-      "label": "impeccable-audit-2026-09-11.md",
-      "path": ".harness/reports/impeccable-audit-2026-09-11.md"
     },
     {
       "id": "file:.harness/schemas/decision.schema.json",
@@ -3627,11 +3621,6 @@
     {
       "from": "workspace:root",
       "to": "file:.harness/policies/permissions.json",
-      "type": "contains"
-    },
-    {
-      "from": "workspace:root",
-      "to": "file:.harness/reports/impeccable-audit-2026-09-11.md",
       "type": "contains"
     },
     {
