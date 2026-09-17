@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "b720fb2c0d1574d199bcf3fc7b9aa9eed4fbb56df4c5ebdb99927ee3d424db5d"
+    "context": "09f1bb549bb3b8556f82fe478a3acff5509e2a15d7615fcc81215e7228d8a4db"
   },
   "nodes": [
     {
@@ -1444,6 +1444,12 @@
       "kind": "source",
       "label": "orchestration.mjs",
       "path": "tools/harness/scripts/orchestration.mjs"
+    },
+    {
+      "id": "file:tools/harness/scripts/orchestration.security.test.mjs",
+      "kind": "source",
+      "label": "orchestration.security.test.mjs",
+      "path": "tools/harness/scripts/orchestration.security.test.mjs"
     },
     {
       "id": "file:tools/harness/scripts/orchestration.test.mjs",
@@ -3449,13 +3455,28 @@
       "type": "imports"
     },
     {
-      "from": "file:tools/harness/scripts/orchestration.test.mjs",
+      "from": "file:tools/harness/scripts/orchestration.security.test.mjs",
+      "to": "file:tools/harness/scripts/orchestration.mjs",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.security.test.mjs",
       "to": "package:node:assert",
       "type": "imports"
     },
     {
-      "from": "file:tools/harness/scripts/orchestration.test.mjs",
+      "from": "file:tools/harness/scripts/orchestration.security.test.mjs",
       "to": "package:node:events",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.security.test.mjs",
+      "to": "package:node:test",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.test.mjs",
+      "to": "package:node:assert",
       "type": "imports"
     },
     {
@@ -4666,6 +4687,11 @@
     {
       "from": "workspace:root",
       "to": "file:tools/harness/scripts/orchestration.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:tools/harness/scripts/orchestration.security.test.mjs",
       "type": "contains"
     },
     {

@@ -22,7 +22,8 @@ Finalize orchestration routing, worker launch safety, runtime documentation, and
 
 ## Verification Evidence
 
-- `pnpm harness:test`: 38 passed, 1 platform-specific symlink test skipped.
+- `pnpm harness:test`: 42 passed, 1 platform-specific symlink test skipped (43 tests total).
+- Underlying routing command (`node --test tools/harness/scripts/harness.test.mjs tools/harness/scripts/orchestration.test.mjs`): 39 passed, 1 platform-specific symlink test skipped (40 tests total).
 - `pnpm check`: lint, formatting, 145 web tests, and typecheck passed.
 - `pnpm harness:validate`: 100/100.
 - `pnpm harness:context:check`: current.

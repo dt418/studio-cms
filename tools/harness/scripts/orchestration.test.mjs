@@ -1,5 +1,4 @@
 import assert from 'node:assert/strict'
-import { EventEmitter } from 'node:events'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import {
@@ -7,7 +6,6 @@ import {
   validOrchestration,
   resolveRoute,
   workerLaunch,
-  launchWorker,
 } from './orchestration.mjs'
 
 test('checked-in routing matches defaults for fresh repositories', async () => {
@@ -55,16 +53,34 @@ test('high risk escalates after complexity routing', () => {
   assert.equal(complexHighRisk.reasoningEffort, 'high')
   assert.equal(resolveRoute(config, { role: 'planning' }).model, 'gpt-5.6-sol')
 })
-test('non-Codex routing returns an abstract tier without a Codex model', () => {
+test('non-Codex routing returns capability tier separately from reasoning effort', () => {
   const config = defaultOrchestration()
   for (const runtime of ['claude', 'pi', 'omp', 'opencode']) {
     assert.deepEqual(resolveRoute(config, { role: 'implementation', runtime }), {
       role: 'implementation',
       profile: 'luna-xhigh',
-      tier: 'xhigh',
+      tier: 'standard',
+      reasoningEffort: 'xhigh',
       runtime,
       complexity: 'standard',
     })
+    assert.deepEqual(
+      resolveRoute(config, { role: 'implementation', runtime, complexity: 'complex' }),
+      {
+        role: 'implementation',
+        profile: 'sol-high',
+        tier: 'frontier',
+        reasoningEffort: 'high',
+        runtime,
+        complexity: 'complex',
+      }
+    )
+    const standardReview = resolveRoute(config, { role: 'reviewer', runtime })
+    assert.equal(standardReview.tier, 'advanced')
+    assert.equal(standardReview.reasoningEffort, 'high')
+    const highRiskReview = resolveRoute(config, { role: 'reviewer', runtime, risk: 'high' })
+    assert.equal(highRiskReview.tier, 'frontier')
+    assert.equal(highRiskReview.reasoningEffort, 'high')
   }
 })
 
@@ -123,71 +139,5 @@ test('v1 routing keeps its output contract without automatic launch or migration
   assert.throws(
     () => workerLaunch(resolveRoute(legacy, { role: 'implementation' }), {}, 'task'),
     /version 2/
-  )
-})
-
-test('Orca argv carries the resolved profile and preserves literal task text', () => {
-  const route = resolveRoute(defaultOrchestration(), { role: 'implementation' })
-  const spec = 'Target: a file with spaces\nDo not evaluate $(echo secret); `literal` & text'
-  const options = { run: 'run-real', from: 'terminal-real', worktree: 'path:D:\\My Project' }
-  const launch = workerLaunch(
-    route,
-    options,
-    spec,
-    { ORCA_CLI_COMMAND: 'C:\\Tools\\orca.exe' },
-    'win32'
-  )
-  assert.equal(launch.command, 'C:\\Tools\\orca.exe')
-  for (const [flag, value] of [
-    ['--model', 'gpt-5.6-luna'],
-    ['--effort', 'xhigh'],
-    ['--spec', spec],
-    ['--from', options.from],
-    ['--run', options.run],
-    ['--worktree', options.worktree],
-  ]) {
-    assert.equal(launch.args[launch.args.indexOf(flag) + 1], value)
-  }
-  assert.equal(workerLaunch(route, options, spec, {}, 'linux').command, 'orca-ide')
-  assert.equal(
-    workerLaunch(route, options, spec, { ORCA_DEV_REPO_ROOT: '/dev' }, 'linux').command,
-    'orca-dev'
-  )
-  assert.throws(() => workerLaunch(route, { ...options, from: undefined }, spec, {}), /coordinator/)
-  assert.throws(() => workerLaunch(route, { ...options, run: undefined }, spec), /--run/)
-  assert.throws(
-    () => workerLaunch(route, { ...options, worktree: 'new-child' }, spec),
-    /Create the worktree/
-  )
-  assert.throws(() => workerLaunch({ ...route, runtime: 'claude' }, options, spec), /runtime codex/)
-})
-
-test('worker launch uses no shell and never retries failed or unknown outcomes', async () => {
-  for (const code of [0, 1, null]) {
-    let calls = 0
-    const result = await launchWorker(
-      { command: 'orca', args: ['literal & arg'] },
-      '/workspace',
-      (command, args, options) => {
-        calls++
-        assert.equal(command, 'orca')
-        assert.deepEqual(args, ['literal & arg'])
-        assert.equal(options.shell, false)
-        assert.equal(options.windowsHide, true)
-        const child = new EventEmitter()
-        queueMicrotask(() => child.emit('close', code))
-        return child
-      }
-    )
-    assert.equal(calls, 1)
-    assert.equal(result, code ?? 1)
-  }
-  await assert.rejects(
-    launchWorker({ command: 'missing', args: [] }, '/workspace', () => {
-      const child = new EventEmitter()
-      queueMicrotask(() => child.emit('error', new Error('ENOENT')))
-      return child
-    }),
-    /ENOENT/
   )
 })

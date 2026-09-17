@@ -1,8 +1,8 @@
 # Harness Runtime Adapters
 
 All runtimes share `.harness/` state and a portable Node CLI. Codex routes expose
-catalogued model names; other runtimes return an abstract tier, and host clients
-select and launch their own compatible model. No provider-specific model launcher is implied.
+catalogued model names; other runtimes return an abstract capability tier and the
+reasoning effort separately. No provider-specific model launcher is implied.
 
 | Runtime  | Generated adapter location         | Runnable project command                       |
 | -------- | ---------------------------------- | ---------------------------------------------- |
@@ -16,8 +16,8 @@ select and launch their own compatible model. No provider-specific model launche
 existing adapter files unless `--force` is supplied. Codex uses its legacy-compatible
 repository skill location, Claude uses its supported command files, and Pi uses its
 current prompt-template location. These files all call the portable Node CLI; they
-do not launch provider-specific models. Non-Codex routes use an abstract tier so
-their output never claims that a Codex model is available in the host client.
+do not launch provider-specific models. Non-Codex routes use an abstract capability tier
+and separate reasoning effort so host clients can preserve model escalation.
 
 GitHub MCP uses the hosted server from the root `.mcp.json` for Claude, OMP,
 and Pi when `pi-mcp-adapter` is installed. OpenCode declares the same endpoint

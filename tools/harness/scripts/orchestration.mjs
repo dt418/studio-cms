@@ -1,6 +1,11 @@
 import { spawn } from 'node:child_process'
 
 const MODELS = new Set(['gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna'])
+const MODEL_CAPABILITIES = new Map([
+  ['gpt-5.6-luna', 'standard'],
+  ['gpt-5.6-terra', 'advanced'],
+  ['gpt-5.6-sol', 'frontier'],
+])
 const EFFORTS = new Set(['low', 'medium', 'high', 'xhigh'])
 const COMPLEXITIES = new Set(['simple', 'standard', 'complex'])
 const record = (value) => value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -84,7 +89,10 @@ export function validOrchestration(config) {
   if (
     !Object.values(config.profiles).every(
       (profile) =>
-        record(profile) && MODELS.has(profile.model) && EFFORTS.has(profile.reasoningEffort)
+        record(profile) &&
+        MODELS.has(profile.model) &&
+        MODEL_CAPABILITIES.has(profile.model) &&
+        EFFORTS.has(profile.reasoningEffort)
     )
   ) {
     return false
@@ -154,7 +162,13 @@ export function resolveRoute(config, options = {}) {
     profile = escalation.high
   }
   const routeProfile = config.profiles[profile]
-  const runtimeProfile = runtime === 'codex' ? routeProfile : { tier: routeProfile.reasoningEffort }
+  const runtimeProfile =
+    runtime === 'codex'
+      ? { model: routeProfile.model, reasoningEffort: routeProfile.reasoningEffort }
+      : {
+          tier: MODEL_CAPABILITIES.get(routeProfile.model),
+          reasoningEffort: routeProfile.reasoningEffort,
+        }
   return {
     role,
     profile,

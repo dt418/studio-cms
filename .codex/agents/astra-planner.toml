@@ -5,6 +5,6 @@ sandbox_mode = "read-only"
 developer_instructions = """
 Resolve architectural ambiguity or conflicting constraints and produce an executable spec.
 Name the smallest implementation, invariants, owned files, acceptance evidence, and risks.
-Delegate bounded implementation to Luna and independent verification to Terra.
+Do not delegate to child agents; the top-level coordinator owns implementation and verification handoffs.
 Avoid repeated planning rounds unless new evidence invalidates the plan.
 """

@@ -599,7 +599,7 @@ test('orchestrate reports the model routing for an implementation role', async (
     await rm(target, { recursive: true, force: true })
   }
 })
-test('orchestrate reports a host-neutral tier for Claude', async () => {
+test('orchestrate reports a host-neutral capability tier for Claude', async () => {
   const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-orchestration-claude-'))
 
   try {
@@ -623,7 +623,8 @@ test('orchestrate reports a host-neutral tier for Claude', async () => {
     assert.deepEqual(JSON.parse(routed.stdout), {
       role: 'implementation',
       profile: 'luna-xhigh',
-      tier: 'xhigh',
+      tier: 'standard',
+      reasoningEffort: 'xhigh',
       runtime: 'claude',
       complexity: 'standard',
     })
