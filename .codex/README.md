@@ -7,3 +7,7 @@ lint, format, typecheck, accessibility-pattern, and Markdown checks.
 Never use `git commit --no-verify`, `git commit -n`, or `git push --no-verify`.
 
 For multi-agent work, use `pnpm harness:orchestrate -- --runtime codex`, store handoffs in `.harness/`, and run `pnpm harness:context` after source, workspace, instruction, skill-lock, or harness changes. On a fresh clone, run `pnpm harness:skills:sync` followed by `pnpm harness:skills:verify` before relying on Caveman skills.
+
+The GitHub MCP server reads `GITHUB_PERSONAL_ACCESS_TOKEN` from the
+environment. Set that variable before launching Codex; the project config
+forwards it without storing credentials in the repository.

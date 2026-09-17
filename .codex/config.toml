@@ -12,6 +12,7 @@ web_search = "live"
 [mcp_servers.github]
 command = "npx"
 args = ["-y", "@modelcontextprotocol/server-github"]
+env_vars = ["GITHUB_PERSONAL_ACCESS_TOKEN"]
 
 [mcp_servers.exa]
 url = "https://mcp.exa.ai/mcp"
