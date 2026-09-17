@@ -1,19 +1,92 @@
 {
-  "version": 1,
-  "defaultRuntime": "generic",
+  "version": 2,
+  "reviewedAt": "2026-09-17",
+  "defaultRuntime": "codex",
+  "profiles": {
+    "luna-low": {
+      "model": "gpt-5.6-luna",
+      "reasoningEffort": "low"
+    },
+    "luna-medium": {
+      "model": "gpt-5.6-luna",
+      "reasoningEffort": "medium"
+    },
+    "luna-xhigh": {
+      "model": "gpt-5.6-luna",
+      "reasoningEffort": "xhigh"
+    },
+    "terra-medium": {
+      "model": "gpt-5.6-terra",
+      "reasoningEffort": "medium"
+    },
+    "terra-high": {
+      "model": "gpt-5.6-terra",
+      "reasoningEffort": "high"
+    },
+    "sol-high": {
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "high"
+    },
+    "astra-medium": {
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "medium"
+    }
+  },
   "roles": {
-    "spec-creator": "tera-high",
-    "planning": "tera-high",
-    "implementation": "luna-max",
-    "documentation-sync": "tera-medium",
-    "reviewer": "tera-medium",
-    "qa": "tera-high",
-    "tester": "luna-max",
-    "observer": "tera-medium"
+    "spec-creator": "sol-high",
+    "planning": "sol-high",
+    "implementation": "luna-xhigh",
+    "documentation-sync": "luna-medium",
+    "reviewer": "terra-high",
+    "qa": "terra-high",
+    "tester": "terra-high",
+    "advisor": "terra-high",
+    "explorer": "luna-medium",
+    "docs-researcher": "terra-medium",
+    "observer": "luna-low"
+  },
+  "complexityOverrides": {
+    "simple": {
+      "implementation": "luna-medium"
+    },
+    "complex": {
+      "spec-creator": "astra-medium",
+      "planning": "astra-medium",
+      "implementation": "sol-high",
+      "reviewer": "sol-high",
+      "qa": "sol-high",
+      "tester": "sol-high",
+      "advisor": "sol-high",
+      "explorer": "terra-high"
+    }
   },
   "riskEscalations": {
+    "spec-creator": {
+      "high": "sol-high",
+      "triggers": ["authentication", "authorization", "data-migration", "payment", "security"]
+    },
+    "planning": {
+      "high": "sol-high",
+      "triggers": ["authentication", "authorization", "data-migration", "payment", "security"]
+    },
+    "implementation": {
+      "high": "sol-high",
+      "triggers": ["authentication", "authorization", "data-migration", "payment", "security"]
+    },
     "reviewer": {
-      "high": "tera-high",
+      "high": "sol-high",
+      "triggers": ["authentication", "authorization", "data-migration", "payment", "security"]
+    },
+    "qa": {
+      "high": "sol-high",
+      "triggers": ["authentication", "authorization", "data-migration", "payment", "security"]
+    },
+    "tester": {
+      "high": "sol-high",
+      "triggers": ["authentication", "authorization", "data-migration", "payment", "security"]
+    },
+    "advisor": {
+      "high": "sol-high",
       "triggers": ["authentication", "authorization", "data-migration", "payment", "security"]
     }
   },

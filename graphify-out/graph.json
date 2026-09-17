@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "fe32a4484117dfce5a22807ce9c23cb7cb1d4d908d8dde3603c7b1dca1d96c4e"
+    "context": "7e336d4c44901aa8a0dfd87ca138fd97c953fcbd0a95625f455a86ca98abe374"
   },
   "nodes": [
     {
@@ -222,6 +222,18 @@
       "path": ".harness/state.json"
     },
     {
+      "id": "file:.harness/tasks/PR-26-profile-orchestration-routing.json",
+      "kind": "harness",
+      "label": "PR-26-profile-orchestration-routing.json",
+      "path": ".harness/tasks/PR-26-profile-orchestration-routing.json"
+    },
+    {
+      "id": "file:.mcp.json",
+      "kind": "context",
+      "label": ".mcp.json",
+      "path": ".mcp.json"
+    },
+    {
       "id": "file:.opencode/commands/harness-context.md",
       "kind": "context",
       "label": "harness-context.md",
@@ -340,6 +352,12 @@
       "kind": "context",
       "label": "seo-e2e-workflow.md",
       "path": ".pi/prompts/seo-e2e-workflow.md"
+    },
+    {
+      "id": "file:.pi/settings.json",
+      "kind": "context",
+      "label": "settings.json",
+      "path": ".pi/settings.json"
     },
     {
       "id": "file:AGENTS.md",
@@ -1416,6 +1434,24 @@
       "path": "tools/harness/scripts/harness.test.mjs"
     },
     {
+      "id": "file:tools/harness/scripts/orchestration.mjs",
+      "kind": "source",
+      "label": "orchestration.mjs",
+      "path": "tools/harness/scripts/orchestration.mjs"
+    },
+    {
+      "id": "file:tools/harness/scripts/orchestration.security.test.mjs",
+      "kind": "source",
+      "label": "orchestration.security.test.mjs",
+      "path": "tools/harness/scripts/orchestration.security.test.mjs"
+    },
+    {
+      "id": "file:tools/harness/scripts/orchestration.test.mjs",
+      "kind": "source",
+      "label": "orchestration.test.mjs",
+      "path": "tools/harness/scripts/orchestration.test.mjs"
+    },
+    {
       "id": "package:@astrojs/rss",
       "kind": "dependency",
       "label": "@astrojs/rss"
@@ -1484,6 +1520,11 @@
       "id": "package:node:crypto",
       "kind": "dependency",
       "label": "node:crypto"
+    },
+    {
+      "id": "package:node:events",
+      "kind": "dependency",
+      "label": "node:events"
     },
     {
       "id": "package:node:fs",
@@ -3403,6 +3444,46 @@
       "type": "imports"
     },
     {
+      "from": "file:tools/harness/scripts/orchestration.mjs",
+      "to": "package:node:child_process",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.security.test.mjs",
+      "to": "file:tools/harness/scripts/orchestration.mjs",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.security.test.mjs",
+      "to": "package:node:assert",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.security.test.mjs",
+      "to": "package:node:events",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.security.test.mjs",
+      "to": "package:node:test",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.test.mjs",
+      "to": "package:node:assert",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.test.mjs",
+      "to": "package:node:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.test.mjs",
+      "to": "package:node:test",
+      "type": "imports"
+    },
+    {
       "from": "workspace:root",
       "to": "file:.claude/commands/harness-context.md",
       "type": "contains"
@@ -3584,6 +3665,16 @@
     },
     {
       "from": "workspace:root",
+      "to": "file:.harness/tasks/PR-26-profile-orchestration-routing.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.mcp.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
       "to": "file:.opencode/commands/harness-context.md",
       "type": "contains"
     },
@@ -3680,6 +3771,11 @@
     {
       "from": "workspace:root",
       "to": "file:.pi/prompts/seo-e2e-workflow.md",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.pi/settings.json",
       "type": "contains"
     },
     {
@@ -4575,6 +4671,21 @@
     {
       "from": "workspace:root",
       "to": "file:tools/harness/scripts/harness.test.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:tools/harness/scripts/orchestration.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:tools/harness/scripts/orchestration.security.test.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:tools/harness/scripts/orchestration.test.mjs",
       "type": "contains"
     }
   ]

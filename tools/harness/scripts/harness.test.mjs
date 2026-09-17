@@ -431,6 +431,44 @@ test('context detects Codex instruction changes and ignores local skill cache fi
     await rm(target, { recursive: true, force: true })
   }
 })
+test('context detects shared MCP configuration changes', async () => {
+  const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-context-mcp-'))
+
+  try {
+    await mkdir(path.join(target, '.pi'), { recursive: true })
+    await writeFile(path.join(target, 'package.json'), JSON.stringify({ name: 'fixture' }), 'utf8')
+    await writeFile(path.join(target, '.mcp.json'), '{"mcpServers":{}}\n', 'utf8')
+    await writeFile(path.join(target, '.pi', 'settings.json'), '{"packages":[]}\n', 'utf8')
+
+    await runCli(['context', '--target', target], target)
+    const graph = JSON.parse(
+      await readFile(path.join(target, 'graphify-out', 'graph.json'), 'utf8')
+    )
+    for (const filePath of ['.mcp.json', '.pi/settings.json']) {
+      assert.ok(
+        graph.nodes.some((node) => node.id === `file:${filePath}`),
+        filePath
+      )
+    }
+
+    await writeFile(path.join(target, '.mcp.json'), '{"mcpServers":{"github":{}}}\n', 'utf8')
+    const mcpChanged = await runCli(['context', '--target', target, '--check'], target)
+    assert.equal(mcpChanged.code, 1)
+    assert.match(mcpChanged.stderr, /out of date/)
+
+    await runCli(['context', '--target', target], target)
+    await writeFile(
+      path.join(target, '.pi', 'settings.json'),
+      '{"packages":["pi-mcp-adapter"]}\n',
+      'utf8'
+    )
+    const piChanged = await runCli(['context', '--target', target, '--check'], target)
+    assert.equal(piChanged.code, 1)
+    assert.match(piChanged.stderr, /out of date/)
+  } finally {
+    await rm(target, { recursive: true, force: true })
+  }
+})
 
 test('context detects workflow changes that alter the portable gate', async () => {
   const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-workflow-context-'))
@@ -551,15 +589,51 @@ test('orchestrate reports the model routing for an implementation role', async (
     assert.equal(routed.code, 0, routed.stderr)
     assert.deepEqual(JSON.parse(routed.stdout), {
       role: 'implementation',
-      model: 'luna-max',
-      runtime: 'generic',
+      profile: 'luna-xhigh',
+      model: 'gpt-5.6-luna',
+      reasoningEffort: 'xhigh',
+      runtime: 'codex',
+      complexity: 'standard',
+    })
+  } finally {
+    await rm(target, { recursive: true, force: true })
+  }
+})
+test('orchestrate reports a host-neutral capability tier for Claude', async () => {
+  const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-orchestration-claude-'))
+
+  try {
+    await writeFile(path.join(target, 'package.json'), JSON.stringify({ name: 'fixture' }), 'utf8')
+    await runCli(['init', '--target', target], target)
+
+    const routed = await runCli(
+      [
+        'orchestrate',
+        '--target',
+        target,
+        '--role',
+        'implementation',
+        '--runtime',
+        'claude',
+        '--json',
+      ],
+      target
+    )
+    assert.equal(routed.code, 0, routed.stderr)
+    assert.deepEqual(JSON.parse(routed.stdout), {
+      role: 'implementation',
+      profile: 'luna-xhigh',
+      tier: 'standard',
+      reasoningEffort: 'xhigh',
+      runtime: 'claude',
+      complexity: 'standard',
     })
   } finally {
     await rm(target, { recursive: true, force: true })
   }
 })
 
-test('orchestrate routes documentation sync work to Tera Medium', async () => {
+test('orchestrate routes factual documentation sync to Luna Medium', async () => {
   const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-documentation-'))
 
   try {
@@ -573,15 +647,18 @@ test('orchestrate routes documentation sync work to Tera Medium', async () => {
     assert.equal(routed.code, 0, routed.stderr)
     assert.deepEqual(JSON.parse(routed.stdout), {
       role: 'documentation-sync',
-      model: 'tera-medium',
-      runtime: 'generic',
+      profile: 'luna-medium',
+      model: 'gpt-5.6-luna',
+      reasoningEffort: 'medium',
+      runtime: 'codex',
+      complexity: 'standard',
     })
   } finally {
     await rm(target, { recursive: true, force: true })
   }
 })
 
-test('orchestrate escalates a high-risk review to Tera High', async () => {
+test('orchestrate escalates a high-risk review to Sol High', async () => {
   const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-escalation-'))
 
   try {
@@ -595,8 +672,11 @@ test('orchestrate escalates a high-risk review to Tera High', async () => {
     assert.equal(routed.code, 0, routed.stderr)
     assert.deepEqual(JSON.parse(routed.stdout), {
       role: 'reviewer',
-      model: 'tera-high',
-      runtime: 'generic',
+      profile: 'sol-high',
+      model: 'gpt-5.6-sol',
+      reasoningEffort: 'high',
+      runtime: 'codex',
+      complexity: 'standard',
       risk: 'high',
     })
   } finally {
@@ -615,7 +695,10 @@ test('init registers specialized orchestration roles', async () => {
     )
 
     assert.deepEqual(Object.keys(config.roles).sort(), [
+      'advisor',
+      'docs-researcher',
       'documentation-sync',
+      'explorer',
       'implementation',
       'observer',
       'planning',
@@ -624,9 +707,9 @@ test('init registers specialized orchestration roles', async () => {
       'spec-creator',
       'tester',
     ])
-    assert.equal(config.roles['spec-creator'], 'tera-high')
-    assert.equal(config.roles.reviewer, 'tera-medium')
-    assert.equal(config.roles.qa, 'tera-high')
+    assert.equal(config.roles['spec-creator'], 'sol-high')
+    assert.equal(config.roles.reviewer, 'terra-high')
+    assert.equal(config.roles.qa, 'terra-high')
   } finally {
     await rm(target, { recursive: true, force: true })
   }

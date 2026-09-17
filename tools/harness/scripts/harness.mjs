@@ -3,6 +3,13 @@ import { access, mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promi
 import { spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import path from 'node:path'
+import {
+  defaultOrchestration,
+  validOrchestration,
+  resolveRoute,
+  workerLaunch,
+  launchWorker,
+} from './orchestration.mjs'
 
 const HARNESS_DIRECTORY = '.harness'
 const CONTEXT_OUTPUT_DIRECTORY = 'graphify-out'
@@ -157,7 +164,15 @@ async function discoverSourceFiles(target) {
 }
 
 async function discoverContextFiles(target, sources) {
-  const rootFiles = ['package.json', 'skills-lock.json', 'AGENTS.md', 'CLAUDE.md', 'opencode.json']
+  const rootFiles = [
+    'package.json',
+    'skills-lock.json',
+    'AGENTS.md',
+    'CLAUDE.md',
+    'opencode.json',
+    '.mcp.json',
+    '.pi/settings.json',
+  ]
   const directories = [
     path.join(target, HARNESS_DIRECTORY),
     path.join(target, 'agents'),
@@ -407,28 +422,7 @@ function initModule() {
 }
 
 function orchestration() {
-  return {
-    version: 1,
-    defaultRuntime: 'generic',
-    roles: {
-      'spec-creator': 'tera-high',
-      planning: 'tera-high',
-      implementation: 'luna-max',
-      'documentation-sync': 'tera-medium',
-      reviewer: 'tera-medium',
-      qa: 'tera-high',
-      tester: 'luna-max',
-      observer: 'tera-medium',
-    },
-    riskEscalations: {
-      reviewer: {
-        high: 'tera-high',
-        triggers: ['authentication', 'authorization', 'data-migration', 'payment', 'security'],
-      },
-    },
-    runtimes: ['codex', 'claude', 'pi', 'omp', 'opencode'],
-    sharedState: ['tasks', 'decisions', 'patches', 'reviews', 'reports'],
-  }
+  return defaultOrchestration()
 }
 
 function defaultManifest(commands) {
@@ -671,18 +665,7 @@ function validJsonArtifact(file, value) {
         (key) => typeof value.state[key] === 'string'
       )
     )
-  if (file === 'orchestration.json')
-    return (
-      typeof value.version === 'number' &&
-      typeof value.defaultRuntime === 'string' &&
-      isRecord(value.roles) &&
-      Object.keys(value.roles).length > 0 &&
-      Object.values(value.roles).every((model) => typeof model === 'string') &&
-      Array.isArray(value.runtimes) &&
-      value.runtimes.every((runtime) => typeof runtime === 'string') &&
-      isRecord(value.riskEscalations) &&
-      areStrings(value.sharedState)
-    )
+  if (file === 'orchestration.json') return validOrchestration(value)
   if (file === 'external-skills.json')
     return (
       typeof value.version === 'number' &&
@@ -853,29 +836,30 @@ async function verifySkills(target) {
   console.log('External skills match the declared lock.')
 }
 
-async function route(target, role, runtime, risk, json = false) {
+async function route(target, options) {
   const configPath = path.join(target, HARNESS_DIRECTORY, 'orchestration.json')
   if (!(await exists(configPath)))
     throw new Error('Harness is not initialized. Run "pnpm harness:init" first.')
   const config = JSON.parse(await readFile(configPath, 'utf8'))
-  const selectedRole = role === true ? 'planning' : (role ?? 'planning')
-  const selectedRuntime =
-    runtime === true ? config.defaultRuntime : (runtime ?? config.defaultRuntime)
-  const selectedRisk = risk === true ? 'standard' : (risk ?? 'standard')
-  if (!config.roles[selectedRole]) throw new Error(`Unknown orchestration role: ${selectedRole}`)
-  if (!config.runtimes.includes(selectedRuntime) && selectedRuntime !== 'generic')
-    throw new Error(`Unknown runtime: ${selectedRuntime}`)
-  const escalation = config.riskEscalations?.[selectedRole]
-  if (selectedRisk !== 'standard' && !escalation?.[selectedRisk])
-    throw new Error(`No ${selectedRisk} risk escalation for role: ${selectedRole}`)
-  const result = {
-    role: selectedRole,
-    model: escalation?.[selectedRisk] ?? config.roles[selectedRole],
-    runtime: selectedRuntime,
-    ...(selectedRisk !== 'standard' && { risk: selectedRisk }),
+  const result = resolveRoute(config, options)
+  if (options.launch || options.specFile) {
+    if (typeof options.specFile !== 'string')
+      throw new Error('--spec-file is required for --launch')
+    const spec = await readFile(path.resolve(target, options.specFile), 'utf8')
+    const launch = workerLaunch(result, options, spec)
+    if (options.launch === true) {
+      process.exitCode = await launchWorker(launch, target)
+      return
+    }
+    result.launch = launch
   }
-  if (json) console.log(JSON.stringify(result))
-  else console.log(`${result.role} → ${result.model} (${result.runtime})`)
+  if (options.json === true) console.log(JSON.stringify(result))
+  else {
+    const model = result.model ?? `tier:${result.tier}`
+    console.log(
+      `${result.role} → ${model}${result.reasoningEffort ? ` / ${result.reasoningEffort}` : ''} (${result.runtime})`
+    )
+  }
 }
 
 const options = parseArgs(process.argv.slice(2))
@@ -892,8 +876,7 @@ else if (options.command === 'validate') {
 else if (options.command === 'status') await status(target)
 else if (options.command === 'context') await context(target, options.check === true)
 else if (options.command === 'skills') await verifySkills(target)
-else if (options.command === 'orchestrate')
-  await route(target, options.role, options.runtime, options.risk, options.json === true)
+else if (options.command === 'orchestrate') await route(target, options)
 else {
   console.log(
     'Usage: node tools/harness/scripts/harness.mjs <init|status|validate|verify|context|skills|orchestrate> [--target DIR] [--json]'
