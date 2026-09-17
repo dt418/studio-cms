@@ -6,7 +6,7 @@
 
 ## Current Objective
 
-Finalize orchestration routing, worker launch safety, and runtime documentation.
+Finalize orchestration routing, worker launch safety, runtime documentation, and GitHub MCP integration.
 
 ## Completed
 
@@ -14,6 +14,7 @@ Finalize orchestration routing, worker launch safety, and runtime documentation.
 - Added bounded Codex planner, implementer, tester, advisor, and documentation-sync profiles.
 - Added no-shell Orca worker launch construction with one-attempt receipt handling.
 - Audited runtime guidance for stale tiers, roles, and review metadata; refreshed context artifacts.
+- Added shared GitHub MCP configuration for Claude, OMP, Pi, OpenCode, and Codex credential forwarding.
 
 ## Blockers
 
@@ -27,7 +28,8 @@ Finalize orchestration routing, worker launch safety, and runtime documentation.
 - `pnpm harness:context:check`: current.
 - `pnpm harness:verify`: complete, including 65-page static build.
 - Changed-file Prettier check and `git diff --check` passed.
+- OpenCode GitHub MCP connected with an ephemeral token; Claude reports pending project approval.
 
 ## Recommended Next Step
 
-1. Review the pending diff, then commit and open a pull request when approved.
+1. Monitor PR #26 checks and approve Claude's project-scoped GitHub MCP server when starting Claude in this trusted workspace.
