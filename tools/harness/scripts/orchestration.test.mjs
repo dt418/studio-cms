@@ -55,6 +55,18 @@ test('high risk escalates after complexity routing', () => {
   assert.equal(complexHighRisk.reasoningEffort, 'high')
   assert.equal(resolveRoute(config, { role: 'planning' }).model, 'gpt-5.6-sol')
 })
+test('non-Codex routing returns an abstract tier without a Codex model', () => {
+  const config = defaultOrchestration()
+  for (const runtime of ['claude', 'pi', 'omp', 'opencode']) {
+    assert.deepEqual(resolveRoute(config, { role: 'implementation', runtime }), {
+      role: 'implementation',
+      profile: 'luna-xhigh',
+      tier: 'xhigh',
+      runtime,
+      complexity: 'standard',
+    })
+  }
+})
 
 test('invalid profiles, efforts, models and routing choices fail closed', () => {
   for (const mutate of [

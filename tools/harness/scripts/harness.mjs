@@ -164,7 +164,15 @@ async function discoverSourceFiles(target) {
 }
 
 async function discoverContextFiles(target, sources) {
-  const rootFiles = ['package.json', 'skills-lock.json', 'AGENTS.md', 'CLAUDE.md', 'opencode.json']
+  const rootFiles = [
+    'package.json',
+    'skills-lock.json',
+    'AGENTS.md',
+    'CLAUDE.md',
+    'opencode.json',
+    '.mcp.json',
+    '.pi/settings.json',
+  ]
   const directories = [
     path.join(target, HARNESS_DIRECTORY),
     path.join(target, 'agents'),
@@ -846,10 +854,12 @@ async function route(target, options) {
     result.launch = launch
   }
   if (options.json === true) console.log(JSON.stringify(result))
-  else
+  else {
+    const model = result.model ?? `tier:${result.tier}`
     console.log(
-      `${result.role} → ${result.model}${result.reasoningEffort ? ` / ${result.reasoningEffort}` : ''} (${result.runtime})`
+      `${result.role} → ${model}${result.reasoningEffort ? ` / ${result.reasoningEffort}` : ''} (${result.runtime})`
     )
+  }
 }
 
 const options = parseArgs(process.argv.slice(2))

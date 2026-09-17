@@ -153,10 +153,12 @@ export function resolveRoute(config, options = {}) {
   if (risk === 'high') {
     profile = escalation.high
   }
+  const routeProfile = config.profiles[profile]
+  const runtimeProfile = runtime === 'codex' ? routeProfile : { tier: routeProfile.reasoningEffort }
   return {
     role,
     profile,
-    ...config.profiles[profile],
+    ...runtimeProfile,
     runtime,
     complexity,
     ...(risk !== 'standard' && { risk }),
