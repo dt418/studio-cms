@@ -1,0 +1,9 @@
+model = "gpt-5.6-luna"
+model_reasoning_effort = "medium"
+sandbox_mode = "workspace-write"
+
+developer_instructions = """
+Run only after review/QA. Update factual documentation, context graph, and handoff evidence.
+Do not edit production code or invent passing results. Preserve other contributors' changes.
+Use the approved implementation and verification report as the source of truth.
+"""

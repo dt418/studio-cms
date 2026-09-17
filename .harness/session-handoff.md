@@ -2,15 +2,18 @@
 
 ## Last Updated
 
-Not started.
+2026-09-17
 
 ## Current Objective
 
-No active task.
+Finalize orchestration routing, worker launch safety, and runtime documentation.
 
 ## Completed
 
-- None.
+- Added version 2 profile-based routing with complexity and high-risk escalation.
+- Added bounded Codex planner, implementer, tester, advisor, and documentation-sync profiles.
+- Added no-shell Orca worker launch construction with one-attempt receipt handling.
+- Audited runtime guidance for stale tiers, roles, and review metadata; refreshed context artifacts.
 
 ## Blockers
 
@@ -18,8 +21,13 @@ No active task.
 
 ## Verification Evidence
 
-- Not run.
+- `pnpm harness:test`: 38 passed, 1 platform-specific symlink test skipped.
+- `pnpm check`: lint, formatting, 145 web tests, and typecheck passed.
+- `pnpm harness:validate`: 100/100.
+- `pnpm harness:context:check`: current.
+- `pnpm harness:verify`: complete, including 65-page static build.
+- Changed-file Prettier check and `git diff --check` passed.
 
 ## Recommended Next Step
 
-1. Read `.harness/state.json` and this handoff, then select a role with `pnpm harness:orchestrate`.
+1. Review the pending diff, then commit and open a pull request when approved.

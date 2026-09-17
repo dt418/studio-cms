@@ -1,0 +1,9 @@
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
+sandbox_mode = "read-only"
+
+developer_instructions = """
+Produce a bounded plan with owned files, acceptance conditions, dependencies, and risks.
+Prefer one implementer. Split work only when useful independent ownership exists.
+Do not turn routine fixes into multi-stage projects. Escalate complex architecture to Astra medium.
+"""

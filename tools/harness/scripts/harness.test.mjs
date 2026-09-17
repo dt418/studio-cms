@@ -551,15 +551,18 @@ test('orchestrate reports the model routing for an implementation role', async (
     assert.equal(routed.code, 0, routed.stderr)
     assert.deepEqual(JSON.parse(routed.stdout), {
       role: 'implementation',
-      model: 'luna-max',
-      runtime: 'generic',
+      profile: 'luna-xhigh',
+      model: 'gpt-5.6-luna',
+      reasoningEffort: 'xhigh',
+      runtime: 'codex',
+      complexity: 'standard',
     })
   } finally {
     await rm(target, { recursive: true, force: true })
   }
 })
 
-test('orchestrate routes documentation sync work to Tera Medium', async () => {
+test('orchestrate routes factual documentation sync to Luna Medium', async () => {
   const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-documentation-'))
 
   try {
@@ -573,15 +576,18 @@ test('orchestrate routes documentation sync work to Tera Medium', async () => {
     assert.equal(routed.code, 0, routed.stderr)
     assert.deepEqual(JSON.parse(routed.stdout), {
       role: 'documentation-sync',
-      model: 'tera-medium',
-      runtime: 'generic',
+      profile: 'luna-medium',
+      model: 'gpt-5.6-luna',
+      reasoningEffort: 'medium',
+      runtime: 'codex',
+      complexity: 'standard',
     })
   } finally {
     await rm(target, { recursive: true, force: true })
   }
 })
 
-test('orchestrate escalates a high-risk review to Tera High', async () => {
+test('orchestrate escalates a high-risk review to Sol High', async () => {
   const target = await mkdtemp(path.join(os.tmpdir(), 'studio-cms-escalation-'))
 
   try {
@@ -595,8 +601,11 @@ test('orchestrate escalates a high-risk review to Tera High', async () => {
     assert.equal(routed.code, 0, routed.stderr)
     assert.deepEqual(JSON.parse(routed.stdout), {
       role: 'reviewer',
-      model: 'tera-high',
-      runtime: 'generic',
+      profile: 'sol-high',
+      model: 'gpt-5.6-sol',
+      reasoningEffort: 'high',
+      runtime: 'codex',
+      complexity: 'standard',
       risk: 'high',
     })
   } finally {
@@ -615,7 +624,10 @@ test('init registers specialized orchestration roles', async () => {
     )
 
     assert.deepEqual(Object.keys(config.roles).sort(), [
+      'advisor',
+      'docs-researcher',
       'documentation-sync',
+      'explorer',
       'implementation',
       'observer',
       'planning',
@@ -624,9 +636,9 @@ test('init registers specialized orchestration roles', async () => {
       'spec-creator',
       'tester',
     ])
-    assert.equal(config.roles['spec-creator'], 'tera-high')
-    assert.equal(config.roles.reviewer, 'tera-medium')
-    assert.equal(config.roles.qa, 'tera-high')
+    assert.equal(config.roles['spec-creator'], 'sol-high')
+    assert.equal(config.roles.reviewer, 'terra-high')
+    assert.equal(config.roles.qa, 'terra-high')
   } finally {
     await rm(target, { recursive: true, force: true })
   }

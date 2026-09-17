@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "b41e4b3fe4f3d4d0324a6e5c2200bef3ea5b410b806941858bf35a22c35f9164"
+    "context": "1111edfb8a20f3cfa0229f559b014d4ad9db893af2ed8be3d29f6e754bb7b4be"
   },
   "nodes": [
     {
@@ -172,6 +172,12 @@
       "kind": "harness",
       "label": "permissions.json",
       "path": ".harness/policies/permissions.json"
+    },
+    {
+      "id": "file:.harness/reports/impeccable-audit-2026-09-11.md",
+      "kind": "harness",
+      "label": "impeccable-audit-2026-09-11.md",
+      "path": ".harness/reports/impeccable-audit-2026-09-11.md"
     },
     {
       "id": "file:.harness/schemas/decision.schema.json",
@@ -1416,6 +1422,18 @@
       "path": "tools/harness/scripts/harness.test.mjs"
     },
     {
+      "id": "file:tools/harness/scripts/orchestration.mjs",
+      "kind": "source",
+      "label": "orchestration.mjs",
+      "path": "tools/harness/scripts/orchestration.mjs"
+    },
+    {
+      "id": "file:tools/harness/scripts/orchestration.test.mjs",
+      "kind": "source",
+      "label": "orchestration.test.mjs",
+      "path": "tools/harness/scripts/orchestration.test.mjs"
+    },
+    {
       "id": "package:@astrojs/rss",
       "kind": "dependency",
       "label": "@astrojs/rss"
@@ -1484,6 +1502,11 @@
       "id": "package:node:crypto",
       "kind": "dependency",
       "label": "node:crypto"
+    },
+    {
+      "id": "package:node:events",
+      "kind": "dependency",
+      "label": "node:events"
     },
     {
       "id": "package:node:fs",
@@ -3403,6 +3426,31 @@
       "type": "imports"
     },
     {
+      "from": "file:tools/harness/scripts/orchestration.mjs",
+      "to": "package:node:child_process",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.test.mjs",
+      "to": "package:node:assert",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.test.mjs",
+      "to": "package:node:events",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.test.mjs",
+      "to": "package:node:fs",
+      "type": "imports"
+    },
+    {
+      "from": "file:tools/harness/scripts/orchestration.test.mjs",
+      "to": "package:node:test",
+      "type": "imports"
+    },
+    {
       "from": "workspace:root",
       "to": "file:.claude/commands/harness-context.md",
       "type": "contains"
@@ -3540,6 +3588,11 @@
     {
       "from": "workspace:root",
       "to": "file:.harness/policies/permissions.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/reports/impeccable-audit-2026-09-11.md",
       "type": "contains"
     },
     {
@@ -4575,6 +4628,16 @@
     {
       "from": "workspace:root",
       "to": "file:tools/harness/scripts/harness.test.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:tools/harness/scripts/orchestration.mjs",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:tools/harness/scripts/orchestration.test.mjs",
       "type": "contains"
     }
   ]
