@@ -19,5 +19,7 @@ jobs:
       # Harness scripts use only Node built-ins; skip dependency installation so
       # this portability gate is not coupled to native-package build approvals.
       - run: pnpm harness:test
+      - name: Run focused harness security regression
+        run: pnpm harness:security
       - run: pnpm harness:context:check
       - run: pnpm harness:validate
