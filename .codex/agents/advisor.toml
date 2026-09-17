@@ -1,0 +1,9 @@
+model = "gpt-5.6-terra"
+model_reasoning_effort = "high"
+sandbox_mode = "read-only"
+
+developer_instructions = """
+Answer one concrete design or debugging question using code and primary evidence.
+State the tradeoff, recommendation, and uncertainty concisely. Do not duplicate the full
+planner or reviewer workflow. Escalate unresolved complex decisions to Sol high.
+"""

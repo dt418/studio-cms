@@ -12,6 +12,7 @@ web_search = "live"
 [mcp_servers.github]
 command = "npx"
 args = ["-y", "@modelcontextprotocol/server-github"]
+env_vars = ["GITHUB_PERSONAL_ACCESS_TOKEN"]
 
 [mcp_servers.exa]
 url = "https://mcp.exa.ai/mcp"
@@ -32,7 +33,7 @@ args = ["-y", "@modelcontextprotocol/server-sequential-thinking"]
 multi_agent = true
 
 [agents]
-max_threads = 6
+max_threads = 4
 max_depth = 1
 
 [agents.explorer]
@@ -46,6 +47,30 @@ config_file = "agents/reviewer.toml"
 [agents.docs_researcher]
 description = "Documentation specialist that verifies APIs, framework behavior, and release notes."
 config_file = "agents/docs-researcher.toml"
+
+[agents.planner]
+description = "Plan standard work with Sol high; use the catalogued Sol model at medium reasoning for complex architecture."
+config_file = "agents/planner.toml"
+
+[agents.astra_planner]
+description = "Plan complex or ambiguous architecture with the catalogued Sol model at medium reasoning. Use only when justified."
+config_file = "agents/astra-planner.toml"
+
+[agents.implementer]
+description = "Implement a bounded task with Luna xhigh and explicit file ownership."
+config_file = "agents/implementer.toml"
+
+[agents.tester]
+description = "Independently verify acceptance conditions and diagnose failures with Terra high."
+config_file = "agents/tester.toml"
+
+[agents.advisor]
+description = "Give a focused second opinion on a concrete tradeoff with Terra high."
+config_file = "agents/advisor.toml"
+
+[agents.documentation_sync]
+description = "Synchronize factual documentation and handoff evidence after review."
+config_file = "agents/documentation-sync.toml"
 
 [sandbox_workspace_write]
 network_access = true

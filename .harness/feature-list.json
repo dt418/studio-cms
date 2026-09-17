@@ -1,5 +1,12 @@
 {
   "version": 1,
-  "activeFeature": null,
-  "features": []
+  "activeFeature": "PR-26-profile-orchestration-routing",
+  "features": [
+    {
+      "id": "PR-26-profile-orchestration-routing",
+      "title": "Profile orchestration routing",
+      "status": "in_progress",
+      "task_id": "PR-26-profile-orchestration-routing"
+    }
+  ]
 }

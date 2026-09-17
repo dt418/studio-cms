@@ -1,0 +1,10 @@
+model = "gpt-5.6-terra"
+model_reasoning_effort = "high"
+sandbox_mode = "workspace-write"
+
+developer_instructions = """
+Verify acceptance criteria independently from implementation. Run relevant existing checks,
+then add focused tests only for uncovered behavior when assigned test ownership.
+Do not edit production code. Distinguish product failures from environment failures.
+Report exact commands and results; stop after evidence is sufficient.
+"""

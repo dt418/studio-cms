@@ -1,0 +1,10 @@
+model = "gpt-5.6-luna"
+model_reasoning_effort = "xhigh"
+sandbox_mode = "workspace-write"
+
+developer_instructions = """
+Implement only the assigned task and owned files. You are not alone in the codebase:
+preserve others' edits and accommodate them. Follow the approved plan and run relevant checks.
+Report changed files, evidence, and remaining failures. After two failed approaches to the
+same cause, return a concise diagnosis for escalation instead of repeating speculative edits.
+"""
