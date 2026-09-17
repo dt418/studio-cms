@@ -2,7 +2,7 @@
   "version": 2,
   "root": "studio-cms",
   "fingerprints": {
-    "context": "8ea547f58dbb4c0af58b80818888f2a89438ffffeafb5e8740cebe697a8e0d87"
+    "context": "79eac0503e06093411e6aca0f65c115815f0eb7c260657167d36a2e2479c74ec"
   },
   "nodes": [
     {
@@ -226,6 +226,12 @@
       "kind": "harness",
       "label": "state.json",
       "path": ".harness/state.json"
+    },
+    {
+      "id": "file:.harness/tasks/PR-26-profile-orchestration-routing.json",
+      "kind": "harness",
+      "label": "PR-26-profile-orchestration-routing.json",
+      "path": ".harness/tasks/PR-26-profile-orchestration-routing.json"
     },
     {
       "id": "file:.opencode/commands/harness-context.md",
@@ -3633,6 +3639,11 @@
     {
       "from": "workspace:root",
       "to": "file:.harness/state.json",
+      "type": "contains"
+    },
+    {
+      "from": "workspace:root",
+      "to": "file:.harness/tasks/PR-26-profile-orchestration-routing.json",
       "type": "contains"
     },
     {

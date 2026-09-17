@@ -49,11 +49,11 @@ description = "Documentation specialist that verifies APIs, framework behavior, 
 config_file = "agents/docs-researcher.toml"
 
 [agents.planner]
-description = "Plan standard work with Sol high; use astra_planner for complex architecture."
+description = "Plan standard work with Sol high; use the catalogued Sol model at medium reasoning for complex architecture."
 config_file = "agents/planner.toml"
 
 [agents.astra_planner]
-description = "Plan complex or ambiguous architecture with Astra medium. Use only when justified."
+description = "Plan complex or ambiguous architecture with the catalogued Sol model at medium reasoning. Use only when justified."
 config_file = "agents/astra-planner.toml"
 
 [agents.implementer]

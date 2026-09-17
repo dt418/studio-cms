@@ -30,7 +30,7 @@ test('simple work saves reasoning while independent verification retains Terra',
   }
 })
 
-test('high risk overrides simple work but preserves complex Astra planning', () => {
+test('high risk escalates after complexity routing', () => {
   const config = defaultOrchestration()
   for (const role of ['implementation', 'reviewer', 'tester', 'advisor']) {
     assert.equal(
@@ -38,10 +38,21 @@ test('high risk overrides simple work but preserves complex Astra planning', () 
       'gpt-5.6-sol'
     )
   }
-  assert.equal(
-    resolveRoute(config, { role: 'planning', complexity: 'complex', risk: 'high' }).model,
-    'gpt-6-astra'
-  )
+  for (const role of ['planning', 'spec-creator']) {
+    const route = resolveRoute(config, { role, complexity: 'complex', risk: 'high' })
+    assert.equal(route.model, 'gpt-5.6-sol')
+    assert.equal(route.reasoningEffort, 'high')
+  }
+  const complexStandard = resolveRoute(config, { role: 'planning', complexity: 'complex' })
+  assert.equal(complexStandard.model, 'gpt-5.6-sol')
+  assert.equal(complexStandard.reasoningEffort, 'medium')
+  const complexHighRisk = resolveRoute(config, {
+    role: 'planning',
+    complexity: 'complex',
+    risk: 'high',
+  })
+  assert.equal(complexHighRisk.model, 'gpt-5.6-sol')
+  assert.equal(complexHighRisk.reasoningEffort, 'high')
   assert.equal(resolveRoute(config, { role: 'planning' }).model, 'gpt-5.6-sol')
 })
 

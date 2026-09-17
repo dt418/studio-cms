@@ -28,7 +28,7 @@
       "reasoningEffort": "high"
     },
     "astra-medium": {
-      "model": "gpt-6-astra",
+      "model": "gpt-5.6-sol",
       "reasoningEffort": "medium"
     }
   },

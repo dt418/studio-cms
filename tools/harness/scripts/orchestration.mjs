@@ -1,6 +1,6 @@
 import { spawn } from 'node:child_process'
 
-const MODELS = new Set(['gpt-6-astra', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna'])
+const MODELS = new Set(['gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna'])
 const EFFORTS = new Set(['low', 'medium', 'high', 'xhigh'])
 const COMPLEXITIES = new Set(['simple', 'standard', 'complex'])
 const record = (value) => value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -20,7 +20,7 @@ export function defaultOrchestration() {
       'terra-medium': { model: 'gpt-5.6-terra', reasoningEffort: 'medium' },
       'terra-high': { model: 'gpt-5.6-terra', reasoningEffort: 'high' },
       'sol-high': { model: 'gpt-5.6-sol', reasoningEffort: 'high' },
-      'astra-medium': { model: 'gpt-6-astra', reasoningEffort: 'medium' },
+      'astra-medium': { model: 'gpt-5.6-sol', reasoningEffort: 'medium' },
     },
     roles: {
       'spec-creator': 'sol-high',
@@ -149,8 +149,8 @@ export function resolveRoute(config, options = {}) {
     }
   }
   let profile = config.complexityOverrides[complexity]?.[role] ?? config.roles[role]
-  // High risk cannot be downgraded by --complexity simple. Keep an already-selected Astra.
-  if (risk === 'high' && config.profiles[profile].model !== 'gpt-6-astra') {
+  // High-risk work always uses the configured escalation after complexity routing.
+  if (risk === 'high') {
     profile = escalation.high
   }
   return {
